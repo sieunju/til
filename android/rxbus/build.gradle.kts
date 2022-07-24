@@ -1,9 +1,12 @@
 plugins {
-    id("com.android.library")
-    kotlin("android")
+    id("java-library")
+    id("kotlin")
+    id("kotlinx-serialization")
 }
 
-android {
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 }
 
 dependencies {
@@ -14,8 +17,4 @@ dependencies {
      */
     implementation(Rx.java)
     implementation(Rx.kotlin)
-
-    androidTestImplementation(UnitTest.junit)
-    testImplementation(UnitTest.junit)
-    testImplementation(UnitTest.ext)
 }

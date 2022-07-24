@@ -9,7 +9,7 @@ android {
 }
 
 dependencies {
-    implementation(project(path = ":features:network-requirements"))
+    implementation(project(":features:network-requirements"))
     implementation(project(":domain"))
     implementation(project(":features:core"))
 
@@ -35,9 +35,6 @@ dependencies {
      * Hilt
      */
     implementation(Hilt.android)
-    implementation("androidx.appcompat:appcompat:1.4.2")
-    implementation("com.google.android.material:material:1.4.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     kapt(Hilt.compiler)
 
     /**

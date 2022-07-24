@@ -11,6 +11,7 @@ java {
 
 dependencies {
     implementation(project(":model"))
+    implementation(project(":rxbus"))
     implementation(project(":likemanager"))
     implementation(Javax.inject)
 

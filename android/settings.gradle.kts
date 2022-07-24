@@ -17,3 +17,7 @@ include(
 )
 include(":features:network")
 include(":features:network-requirements")
+include(":features:core-ui")
+include(":features:recyclerview")
+include(":features:recyclerview-requirements")
+include(":features:main")

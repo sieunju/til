@@ -2,9 +2,9 @@ package com.hmju.domain.usecase
 
 import com.hmju.domain.repository.GoodsRepository
 import com.hmju.likemanager.LikeManager
-import com.til.model.RxBus
-import com.til.model.RxBusEvent
 import com.til.model.like.LikeEntity
+import com.til.rxbus.RxBus
+import com.til.rxbus.RxBusEvent
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 

@@ -38,8 +38,13 @@ dependencies {
     implementation(project(path = ":loginmanager"))
     implementation(project(path = ":presentation"))
     implementation(project(path = ":features:core"))
+    implementation(project(path = ":features:core-ui"))
+
+    implementation(project(path = ":features:main"))
     implementation(project(path = ":features:network-requirements"))
     implementation(project(path = ":features:network"))
+    implementation(project(path = ":features:recyclerview-requirements"))
+    implementation(project(path = ":features:recyclerview"))
 
     /**
      * Network

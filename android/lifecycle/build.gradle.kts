@@ -10,6 +10,12 @@ android {
 dependencies {
     implementation(AndroidX.appCompat)
     implementation(AndroidX.ktx)
+    implementation(AndroidX.lifecycle)
+
+    /**
+     * Rx
+     */
+    implementation(Rx.java)
 
     /**
      * Unit Test
