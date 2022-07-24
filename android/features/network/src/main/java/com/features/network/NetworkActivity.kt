@@ -1,11 +1,31 @@
 package com.features.network
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.features.network.databinding.ActivityNetworkBinding
+import com.hmju.core.ActivityViewModel
+import com.hmju.core.BaseActivity
+import dagger.hilt.android.AndroidEntryPoint
 
-class NetworkActivity : AppCompatActivity() {
+@AndroidEntryPoint
+class NetworkActivity :
+    BaseActivity<ActivityNetworkBinding, ActivityViewModel>(R.layout.activity_network) {
+
+    override val viewModel: ActivityViewModel by initViewModel()
+    override val bindingVariable: Int = BR.vm
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_network)
+
+        supportFragmentManager.beginTransaction().apply {
+            // replace(R.id.fragment,)
+        }
+    }
+
+    override fun onBackPressed() {
+        if (supportFragmentManager.backStackEntryCount > 1) {
+            supportFragmentManager.popBackStack()
+        } else {
+            finish()
+        }
     }
 }

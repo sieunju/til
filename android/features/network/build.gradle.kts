@@ -6,6 +6,9 @@ plugins {
 }
 
 android {
+    buildFeatures {
+        dataBinding = true
+    }
 }
 
 dependencies {
