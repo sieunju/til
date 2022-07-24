@@ -10,7 +10,7 @@ import java.io.IOException
 import java.net.SocketException
 
 @HiltAndroidApp
-class MainApplication : MultiDexApplication() {
+open class MainApplication : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()

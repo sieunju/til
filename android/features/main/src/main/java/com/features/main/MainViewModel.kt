@@ -1,11 +1,12 @@
 package com.features.main
 
+import com.features.base_mvvm_requirements.BaseMvvmRequirements
 import com.features.network_requirements.NetworkRequirements
 import com.features.recyclerview_requirements.RecyclerViewRequirements
+import com.hmju.core.ActivityViewModel
 import com.hmju.lifecycle.OnCreated
 import com.hmju.lifecycle.OnIntent
 import com.hmju.loginmanager.LoginManager
-import com.hmju.core.ActivityViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.kotlin.addTo
@@ -23,6 +24,7 @@ import kotlin.random.Random
 class MainViewModel @Inject constructor(
     private val networkRequirements: NetworkRequirements,
     private val recyclerViewRequirements: RecyclerViewRequirements,
+    private val mvvmRequirements: BaseMvvmRequirements,
     private val loginManager: LoginManager,
 ) : ActivityViewModel() {
 
@@ -52,5 +54,9 @@ class MainViewModel @Inject constructor(
 
     fun moveToRecyclerViewPage() {
         recyclerViewRequirements.moveToRecyclerViewPage()
+    }
+
+    fun moveToMvvmLifecyclePage() {
+        mvvmRequirements.moveToBaseMvvm()
     }
 }

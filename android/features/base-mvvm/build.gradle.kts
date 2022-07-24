@@ -12,12 +12,15 @@ android {
 }
 
 dependencies {
-    implementation(project(":loginmanager"))
-    implementation(project(":lifecycle"))
-    implementation(project(":features:core"))
-    implementation(project(":features:recyclerview-requirements"))
-    implementation(project(":features:network-requirements"))
     implementation(project(":features:base-mvvm-requirements"))
+
+    implementation(project(":model"))
+    implementation(project(":domain"))
+    implementation(project(":lifecycle"))
+    implementation(project(":loginmanager"))
+    implementation(project(":rxbus"))
+    implementation(project(":features:core"))
+    implementation(project(":features:core-ui"))
 
     /**
      * Android X
@@ -25,6 +28,12 @@ dependencies {
     implementation(AndroidX.appCompat)
     implementation(AndroidX.constraintLayout)
     implementation(AndroidX.activity)
+    implementation(AndroidX.material)
+    implementation(AndroidX.fragment)
+    implementation(AndroidX.recyclerView)
+    implementation(AndroidX.lifecycle)
+    implementation(AndroidX.viewModel)
+    implementation(AndroidX.liveData)
 
     /**
      * Timber

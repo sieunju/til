@@ -5,19 +5,18 @@ include(
     ":data",
     ":model",
     ":domain",
-    ":presentation",
     ":loginmanager",
     ":likemanager",
     ":rxbus",
     ":lifecycle",
     ":rxhandling"
 )
-include(
-    ":features:core"
-)
+include(":features:core")
+include(":features:core-ui")
 include(":features:network")
 include(":features:network-requirements")
-include(":features:core-ui")
 include(":features:recyclerview")
 include(":features:recyclerview-requirements")
 include(":features:main")
+include(":features:base-mvvm")
+include(":features:base-mvvm-requirements")

@@ -36,7 +36,6 @@ dependencies {
     implementation(project(path = ":data"))
     implementation(project(path = ":domain"))
     implementation(project(path = ":loginmanager"))
-    implementation(project(path = ":presentation"))
     implementation(project(path = ":features:core"))
     implementation(project(path = ":features:core-ui"))
 
@@ -45,6 +44,8 @@ dependencies {
     implementation(project(path = ":features:network"))
     implementation(project(path = ":features:recyclerview-requirements"))
     implementation(project(path = ":features:recyclerview"))
+    implementation(project(path = ":features:base-mvvm-requirements"))
+    implementation(project(path = ":features:base-mvvm"))
 
     /**
      * Network

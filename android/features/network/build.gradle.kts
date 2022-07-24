@@ -2,12 +2,24 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("dagger.hilt.android.plugin")
+    id("kotlinx-serialization")
     kotlin("kapt")
 }
 
 android {
+    defaultConfig {
+        testInstrumentationRunner = "com.features.network.HiltTestRunner"
+    }
     buildFeatures {
         dataBinding = true
+    }
+    kapt {
+        correctErrorTypes = true
+    }
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
     }
 }
 
@@ -55,8 +67,34 @@ dependencies {
     /**
      * Unit Test
      */
+    androidTestImplementation(project(":data"))
+    androidTestImplementation(project(":domain"))
+    androidTestImplementation(project(":loginmanager"))
+    androidTestImplementation(project(":lifecycle"))
+
+    testImplementation(UnitTest.archCore)
+
+    androidTestImplementation(UnitTest.Hilt.base)
+    kaptAndroidTest(UnitTest.Hilt.compiler)
+
     testImplementation(UnitTest.junit)
     androidTestImplementation(UnitTest.junit)
+    androidTestImplementation(UnitTest.core)
     androidTestImplementation(UnitTest.ext)
+    androidTestImplementation(UnitTest.rules)
     androidTestImplementation(UnitTest.Espresso.core)
+
+    /**
+     * Kotlinx Serialization
+     */
+    implementation(KotlinX.serialization)
+
+    /**
+     * Network
+     */
+    implementation(Retrofit.base)
+    implementation(Retrofit.okhttp)
+    implementation(Retrofit.rxjava)
+    implementation(Retrofit.kotlinx)
+    implementation(Retrofit.okhttpLogger)
 }

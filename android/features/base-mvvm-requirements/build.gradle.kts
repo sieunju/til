@@ -6,13 +6,10 @@ plugins {
 }
 
 android {
+
 }
 
 dependencies {
-    /**
-     * Android X
-     */
-    implementation(AndroidX.appCompat)
 
     /**
      * Hilt
