@@ -17,7 +17,9 @@ class NetworkActivity :
         super.onCreate(savedInstanceState)
 
         supportFragmentManager.beginTransaction().apply {
-            // replace(R.id.fragment,)
+            replace(R.id.fragment, NetworkFragment())
+            addToBackStack(null)
+            commit()
         }
     }
 

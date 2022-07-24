@@ -13,8 +13,13 @@ android {
 
 dependencies {
     implementation(project(":features:network-requirements"))
+
+    implementation(project(":model"))
     implementation(project(":domain"))
+    implementation(project(":loginmanager"))
+    implementation(project(":lifecycle"))
     implementation(project(":features:core"))
+    implementation(project(":features:core-ui"))
 
     /**
      * Android X
@@ -39,6 +44,13 @@ dependencies {
      */
     implementation(Hilt.android)
     kapt(Hilt.compiler)
+
+    /**
+     * Rx
+     */
+    implementation(Rx.java)
+    implementation(Rx.kotlin)
+    implementation(Rx.android)
 
     /**
      * Unit Test

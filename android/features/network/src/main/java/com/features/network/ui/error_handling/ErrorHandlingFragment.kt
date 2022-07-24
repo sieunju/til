@@ -1,9 +1,9 @@
-package com.hmju.presentation.error_handling
+package com.features.network.ui.error_handling
 
-import com.hmju.presentation.R
+import com.features.network.BR
+import com.features.network.R
+import com.features.network.databinding.FErrorHandlingBinding
 import com.hmju.core.BaseFragment
-import com.hmju.presentation.BR
-import com.hmju.presentation.databinding.FErrorHandlingBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 /**

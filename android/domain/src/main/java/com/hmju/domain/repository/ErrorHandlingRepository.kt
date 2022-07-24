@@ -10,9 +10,9 @@ import io.reactivex.rxjava3.core.Single
  * Created by juhongmin on 2022/05/12
  */
 interface ErrorHandlingRepository {
-    fun getError505(): Single<Nothing>
-    fun postError505(): Single<Nothing>
-    fun getError404(): Single<Nothing>
-    fun postError404(): Single<Nothing>
+    fun getError505(): Single<String>
+    fun postError505(): Single<String>
+    fun getError404(): Single<String>
+    fun postError404(): Single<String>
     fun fetchJSendListWithMeta(): Single<JSendListWithMeta<String, CustomMetaEntity>>
 }

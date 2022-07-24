@@ -1,12 +1,12 @@
-package com.hmju.presentation.json_jsend
+package com.features.network.ui.json_jsend
 
 import android.os.Bundle
 import android.view.View
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
+import com.features.network.BR
+import com.features.network.R
+import com.features.network.databinding.FJsonJsendBinding
+import com.hmju.core.BaseFragment
 import com.hmju.domain.usecase.*
-import com.hmju.presentation.R
-import com.hmju.presentation.databinding.FJsonJsendBinding
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -19,10 +19,14 @@ import javax.inject.Inject
  * Created by juhongmin on 2022/01/25
  */
 @AndroidEntryPoint
-class JsonJsendFragment : Fragment(R.layout.f_json_jsend) {
+class JsonJsendFragment :
+    BaseFragment<FJsonJsendBinding, JsonJsendFragmentViewModel>(R.layout.f_json_jsend) {
+
+    override val viewModel: JsonJsendFragmentViewModel by initViewModel()
+
+    override val bindingVariable: Int = BR.vm
 
     private val compositeDisposable: CompositeDisposable by lazy { CompositeDisposable() }
-    private lateinit var binding: FJsonJsendBinding
 
     @Inject
     lateinit var getJSendUseCase: GetJSendUseCase
@@ -41,7 +45,6 @@ class JsonJsendFragment : Fragment(R.layout.f_json_jsend) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FJsonJsendBinding.bind(view)
         binding.jsend.setOnClickListener {
             getJSendUseCase()
                 .observeOn(AndroidSchedulers.mainThread())
@@ -87,7 +90,7 @@ class JsonJsendFragment : Fragment(R.layout.f_json_jsend) {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     setText(it)
-                },{
+                }, {
                     setText(it)
                 }).addTo(compositeDisposable)
         }

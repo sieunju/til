@@ -1,13 +1,14 @@
-package com.hmju.presentation.refreshtoken
+package com.features.network.ui.expired_token
 
 import android.os.Bundle
 import android.view.View
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
+import com.features.network.BR
+import com.features.network.R
+import com.features.network.databinding.FRefreshTokenBinding
+import com.hmju.core.BaseFragment
 import com.hmju.domain.usecase.*
 import com.hmju.loginmanager.LoginManager
-import com.hmju.presentation.R
-import com.hmju.presentation.databinding.FRefreshTokenBinding
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Flowable
@@ -25,7 +26,12 @@ import kotlin.random.Random
  * Created by juhongmin on 2022/01/12
  */
 @AndroidEntryPoint
-class RefreshTokenFragment : Fragment(R.layout.f_refresh_token) {
+class RefreshTokenFragment :
+    BaseFragment<FRefreshTokenBinding, RefreshTokenFragmentViewModel>(R.layout.f_refresh_token) {
+
+    override val viewModel: RefreshTokenFragmentViewModel by initViewModel()
+
+    override val bindingVariable: Int = BR.vm
 
     private val compositeDisposable: CompositeDisposable by lazy { CompositeDisposable() }
 

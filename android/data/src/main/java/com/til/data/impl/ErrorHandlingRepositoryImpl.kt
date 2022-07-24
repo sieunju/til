@@ -18,19 +18,19 @@ internal class ErrorHandlingRepositoryImpl @Inject constructor(
     private val jsendApiService : JSendApiService
 ) : ErrorHandlingRepository {
 
-    override fun getError505(): Single<Nothing> {
+    override fun getError505(): Single<String> {
         return apiService.getError505()
     }
 
-    override fun postError505(): Single<Nothing> {
+    override fun postError505(): Single<String> {
         return apiService.postError505()
     }
 
-    override fun getError404(): Single<Nothing> {
+    override fun getError404(): Single<String> {
         return apiService.getError404()
     }
 
-    override fun postError404(): Single<Nothing> {
+    override fun postError404(): Single<String> {
         return apiService.postError404()
     }
 

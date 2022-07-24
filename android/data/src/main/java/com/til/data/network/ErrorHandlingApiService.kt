@@ -11,14 +11,14 @@ import retrofit2.http.POST
  */
 interface ErrorHandlingApiService {
     @GET("/api/error/505")
-    fun getError505(): Single<Nothing>
+    fun getError505(): Single<String>
 
     @POST("/api/error/505")
-    fun postError505(): Single<Nothing>
+    fun postError505(): Single<String>
 
     @GET("/api/error/404")
-    fun getError404(): Single<Nothing>
+    fun getError404(): Single<String>
 
     @POST("/api/error/404")
-    fun postError404(): Single<Nothing>
+    fun postError404(): Single<String>
 }

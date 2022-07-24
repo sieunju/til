@@ -5,7 +5,7 @@
 
         <variable
             name="vm"
-            type="com.hmju.presentation.error_handling.ErrorHandlingViewModel" />
+            type="com.features.network.ui.error_handling.ErrorHandlingViewModel" />
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat

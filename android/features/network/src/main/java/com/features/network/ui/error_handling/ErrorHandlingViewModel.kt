@@ -1,4 +1,4 @@
-package com.hmju.presentation.error_handling
+package com.features.network.ui.error_handling
 
 import com.hmju.domain.repository.ErrorHandlingRepository
 import com.hmju.domain.repository.JSendRepository
@@ -18,7 +18,6 @@ class ErrorHandlingViewModel @Inject constructor(
     private val errorHandlingRepository: ErrorHandlingRepository,
     private val jSendRepository: JSendRepository
 ) : FragmentViewModel() {
-
 
     fun performGet505() {
 //        jSendRepository.fetchJSend().subscribe().addTo(compositeDisposable)
