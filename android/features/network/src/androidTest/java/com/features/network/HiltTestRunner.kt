@@ -3,6 +3,7 @@ package com.features.network
 import android.app.Application
 import android.content.Context
 import androidx.test.runner.AndroidJUnitRunner
+import dagger.hilt.android.testing.HiltTestApplication
 
 /**
  * Description : Hilt 전용 Test Runner
@@ -15,6 +16,6 @@ class HiltTestRunner : AndroidJUnitRunner() {
         className: String?,
         context: Context?
     ): Application {
-        return super.newApplication(cl, NetworkHiltTestApplication_Application::class.simpleName, context)
+        return super.newApplication(cl, HiltTestApplication::class.simpleName, context)
     }
 }

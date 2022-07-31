@@ -14,7 +14,7 @@ if (hasLibraryPlugin || hasApplicationPlugin) {
             if (hasLibraryPlugin) {
                 consumerProguardFiles("consumer-rules.pro")
             }
-            testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+            // testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         }
 
         compileOptions {

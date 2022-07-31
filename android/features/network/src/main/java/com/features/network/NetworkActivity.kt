@@ -14,6 +14,7 @@ class NetworkActivity :
     override val bindingVariable: Int = BR.vm
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
 
         supportFragmentManager.beginTransaction().apply {
