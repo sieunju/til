@@ -10,7 +10,7 @@ import dagger.hilt.android.testing.HiltTestApplication
  *
  * Created by juhongmin on 2022/07/24
  */
-class HiltTestRunner : AndroidJUnitRunner() {
+class HiltNetworkTestRunner : AndroidJUnitRunner() {
     override fun newApplication(
         cl: ClassLoader?,
         className: String?,

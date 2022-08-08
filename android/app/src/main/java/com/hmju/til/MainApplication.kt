@@ -1,6 +1,7 @@
 package com.hmju.til
 
 import androidx.multidex.MultiDexApplication
+import com.hmju.core.entrypoints.SimpleLikeEntryPoint
 import com.http.tracking.TrackingManager
 import dagger.hilt.android.HiltAndroidApp
 import io.reactivex.rxjava3.exceptions.UndeliverableException

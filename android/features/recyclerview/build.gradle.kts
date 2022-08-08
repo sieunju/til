@@ -14,9 +14,9 @@ android {
 dependencies {
     implementation(project(":features:recyclerview-requirements"))
 
+    implementation(project(":domain"))
     implementation(project(":lifecycle"))
     implementation(project(":model"))
-    implementation(project(":domain"))
     implementation(project(":rxbus"))
     implementation(project(":likemanager"))
     implementation(project(":features:core"))

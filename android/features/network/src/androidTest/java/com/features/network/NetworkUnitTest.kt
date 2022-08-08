@@ -7,6 +7,7 @@ import com.hmju.domain.usecase.GetGoodsUseCase
 import com.til.model.params.GoodsParamMap
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.UninstallModules
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -18,7 +19,6 @@ import javax.inject.Inject
  *
  * Created by juhongmin on 2022/07/24
  */
-@RunWith(AndroidJUnit4::class)
 @HiltAndroidTest
 class NetworkUnitTest {
 

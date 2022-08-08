@@ -55,4 +55,6 @@ dependencies {
     androidTestImplementation(UnitTest.junit)
     androidTestImplementation(UnitTest.ext)
     androidTestImplementation(UnitTest.Espresso.core)
+
+    androidTestApi(project(":data"))
 }

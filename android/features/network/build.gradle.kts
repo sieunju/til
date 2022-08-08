@@ -8,7 +8,8 @@ plugins {
 
 android {
     defaultConfig {
-        testInstrumentationRunner = "com.features.network.HiltTestRunner"
+        // testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.features.network.HiltNetworkTestRunner"
     }
     buildFeatures {
         dataBinding = true
@@ -28,8 +29,9 @@ dependencies {
 
     implementation(project(":model"))
     implementation(project(":domain"))
-    implementation(project(":loginmanager"))
     implementation(project(":lifecycle"))
+    implementation(project(":loginmanager"))
+
     implementation(project(":features:core"))
     implementation(project(":features:core-ui"))
 
@@ -65,13 +67,13 @@ dependencies {
     implementation(Rx.android)
 
     /**
+     * Kotlinx Serialization
+     */
+    implementation(KotlinX.serialization)
+
+    /**
      * Unit Test
      */
-    androidTestImplementation(project(":data"))
-    androidTestImplementation(project(":domain"))
-    androidTestImplementation(project(":loginmanager"))
-    androidTestImplementation(project(":lifecycle"))
-
     testImplementation(UnitTest.archCore)
 
     androidTestImplementation(UnitTest.Hilt.base)
@@ -84,17 +86,15 @@ dependencies {
     androidTestImplementation(UnitTest.rules)
     androidTestImplementation(UnitTest.Espresso.core)
 
-    /**
-     * Kotlinx Serialization
-     */
-    implementation(KotlinX.serialization)
+    androidTestApi(project(":data"))
+    androidTestApi(project(":rxhandling"))
 
     /**
      * Network
      */
-    implementation(Retrofit.base)
-    implementation(Retrofit.okhttp)
-    implementation(Retrofit.rxjava)
-    implementation(Retrofit.kotlinx)
-    implementation(Retrofit.okhttpLogger)
+    androidTestImplementation(Retrofit.base)
+    androidTestImplementation(Retrofit.okhttp)
+    androidTestImplementation(Retrofit.rxjava)
+    androidTestImplementation(Retrofit.kotlinx)
+    androidTestImplementation(Retrofit.okhttpLogger)
 }
