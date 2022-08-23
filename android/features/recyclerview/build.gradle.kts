@@ -56,6 +56,6 @@ dependencies {
      */
     testImplementation(UnitTest.junit)
     androidTestImplementation(UnitTest.junit)
-    androidTestImplementation(UnitTest.ext)
+    androidTestImplementation(UnitTest.androidJUnit)
     androidTestImplementation(UnitTest.Espresso.core)
 }

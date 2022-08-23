@@ -14,7 +14,7 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":loginmanager"))
     implementation(project(":likemanager"))
-    implementation(project(":rxhandling"))
+    // implementation(project(":rxhandling"))
 
     implementation(Kotlin.stdLib)
     implementation(AndroidX.ktx)
@@ -48,7 +48,7 @@ dependencies {
     /**
      * Libs
      */
-    implementation(Libs.httpTracking)
+    // implementation(Libs.httpTracking)
 
     implementation(Log.timber)
 
@@ -57,7 +57,15 @@ dependencies {
      */
     testImplementation(UnitTest.junit)
     androidTestImplementation(UnitTest.junit)
-    testImplementation(UnitTest.ext)
+    testImplementation(UnitTest.androidJUnit)
     androidTestImplementation(UnitTest.rules)
     androidTestImplementation(UnitTest.runner)
+
+    /**
+     * Network
+     */
+    androidTestImplementation(Retrofit.base)
+    androidTestImplementation(Retrofit.rxjava)
+    androidTestImplementation(Retrofit.kotlinx)
+    androidTestImplementation(Retrofit.okhttpLogger)
 }

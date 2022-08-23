@@ -37,7 +37,7 @@ dependencies {
      */
     testImplementation(UnitTest.junit)
     androidTestImplementation(UnitTest.junit)
-    testImplementation(UnitTest.ext)
+    testImplementation(UnitTest.androidJUnit)
     androidTestImplementation(UnitTest.rules)
     androidTestImplementation(UnitTest.runner)
     implementation(kotlin("reflect"))

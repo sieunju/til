@@ -1,17 +1,12 @@
-package com.features.network
+package com.hmju.test
 
-import androidx.lifecycle.Lifecycle
-import androidx.test.core.app.launchActivity
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.hmju.domain.usecase.GetGoodsUseCase
 import com.til.model.params.GoodsParamMap
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import dagger.hilt.android.testing.UninstallModules
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import javax.inject.Inject
 
 /**

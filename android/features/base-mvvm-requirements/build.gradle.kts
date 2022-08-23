@@ -5,9 +5,7 @@ plugins {
     kotlin("kapt")
 }
 
-android {
-
-}
+android {}
 
 dependencies {
 

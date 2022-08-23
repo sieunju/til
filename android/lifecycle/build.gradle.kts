@@ -22,5 +22,5 @@ dependencies {
      */
     androidTestImplementation(UnitTest.junit)
     testImplementation(UnitTest.junit)
-    testImplementation(UnitTest.ext)
+    testImplementation(UnitTest.androidJUnit)
 }

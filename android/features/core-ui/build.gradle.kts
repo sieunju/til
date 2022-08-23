@@ -6,6 +6,9 @@ plugins {
 }
 
 android {
+    defaultConfig {
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
     buildFeatures {
         dataBinding = true
     }
@@ -59,6 +62,6 @@ dependencies {
      */
     testImplementation(UnitTest.junit)
     androidTestImplementation(UnitTest.junit)
-    androidTestImplementation(UnitTest.ext)
+    androidTestImplementation(UnitTest.androidJUnit)
     androidTestImplementation(UnitTest.Espresso.core)
 }

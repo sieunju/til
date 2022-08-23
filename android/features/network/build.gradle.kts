@@ -8,19 +8,13 @@ plugins {
 
 android {
     defaultConfig {
-        // testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunner = "com.features.network.HiltNetworkTestRunner"
+         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     buildFeatures {
         dataBinding = true
     }
     kapt {
         correctErrorTypes = true
-    }
-    testOptions {
-        unitTests {
-            isIncludeAndroidResources = true
-        }
     }
 }
 
@@ -74,27 +68,8 @@ dependencies {
     /**
      * Unit Test
      */
-    testImplementation(UnitTest.archCore)
-
-    androidTestImplementation(UnitTest.Hilt.base)
-    kaptAndroidTest(UnitTest.Hilt.compiler)
-
     testImplementation(UnitTest.junit)
     androidTestImplementation(UnitTest.junit)
-    androidTestImplementation(UnitTest.core)
-    androidTestImplementation(UnitTest.ext)
-    androidTestImplementation(UnitTest.rules)
+    androidTestImplementation(UnitTest.androidJUnit)
     androidTestImplementation(UnitTest.Espresso.core)
-
-    androidTestApi(project(":data"))
-    androidTestApi(project(":rxhandling"))
-
-    /**
-     * Network
-     */
-    androidTestImplementation(Retrofit.base)
-    androidTestImplementation(Retrofit.okhttp)
-    androidTestImplementation(Retrofit.rxjava)
-    androidTestImplementation(Retrofit.kotlinx)
-    androidTestImplementation(Retrofit.okhttpLogger)
 }

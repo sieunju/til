@@ -1,4 +1,4 @@
-package com.features.network
+package com.hmju.test
 
 import android.app.Application
 import android.content.Context
@@ -6,16 +6,16 @@ import androidx.test.runner.AndroidJUnitRunner
 import dagger.hilt.android.testing.HiltTestApplication
 
 /**
- * Description : Hilt 전용 Test Runner
+ * Description : Multi-Feature Test Runner
  *
- * Created by juhongmin on 2022/07/24
+ * Created by juhongmin on 2022/08/22
  */
-class HiltNetworkTestRunner : AndroidJUnitRunner() {
+class HiltTestRunner : AndroidJUnitRunner() {
     override fun newApplication(
         cl: ClassLoader?,
         className: String?,
         context: Context?
     ): Application {
-        return super.newApplication(cl, HiltTestApplication::class.simpleName, context)
+        return super.newApplication(cl, HiltTestApplication::class.java.name, context)
     }
 }
