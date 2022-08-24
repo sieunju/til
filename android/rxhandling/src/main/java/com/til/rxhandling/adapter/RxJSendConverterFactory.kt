@@ -1,6 +1,6 @@
 package com.til.rxhandling.adapter
 
-import com.til.model.base.JSendSimple
+import com.til.rxhandling.JSendSimple
 import kotlinx.serialization.*
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement

@@ -7,13 +7,8 @@ plugins {
 }
 
 android {
-    compileSdk = Apps.compileSdkVersion
-    buildToolsVersion = Apps.buildToolsVersion
-
     defaultConfig {
         applicationId = "com.hmju.til"
-        minSdk = Apps.minSdkVersion
-        targetSdk = Apps.targetSdkVersion
         versionCode = Apps.versionCode
         versionName = Apps.versionName
         setProperty("archivesBaseName", "til_${versionCode}_${versionName}")
@@ -32,23 +27,23 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = "11"
-    }
     buildFeatures {
         dataBinding = true
     }
 }
 
 dependencies {
-    implementation(project(path = ":data"))
-    implementation(project(path = ":domain"))
-    implementation(project(path = ":loginmanager"))
-    implementation(project(path = ":presentation"))
+    implementation(project(path = ":core"))
+    implementation(project(path = ":shared"))
+    implementation(project(path = ":features:core-ui"))
+
+    implementation(project(path = ":features:main"))
+    implementation(project(path = ":features:network-requirements"))
+    implementation(project(path = ":features:network"))
+    implementation(project(path = ":features:recyclerview-requirements"))
+    implementation(project(path = ":features:recyclerview"))
+    implementation(project(path = ":features:base-mvvm-requirements"))
+    implementation(project(path = ":features:base-mvvm"))
 
     /**
      * Network
@@ -100,5 +95,7 @@ dependencies {
     androidTestImplementation(UnitTest.runner)
     androidTestImplementation(UnitTest.junit)
     testImplementation(UnitTest.junit)
-    testImplementation(UnitTest.ext)
+    testImplementation(UnitTest.androidJUnit)
+
+    androidTestImplementation(project(":test"))
 }
