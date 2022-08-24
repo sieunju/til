@@ -2,7 +2,7 @@ package com.features.recyclerview.binding
 
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.features.core_ui.BaseUiModel
+import com.features.core_ui.base.BaseUiModel
 import com.features.recyclerview.adapter.RefactorDiffUtilListAdapter
 
 /**

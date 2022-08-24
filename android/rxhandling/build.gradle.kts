@@ -9,7 +9,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":model"))
 
     /**
      * Kotlinx Serialization

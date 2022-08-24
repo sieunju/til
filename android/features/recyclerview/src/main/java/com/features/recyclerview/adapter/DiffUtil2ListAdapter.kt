@@ -8,7 +8,7 @@ import com.features.recyclerview.R
 import com.features.recyclerview.diffutil.DiffUtilV2
 import com.features.recyclerview.ui.independent_viewholder.SimpleLike1ViewHolder
 import com.features.recyclerview.ui.independent_viewholder.SimpleLike2ViewHolder
-import com.features.core_ui.BaseUiModel
+import com.features.core_ui.base.BaseUiModel
 
 /**
  * Description : DiffUtil2 Adapter

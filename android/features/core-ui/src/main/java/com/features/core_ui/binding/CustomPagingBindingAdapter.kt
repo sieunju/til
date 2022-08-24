@@ -3,7 +3,7 @@ package com.features.core_ui.binding
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.hmju.core.paging.PagingModel
+import com.features.core_ui.paging.PagingModel
 
 /**
  * Description : DataBinding 방식의 페이징 처리 BindingAdapter

@@ -1,6 +1,6 @@
 package com.features.network.ui.json_jsend
 
-import com.hmju.core.FragmentViewModel
+import com.features.core_ui.base.FragmentViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

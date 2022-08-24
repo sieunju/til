@@ -1,13 +1,13 @@
 package com.features.recyclerview.ui.diffutil_refactor
 
-import com.features.core_ui.BaseUiModel
+import com.features.core_ui.base.BaseUiModel
+import com.features.core_ui.base.FragmentViewModel
+import com.features.core_ui.livedata.ListLiveData
+import com.features.core_ui.paging.PagingModel
 import com.features.recyclerview.model.GoodsOneUiModel
 import com.features.recyclerview.model.GoodsTwoUiModel
-import com.hmju.core.FragmentViewModel
-import com.hmju.core.livedata.ListLiveData
-import com.hmju.core.paging.PagingModel
-import com.hmju.domain.usecase.GetGoodsUseCase
-import com.til.model.params.GoodsParamMap
+import com.features.recyclerview.usecase.GetGoodsUseCase
+import com.hmju.core.data.model.params.GoodsParamMap
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.addTo

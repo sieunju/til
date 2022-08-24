@@ -1,7 +1,7 @@
 package com.features.recyclerview.diffutil
 
 import androidx.recyclerview.widget.DiffUtil
-import com.features.core_ui.BaseUiModel
+import com.features.core_ui.base.BaseUiModel
 import com.features.recyclerview.enums.DiffEnum
 import com.features.recyclerview.model.GoodsOneUiModel
 import com.features.recyclerview.model.GoodsTwoUiModel

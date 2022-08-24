@@ -1,8 +1,8 @@
 package com.features.main
 
 import android.os.Bundle
+import com.features.core_ui.base.BaseActivity
 import com.features.main.databinding.ActivityMainBinding
-import com.hmju.core.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

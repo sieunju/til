@@ -5,14 +5,13 @@ import android.app.Activity
 import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.hmju.core.ActivityViewModel
-import com.hmju.core.BaseActivity
-import com.hmju.core.IntentKey
-import com.hmju.domain.usecase.GetGoodsUseCase
-import com.hmju.lifecycle.*
-import com.hmju.loginmanager.LoginManager
-import com.til.model.params.GoodsParamMap
-import com.til.rxbus.TestBusEvent
+import com.features.base_mvvm.usecase.GetGoodsUseCase
+import com.features.core_ui.base.ActivityViewModel
+import com.features.core_ui.base.BaseActivity
+import com.features.core_ui.base.IntentKey
+import com.features.core_ui.lifecycle.*
+import com.hmju.core.data.model.params.GoodsParamMap
+import com.hmju.shared.login_manager.LoginManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -67,7 +66,7 @@ class MvvmLifecycleTestViewModel @Inject constructor(
     }
 
     fun onClick1() {
-        TestBusEvent.publish("테스트 버튼 클릭 ${System.currentTimeMillis()}")
+
     }
 
     fun onClick3() {

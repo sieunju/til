@@ -33,10 +33,8 @@ android {
 }
 
 dependencies {
-    implementation(project(path = ":data"))
-    implementation(project(path = ":domain"))
-    implementation(project(path = ":loginmanager"))
-    implementation(project(path = ":features:core"))
+    implementation(project(path = ":core"))
+    implementation(project(path = ":shared"))
     implementation(project(path = ":features:core-ui"))
 
     implementation(project(path = ":features:main"))

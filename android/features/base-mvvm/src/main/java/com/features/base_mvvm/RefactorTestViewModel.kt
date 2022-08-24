@@ -5,16 +5,13 @@ import android.app.Activity
 import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.hmju.lifecycle.OnActivityResult
-import com.hmju.lifecycle.OnCreated
-import com.hmju.lifecycle.OnIntent
-import com.hmju.lifecycle.OnPermissionResult
-import com.hmju.core.IntentKey
-import com.hmju.core.ActivityResult
-import com.hmju.core.ActivityViewModel
-import com.hmju.core.RxActivityResultEvent
-import com.hmju.core.RxPermissionEvent
-import com.til.model.test.SerializableEntity
+import com.features.core_ui.base.ActivityViewModel
+import com.features.core_ui.base.IntentKey
+import com.features.core_ui.base.RxPermissionEvent
+import com.features.core_ui.lifecycle.OnActivityResult
+import com.features.core_ui.lifecycle.OnCreated
+import com.features.core_ui.lifecycle.OnIntent
+import com.features.core_ui.lifecycle.OnPermissionResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import timber.log.Timber
 import javax.inject.Inject
@@ -79,7 +76,7 @@ class RefactorTestViewModel @Inject constructor(
         )
     }
 
-    @OnPermissionResult([Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.CAMERA])
+    @OnPermissionResult([Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CAMERA])
     fun onStorageResult(map: Map<String, Boolean>) {
         Timber.d("Permission Map $map")
     }

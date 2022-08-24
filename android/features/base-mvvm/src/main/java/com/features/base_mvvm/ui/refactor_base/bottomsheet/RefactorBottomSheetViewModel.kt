@@ -2,12 +2,12 @@ package com.features.base_mvvm.ui.refactor_base.bottomsheet
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.hmju.domain.usecase.GetGoodsUseCase
-import com.hmju.lifecycle.OnCreated
-import com.hmju.lifecycle.OnStopped
-import com.hmju.lifecycle.OnViewCreated
-import com.hmju.core.BottomSheetViewModel
-import com.til.model.params.GoodsParamMap
+import com.features.base_mvvm.usecase.GetGoodsUseCase
+import com.features.core_ui.base.BottomSheetViewModel
+import com.features.core_ui.lifecycle.OnCreated
+import com.features.core_ui.lifecycle.OnStopped
+import com.features.core_ui.lifecycle.OnViewCreated
+import com.hmju.core.data.model.params.GoodsParamMap
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Flowable
@@ -24,16 +24,16 @@ import kotlin.random.Random
  */
 @HiltViewModel
 class RefactorBottomSheetViewModel @Inject constructor(
-    private val getGoodsUseCase : GetGoodsUseCase
+    private val getGoodsUseCase: GetGoodsUseCase
 ) : BottomSheetViewModel() {
 
     private val _blueTitle: MutableLiveData<String> by lazy { MutableLiveData() }
-    val blueTitle : LiveData<String> get() = _blueTitle
+    val blueTitle: LiveData<String> get() = _blueTitle
 
-    private val _redTitle : MutableLiveData<String> by lazy { MutableLiveData() }
+    private val _redTitle: MutableLiveData<String> by lazy { MutableLiveData() }
     val redTitle: LiveData<String> get() = _redTitle
 
-    val startDismiss : MutableLiveData<Unit> by lazy { MutableLiveData() }
+    val startDismiss: MutableLiveData<Unit> by lazy { MutableLiveData() }
 
     @OnCreated
     fun onCreated() {
@@ -43,39 +43,39 @@ class RefactorBottomSheetViewModel @Inject constructor(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 Timber.d("SUCC $it")
-            },{
+            }, {
 
             }).addTo(compositeDisposable)
     }
 
     @OnViewCreated
-    fun startBlueTitle(){
-        Flowable.interval(0,1000,TimeUnit.MILLISECONDS,AndroidSchedulers.mainThread())
+    fun startBlueTitle() {
+        Flowable.interval(0, 1000, TimeUnit.MILLISECONDS, AndroidSchedulers.mainThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 _blueTitle.value = "${Random.nextInt(1000)}_$it"
-            },{
+            }, {
 
             }).addTo(compositeDisposable)
     }
 
     @OnViewCreated
-    fun startRedTitle(){
-        Flowable.interval(0,1000,TimeUnit.MILLISECONDS,AndroidSchedulers.mainThread())
+    fun startRedTitle() {
+        Flowable.interval(0, 1000, TimeUnit.MILLISECONDS, AndroidSchedulers.mainThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 _redTitle.value = "${Random.nextInt(1000)}_$it"
-            },{
+            }, {
 
             }).addTo(compositeDisposable)
     }
 
     @OnStopped
-    fun onStop(){
+    fun onStop() {
         Timber.d("onStop")
     }
 
-    fun onDismiss(){
+    fun onDismiss() {
         startDismiss.value = null
     }
 }

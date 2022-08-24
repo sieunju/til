@@ -18,15 +18,10 @@ android {
 }
 
 dependencies {
-    androidTestImplementation(project(":model"))
-    androidTestImplementation(project(":data"))
-    androidTestImplementation(project(":lifecycle"))
-    androidTestImplementation(project(":domain"))
-    androidTestImplementation(project(":loginmanager"))
-    androidTestImplementation(project(":likemanager"))
+    androidTestImplementation(project(":core"))
+    androidTestImplementation(project(":shared"))
     androidTestImplementation(project(":features:base-mvvm"))
     androidTestImplementation(project(":features:base-mvvm-requirements"))
-    androidTestImplementation(project(":features:core"))
     androidTestImplementation(project(":features:core-ui"))
     androidTestImplementation(project(":features:main"))
     androidTestImplementation(project(":features:network"))

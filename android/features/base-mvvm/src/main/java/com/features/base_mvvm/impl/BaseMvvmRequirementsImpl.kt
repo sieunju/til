@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import com.features.base_mvvm.RefactorBaseTestActivity
 import com.features.base_mvvm_requirements.BaseMvvmRequirements
-import com.hmju.core.IntentKey
+import com.features.core_ui.base.IntentKey
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 

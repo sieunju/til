@@ -1,12 +1,12 @@
 package com.features.main
 
 import com.features.base_mvvm_requirements.BaseMvvmRequirements
+import com.features.core_ui.base.ActivityViewModel
+import com.features.core_ui.lifecycle.OnCreated
+import com.features.core_ui.lifecycle.OnIntent
 import com.features.network_requirements.NetworkRequirements
 import com.features.recyclerview_requirements.RecyclerViewRequirements
-import com.hmju.core.ActivityViewModel
-import com.hmju.lifecycle.OnCreated
-import com.hmju.lifecycle.OnIntent
-import com.hmju.loginmanager.LoginManager
+import com.hmju.shared.login_manager.LoginManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.kotlin.addTo

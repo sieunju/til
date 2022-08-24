@@ -1,7 +1,7 @@
 package com.features.base_mvvm
 
 import com.features.base_mvvm.databinding.ARefactorBaseTestBinding
-import com.hmju.core.BaseActivity
+import com.features.core_ui.base.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 /**

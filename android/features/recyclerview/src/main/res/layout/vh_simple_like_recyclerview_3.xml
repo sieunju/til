@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.til.model.goods.GoodsEntity" />
+            type="com.hmju.core.data.model.goods.GoodsEntity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

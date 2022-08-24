@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.fragment.app.Fragment
+import com.features.core_ui.base.BaseFragment
+import com.features.core_ui.base.FragmentViewModel
 import com.features.recyclerview.databinding.FRecyclerviewBinding
 import com.features.recyclerview.ui.custom_paging.CustomPagingFragment
 import com.features.recyclerview.ui.diffutil_performance.DiffUtilPerformanceFragment
@@ -11,8 +13,6 @@ import com.features.recyclerview.ui.diffutil_refactor.RefactorDiffUtilFragment
 import com.features.recyclerview.ui.diffutil_v2.DiffUtil2Fragment
 import com.features.recyclerview.ui.independent_viewholder.SimpleLikeRecyclerViewFragment
 import com.google.android.material.button.MaterialButton
-import com.hmju.core.BaseFragment
-import com.hmju.core.FragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

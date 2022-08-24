@@ -12,15 +12,10 @@ android {
 }
 
 dependencies {
-    implementation(project(":features:recyclerview-requirements"))
-
-    implementation(project(":domain"))
-    implementation(project(":lifecycle"))
-    implementation(project(":model"))
-    implementation(project(":rxbus"))
-    implementation(project(":likemanager"))
-    implementation(project(":features:core"))
+    implementation(project(":core"))
+    implementation(project(":shared"))
     implementation(project(":features:core-ui"))
+    implementation(project(":features:recyclerview-requirements"))
 
     /**
      * Android X

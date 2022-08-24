@@ -5,13 +5,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.features.core_ui.base.BaseFragment
 import com.features.recyclerview.BR
 import com.features.recyclerview.R
 import com.features.recyclerview.databinding.FCustomPagingBinding
 import com.features.recyclerview.ui.independent_viewholder.BaseSimpleLikeViewHolder
 import com.features.recyclerview.ui.independent_viewholder.SimpleLike1ViewHolder
-import com.hmju.core.BaseFragment
-import com.til.model.goods.GoodsEntity
+import com.hmju.core.data.model.goods.GoodsEntity
 import dagger.hilt.android.AndroidEntryPoint
 
 /**

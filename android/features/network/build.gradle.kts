@@ -19,14 +19,9 @@ android {
 }
 
 dependencies {
+    implementation(project(":core"))
+    implementation(project(":shared"))
     implementation(project(":features:network-requirements"))
-
-    implementation(project(":model"))
-    implementation(project(":domain"))
-    implementation(project(":lifecycle"))
-    implementation(project(":loginmanager"))
-
-    implementation(project(":features:core"))
     implementation(project(":features:core-ui"))
 
     /**

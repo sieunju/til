@@ -1,7 +1,7 @@
 package com.features.base_mvvm.ui.refactor_base.bottomsheet
 
-import com.hmju.lifecycle.OnViewCreated
-import com.hmju.core.FragmentViewModel
+import com.features.core_ui.base.FragmentViewModel
+import com.features.core_ui.lifecycle.OnViewCreated
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -16,7 +16,7 @@ class ChildBottomSheetBlueViewModel @Inject constructor(
 ) : FragmentViewModel() {
 
     @OnViewCreated
-    fun getGoodsTest(){
+    fun getGoodsTest() {
 
     }
 }

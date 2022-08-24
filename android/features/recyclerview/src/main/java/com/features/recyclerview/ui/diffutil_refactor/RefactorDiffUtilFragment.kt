@@ -2,10 +2,10 @@ package com.features.recyclerview.ui.diffutil_refactor
 
 import android.os.Bundle
 import android.view.View
+import com.features.core_ui.base.BaseFragment
 import com.features.recyclerview.BR
 import com.features.recyclerview.R
 import com.features.recyclerview.databinding.FRefactorDiffUtilBinding
-import com.hmju.core.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 /**

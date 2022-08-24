@@ -6,6 +6,9 @@ import android.view.View
 import android.widget.NumberPicker
 import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
+import com.features.core_ui.base.BaseFragment
+import com.features.core_ui.base.BaseUiModel
+import com.features.core_ui.base.FragmentViewModel
 import com.features.recyclerview.BR
 import com.features.recyclerview.R
 import com.features.recyclerview.databinding.FPerformanceDiffUtilBinding
@@ -14,9 +17,6 @@ import com.features.recyclerview.diffutil.DiffUtilV2
 import com.features.recyclerview.diffutil.IsDiffUtil
 import com.features.recyclerview.diffutil.IsLegacyDiffUtil
 import com.features.recyclerview.model.*
-import com.features.core_ui.BaseUiModel
-import com.hmju.core.BaseFragment
-import com.hmju.core.FragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Flowable

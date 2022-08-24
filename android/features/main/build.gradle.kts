@@ -12,9 +12,8 @@ android {
 }
 
 dependencies {
-    implementation(project(":loginmanager"))
-    implementation(project(":lifecycle"))
-    implementation(project(":features:core"))
+    implementation(project(":shared"))
+    implementation(project(":features:core-ui"))
     implementation(project(":features:recyclerview-requirements"))
     implementation(project(":features:network-requirements"))
     implementation(project(":features:base-mvvm-requirements"))

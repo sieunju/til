@@ -4,13 +4,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.fragment.app.Fragment
+import com.features.core_ui.base.BaseFragment
+import com.features.core_ui.base.FragmentViewModel
 import com.features.network.databinding.FNetworkBinding
 import com.features.network.ui.error_handling.ErrorHandlingFragment
 import com.features.network.ui.expired_token.RefreshTokenFragment
 import com.features.network.ui.json_jsend.JsonJsendFragment
 import com.google.android.material.button.MaterialButton
-import com.hmju.core.BaseFragment
-import com.hmju.core.FragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

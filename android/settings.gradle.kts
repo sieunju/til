@@ -2,16 +2,10 @@ rootProject.name = "til"
 
 include(
     ":app",
-    ":data",
-    ":model",
-    ":domain",
-    ":loginmanager",
-    ":likemanager",
-    ":rxbus",
-    ":lifecycle",
-    ":rxhandling"
+    ":core",
+    ":shared"
 )
-include(":features:core")
+include(":rxhandling")
 include(":features:core-ui")
 include(":features:network")
 include(":features:network-requirements")

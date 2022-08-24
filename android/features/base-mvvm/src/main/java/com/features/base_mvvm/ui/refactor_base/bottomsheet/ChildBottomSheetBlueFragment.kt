@@ -6,7 +6,7 @@ import androidx.fragment.app.viewModels
 import com.features.base_mvvm.BR
 import com.features.base_mvvm.R
 import com.features.base_mvvm.databinding.FChildBottomSheetBlueBinding
-import com.hmju.core.BaseFragment
+import com.features.core_ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 /**

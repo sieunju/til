@@ -15,10 +15,8 @@ android {
 }
 
 dependencies {
-    implementation(project(":model"))
-    implementation(project(":domain"))
-    implementation(project(":likemanager"))
-    implementation(project(":features:core"))
+    implementation(project(":core"))
+    implementation(project(":shared"))
 
     /**
      * Android X
@@ -30,6 +28,8 @@ dependencies {
     implementation(AndroidX.lifecycle)
     implementation(AndroidX.material)
     implementation(AndroidX.cardView)
+    implementation(AndroidX.viewModel)
+    implementation(AndroidX.fragment)
 
     /**
      * Hilt

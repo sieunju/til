@@ -14,12 +14,8 @@ android {
 dependencies {
     implementation(project(":features:base-mvvm-requirements"))
 
-    implementation(project(":model"))
-    implementation(project(":domain"))
-    implementation(project(":lifecycle"))
-    implementation(project(":loginmanager"))
-    implementation(project(":rxbus"))
-    implementation(project(":features:core"))
+    implementation(project(":core"))
+    implementation(project(":shared"))
     implementation(project(":features:core-ui"))
 
     /**

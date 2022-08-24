@@ -1,8 +1,8 @@
 package com.features.network.ui.error_handling
 
-import com.hmju.domain.repository.ErrorHandlingRepository
-import com.hmju.domain.repository.JSendRepository
-import com.hmju.core.FragmentViewModel
+import com.features.core_ui.base.FragmentViewModel
+import com.hmju.core.data.repository.ErrorHandlingRepository
+import com.hmju.core.data.repository.JSendRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.kotlin.addTo
 import timber.log.Timber

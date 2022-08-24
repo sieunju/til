@@ -2,11 +2,11 @@ package com.features.network.ui.json_jsend
 
 import android.os.Bundle
 import android.view.View
+import com.features.core_ui.base.BaseFragment
 import com.features.network.BR
 import com.features.network.R
 import com.features.network.databinding.FJsonJsendBinding
-import com.hmju.core.BaseFragment
-import com.hmju.domain.usecase.*
+import com.features.network.usecase.*
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable

@@ -5,10 +5,10 @@ import android.view.View
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.features.base_mvvm.R
 import com.features.base_mvvm.BR
+import com.features.base_mvvm.R
 import com.features.base_mvvm.databinding.DRefactorBottomSheetBinding
-import com.hmju.core.BaseSharedBottomSheetDialog
+import com.features.core_ui.base.BaseSharedBottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 

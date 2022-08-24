@@ -1,8 +1,8 @@
 package com.features.recyclerview.model
 
-import com.features.core_ui.BaseUiModel
+import com.features.core_ui.base.BaseUiModel
 import com.features.recyclerview.R
-import com.til.model.goods.GoodsEntity
+import com.hmju.core.data.model.goods.GoodsEntity
 
 /**
  * Description :

@@ -3,7 +3,7 @@ package com.features.recyclerview.adapter
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.features.core_ui.BaseUiModel
+import com.features.core_ui.base.BaseUiModel
 import com.features.core_ui.viewholders.BaseViewHolder
 import com.features.recyclerview.R
 import com.features.recyclerview.diffutil.DiffUtilV2

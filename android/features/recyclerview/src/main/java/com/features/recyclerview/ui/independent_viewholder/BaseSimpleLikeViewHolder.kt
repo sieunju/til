@@ -11,15 +11,15 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.findViewTreeLifecycleOwner
+import com.features.core_ui.entrypoints.SimpleLikeEntryPoint
+import com.features.core_ui.usecase.AddLikeUseCase
+import com.features.core_ui.usecase.RemoveLikeUseCase
 import com.features.core_ui.viewholders.BaseViewHolder
-import com.hmju.core.entrypoints.SimpleLikeEntryPoint
-import com.hmju.domain.usecase.AddLikeUseCase
-import com.hmju.domain.usecase.RemoveLikeUseCase
-import com.hmju.likemanager.LikeManager
-import com.til.model.body.LikeRequestBody
-import com.til.model.goods.GoodsEntity
-import com.til.rxbus.RxBus
-import com.til.rxbus.RxBusEvent
+import com.hmju.core.data.model.body.LikeRequestBody
+import com.hmju.core.data.model.goods.GoodsEntity
+import com.hmju.shared.like_manager.LikeManager
+import com.hmju.shared.rxbus.RxBus
+import com.hmju.shared.rxbus.SimpleLikeEvent
 import dagger.hilt.EntryPoints
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.Disposable
@@ -71,7 +71,7 @@ abstract class BaseSimpleLikeViewHolder<T : ViewDataBinding>(
         if (likeChangeDisposable != null) {
             closeLikeChangeDisposable()
         }
-        likeChangeDisposable = RxBus.listen(RxBusEvent.SimpleLikeEvent::class.java)
+        likeChangeDisposable = RxBus.listen(SimpleLikeEvent::class.java)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 onRefreshLike()

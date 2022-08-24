@@ -6,13 +6,13 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.features.core_ui.base.BaseFragment
 import com.features.recyclerview.BR
 import com.features.recyclerview.R
 import com.features.recyclerview.databinding.FSimpleLikeRecyclerviewBinding
-import com.hmju.core.BaseFragment
-import com.hmju.domain.usecase.GetGoodsUseCase
-import com.til.model.goods.GoodsEntity
-import com.til.model.params.GoodsParamMap
+import com.features.recyclerview.usecase.GetGoodsUseCase
+import com.hmju.core.data.model.goods.GoodsEntity
+import com.hmju.core.data.model.params.GoodsParamMap
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
