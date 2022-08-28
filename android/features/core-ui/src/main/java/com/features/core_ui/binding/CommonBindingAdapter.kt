@@ -4,7 +4,7 @@ import android.view.View
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.text.HtmlCompat
 import androidx.databinding.BindingAdapter
-import com.hmju.shared.like_manager.LikeManager
+import com.hmju.core.like_manager.LikeManager
 
 /**
  * Description :

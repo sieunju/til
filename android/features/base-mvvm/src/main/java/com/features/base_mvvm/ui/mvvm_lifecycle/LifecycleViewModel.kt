@@ -10,7 +10,7 @@ import com.features.core_ui.lifecycle.OnActivityResult
 import com.features.core_ui.lifecycle.OnCreated
 import com.features.core_ui.lifecycle.OnResumed
 import com.hmju.core.data.model.params.GoodsParamMap
-import com.hmju.shared.login_manager.LoginManager
+import com.hmju.core.login_manager.LoginManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.kotlin.addTo
 import javax.inject.Inject

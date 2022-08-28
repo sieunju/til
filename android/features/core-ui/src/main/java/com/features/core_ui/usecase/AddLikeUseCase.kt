@@ -3,9 +3,9 @@ package com.features.core_ui.usecase
 import com.hmju.core.data.model.body.LikeRequestBody
 import com.hmju.core.data.model.like.LikeEntity
 import com.hmju.core.data.repository.GoodsRepository
-import com.hmju.shared.like_manager.LikeManager
-import com.hmju.shared.rxbus.RxBus
-import com.hmju.shared.rxbus.SimpleLikeEvent
+import com.hmju.core.like_manager.LikeManager
+import com.hmju.core.rxbus.RxBus
+import com.hmju.core.rxbus.SimpleLikeEvent
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 

@@ -17,9 +17,9 @@ import com.features.core_ui.usecase.RemoveLikeUseCase
 import com.features.core_ui.viewholders.BaseViewHolder
 import com.hmju.core.data.model.body.LikeRequestBody
 import com.hmju.core.data.model.goods.GoodsEntity
-import com.hmju.shared.like_manager.LikeManager
-import com.hmju.shared.rxbus.RxBus
-import com.hmju.shared.rxbus.SimpleLikeEvent
+import com.hmju.core.like_manager.LikeManager
+import com.hmju.core.rxbus.RxBus
+import com.hmju.core.rxbus.SimpleLikeEvent
 import dagger.hilt.EntryPoints
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.Disposable

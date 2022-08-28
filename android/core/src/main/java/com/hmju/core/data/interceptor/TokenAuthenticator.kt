@@ -1,8 +1,8 @@
 package com.hmju.core.data.interceptor
 
 import com.hmju.core.data.NetworkConfig
-import com.hmju.core.data.remote.RefreshTokenApiService
-import com.hmju.shared.login_manager.LoginManager
+import com.hmju.core.data.repository.RefreshTokenRepository
+import com.hmju.core.login_manager.LoginManager
 import okhttp3.Authenticator
 import okhttp3.Request
 import okhttp3.Response
@@ -16,13 +16,13 @@ import timber.log.Timber
  */
 class TokenAuthenticator(
     private val loginManager: LoginManager,
-    private val apiService: RefreshTokenApiService
+    private val repository: RefreshTokenRepository
 ) : Authenticator {
     override fun authenticate(route: Route?, response: Response): Request? {
         // Token Expired
         Timber.d("TokenAuthenticator ${response.code}")
         return if (response.code == 401) {
-            val tokenResponse = apiService.tokenRefresh().blockingGet()
+            val tokenResponse = repository.fetch().blockingGet()
             // Token 저장
             Timber.d("Refresh Token ${tokenResponse.payload}")
             try {

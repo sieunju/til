@@ -1,7 +1,7 @@
 package com.hmju.core.data.interceptor
 
 import com.hmju.core.data.NetworkConfig
-import com.hmju.shared.login_manager.LoginManager
+import com.hmju.core.login_manager.LoginManager
 import okhttp3.Interceptor
 import okhttp3.Response
 
