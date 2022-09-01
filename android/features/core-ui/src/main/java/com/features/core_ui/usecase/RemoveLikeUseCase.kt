@@ -1,7 +1,7 @@
 package com.features.core_ui.usecase
 
-import com.hmju.core.data.model.like.LikeEntity
-import com.hmju.core.data.repository.GoodsRepository
+import com.hmju.core.model.like.LikeEntity
+import com.hmju.core.repository.GoodsRepository
 import com.hmju.core.like_manager.LikeManager
 import com.hmju.core.rxbus.RxBus
 import com.hmju.core.rxbus.SimpleLikeEvent

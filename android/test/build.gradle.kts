@@ -19,7 +19,6 @@ android {
 
 dependencies {
     androidTestImplementation(project(":core"))
-    androidTestImplementation(project(":shared"))
     androidTestImplementation(project(":features:base-mvvm"))
     androidTestImplementation(project(":features:base-mvvm-requirements"))
     androidTestImplementation(project(":features:core-ui"))

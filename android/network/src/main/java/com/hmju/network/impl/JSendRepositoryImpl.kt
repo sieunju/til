@@ -1,9 +1,9 @@
 package com.hmju.network.impl
 
-import com.hmju.core.data.model.base.*
-import com.hmju.core.data.model.meta.CustomMetaEntity
-import com.hmju.core.data.model.test.JSendTestEntity
-import com.hmju.core.data.repository.JSendRepository
+import com.hmju.core.model.base.*
+import com.hmju.core.model.meta.CustomMetaEntity
+import com.hmju.core.model.test.JSendTestEntity
+import com.hmju.core.repository.JSendRepository
 import com.hmju.network.JSendApiService
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject

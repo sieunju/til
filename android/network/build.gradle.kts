@@ -11,7 +11,6 @@ android {}
 dependencies {
 
     implementation(project(":core"))
-    implementation(project(":shared"))
 
     /**
      * Network
@@ -21,6 +20,11 @@ dependencies {
     implementation(Retrofit.rxjava)
     implementation(Retrofit.kotlinx)
     implementation(Retrofit.okhttpLogger)
+
+    /**
+     * Timber
+     */
+    implementation(Log.timber)
 
     /**
      * Kotlinx Serialization

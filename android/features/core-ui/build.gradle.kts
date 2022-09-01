@@ -16,7 +16,6 @@ android {
 
 dependencies {
     implementation(project(":core"))
-    implementation(project(":shared"))
 
     /**
      * Android X

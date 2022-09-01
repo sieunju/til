@@ -12,7 +12,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":shared"))
     implementation(project(":core"))
     implementation(project(":features:core-ui"))
     implementation(project(":features:recyclerview-requirements"))

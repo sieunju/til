@@ -6,8 +6,8 @@ import com.features.core_ui.base.FragmentViewModel
 import com.features.core_ui.livedata.ListLiveData
 import com.features.core_ui.paging.PagingModel
 import com.features.recyclerview.usecase.GetGoodsUseCase
-import com.hmju.core.data.model.goods.GoodsEntity
-import com.hmju.core.data.model.params.GoodsParamMap
+import com.hmju.core.model.goods.GoodsEntity
+import com.hmju.core.model.params.GoodsParamMap
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.addTo

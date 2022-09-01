@@ -1,6 +1,6 @@
 package com.hmju.network.di
 
-import com.hmju.core.data.repository.*
+import com.hmju.core.repository.*
 import com.hmju.network.impl.*
 import dagger.Binds
 import dagger.Module

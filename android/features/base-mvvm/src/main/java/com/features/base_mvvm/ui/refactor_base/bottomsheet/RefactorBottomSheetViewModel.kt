@@ -7,7 +7,7 @@ import com.features.core_ui.base.BottomSheetViewModel
 import com.features.core_ui.lifecycle.OnCreated
 import com.features.core_ui.lifecycle.OnStopped
 import com.features.core_ui.lifecycle.OnViewCreated
-import com.hmju.core.data.model.params.GoodsParamMap
+import com.hmju.core.model.params.GoodsParamMap
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Flowable

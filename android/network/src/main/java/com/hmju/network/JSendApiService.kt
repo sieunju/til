@@ -1,8 +1,8 @@
 package com.hmju.network
 
-import com.hmju.core.data.model.base.*
-import com.hmju.core.data.model.meta.CustomMetaEntity
-import com.hmju.core.data.model.test.JSendTestEntity
+import com.hmju.core.model.base.*
+import com.hmju.core.model.meta.CustomMetaEntity
+import com.hmju.core.model.test.JSendTestEntity
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
 

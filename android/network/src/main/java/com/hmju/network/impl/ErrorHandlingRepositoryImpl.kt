@@ -1,10 +1,10 @@
 package com.hmju.network.impl
 
-import com.hmju.core.data.model.base.JSendListWithMeta
-import com.hmju.core.data.model.meta.CustomMetaEntity
+import com.hmju.core.model.base.JSendListWithMeta
+import com.hmju.core.model.meta.CustomMetaEntity
 import com.hmju.network.ErrorHandlingApiService
 import com.hmju.network.JSendApiService
-import com.hmju.core.data.repository.ErrorHandlingRepository
+import com.hmju.core.repository.ErrorHandlingRepository
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 

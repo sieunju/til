@@ -15,8 +15,8 @@ import com.features.core_ui.entrypoints.SimpleLikeEntryPoint
 import com.features.core_ui.usecase.AddLikeUseCase
 import com.features.core_ui.usecase.RemoveLikeUseCase
 import com.features.core_ui.viewholders.BaseViewHolder
-import com.hmju.core.data.model.body.LikeRequestBody
-import com.hmju.core.data.model.goods.GoodsEntity
+import com.hmju.core.model.body.LikeRequestBody
+import com.hmju.core.model.goods.GoodsEntity
 import com.hmju.core.like_manager.LikeManager
 import com.hmju.core.rxbus.RxBus
 import com.hmju.core.rxbus.SimpleLikeEvent

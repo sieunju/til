@@ -16,7 +16,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":shared"))
 
     /**
      * Kotlinx Serialization

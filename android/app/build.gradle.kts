@@ -35,7 +35,6 @@ android {
 dependencies {
     implementation(project(path = ":network"))
     implementation(project(path = ":core"))
-    implementation(project(path = ":shared"))
     implementation(project(path = ":features:core-ui"))
 
     implementation(project(path = ":features:main"))

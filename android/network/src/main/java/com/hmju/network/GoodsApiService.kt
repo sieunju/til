@@ -1,13 +1,13 @@
 package com.hmju.network
 
-import com.hmju.core.data.model.base.JSendListWithMeta
-import com.hmju.core.data.model.base.JSendObj
-import com.hmju.core.data.model.body.LikeRequestBody
-import com.hmju.core.data.model.goods.GoodsEntity
-import com.hmju.core.data.model.like.LikeEntity
-import com.hmju.core.data.model.meta.CustomMetaEntity
-import com.hmju.core.data.model.params.GoodsParamMap
-import com.hmju.core.data.model.test.TestEntity
+import com.hmju.core.model.base.JSendListWithMeta
+import com.hmju.core.model.base.JSendObj
+import com.hmju.core.model.body.LikeRequestBody
+import com.hmju.core.model.goods.GoodsEntity
+import com.hmju.core.model.like.LikeEntity
+import com.hmju.core.model.meta.CustomMetaEntity
+import com.hmju.core.model.params.GoodsParamMap
+import com.hmju.core.model.test.TestEntity
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.*
 

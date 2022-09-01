@@ -8,7 +8,7 @@ import com.features.core_ui.base.IntentKey
 import com.features.core_ui.lifecycle.OnActivityResult
 import com.features.core_ui.lifecycle.OnCreated
 import com.features.core_ui.lifecycle.OnResumed
-import com.hmju.core.data.model.params.GoodsParamMap
+import com.hmju.core.model.params.GoodsParamMap
 import com.hmju.core.login_manager.LoginManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers

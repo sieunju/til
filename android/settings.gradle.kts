@@ -2,8 +2,7 @@ rootProject.name = "til"
 
 include(
     ":app",
-    ":core",
-    ":shared"
+    ":core"
 )
 include(":rxhandling")
 include(":features:core-ui")

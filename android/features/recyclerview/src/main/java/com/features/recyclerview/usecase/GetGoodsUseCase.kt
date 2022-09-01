@@ -1,8 +1,8 @@
 package com.features.recyclerview.usecase
 
-import com.hmju.core.data.model.goods.GoodsEntity
-import com.hmju.core.data.model.params.GoodsParamMap
-import com.hmju.core.data.repository.GoodsRepository
+import com.hmju.core.model.goods.GoodsEntity
+import com.hmju.core.model.params.GoodsParamMap
+import com.hmju.core.repository.GoodsRepository
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 

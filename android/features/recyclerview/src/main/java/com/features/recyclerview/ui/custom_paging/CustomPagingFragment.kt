@@ -11,7 +11,7 @@ import com.features.recyclerview.R
 import com.features.recyclerview.databinding.FCustomPagingBinding
 import com.features.recyclerview.ui.independent_viewholder.BaseSimpleLikeViewHolder
 import com.features.recyclerview.ui.independent_viewholder.SimpleLike1ViewHolder
-import com.hmju.core.data.model.goods.GoodsEntity
+import com.hmju.core.model.goods.GoodsEntity
 import dagger.hilt.android.AndroidEntryPoint
 
 /**

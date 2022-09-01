@@ -15,7 +15,6 @@ dependencies {
     implementation(project(":features:base-mvvm-requirements"))
 
     implementation(project(":core"))
-    implementation(project(":shared"))
     implementation(project(":features:core-ui"))
 
     /**

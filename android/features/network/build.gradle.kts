@@ -20,7 +20,6 @@ android {
 
 dependencies {
     implementation(project(":core"))
-    implementation(project(":shared"))
     implementation(project(":features:network-requirements"))
     implementation(project(":features:core-ui"))
 

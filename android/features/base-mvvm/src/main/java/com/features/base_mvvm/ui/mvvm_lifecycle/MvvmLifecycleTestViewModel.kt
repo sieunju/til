@@ -10,7 +10,7 @@ import com.features.core_ui.base.ActivityViewModel
 import com.features.core_ui.base.BaseActivity
 import com.features.core_ui.base.IntentKey
 import com.features.core_ui.lifecycle.*
-import com.hmju.core.data.model.params.GoodsParamMap
+import com.hmju.core.model.params.GoodsParamMap
 import com.hmju.core.login_manager.LoginManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.kotlin.addTo

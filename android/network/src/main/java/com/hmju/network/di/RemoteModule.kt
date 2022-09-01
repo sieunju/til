@@ -1,14 +1,14 @@
 package com.hmju.network.di
 
-import com.hmju.core.data.adapter.RxErrorHandlingCallAdapter
-import com.hmju.core.data.interceptor.HeaderInterceptor
-import com.hmju.core.data.interceptor.RefreshTokenInterceptor
-import com.hmju.core.data.interceptor.TokenAuthenticator
-import com.hmju.core.data.qualifiers.ApiHttpClient
-import com.hmju.core.data.qualifiers.HeaderJsonInterceptor
-import com.hmju.core.data.qualifiers.RefreshTokenJsonInterceptor
-import com.hmju.core.data.qualifiers.TokenHttpClient
-import com.hmju.core.data.repository.RefreshTokenRepository
+import com.hmju.network.adapter.RxErrorHandlingCallAdapter
+import com.hmju.network.interceptor.HeaderInterceptor
+import com.hmju.network.interceptor.RefreshTokenInterceptor
+import com.hmju.network.interceptor.TokenAuthenticator
+import com.hmju.network.qualifiers.ApiHttpClient
+import com.hmju.network.qualifiers.HeaderJsonInterceptor
+import com.hmju.network.qualifiers.RefreshTokenJsonInterceptor
+import com.hmju.network.qualifiers.TokenHttpClient
+import com.hmju.core.repository.RefreshTokenRepository
 import com.hmju.core.login_manager.LoginManager
 import com.hmju.network.*
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
