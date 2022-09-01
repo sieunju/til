@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.fragment.app.Fragment
-import com.features.core_ui.base.BaseFragment
-import com.features.core_ui.base.FragmentViewModel
+import com.hmju.core.ui.base.BaseFragment
+import com.hmju.core.ui.base.FragmentViewModel
 import com.features.recyclerview.databinding.FRecyclerviewBinding
 import com.features.recyclerview.ui.custom_paging.CustomPagingFragment
 import com.features.recyclerview.ui.diffutil_performance.DiffUtilPerformanceFragment

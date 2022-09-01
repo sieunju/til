@@ -6,10 +6,10 @@ import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.features.base_mvvm.usecase.GetGoodsUseCase
-import com.features.core_ui.base.ActivityViewModel
-import com.features.core_ui.base.BaseActivity
-import com.features.core_ui.base.IntentKey
-import com.features.core_ui.lifecycle.*
+import com.hmju.core.ui.base.ActivityViewModel
+import com.hmju.core.ui.base.BaseActivity
+import com.hmju.core.ui.base.IntentKey
+import com.hmju.core.ui.lifecycle.*
 import com.hmju.core.model.params.GoodsParamMap
 import com.hmju.core.login_manager.LoginManager
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -5,7 +5,7 @@ import android.view.View
 import com.features.base_mvvm.BR
 import com.features.base_mvvm.R
 import com.features.base_mvvm.databinding.FMvvmLifecycle4Binding
-import com.features.core_ui.base.BaseFragment
+import com.hmju.core.ui.base.BaseFragment
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 

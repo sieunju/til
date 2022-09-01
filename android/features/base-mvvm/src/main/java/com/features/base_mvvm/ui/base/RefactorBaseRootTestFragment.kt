@@ -9,7 +9,7 @@ import com.features.base_mvvm.R
 import com.features.base_mvvm.databinding.FRefactorBaseRootTestBinding
 import com.features.base_mvvm.ui.refactor_base.child.ChildRefactorBlueFragment
 import com.features.base_mvvm.ui.refactor_base.child.ChildRefactorRedFragment
-import com.features.core_ui.base.BaseFragment
+import com.hmju.core.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 /**

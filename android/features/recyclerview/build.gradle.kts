@@ -13,7 +13,6 @@ android {
 
 dependencies {
     implementation(project(":core"))
-    implementation(project(":features:core-ui"))
     implementation(project(":features:recyclerview-requirements"))
 
     /**

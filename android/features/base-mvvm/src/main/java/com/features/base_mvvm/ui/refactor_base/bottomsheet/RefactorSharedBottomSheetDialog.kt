@@ -8,7 +8,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.features.base_mvvm.BR
 import com.features.base_mvvm.R
 import com.features.base_mvvm.databinding.DRefactorBottomSheetBinding
-import com.features.core_ui.base.BaseSharedBottomSheetDialog
+import com.hmju.core.ui.base.BaseSharedBottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 

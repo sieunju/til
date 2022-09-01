@@ -1,9 +1,9 @@
 package com.features.recyclerview.ui.diffutil_refactor
 
-import com.features.core_ui.base.BaseUiModel
-import com.features.core_ui.base.FragmentViewModel
-import com.features.core_ui.livedata.ListLiveData
-import com.features.core_ui.paging.PagingModel
+import com.hmju.core.ui.base.BaseUiModel
+import com.hmju.core.ui.base.FragmentViewModel
+import com.hmju.core.ui.livedata.ListLiveData
+import com.hmju.core.ui.paging.PagingModel
 import com.features.recyclerview.model.GoodsOneUiModel
 import com.features.recyclerview.model.GoodsTwoUiModel
 import com.features.recyclerview.usecase.GetGoodsUseCase

@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import com.features.base_mvvm.BR
 import com.features.base_mvvm.R
 import com.features.base_mvvm.databinding.FMvvmLifecycleBinding
-import com.features.core_ui.base.BaseFragment
+import com.hmju.core.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 

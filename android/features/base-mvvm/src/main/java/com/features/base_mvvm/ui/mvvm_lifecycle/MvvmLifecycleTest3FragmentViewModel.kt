@@ -2,8 +2,8 @@ package com.features.base_mvvm.ui.mvvm_lifecycle
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
-import com.features.core_ui.base.FragmentViewModel
-import com.features.core_ui.lifecycle.OnResumed
+import com.hmju.core.ui.base.FragmentViewModel
+import com.hmju.core.ui.lifecycle.OnResumed
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

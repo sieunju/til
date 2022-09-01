@@ -10,7 +10,7 @@ import com.features.base_mvvm.databinding.FChildRefactorBlueBinding
 import com.features.base_mvvm.ui.base.RefactorBaseRootTestViewModel
 import com.features.base_mvvm.ui.refactor_base.bottomsheet.RefactorBottomSheetDialog
 import com.features.base_mvvm.ui.refactor_base.bottomsheet.RefactorSharedBottomSheetDialog
-import com.features.core_ui.base.BaseFragment
+import com.hmju.core.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 /**

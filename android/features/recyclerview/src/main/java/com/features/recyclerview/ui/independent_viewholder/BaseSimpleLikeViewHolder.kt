@@ -11,10 +11,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.findViewTreeLifecycleOwner
-import com.features.core_ui.entrypoints.SimpleLikeEntryPoint
-import com.features.core_ui.usecase.AddLikeUseCase
-import com.features.core_ui.usecase.RemoveLikeUseCase
-import com.features.core_ui.viewholders.BaseViewHolder
+import com.hmju.core.ui.entrypoints.SimpleLikeEntryPoint
+import com.hmju.core.ui.usecase.AddLikeUseCase
+import com.hmju.core.ui.usecase.RemoveLikeUseCase
+import com.hmju.core.ui.viewholders.BaseViewHolder
 import com.hmju.core.model.body.LikeRequestBody
 import com.hmju.core.model.goods.GoodsEntity
 import com.hmju.core.like_manager.LikeManager

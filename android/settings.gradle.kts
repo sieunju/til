@@ -5,7 +5,6 @@ include(
     ":core"
 )
 include(":rxhandling")
-include(":features:core-ui")
 include(":features:network")
 include(":features:network-requirements")
 include(":features:recyclerview")

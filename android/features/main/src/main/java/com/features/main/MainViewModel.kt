@@ -1,9 +1,9 @@
 package com.features.main
 
 import com.features.base_mvvm_requirements.BaseMvvmRequirements
-import com.features.core_ui.base.ActivityViewModel
-import com.features.core_ui.lifecycle.OnCreated
-import com.features.core_ui.lifecycle.OnIntent
+import com.hmju.core.ui.base.ActivityViewModel
+import com.hmju.core.ui.lifecycle.OnCreated
+import com.hmju.core.ui.lifecycle.OnIntent
 import com.features.network_requirements.NetworkRequirements
 import com.features.recyclerview_requirements.RecyclerViewRequirements
 import com.hmju.core.login_manager.LoginManager

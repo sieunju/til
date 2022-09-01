@@ -21,7 +21,6 @@ dependencies {
     androidTestImplementation(project(":core"))
     androidTestImplementation(project(":features:base-mvvm"))
     androidTestImplementation(project(":features:base-mvvm-requirements"))
-    androidTestImplementation(project(":features:core-ui"))
     androidTestImplementation(project(":features:main"))
     androidTestImplementation(project(":features:network"))
     androidTestImplementation(project(":features:network-requirements"))

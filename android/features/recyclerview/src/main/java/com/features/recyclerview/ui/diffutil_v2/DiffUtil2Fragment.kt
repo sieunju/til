@@ -2,7 +2,7 @@ package com.features.recyclerview.ui.diffutil_v2
 
 import android.os.Bundle
 import android.view.View
-import com.features.core_ui.base.BaseFragment
+import com.hmju.core.ui.base.BaseFragment
 import com.features.recyclerview.BR
 import com.features.recyclerview.R
 import com.features.recyclerview.adapter.ItemListAdapter

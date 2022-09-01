@@ -1,6 +1,6 @@
 package com.features.recyclerview.ui.diffutil_performance
 
-import com.features.core_ui.base.FragmentViewModel
+import com.hmju.core.ui.base.FragmentViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

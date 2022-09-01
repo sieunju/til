@@ -1,8 +1,8 @@
 package com.features.base_mvvm.ui.refactor_base.child
 
 import androidx.lifecycle.MutableLiveData
-import com.features.core_ui.base.FragmentViewModel
-import com.features.core_ui.lifecycle.OnCreated
+import com.hmju.core.ui.base.FragmentViewModel
+import com.hmju.core.ui.lifecycle.OnCreated
 import dagger.hilt.android.lifecycle.HiltViewModel
 import timber.log.Timber
 import javax.inject.Inject
