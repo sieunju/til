@@ -1,6 +1,6 @@
 package com.features.network.ui.error_handling
 
-import com.features.core_ui.base.BaseFragment
+import com.hmju.core.ui.base.BaseFragment
 import com.features.network.BR
 import com.features.network.R
 import com.features.network.databinding.FErrorHandlingBinding

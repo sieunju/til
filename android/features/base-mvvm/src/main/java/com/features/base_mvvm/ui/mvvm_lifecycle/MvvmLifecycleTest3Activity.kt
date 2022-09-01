@@ -5,7 +5,7 @@ import androidx.activity.viewModels
 import com.features.base_mvvm.BR
 import com.features.base_mvvm.R
 import com.features.base_mvvm.databinding.ActivityMvvmLifecycleTest3Binding
-import com.features.core_ui.base.BaseActivity
+import com.hmju.core.ui.base.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -3,12 +3,12 @@ package com.features.recyclerview.adapter
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.features.core_ui.viewholders.BaseViewHolder
+import com.hmju.core.ui.viewholders.BaseViewHolder
 import com.features.recyclerview.R
 import com.features.recyclerview.diffutil.DiffUtilV2
 import com.features.recyclerview.ui.independent_viewholder.SimpleLike1ViewHolder
 import com.features.recyclerview.ui.independent_viewholder.SimpleLike2ViewHolder
-import com.features.core_ui.base.BaseUiModel
+import com.hmju.core.ui.base.BaseUiModel
 
 /**
  * Description : DiffUtil2 Adapter

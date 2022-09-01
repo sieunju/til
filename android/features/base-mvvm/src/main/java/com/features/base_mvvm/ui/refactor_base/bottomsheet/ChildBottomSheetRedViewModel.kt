@@ -3,9 +3,9 @@ package com.features.base_mvvm.ui.refactor_base.bottomsheet
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.features.base_mvvm.usecase.GetGoodsUseCase
-import com.features.core_ui.base.FragmentViewModel
-import com.features.core_ui.lifecycle.OnViewCreated
-import com.hmju.core.data.model.params.GoodsParamMap
+import com.hmju.core.ui.base.FragmentViewModel
+import com.hmju.core.ui.lifecycle.OnViewCreated
+import com.hmju.core.model.params.GoodsParamMap
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.addTo

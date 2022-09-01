@@ -3,12 +3,12 @@ package com.features.network.ui.expired_token
 import android.os.Bundle
 import android.view.View
 import androidx.databinding.DataBindingUtil
-import com.features.core_ui.base.BaseFragment
+import com.hmju.core.ui.base.BaseFragment
 import com.features.network.BR
 import com.features.network.R
 import com.features.network.databinding.FRefreshTokenBinding
 import com.features.network.usecase.*
-import com.hmju.shared.login_manager.LoginManager
+import com.hmju.core.login_manager.LoginManager
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Flowable

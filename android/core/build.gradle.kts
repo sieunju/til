@@ -16,7 +16,27 @@ android {
 }
 
 dependencies {
-    implementation(project(":shared"))
+
+    /**
+     * Android X
+     */
+    implementation(AndroidX.ktx)
+    implementation(AndroidX.appCompat)
+    implementation(AndroidX.constraintLayout)
+    implementation(AndroidX.recyclerView)
+    implementation(AndroidX.lifecycle)
+    implementation(AndroidX.material)
+    implementation(AndroidX.cardView)
+    implementation(AndroidX.viewModel)
+    implementation(AndroidX.fragment)
+
+    /**
+     * Glide
+     */
+    implementation(Glide.base)
+    implementation(Glide.compiler)
+    implementation(Glide.okhttp)
+    kapt(Glide.compiler)
 
     /**
      * Kotlinx Serialization
@@ -37,6 +57,7 @@ dependencies {
      */
     implementation(Rx.java)
     implementation(Rx.kotlin)
+    implementation(Rx.android)
 
     /**
      * Hilt

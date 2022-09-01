@@ -1,12 +1,12 @@
 package com.features.main
 
-import com.features.base_mvvm_requirements.BaseMvvmRequirements
-import com.features.core_ui.base.ActivityViewModel
-import com.features.core_ui.lifecycle.OnCreated
-import com.features.core_ui.lifecycle.OnIntent
-import com.features.network_requirements.NetworkRequirements
-import com.features.recyclerview_requirements.RecyclerViewRequirements
-import com.hmju.shared.login_manager.LoginManager
+import com.features.base_mvvm_bridge.BaseMvvmBridge
+import com.hmju.core.ui.base.ActivityViewModel
+import com.hmju.core.ui.lifecycle.OnCreated
+import com.hmju.core.ui.lifecycle.OnIntent
+import com.features.network_bridge.NetworkBridge
+import com.features.recyclerview_bridge.RecyclerViewBridge
+import com.hmju.core.login_manager.LoginManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.kotlin.addTo
@@ -22,9 +22,9 @@ import kotlin.random.Random
  */
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val networkRequirements: NetworkRequirements,
-    private val recyclerViewRequirements: RecyclerViewRequirements,
-    private val mvvmRequirements: BaseMvvmRequirements,
+    private val networkRequirements: NetworkBridge,
+    private val recyclerViewBridge: RecyclerViewBridge,
+    private val mvvmRequirements: BaseMvvmBridge,
     private val loginManager: LoginManager,
 ) : ActivityViewModel() {
 
@@ -53,7 +53,7 @@ class MainViewModel @Inject constructor(
     }
 
     fun moveToRecyclerViewPage() {
-        recyclerViewRequirements.moveToRecyclerViewPage()
+        recyclerViewBridge.moveToRecyclerViewPage()
     }
 
     fun moveToMvvmLifecyclePage() {

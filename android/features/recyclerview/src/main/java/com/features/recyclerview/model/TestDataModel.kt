@@ -1,7 +1,7 @@
 package com.features.recyclerview.model
 
 import kotlin.random.Random
-import com.features.core_ui.base.BaseUiModel
+import com.hmju.core.ui.base.BaseUiModel
 
 data class Model1(val id: Long = Random.nextLong()) : BaseUiModel(-1) {
     override fun getClassName() = "Model1"

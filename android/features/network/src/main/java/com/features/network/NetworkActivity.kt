@@ -1,9 +1,9 @@
 package com.features.network
 
 import android.os.Bundle
-import com.features.core_ui.base.ActivityViewModel
-import com.features.core_ui.base.BaseActivity
 import com.features.network.databinding.ActivityNetworkBinding
+import com.hmju.core.ui.base.ActivityViewModel
+import com.hmju.core.ui.base.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -12,11 +12,9 @@ android {
 }
 
 dependencies {
-    implementation(project(":features:base-mvvm-requirements"))
 
+    implementation(project(":features:base-mvvm-bridge"))
     implementation(project(":core"))
-    implementation(project(":shared"))
-    implementation(project(":features:core-ui"))
 
     /**
      * Android X

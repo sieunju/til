@@ -13,9 +13,7 @@ android {
 
 dependencies {
     implementation(project(":core"))
-    implementation(project(":shared"))
-    implementation(project(":features:core-ui"))
-    implementation(project(":features:recyclerview-requirements"))
+    implementation(project(":features:recyclerview-bridge"))
 
     /**
      * Android X

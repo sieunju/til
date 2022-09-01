@@ -2,7 +2,7 @@ package com.features.network.ui.json_jsend
 
 import android.os.Bundle
 import android.view.View
-import com.features.core_ui.base.BaseFragment
+import com.hmju.core.ui.base.BaseFragment
 import com.features.network.BR
 import com.features.network.R
 import com.features.network.databinding.FJsonJsendBinding

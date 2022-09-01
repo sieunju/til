@@ -2,12 +2,12 @@ package com.features.base_mvvm.ui.mvvm_lifecycle
 
 import androidx.lifecycle.SavedStateHandle
 import com.features.base_mvvm.usecase.GetGoodsUseCase
-import com.features.core_ui.base.ActivityViewModel
-import com.features.core_ui.lifecycle.OnCreated
-import com.features.core_ui.lifecycle.OnResumed
-import com.features.core_ui.lifecycle.OnStopped
-import com.hmju.core.data.model.params.GoodsParamMap
-import com.hmju.shared.login_manager.LoginManager
+import com.hmju.core.ui.base.ActivityViewModel
+import com.hmju.core.ui.lifecycle.OnCreated
+import com.hmju.core.ui.lifecycle.OnResumed
+import com.hmju.core.ui.lifecycle.OnStopped
+import com.hmju.core.model.params.GoodsParamMap
+import com.hmju.core.login_manager.LoginManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import timber.log.Timber

@@ -33,17 +33,16 @@ android {
 }
 
 dependencies {
-    implementation(project(path = ":core"))
-    implementation(project(path = ":shared"))
-    implementation(project(path = ":features:core-ui"))
+    implementation(project(":network"))
+    implementation(project(":core"))
 
-    implementation(project(path = ":features:main"))
-    implementation(project(path = ":features:network-requirements"))
-    implementation(project(path = ":features:network"))
-    implementation(project(path = ":features:recyclerview-requirements"))
-    implementation(project(path = ":features:recyclerview"))
-    implementation(project(path = ":features:base-mvvm-requirements"))
-    implementation(project(path = ":features:base-mvvm"))
+    implementation(project(":features:main"))
+    implementation(project(":features:network-bridge"))
+    implementation(project(":features:network"))
+    implementation(project(":features:recyclerview-bridge"))
+    implementation(project(":features:recyclerview"))
+    implementation(project(":features:base-mvvm-bridge"))
+    implementation(project(":features:base-mvvm"))
 
     /**
      * Network
