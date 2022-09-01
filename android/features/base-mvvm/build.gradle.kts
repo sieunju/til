@@ -12,8 +12,8 @@ android {
 }
 
 dependencies {
-    implementation(project(":features:base-mvvm-requirements"))
 
+    implementation(project(":features:base-mvvm-bridge"))
     implementation(project(":core"))
 
     /**

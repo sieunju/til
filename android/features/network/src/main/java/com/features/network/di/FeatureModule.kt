@@ -1,7 +1,7 @@
 package com.features.network.di
 
-import com.features.network.impl.NetworkRequirementsImpl
-import com.features.network_requirements.NetworkRequirements
+import com.features.network.impl.NetworkBridgeImpl
+import com.features.network_bridge.NetworkBridge
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -18,5 +18,5 @@ import javax.inject.Singleton
 internal abstract class FeatureModule {
     @Singleton
     @Binds
-    abstract fun bindNetworkRequirements(requirements: NetworkRequirementsImpl): NetworkRequirements
+    abstract fun bindNetworkRequirements(requirements: NetworkBridgeImpl): NetworkBridge
 }

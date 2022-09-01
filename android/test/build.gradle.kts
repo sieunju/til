@@ -20,12 +20,12 @@ android {
 dependencies {
     androidTestImplementation(project(":core"))
     androidTestImplementation(project(":features:base-mvvm"))
-    androidTestImplementation(project(":features:base-mvvm-requirements"))
+    androidTestImplementation(project(":features:base-mvvm-bridge"))
     androidTestImplementation(project(":features:main"))
     androidTestImplementation(project(":features:network"))
-    androidTestImplementation(project(":features:network-requirements"))
+    androidTestImplementation(project(":features:network-bridge"))
     androidTestImplementation(project(":features:recyclerview"))
-    androidTestImplementation(project(":features:recyclerview-requirements"))
+    androidTestImplementation(project(":features:recyclerview-bridge"))
 
     /**
      * Android X

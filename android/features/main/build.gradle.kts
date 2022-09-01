@@ -13,9 +13,9 @@ android {
 
 dependencies {
     implementation(project(":core"))
-    implementation(project(":features:recyclerview-requirements"))
-    implementation(project(":features:network-requirements"))
-    implementation(project(":features:base-mvvm-requirements"))
+    implementation(project(":features:recyclerview-bridge"))
+    implementation(project(":features:network-bridge"))
+    implementation(project(":features:base-mvvm-bridge"))
 
     /**
      * Android X

@@ -1,7 +1,7 @@
 package com.features.base_mvvm.di
 
-import com.features.base_mvvm.impl.BaseMvvmRequirementsImpl
-import com.features.base_mvvm_requirements.BaseMvvmRequirements
+import com.features.base_mvvm.impl.BaseMvvmBridgeImpl
+import com.features.base_mvvm_bridge.BaseMvvmBridge
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -18,5 +18,5 @@ import javax.inject.Singleton
 internal abstract class FeatureModule {
     @Singleton
     @Binds
-    abstract fun bindMvvmRequirements(requirements: BaseMvvmRequirementsImpl): BaseMvvmRequirements
+    abstract fun bindMvvmRequirements(requirements: BaseMvvmBridgeImpl): BaseMvvmBridge
 }

@@ -1,10 +1,10 @@
-package com.features.recyclerview_requirements
+package com.features.recyclerview_bridge
 
 /**
  * Description : RecyclerView Ui Feature Interface
  *
  * Created by juhongmin on 2022/07/23
  */
-interface RecyclerViewRequirements {
+interface RecyclerViewBridge {
     fun moveToRecyclerViewPage()
 }

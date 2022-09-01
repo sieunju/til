@@ -13,7 +13,7 @@ android {
 
 dependencies {
     implementation(project(":core"))
-    implementation(project(":features:recyclerview-requirements"))
+    implementation(project(":features:recyclerview-bridge"))
 
     /**
      * Android X

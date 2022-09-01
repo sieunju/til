@@ -20,7 +20,7 @@ android {
 
 dependencies {
     implementation(project(":core"))
-    implementation(project(":features:network-requirements"))
+    implementation(project(":features:network-bridge"))
 
     /**
      * Android X

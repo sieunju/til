@@ -3,7 +3,7 @@ package com.features.base_mvvm.impl
 import android.content.Context
 import android.content.Intent
 import com.features.base_mvvm.RefactorBaseTestActivity
-import com.features.base_mvvm_requirements.BaseMvvmRequirements
+import com.features.base_mvvm_bridge.BaseMvvmBridge
 import com.hmju.core.ui.base.IntentKey
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -13,9 +13,9 @@ import javax.inject.Inject
  *
  * Created by juhongmin on 2022/07/24
  */
-internal class BaseMvvmRequirementsImpl @Inject constructor(
+internal class BaseMvvmBridgeImpl @Inject constructor(
     @ApplicationContext private val context: Context
-) : BaseMvvmRequirements {
+) : BaseMvvmBridge {
     override fun moveToBaseMvvm() {
         Intent(context, RefactorBaseTestActivity::class.java).apply {
             putExtra(IntentKey.TOKEN, "randomToken")
