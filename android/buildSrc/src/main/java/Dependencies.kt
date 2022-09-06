@@ -72,10 +72,9 @@ object Log {
     const val timber = "com.jakewharton.timber:timber:5.0.1"
 }
 
-object Libs {
-    const val binding = "com.github.kirich1409:viewbindingpropertydelegate:1.5.3"
-    const val bindingReflection = "com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.3"
-    const val httpTracking = "com.github.sieunju:httptracking:1.0.11-beta03"
+object HttpTracking {
+    const val interceptor = "com.github.sieunju.httptracking:interceptor:1.0.12-alpha06"
+    const val ui = "com.github.sieunju.httptracking:ui:1.0.12-alpha06"
 }
 
 object UnitTest {

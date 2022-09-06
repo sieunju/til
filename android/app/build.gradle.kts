@@ -89,7 +89,7 @@ dependencies {
     /**
      * HttpTracking
      */
-    implementation(Libs.httpTracking)
+    implementation(HttpTracking.ui)
 
     androidTestImplementation(UnitTest.runner)
     androidTestImplementation(UnitTest.junit)

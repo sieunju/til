@@ -44,6 +44,11 @@ dependencies {
     kapt(Hilt.compiler)
 
     /**
+     * HttpTracking
+     */
+    implementation(HttpTracking.interceptor)
+
+    /**
      * Unit Test
      */
     testImplementation(UnitTest.junit)

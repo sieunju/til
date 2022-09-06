@@ -4,13 +4,11 @@ import com.hmju.network.adapter.RxErrorHandlingCallAdapter
 import com.hmju.network.interceptor.HeaderInterceptor
 import com.hmju.network.interceptor.RefreshTokenInterceptor
 import com.hmju.network.interceptor.TokenAuthenticator
-import com.hmju.network.qualifiers.ApiHttpClient
-import com.hmju.network.qualifiers.HeaderJsonInterceptor
-import com.hmju.network.qualifiers.RefreshTokenJsonInterceptor
-import com.hmju.network.qualifiers.TokenHttpClient
 import com.hmju.core.repository.RefreshTokenRepository
 import com.hmju.core.login_manager.LoginManager
 import com.hmju.network.*
+import com.hmju.network.qualifiers.*
+import com.http.tracking_interceptor.TrackingHttpInterceptor
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
@@ -57,21 +55,23 @@ internal object RemoteModule {
     @RefreshTokenJsonInterceptor
     fun provideRefreshTokenInterceptor(): Interceptor = RefreshTokenInterceptor()
 
-//    @Singleton
-//    @Provides
-//    @TrackingInterceptor
-//    fun provideTrackingInterceptor(): Interceptor = TrackingHttpInterceptor()
+    @Singleton
+    @Provides
+    @TrackingInterceptor
+    fun provideTrackingInterceptor(): Interceptor = TrackingHttpInterceptor()
 
     @Singleton
     @Provides
     @TokenHttpClient
     fun provideTokenHttpClient(
-        @RefreshTokenJsonInterceptor headerInterceptor: Interceptor
+        @RefreshTokenJsonInterceptor headerInterceptor: Interceptor,
+        @TrackingInterceptor trackingInterceptor: Interceptor
     ): OkHttpClient = OkHttpClient.Builder().apply {
         retryOnConnectionFailure(true)
         connectTimeout(NetworkConfig.CONNECT_TIME_OUT, TimeUnit.MILLISECONDS)
         readTimeout(NetworkConfig.READ_TIME_OUT, TimeUnit.MILLISECONDS)
         writeTimeout(NetworkConfig.WRITE_TIME_OUT, TimeUnit.MILLISECONDS)
+        addInterceptor(trackingInterceptor)
         addInterceptor(headerInterceptor)
     }.build()
 
@@ -100,12 +100,14 @@ internal object RemoteModule {
     @ApiHttpClient
     fun provideHttpClient(
         @HeaderJsonInterceptor headerInterceptor: Interceptor,
+        @TrackingInterceptor trackingInterceptor: Interceptor,
         tokenAuthenticator: Authenticator
     ): OkHttpClient = OkHttpClient.Builder().apply {
         retryOnConnectionFailure(true)
         connectTimeout(NetworkConfig.CONNECT_TIME_OUT, TimeUnit.MILLISECONDS)
         readTimeout(NetworkConfig.READ_TIME_OUT, TimeUnit.MILLISECONDS)
         writeTimeout(NetworkConfig.WRITE_TIME_OUT, TimeUnit.MILLISECONDS)
+        addInterceptor(trackingInterceptor)
         addInterceptor(headerInterceptor)
         authenticator(tokenAuthenticator)
     }.build()
