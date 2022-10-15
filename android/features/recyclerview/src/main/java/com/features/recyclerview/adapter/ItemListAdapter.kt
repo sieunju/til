@@ -3,12 +3,15 @@ package com.features.recyclerview.adapter
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.hmju.core.ui.base.BaseUiModel
-import com.hmju.core.ui.viewholders.BaseViewHolder
 import com.features.recyclerview.R
 import com.features.recyclerview.diffutil.DiffUtilV2
 import com.features.recyclerview.ui.independent_viewholder.SimpleLike1ViewHolder
 import com.features.recyclerview.ui.independent_viewholder.SimpleLike2ViewHolder
+import com.hmju.core.ui.base.BaseUiModel
+import com.hmju.core.ui.base.BaseViewModel
+import com.hmju.core.ui.viewholders.BaseViewHolder
+import timber.log.Timber
+import java.util.concurrent.ConcurrentHashMap
 
 /**
  * Description : TIL 공통 아이템 리스트 어댑터 클래스
@@ -18,6 +21,10 @@ import com.features.recyclerview.ui.independent_viewholder.SimpleLike2ViewHolder
 class ItemListAdapter : RecyclerView.Adapter<BaseViewHolder<*>>() {
 
     private val dataList: MutableList<BaseUiModel> by lazy { mutableListOf() }
+    private val viewTypeMap: ConcurrentHashMap<Int, BaseUiModel> by lazy { ConcurrentHashMap() }
+
+    private var viewModel: BaseViewModel? = null
+    private var targetView: ViewGroup? = null
 
     /**
      * 데이터가 변경되었을때 이전 데이터들 비교하여 갱신 처리 함수
@@ -28,13 +35,24 @@ class ItemListAdapter : RecyclerView.Adapter<BaseViewHolder<*>>() {
     ) {
         if (newList == null) return
         val diffResult = DiffUtil.calculateDiff(DiffUtilV2(dataList, newList))
+        performViewTypeMap(newList)
         dataList.clear()
         dataList.addAll(newList)
         diffResult.dispatchUpdatesTo(this)
     }
 
+    private fun performViewTypeMap(newList: List<BaseUiModel>) {
+        newList.forEach { model ->
+            if (!viewTypeMap.contains(model.layoutId)) {
+                viewTypeMap[model.layoutId] = model
+            }
+        }
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
-        return getViewHolder(parent, viewType)
+        val viewTypeModel = viewTypeMap[viewType]
+            ?: throw IllegalArgumentException("Invalid View Type $viewType")
+        return viewTypeModel.createViewHolder(parent, viewModel, targetView)
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder<*>, pos: Int) {

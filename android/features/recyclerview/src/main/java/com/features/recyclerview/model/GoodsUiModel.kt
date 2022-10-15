@@ -1,8 +1,13 @@
 package com.features.recyclerview.model
 
+import android.view.ViewGroup
+import androidx.lifecycle.ViewModel
 import com.hmju.core.ui.base.BaseUiModel
 import com.features.recyclerview.R
+import com.features.recyclerview.ui.independent_viewholder.SimpleLike1ViewHolder
+import com.features.recyclerview.ui.independent_viewholder.SimpleLike2ViewHolder
 import com.hmju.core.model.goods.GoodsEntity
+import com.hmju.core.ui.viewholders.BaseViewHolder
 
 /**
  * Description :
@@ -30,6 +35,10 @@ data class GoodsOneUiModel(
             false
         }
     }
+
+    override fun createViewHolder(viewGroup: ViewGroup, vararg objs: Any?): BaseViewHolder<*> {
+        return SimpleLike1ViewHolder(viewGroup)
+    }
 }
 
 data class GoodsTwoUiModel(
@@ -52,5 +61,9 @@ data class GoodsTwoUiModel(
         } else {
             false
         }
+    }
+
+    override fun createViewHolder(viewGroup: ViewGroup, vararg objs: Any?): BaseViewHolder<*> {
+        return SimpleLike2ViewHolder(viewGroup)
     }
 }
