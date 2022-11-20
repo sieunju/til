@@ -1,8 +1,8 @@
 package com.hmju.core.ui.base
 
-import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import com.hmju.core.ui.viewholders.BaseViewHolder
+import kotlin.reflect.KClass
 
 abstract class BaseUiModel(@LayoutRes val layoutId: Int) {
 
@@ -12,7 +12,7 @@ abstract class BaseUiModel(@LayoutRes val layoutId: Int) {
 
     abstract fun areContentsTheSame(diffItem: Any): Boolean
 
-    open fun createViewHolder(viewGroup: ViewGroup,vararg objs: Any?) : BaseViewHolder<*> {
+    open fun getClassType(): KClass<out BaseViewHolder<*>> {
         throw IllegalArgumentException("Invalid ViewHolder")
     }
 }

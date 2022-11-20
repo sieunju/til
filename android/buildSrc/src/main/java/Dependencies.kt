@@ -33,6 +33,7 @@ object AndroidX {
 
 object Kotlin {
     const val stdLib = "org.jetbrains.kotlin:kotlin-stdlib:1.6.10"
+    const val reflect = "org.jetbrains.kotlin:kotlin-reflect:1.6.10"
 }
 
 object Javax {

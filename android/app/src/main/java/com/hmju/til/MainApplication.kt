@@ -67,14 +67,24 @@ open class MainApplication : MultiDexApplication() {
         Timber.plant(object : Timber.DebugTree() {
 
             override fun createStackElementTag(element: StackTraceElement): String {
-                return "Timber_${super.createStackElementTag(element)}"
-                // return "Timber_${element.methodName.substringBeforeLast(".")}"
+                val str = StringBuilder("Timber_")
+                try {
+                    str.append(
+                        element.className
+                            .substringAfterLast(".")
+                            .substringBefore("$")
+                    )
+                    str.append(":")
+                    str.append(element.methodName.substringAfterLast("."))
+                } catch (ex: Exception) {
+                }
+                return str.toString()
             }
         })
 //        }
     }
 
-    private fun initTracking(){
+    private fun initTracking() {
         TrackingManager.getInstance()
             .setBuildType(true)
             .build(this)

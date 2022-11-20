@@ -1,13 +1,12 @@
 package com.features.recyclerview.model
 
-import android.view.ViewGroup
-import androidx.lifecycle.ViewModel
-import com.hmju.core.ui.base.BaseUiModel
 import com.features.recyclerview.R
 import com.features.recyclerview.ui.independent_viewholder.SimpleLike1ViewHolder
 import com.features.recyclerview.ui.independent_viewholder.SimpleLike2ViewHolder
 import com.hmju.core.model.goods.GoodsEntity
+import com.hmju.core.ui.base.BaseUiModel
 import com.hmju.core.ui.viewholders.BaseViewHolder
+import kotlin.reflect.KClass
 
 /**
  * Description :
@@ -36,8 +35,20 @@ data class GoodsOneUiModel(
         }
     }
 
-    override fun createViewHolder(viewGroup: ViewGroup, vararg objs: Any?): BaseViewHolder<*> {
-        return SimpleLike1ViewHolder(viewGroup)
+    override fun getClassType(): KClass<out BaseViewHolder<*>> {
+        return SimpleLike1ViewHolder::class
+    }
+
+    private fun ggg() {
+
+    }
+
+    private fun hhh() {
+
+    }
+
+    private fun asdf() {
+
     }
 }
 
@@ -63,7 +74,7 @@ data class GoodsTwoUiModel(
         }
     }
 
-    override fun createViewHolder(viewGroup: ViewGroup, vararg objs: Any?): BaseViewHolder<*> {
-        return SimpleLike2ViewHolder(viewGroup)
+    override fun getClassType(): KClass<out BaseViewHolder<*>> {
+        return SimpleLike2ViewHolder::class
     }
 }

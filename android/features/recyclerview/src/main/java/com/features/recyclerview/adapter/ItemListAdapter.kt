@@ -12,6 +12,9 @@ import com.hmju.core.ui.base.BaseViewModel
 import com.hmju.core.ui.viewholders.BaseViewHolder
 import timber.log.Timber
 import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.ConcurrentMap
+import kotlin.reflect.KClass
+import kotlin.reflect.full.primaryConstructor
 
 /**
  * Description : TIL 공통 아이템 리스트 어댑터 클래스
@@ -21,7 +24,11 @@ import java.util.concurrent.ConcurrentHashMap
 class ItemListAdapter : RecyclerView.Adapter<BaseViewHolder<*>>() {
 
     private val dataList: MutableList<BaseUiModel> by lazy { mutableListOf() }
-    private val viewTypeMap: ConcurrentHashMap<Int, BaseUiModel> by lazy { ConcurrentHashMap() }
+
+    companion object {
+        private val viewTypeMap: ConcurrentMap<Int, KClass<out BaseViewHolder<*>>> =
+            ConcurrentHashMap()
+    }
 
     private var viewModel: BaseViewModel? = null
     private var targetView: ViewGroup? = null
@@ -44,15 +51,29 @@ class ItemListAdapter : RecyclerView.Adapter<BaseViewHolder<*>>() {
     private fun performViewTypeMap(newList: List<BaseUiModel>) {
         newList.forEach { model ->
             if (!viewTypeMap.contains(model.layoutId)) {
-                viewTypeMap[model.layoutId] = model
+                viewTypeMap[model.layoutId] = model.getClassType()
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
-        val viewTypeModel = viewTypeMap[viewType]
+        return try {
+            performCreateViewHolder(parent, viewType)
+        } catch (ex: IllegalArgumentException) {
+            Timber.d("여길 타나요?? $ex")
+            getViewHolder(parent, viewType)
+        }
+    }
+
+    private fun performCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
+        val findConstructor = viewTypeMap[viewType]?.primaryConstructor
             ?: throw IllegalArgumentException("Invalid View Type $viewType")
-        return viewTypeModel.createViewHolder(parent, viewModel, targetView)
+        Timber.d("CreateViewHolder ${findConstructor.parameters.size}")
+        return if (findConstructor.parameters.size > 1) {
+            findConstructor.call(parent, viewModel)
+        } else {
+            findConstructor.call(parent)
+        }
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder<*>, pos: Int) {

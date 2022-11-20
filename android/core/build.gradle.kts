@@ -71,6 +71,11 @@ dependencies {
     implementation(Log.timber)
 
     /**
+     * Kotlin
+     */
+    implementation(Kotlin.reflect)
+
+    /**
      * Unit Test
      */
     testImplementation(UnitTest.junit)
