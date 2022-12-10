@@ -28,12 +28,6 @@ class DiffUtilV2(
     override fun areItemsTheSame(oldPos: Int, newPos: Int): Boolean {
         val oldItem = oldList[oldPos]
         val newItem = newList[newPos]
-        // Enum 방식
-        /*putDiffMap(oldItem, newItem)
-        val diffEnum = diffEnumMap[oldItem.getClassName()]
-        return diffEnum?.areItemsTheSame?.invoke(oldItem, newItem) ?: false*/
-
-        // BaseUiModel abstract 방식
         return if (oldItem.getClassName() == newItem.getClassName()) {
             oldItem.areItemsTheSame(newItem)
         } else {
@@ -44,12 +38,6 @@ class DiffUtilV2(
     override fun areContentsTheSame(oldPos: Int, newPos: Int): Boolean {
         val oldItem = oldList[oldPos]
         val newItem = newList[newPos]
-        // Enum 방식
-        /*putDiffMap(oldItem, newItem)
-        val diffEnum = diffEnumMap[oldItem.getClassName()]
-        return diffEnum?.areContentsTheSame?.invoke(oldItem, newItem) ?: false*/
-
-        // BaseUiModel abstract 방식
         return if (oldItem.getClassName() == newItem.getClassName()) {
             oldItem.areContentsTheSame(newItem)
         } else {
