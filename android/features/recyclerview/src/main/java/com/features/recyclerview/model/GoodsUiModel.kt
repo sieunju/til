@@ -35,7 +35,7 @@ data class GoodsOneUiModel(
         }
     }
 
-    override fun getClassType(): KClass<out BaseViewHolder<*>> {
+    override fun getViewHolderType(): KClass<out BaseViewHolder<*>> {
         return SimpleLike1ViewHolder::class
     }
 
@@ -74,7 +74,7 @@ data class GoodsTwoUiModel(
         }
     }
 
-    override fun getClassType(): KClass<out BaseViewHolder<*>> {
+    override fun getViewHolderType(): KClass<out BaseViewHolder<*>> {
         return SimpleLike2ViewHolder::class
     }
 }

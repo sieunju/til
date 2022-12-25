@@ -79,3 +79,7 @@
 # for DexGuard only Error
 #-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
 # [e] Glide Proguard ==============================================================================
+
+# [s] ItemListAdapter 에서 자동으로 ViewHolder Constructor 하기위한 선언문
+-keep class * extends com.hmju.core.ui.viewholders.BaseViewHolder { <init>();*;}
+# [e] ItemListAdapter 에서 자동으로 ViewHolder Constructor 하기위한 선언문

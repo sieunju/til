@@ -26,7 +26,7 @@ class ItemListAdapter : RecyclerView.Adapter<BaseViewHolder<*>>() {
     private val dataList: MutableList<BaseUiModel> by lazy { mutableListOf() }
 
     companion object {
-        private val viewTypeMap: ConcurrentMap<Int, KClass<out BaseViewHolder<*>>> =
+        private val viewHolderTypeMap: ConcurrentMap<Int, KClass<out BaseViewHolder<*>>> =
             ConcurrentHashMap()
     }
 
@@ -50,29 +50,41 @@ class ItemListAdapter : RecyclerView.Adapter<BaseViewHolder<*>>() {
 
     private fun performViewTypeMap(newList: List<BaseUiModel>) {
         newList.forEach { model ->
-            if (!viewTypeMap.contains(model.layoutId)) {
-                viewTypeMap[model.layoutId] = model.getClassType()
+            if (!viewHolderTypeMap.contains(model.layoutId)) {
+                viewHolderTypeMap[model.layoutId] = model.getViewHolderType()
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
         return try {
-            performCreateViewHolder(parent, viewType)
+            getViewHolderType(parent, viewType)
         } catch (ex: IllegalArgumentException) {
             Timber.d("여길 타나요?? $ex")
-            getViewHolder(parent, viewType)
+            getLegacyViewHolder(parent, viewType)
         }
     }
 
-    private fun performCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
-        val findConstructor = viewTypeMap[viewType]?.primaryConstructor
-            ?: throw IllegalArgumentException("Invalid View Type $viewType")
-        Timber.d("CreateViewHolder ${findConstructor.parameters.size}")
-        return if (findConstructor.parameters.size > 1) {
-            findConstructor.call(parent, viewModel)
-        } else {
+    /**
+     * Map 에 저장된 ViewHolderClass 를 리턴하는 함수
+     *
+     * @param parent ViewGroup
+     * @param viewType getItemViewType
+     * @return BaseViewHolderV2
+     * @exception NullPointerException viewHolderTypeMap 에 없는 타입인 경우
+     * @exception IllegalArgumentException 해당 클래스의 생성자를 못찾았을때
+     */
+    private fun getViewHolderType(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
+        val viewHolderType = viewHolderTypeMap[viewType]
+            ?: throw NullPointerException("ViewHolderMap Not Found")
+        val findConstructor = viewHolderType.primaryConstructor
+            ?: throw IllegalArgumentException("Not Found PrimaryConstructor")
+        return if (findConstructor.parameters.size == 1) {
+            // Parent Type
             findConstructor.call(parent)
+        } else {
+            // Parent, ViewModel Type
+            findConstructor.call(parent, viewModel)
         }
     }
 
@@ -106,7 +118,8 @@ class ItemListAdapter : RecyclerView.Adapter<BaseViewHolder<*>>() {
         holder.onViewDetachedFromWindow()
     }
 
-    private fun getViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
+    @Deprecated("Legacy getViewHolder")
+    private fun getLegacyViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
         return when (viewType) {
             R.layout.vh_simple_like_recyclerview_1 -> SimpleLike1ViewHolder(parent)
             R.layout.vh_simple_like_recyclerview_2 -> SimpleLike2ViewHolder(parent)
