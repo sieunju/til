@@ -45,6 +45,11 @@ dependencies {
     implementation(Rx.android)
 
     /**
+     * Kotlin
+     */
+    implementation(Kotlin.reflect)
+
+    /**
      * Unit Test
      */
     testImplementation(UnitTest.junit)
