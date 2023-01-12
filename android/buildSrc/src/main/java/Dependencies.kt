@@ -11,7 +11,7 @@ object Versions {
     const val retrofit = "2.9.0"
     const val glide = "4.11.0"
     const val lifecycle = "2.3.1"
-    const val hilt = "2.38.1"
+    const val hilt = "2.40.1"
 }
 
 object AndroidX {
@@ -33,6 +33,7 @@ object AndroidX {
 
 object Kotlin {
     const val stdLib = "org.jetbrains.kotlin:kotlin-stdlib:1.6.10"
+    const val reflect = "org.jetbrains.kotlin:kotlin-reflect:1.6.10"
 }
 
 object Javax {

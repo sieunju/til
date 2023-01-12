@@ -1,6 +1,7 @@
 package com.features.recyclerview.ui.independent_viewholder
 
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModel
 import com.features.recyclerview.BR
 import com.features.recyclerview.R
 import com.features.recyclerview.databinding.VhSimpleLikeRecyclerview2Binding
@@ -12,7 +13,8 @@ import com.features.recyclerview.model.GoodsTwoUiModel
  * Created by juhongmin on 2022/01/15
  */
 class SimpleLike2ViewHolder(
-    parent: ViewGroup
+    parent: ViewGroup,
+    viewModel: ViewModel? = null
 ) : BaseSimpleLikeViewHolder<VhSimpleLikeRecyclerview2Binding>(
     parent,
     R.layout.vh_simple_like_recyclerview_2
