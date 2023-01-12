@@ -1,8 +1,8 @@
 package com.hmju.network.adapter
 
+import com.hmju.core.model.base.*
 import com.hmju.core.model.error.JSendEmptyDataException
 import com.hmju.core.model.error.JSendInvalidPayloadException
-import com.hmju.core.model.base.*
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -48,10 +48,10 @@ class RxErrorHandlingCallAdapter : CallAdapter.Factory() {
         override fun adapt(call: Call<R>): Any {
             return when (val res = original.adapt(call)) {
                 is Single<*> -> {
-                    res.map { it.performErrorHandling() }
+                    res.map { it.errorHandling() }
                 }
                 is Flowable<*> -> {
-                    res.map { it.performErrorHandling() }
+                    res.map { it.errorHandling() }
                 }
                 else -> {
                     throw IllegalArgumentException("Not Invalid Type")
@@ -60,7 +60,7 @@ class RxErrorHandlingCallAdapter : CallAdapter.Factory() {
         }
 
         @Throws(JSendInvalidPayloadException::class, JSendEmptyDataException::class)
-        private fun Any.performErrorHandling(): Any {
+        private fun Any.errorHandling(): Any {
             return if (checkDataPayload()) {
                 this
             } else {
