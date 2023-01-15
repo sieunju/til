@@ -1,5 +1,6 @@
 package com.hmju.network.adapter
 
+import com.hmju.core.model.base.*
 import com.hmju.core.model.error.JSendEmptyDataException
 import com.hmju.core.model.error.JSendInvalidPayloadException
 import com.hmju.core.model.base.*
@@ -48,10 +49,10 @@ class RxErrorHandlingCallAdapter : CallAdapter.Factory() {
         override fun adapt(call: Call<R>): Any {
             return when (val res = original.adapt(call)) {
                 is Single<*> -> {
-                    res.map { it.handleErrorHandling() }
+                    res.map { it.performErrorHandling() }
                 }
                 is Flowable<*> -> {
-                    res.map { it.handleErrorHandling() }
+                    res.map { it.performErrorHandling() }
                 }
                 else -> {
                     throw IllegalArgumentException("Not Invalid Type")
@@ -60,7 +61,7 @@ class RxErrorHandlingCallAdapter : CallAdapter.Factory() {
         }
 
         @Throws(JSendInvalidPayloadException::class, JSendEmptyDataException::class)
-        private fun Any.handleErrorHandling(): Any {
+        private fun Any.performErrorHandling(): Any {
             return if (checkDataPayload()) {
                 this
             } else {
