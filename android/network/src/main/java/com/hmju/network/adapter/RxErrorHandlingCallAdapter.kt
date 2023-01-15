@@ -48,10 +48,10 @@ class RxErrorHandlingCallAdapter : CallAdapter.Factory() {
         override fun adapt(call: Call<R>): Any {
             return when (val res = original.adapt(call)) {
                 is Single<*> -> {
-                    res.map { it.performErrorHandling() }
+                    res.map { it.handleErrorHandling() }
                 }
                 is Flowable<*> -> {
-                    res.map { it.performErrorHandling() }
+                    res.map { it.handleErrorHandling() }
                 }
                 else -> {
                     throw IllegalArgumentException("Not Invalid Type")
@@ -60,7 +60,7 @@ class RxErrorHandlingCallAdapter : CallAdapter.Factory() {
         }
 
         @Throws(JSendInvalidPayloadException::class, JSendEmptyDataException::class)
-        private fun Any.performErrorHandling(): Any {
+        private fun Any.handleErrorHandling(): Any {
             return if (checkDataPayload()) {
                 this
             } else {

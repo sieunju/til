@@ -42,13 +42,13 @@ class ItemListAdapter : RecyclerView.Adapter<BaseViewHolder<*>>() {
     ) {
         if (newList == null) return
         val diffResult = DiffUtil.calculateDiff(DiffUtilV2(dataList, newList))
-        performViewTypeMap(newList)
+        handleViewTypeMap(newList)
         dataList.clear()
         dataList.addAll(newList)
         diffResult.dispatchUpdatesTo(this)
     }
 
-    private fun performViewTypeMap(newList: List<BaseUiModel>) {
+    private fun handleViewTypeMap(newList: List<BaseUiModel>) {
         newList.forEach { model ->
             if (!viewHolderTypeMap.contains(model.layoutId)) {
                 viewHolderTypeMap[model.layoutId] = model.getViewHolderType()
