@@ -79,47 +79,39 @@ class RxErrorHandlingCallAdapter : CallAdapter.Factory() {
         private fun Any.checkDataPayload(): Boolean {
             return when (this) {
                 is JSendObj<*> -> {
-                    return if (this.isValid) {
+                    if (this.isValid) {
                         true
+                    } else if (isSuccess) {
+                        throw JSendEmptyDataException(message)
                     } else {
-                        if (isSuccess) {
-                            throw JSendEmptyDataException(message)
-                        } else {
-                            false
-                        }
+                        false
                     }
                 }
                 is JSendObjWithMeta<*, *> -> {
-                    return if (this.isValid) {
+                    if (this.isValid) {
                         true
+                    } else if (isSuccess) {
+                        throw JSendEmptyDataException(message)
                     } else {
-                        if (isSuccess) {
-                            throw JSendEmptyDataException(message)
-                        } else {
-                            false
-                        }
+                        false
                     }
                 }
                 is JSendList<*> -> {
-                    return if (this.isValid) {
+                    if (this.isValid) {
                         true
+                    } else if (isSuccess) {
+                        throw JSendEmptyDataException(message)
                     } else {
-                        if (isSuccess) {
-                            throw JSendEmptyDataException(message)
-                        } else {
-                            false
-                        }
+                        false
                     }
                 }
                 is JSendListWithMeta<*, *> -> {
-                    return if (this.isValid) {
+                    if (this.isValid) {
                         true
+                    } else if (isSuccess) {
+                        throw JSendEmptyDataException(message)
                     } else {
-                        if (isSuccess) {
-                            throw JSendEmptyDataException(message)
-                        } else {
-                            false
-                        }
+                        false
                     }
                 }
                 // 규격화된 방식이 아닌경우 true 리턴
