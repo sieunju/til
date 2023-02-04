@@ -1,23 +1,20 @@
 package com.features.recyclerview.ui.diffutil_refactor
 
 import androidx.lifecycle.viewModelScope
-import com.hmju.core.ui.base.BaseUiModel
-import com.hmju.core.ui.base.FragmentViewModel
-import com.hmju.core.ui.livedata.ListLiveData
-import com.hmju.core.ui.paging.PagingModel
 import com.features.recyclerview.model.GoodsOneUiModel
 import com.features.recyclerview.model.GoodsTwoUiModel
 import com.features.recyclerview.usecase.GetGoodsCoUseCase
 import com.features.recyclerview.usecase.GetGoodsUseCase
 import com.hmju.core.model.params.GoodsParamMap
+import com.hmju.core.ui.base.BaseUiModel
+import com.hmju.core.ui.base.FragmentViewModel
 import com.hmju.core.ui.lifecycle.OnViewCreated
+import com.hmju.core.ui.livedata.ListLiveData
+import com.hmju.core.ui.paging.PagingModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.kotlin.addTo
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import timber.log.Timber
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.random.Random
 
@@ -59,42 +56,68 @@ class RefactorDiffUtilViewModel @Inject constructor(
 //    }
 
     @OnViewCreated
-    fun startCo(){
+    fun startCo() {
         viewModelScope.launch(Dispatchers.Main) {
             val list = getGoodsCoUseCase(queryMap)
-            Timber.d("List $list")
+                .map {
+                    if (Random.nextBoolean()) {
+                        GoodsOneUiModel(it)
+                    } else {
+                        GoodsTwoUiModel(it)
+                    }
+                }
+            _dataList.clear()
+            _dataList.addAll(list)
+            queryMap.pageNo++
+            pagingModel.isLoading = false
         }
     }
 
     /**
-     * Load Next Pagea
+     * Load Next Page
      */
     fun onLoadNextPage() {
-        getGoodsUseCase(queryMap)
-            .doOnSubscribe { pagingModel.isLoading = true }
-            .delay(500, TimeUnit.MILLISECONDS)
-            .map { list ->
-                val uiList = mutableListOf<BaseUiModel>()
-                list.forEach {
-                    uiList.add(
-                        if (Random.nextBoolean()) {
-                            GoodsOneUiModel(it)
-                        } else {
-                            GoodsTwoUiModel(it)
-                        }
-                    )
+        viewModelScope.launch(Dispatchers.Main) {
+            pagingModel.isLoading = true
+            delay(500)
+            val list = getGoodsCoUseCase(queryMap)
+                .map {
+                    if (Random.nextBoolean()) {
+                        GoodsOneUiModel(it)
+                    } else {
+                        GoodsTwoUiModel(it)
+                    }
                 }
-                uiList
-            }
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                queryMap.pageNo++
-                pagingModel.isLast = it.isEmpty()
-                pagingModel.isLoading = false
-                _dataList.addAll(it)
-            }, {
-                pagingModel.isLast = true
-            }).addTo(compositeDisposable)
+            _dataList.addAll(list)
+            queryMap.pageNo++
+            pagingModel.isLoading = false
+            pagingModel.isLast = list.isEmpty()
+        }
+//        getGoodsUseCase(queryMap)
+//            .doOnSubscribe { pagingModel.isLoading = true }
+//            .delay(500, TimeUnit.MILLISECONDS)
+//            .map { list ->
+//                val uiList = mutableListOf<BaseUiModel>()
+//                list.forEach {
+//                    uiList.add(
+//                        if (Random.nextBoolean()) {
+//                            GoodsOneUiModel(it)
+//                        } else {
+//                            GoodsTwoUiModel(it)
+//                        }
+//                    )
+//                }
+//                uiList
+//            }
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe({
+//                queryMap.pageNo++
+//                pagingModel.isLast = it.isEmpty()
+//                pagingModel.isLoading = false
+//                _dataList.addAll(it)
+//            }, {
+//                pagingModel.isLast = true
+//            }).addTo(compositeDisposable)
     }
 
     /**
