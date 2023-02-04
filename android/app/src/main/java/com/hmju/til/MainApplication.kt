@@ -67,7 +67,7 @@ open class MainApplication : MultiDexApplication() {
         Timber.plant(object : Timber.DebugTree() {
 
             override fun createStackElementTag(element: StackTraceElement): String {
-                val str = StringBuilder("Timber_")
+                val str = StringBuilder("JTimber")
                 try {
                     str.append(
                         element.className
@@ -87,6 +87,7 @@ open class MainApplication : MultiDexApplication() {
     private fun initTracking() {
         TrackingManager.getInstance()
             .setBuildType(true)
+            .setWifiShare(true)
             .build(this)
     }
 }

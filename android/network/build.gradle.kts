@@ -38,6 +38,12 @@ dependencies {
     implementation(Rx.kotlin)
 
     /**
+     * Coroutines
+     */
+    implementation(Co.core)
+    implementation("com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2")
+
+    /**
      * Hilt
      */
     implementation(Hilt.android)
