@@ -1,23 +1,30 @@
 package com.features.recyclerview.ui.diffutil_refactor
 
+import androidx.lifecycle.viewModelScope
 import com.hmju.core.ui.base.BaseUiModel
 import com.hmju.core.ui.base.FragmentViewModel
 import com.hmju.core.ui.livedata.ListLiveData
 import com.hmju.core.ui.paging.PagingModel
 import com.features.recyclerview.model.GoodsOneUiModel
 import com.features.recyclerview.model.GoodsTwoUiModel
+import com.features.recyclerview.usecase.GetGoodsCoUseCase
 import com.features.recyclerview.usecase.GetGoodsUseCase
 import com.hmju.core.model.params.GoodsParamMap
+import com.hmju.core.ui.lifecycle.OnViewCreated
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.addTo
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.random.Random
 
 @HiltViewModel
 class RefactorDiffUtilViewModel @Inject constructor(
-    private val getGoodsUseCase: GetGoodsUseCase
+    private val getGoodsUseCase: GetGoodsUseCase,
+    private val getGoodsCoUseCase: GetGoodsCoUseCase
 ) : FragmentViewModel() {
 
     private val _dataList: ListLiveData<BaseUiModel> by lazy { ListLiveData() }
@@ -26,28 +33,37 @@ class RefactorDiffUtilViewModel @Inject constructor(
     val pagingModel: PagingModel by lazy { PagingModel() }
     private val queryMap: GoodsParamMap by lazy { GoodsParamMap() }
 
-    fun start() {
-        getGoodsUseCase(queryMap)
-            .map { list ->
-                val uiList = mutableListOf<BaseUiModel>()
-                list.forEach {
-                    uiList.add(
-                        if (Random.nextBoolean()) {
-                            GoodsOneUiModel(it)
-                        } else {
-                            GoodsTwoUiModel(it)
-                        }
-                    )
-                }
-                uiList
-            }
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                _dataList.clear()
-                _dataList.addAll(it)
-            }, {
+//    @OnViewCreated
+//    fun start() {
+//        getGoodsUseCase(queryMap)
+//            .map { list ->
+//                val uiList = mutableListOf<BaseUiModel>()
+//                list.forEach {
+//                    uiList.add(
+//                        if (Random.nextBoolean()) {
+//                            GoodsOneUiModel(it)
+//                        } else {
+//                            GoodsTwoUiModel(it)
+//                        }
+//                    )
+//                }
+//                uiList
+//            }
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe({
+//                _dataList.clear()
+//                _dataList.addAll(it)
+//            }, {
+//
+//            }).addTo(compositeDisposable)
+//    }
 
-            }).addTo(compositeDisposable)
+    @OnViewCreated
+    fun startCo(){
+        viewModelScope.launch(Dispatchers.Main) {
+            val list = getGoodsCoUseCase(queryMap)
+            Timber.d("List $list")
+        }
     }
 
     /**

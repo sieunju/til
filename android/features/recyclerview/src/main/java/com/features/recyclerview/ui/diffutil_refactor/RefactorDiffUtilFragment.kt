@@ -1,11 +1,9 @@
 package com.features.recyclerview.ui.diffutil_refactor
 
-import android.os.Bundle
-import android.view.View
-import com.hmju.core.ui.base.BaseFragment
 import com.features.recyclerview.BR
 import com.features.recyclerview.R
 import com.features.recyclerview.databinding.FRefactorDiffUtilBinding
+import com.hmju.core.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -20,11 +18,4 @@ class RefactorDiffUtilFragment :
     override val bindingVariable: Int = BR.vm
 
     override val viewModel: RefactorDiffUtilViewModel by initViewModel()
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        with(viewModel) {
-            start()
-        }
-    }
 }

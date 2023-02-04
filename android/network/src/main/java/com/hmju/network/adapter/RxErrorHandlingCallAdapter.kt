@@ -31,6 +31,7 @@ class RxErrorHandlingCallAdapter : CallAdapter.Factory() {
         annotations: Array<out Annotation>,
         retrofit: Retrofit
     ): CallAdapter<*, *>? {
+        RxJava3CallAdapterFactory.create()
         val adapter = original.get(returnType, annotations, retrofit)
         return if (adapter != null) {
             RxJavaCallAdapterWrapper(adapter)

@@ -54,6 +54,12 @@ dependencies {
     implementation(Rx.android)
 
     /**
+     * Coroutines
+     */
+    implementation(Co.core)
+    implementation(Co.android)
+
+    /**
      * Kotlinx Serialization
      */
     implementation(KotlinX.serialization)

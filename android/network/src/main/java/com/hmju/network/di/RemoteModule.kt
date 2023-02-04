@@ -1,14 +1,16 @@
 package com.hmju.network.di
 
+import com.hmju.core.login_manager.LoginManager
+import com.hmju.core.repository.RefreshTokenRepository
+import com.hmju.network.*
+import com.hmju.network.adapter.CoroutineErrorHandlingCallAdapter
 import com.hmju.network.adapter.RxErrorHandlingCallAdapter
 import com.hmju.network.interceptor.HeaderInterceptor
 import com.hmju.network.interceptor.RefreshTokenInterceptor
 import com.hmju.network.interceptor.TokenAuthenticator
-import com.hmju.core.repository.RefreshTokenRepository
-import com.hmju.core.login_manager.LoginManager
-import com.hmju.network.*
 import com.hmju.network.qualifiers.*
 import com.http.tracking_interceptor.TrackingHttpInterceptor
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
@@ -117,12 +119,13 @@ internal object RemoteModule {
     fun provideRetrofit(
         @ApiHttpClient httpClient: OkHttpClient,
         json: Json
-    ): Retrofit = Retrofit.Builder().apply {
-        baseUrl(NetworkConfig.BASE_URL)
-        client(httpClient)
-        addCallAdapterFactory(RxErrorHandlingCallAdapter.create())
-        addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
-    }.build()
+    ): Retrofit = Retrofit.Builder()
+        .baseUrl(NetworkConfig.BASE_URL)
+        .client(httpClient)
+        .addCallAdapterFactory(CoroutineErrorHandlingCallAdapter())
+        // .addCallAdapterFactory(RxErrorHandlingCallAdapter.create())
+        .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+        .build()
 
     // [s] Main API Service
     @Singleton

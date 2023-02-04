@@ -1,5 +1,6 @@
 package com.hmju.network
 
+import com.hmju.core.model.base.ApiResponse
 import com.hmju.core.model.base.JSendListWithMeta
 import com.hmju.core.model.base.JSendObj
 import com.hmju.core.model.body.LikeRequestBody
@@ -34,4 +35,9 @@ interface GoodsApiService {
     fun deleteLike(
         @Path("id") id: Long
     ): Single<JSendObj<LikeEntity>>
+
+    @GET("/api/goods")
+    suspend fun fetchGoodsCo(
+        @QueryMap(encoded = true) params: GoodsParamMap
+    ): ApiResponse<JSendListWithMeta<GoodsEntity, CustomMetaEntity>>
 }

@@ -60,6 +60,11 @@ dependencies {
     implementation(Rx.android)
 
     /**
+     * Coroutines
+     */
+    implementation(Co.core)
+
+    /**
      * Hilt
      */
     implementation(Hilt.android)

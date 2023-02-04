@@ -51,6 +51,11 @@ object Rx {
     const val kotlin = "io.reactivex.rxjava3:rxkotlin:3.0.1"
 }
 
+object Co {
+    const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
+    const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
+}
+
 object Retrofit {
     const val base = "com.squareup.retrofit2:retrofit:2.9.0"
     const val rxjava = "com.squareup.retrofit2:adapter-rxjava3:2.9.0"
@@ -74,8 +79,8 @@ object Log {
 }
 
 object HttpTracking {
-    const val interceptor = "com.github.sieunju.httptracking:interceptor:1.2.1-beta01"
-    const val ui = "com.github.sieunju.httptracking:ui:1.2.1-beta01"
+    const val interceptor = "com.github.sieunju.httptracking:interceptor:1.2.2"
+    const val ui = "com.github.sieunju.httptracking:ui:1.2.2"
 }
 
 object UnitTest {
