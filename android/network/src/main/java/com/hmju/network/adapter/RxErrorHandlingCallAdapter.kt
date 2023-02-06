@@ -10,6 +10,7 @@ import retrofit2.Call
 import retrofit2.CallAdapter
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
+import timber.log.Timber
 import java.lang.reflect.Type
 
 /**
@@ -31,8 +32,8 @@ class RxErrorHandlingCallAdapter : CallAdapter.Factory() {
         annotations: Array<out Annotation>,
         retrofit: Retrofit
     ): CallAdapter<*, *>? {
-        RxJava3CallAdapterFactory.create()
         val adapter = original.get(returnType, annotations, retrofit)
+        Timber.d("ReturnType $returnType $adapter")
         return if (adapter != null) {
             RxJavaCallAdapterWrapper(adapter)
         } else {
@@ -40,13 +41,14 @@ class RxErrorHandlingCallAdapter : CallAdapter.Factory() {
         }
     }
 
-    class RxJavaCallAdapterWrapper<R>(
+    inner class RxJavaCallAdapterWrapper<R>(
         private val original: CallAdapter<R, *>
     ) : CallAdapter<R, Any> {
 
         override fun responseType(): Type = original.responseType()
 
         override fun adapt(call: Call<R>): Any {
+            Timber.d("RxWrapper Adapter ${responseType()}")
             return when (val res = original.adapt(call)) {
                 is Single<*> -> {
                     res.map { it.performErrorHandling() }
