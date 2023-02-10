@@ -10,6 +10,7 @@ import com.hmju.core.model.meta.CustomMetaEntity
 import com.hmju.core.model.params.GoodsParamMap
 import com.hmju.core.model.test.TestEntity
 import io.reactivex.rxjava3.core.Single
+import retrofit2.Call
 import retrofit2.http.*
 
 /**
@@ -40,4 +41,9 @@ interface GoodsApiService {
     suspend fun fetchGoodsCo(
         @QueryMap(encoded = true) params: GoodsParamMap
     ): ApiResponse<JSendListWithMeta<GoodsEntity, CustomMetaEntity>>
+
+    @GET("/api/goods")
+    fun fetchGoodsCall(
+        @QueryMap(encoded = true) params: GoodsParamMap
+    ): Call<ApiResponse<JSendListWithMeta<GoodsEntity, CustomMetaEntity>>>
 }

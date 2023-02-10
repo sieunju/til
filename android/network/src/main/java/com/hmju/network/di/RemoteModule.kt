@@ -122,8 +122,8 @@ internal object RemoteModule {
     ): Retrofit = Retrofit.Builder()
         .baseUrl(NetworkConfig.BASE_URL)
         .client(httpClient)
-        .addCallAdapterFactory(CoroutineErrorHandlingCallAdapter())
-        // .addCallAdapterFactory(RxErrorHandlingCallAdapter.create())
+        .addCallAdapterFactory(RxErrorHandlingCallAdapter.create())
+        .addCallAdapterFactory(CoroutineErrorHandlingCallAdapter.create())
         .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
         .build()
 

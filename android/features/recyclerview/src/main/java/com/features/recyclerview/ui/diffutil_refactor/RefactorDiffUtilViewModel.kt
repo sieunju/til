@@ -5,23 +5,28 @@ import com.features.recyclerview.model.GoodsOneUiModel
 import com.features.recyclerview.model.GoodsTwoUiModel
 import com.features.recyclerview.usecase.GetGoodsCoUseCase
 import com.features.recyclerview.usecase.GetGoodsUseCase
+import com.hmju.core.model.base.ApiResponse
 import com.hmju.core.model.params.GoodsParamMap
+import com.hmju.core.repository.GoodsRepository
 import com.hmju.core.ui.base.BaseUiModel
 import com.hmju.core.ui.base.FragmentViewModel
 import com.hmju.core.ui.lifecycle.OnViewCreated
 import com.hmju.core.ui.livedata.ListLiveData
 import com.hmju.core.ui.paging.PagingModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.kotlin.addTo
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
+import timber.log.Timber
 import javax.inject.Inject
 import kotlin.random.Random
 
 @HiltViewModel
 class RefactorDiffUtilViewModel @Inject constructor(
     private val getGoodsUseCase: GetGoodsUseCase,
-    private val getGoodsCoUseCase: GetGoodsCoUseCase
+    private val getGoodsCoUseCase: GetGoodsCoUseCase,
+    private val repository: GoodsRepository
 ) : FragmentViewModel() {
 
     private val _dataList: ListLiveData<BaseUiModel> by lazy { ListLiveData() }
@@ -30,46 +35,62 @@ class RefactorDiffUtilViewModel @Inject constructor(
     val pagingModel: PagingModel by lazy { PagingModel() }
     private val queryMap: GoodsParamMap by lazy { GoodsParamMap() }
 
-//    @OnViewCreated
-//    fun start() {
-//        getGoodsUseCase(queryMap)
-//            .map { list ->
-//                val uiList = mutableListOf<BaseUiModel>()
-//                list.forEach {
-//                    uiList.add(
-//                        if (Random.nextBoolean()) {
-//                            GoodsOneUiModel(it)
-//                        } else {
-//                            GoodsTwoUiModel(it)
-//                        }
-//                    )
-//                }
-//                uiList
-//            }
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe({
-//                _dataList.clear()
-//                _dataList.addAll(it)
-//            }, {
-//
-//            }).addTo(compositeDisposable)
-//    }
+    @OnViewCreated
+    fun start() {
+        getGoodsUseCase(queryMap)
+            .map { list ->
+                val uiList = mutableListOf<BaseUiModel>()
+                list.forEach {
+                    uiList.add(
+                        if (Random.nextBoolean()) {
+                            GoodsOneUiModel(it)
+                        } else {
+                            GoodsTwoUiModel(it)
+                        }
+                    )
+                }
+                uiList
+            }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                _dataList.clear()
+                _dataList.addAll(it)
+            }, {
+
+            }).addTo(compositeDisposable)
+    }
 
     @OnViewCreated
     fun startCo() {
         viewModelScope.launch(Dispatchers.Main) {
-            val list = getGoodsCoUseCase(queryMap)
-                .map {
-                    if (Random.nextBoolean()) {
-                        GoodsOneUiModel(it)
-                    } else {
-                        GoodsTwoUiModel(it)
-                    }
-                }
-            _dataList.clear()
-            _dataList.addAll(list)
-            queryMap.pageNo++
-            pagingModel.isLoading = false
+            Timber.d("Start!!!!!")
+            val join  = asyncTest()
+            Timber.d("End!!!!!")
+            join.start()
+//            val list = getGoodsCoUseCase(queryMap)
+//                .map {
+//                    if (Random.nextBoolean()) {
+//                        GoodsOneUiModel(it)
+//                    } else {
+//                        GoodsTwoUiModel(it)
+//                    }
+//                }
+//            _dataList.clear()
+//            _dataList.addAll(list)
+//            queryMap.pageNo++
+//            pagingModel.isLoading = false
+        }
+    }
+
+    private fun asyncTest () : Deferred<Boolean> {
+        return viewModelScope.async {
+            flowOf(
+                getGoodsCoUseCase(queryMap,3000),
+                getGoodsCoUseCase(queryMap,1000).map { it.id })
+                .onEach {
+                    Timber.d("${it[0]}")
+                }.launchIn(this)
+            true
         }
     }
 
@@ -79,8 +100,7 @@ class RefactorDiffUtilViewModel @Inject constructor(
     fun onLoadNextPage() {
         viewModelScope.launch(Dispatchers.Main) {
             pagingModel.isLoading = true
-            delay(500)
-            val list = getGoodsCoUseCase(queryMap)
+            val list = getGoodsCoUseCase(queryMap,500)
                 .map {
                     if (Random.nextBoolean()) {
                         GoodsOneUiModel(it)

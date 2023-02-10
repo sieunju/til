@@ -10,6 +10,7 @@ import com.hmju.core.model.meta.CustomMetaEntity
 import com.hmju.core.model.params.GoodsParamMap
 import com.hmju.core.model.test.TestEntity
 import io.reactivex.rxjava3.core.Single
+import retrofit2.Call
 
 /**
  * Description : 상품 Repository Class
@@ -20,6 +21,8 @@ interface GoodsRepository {
     fun fetchGoods(params: GoodsParamMap): Single<JSendListWithMeta<GoodsEntity, CustomMetaEntity>>
 
     suspend fun fetchGoodsCo(params: GoodsParamMap): ApiResponse<JSendListWithMeta<GoodsEntity, CustomMetaEntity>>
+
+    fun fetchGoodsCall(params: GoodsParamMap): Call<ApiResponse<JSendListWithMeta<GoodsEntity, CustomMetaEntity>>>
 
     fun fetchTest(): Single<JSendObj<TestEntity>>
 
