@@ -50,6 +50,12 @@ dependencies {
     implementation(Kotlin.reflect)
 
     /**
+     * Coroutines
+     */
+    implementation(Co.core)
+    implementation(Co.android)
+
+    /**
      * Unit Test
      */
     testImplementation(UnitTest.junit)

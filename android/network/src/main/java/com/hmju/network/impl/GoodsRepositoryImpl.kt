@@ -12,6 +12,7 @@ import com.hmju.core.model.test.TestEntity
 import com.hmju.core.repository.GoodsRepository
 import com.hmju.network.GoodsApiService
 import io.reactivex.rxjava3.core.Single
+import retrofit2.Call
 import javax.inject.Inject
 
 /**
@@ -28,6 +29,10 @@ internal class GoodsRepositoryImpl @Inject constructor(
 
     override suspend fun fetchGoodsCo(params: GoodsParamMap): ApiResponse<JSendListWithMeta<GoodsEntity, CustomMetaEntity>> {
         return goodsApiService.fetchGoodsCo(params)
+    }
+
+    override fun fetchGoodsCall(params: GoodsParamMap): Call<ApiResponse<JSendListWithMeta<GoodsEntity, CustomMetaEntity>>> {
+        return goodsApiService.fetchGoodsCall(params)
     }
 
     override fun fetchTest(): Single<JSendObj<TestEntity>> {
