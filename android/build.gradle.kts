@@ -9,10 +9,11 @@ buildscript {
         gradlePluginPortal()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:7.1.3")
+        classpath("com.android.tools.build:gradle:7.2.2")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.20")
+        // classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.20")
         classpath("org.jetbrains.kotlin:kotlin-serialization:1.6.21")
-        classpath("com.google.dagger:hilt-android-gradle-plugin:2.38.1")
+        classpath("com.google.dagger:hilt-android-gradle-plugin:2.40.1")
     }
 }
 
@@ -76,6 +77,12 @@ fun getReleaseNote() {
         println(branch)
         println(msg)
         println(author)
+    }
+}
+
+subprojects {
+    afterEvaluate {
+        project.apply("$rootDir/gradle/common.gradle")
     }
 }
 

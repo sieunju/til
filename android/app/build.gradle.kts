@@ -7,13 +7,8 @@ plugins {
 }
 
 android {
-    compileSdk = Apps.compileSdkVersion
-    buildToolsVersion = Apps.buildToolsVersion
-
     defaultConfig {
         applicationId = "com.hmju.til"
-        minSdk = Apps.minSdkVersion
-        targetSdk = Apps.targetSdkVersion
         versionCode = Apps.versionCode
         versionName = Apps.versionName
         setProperty("archivesBaseName", "til_${versionCode}_${versionName}")
@@ -32,23 +27,22 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = "11"
-    }
     buildFeatures {
         dataBinding = true
     }
 }
 
 dependencies {
-    implementation(project(path = ":data"))
-    implementation(project(path = ":domain"))
-    implementation(project(path = ":loginmanager"))
-    implementation(project(path = ":presentation"))
+    implementation(project(":network"))
+    implementation(project(":core"))
+
+    implementation(project(":features:main"))
+    implementation(project(":features:network-bridge"))
+    implementation(project(":features:network"))
+    implementation(project(":features:recyclerview-bridge"))
+    implementation(project(":features:recyclerview"))
+    implementation(project(":features:base-mvvm-bridge"))
+    implementation(project(":features:base-mvvm"))
 
     /**
      * Network
@@ -95,10 +89,12 @@ dependencies {
     /**
      * HttpTracking
      */
-    implementation(Libs.httpTracking)
+    implementation(HttpTracking.ui)
 
     androidTestImplementation(UnitTest.runner)
     androidTestImplementation(UnitTest.junit)
     testImplementation(UnitTest.junit)
-    testImplementation(UnitTest.ext)
+    testImplementation(UnitTest.androidJUnit)
+
+    androidTestImplementation(project(":test"))
 }

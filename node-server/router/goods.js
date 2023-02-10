@@ -70,4 +70,13 @@ router.delete('/api/like/:id', (req, res) => {
     }).end()
 })
 
+router.put('/api/put/test', (req, res) => {
+    res.status(200).send({
+        status: true,
+        data: {
+            payload: req.body
+        }
+    }).end()
+})
+
 module.exports = router

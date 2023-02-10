@@ -1,8 +1,8 @@
 object Apps {
-    const val compileSdkVersion = 31
-    const val buildToolsVersion = "31.0.0"
+    const val compileSdkVersion = 32
+    const val buildToolsVersion = "32.0.0"
     const val minSdkVersion = 23
-    const val targetSdkVersion = 31
+    const val targetSdkVersion = 32
     const val versionCode = 4
     const val versionName = "0.0.4"
 }
@@ -11,20 +11,20 @@ object Versions {
     const val retrofit = "2.9.0"
     const val glide = "4.11.0"
     const val lifecycle = "2.3.1"
-    const val hilt = "2.38.1"
+    const val hilt = "2.40.1"
 }
 
 object AndroidX {
     const val ktx = "androidx.core:core-ktx:1.6.0"
-    const val appCompat = "androidx.appcompat:appcompat:1.3.0"
+    const val appCompat = "androidx.appcompat:appcompat:1.4.2"
     const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.4"
-    const val activity = "androidx.activity:activity-ktx:1.1.0"
+    const val activity = "androidx.activity:activity-ktx:1.2.3"
     const val material = "com.google.android.material:material:1.4.0"
     const val multidex = "androidx.multidex:multidex:2.0.1"
     const val legacy = "androidx.legacy:legacy-support-v4:1.0.0"
     const val viewpager = "androidx.viewpager2:viewpager2:1.0.0"
     const val cardView = "androidx.cardview:cardview:1.0.0"
-    const val fragment = "androidx.fragment:fragment-ktx:1.3.3"
+    const val fragment = "androidx.fragment:fragment-ktx:1.3.4"
     const val recyclerView = "androidx.recyclerview:recyclerview:1.2.0"
     const val lifecycle = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycle}"
     const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
@@ -33,6 +33,7 @@ object AndroidX {
 
 object Kotlin {
     const val stdLib = "org.jetbrains.kotlin:kotlin-stdlib:1.6.10"
+    const val reflect = "org.jetbrains.kotlin:kotlin-reflect:1.6.10"
 }
 
 object Javax {
@@ -72,10 +73,9 @@ object Log {
     const val timber = "com.jakewharton.timber:timber:5.0.1"
 }
 
-object Libs {
-    const val binding = "com.github.kirich1409:viewbindingpropertydelegate:1.5.3"
-    const val bindingReflection = "com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.3"
-    const val httpTracking = "com.github.sieunju:httptracking:1.0.11-beta03"
+object HttpTracking {
+    const val interceptor = "com.github.sieunju.httptracking:interceptor:1.2.1-beta01"
+    const val ui = "com.github.sieunju.httptracking:ui:1.2.1-beta01"
 }
 
 object UnitTest {
@@ -84,7 +84,7 @@ object UnitTest {
     const val room = "androidx.room:room-testing:2.3.0"
     const val core = "androidx.test:core-ktx:1.4.0"
     const val archCore = "androidx.arch.core:core-testing:2.1.0"
-    const val ext = "androidx.test.ext:junit-ktx:1.1.3"
+    const val androidJUnit = "androidx.test.ext:junit-ktx:1.1.3"
     const val runner = "androidx.test:runner:1.4.0"
 
     object Espresso {

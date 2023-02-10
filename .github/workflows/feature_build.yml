@@ -1,0 +1,33 @@
+
+name: feature build
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        type: choice
+        required: true
+        desciption: 'staging or release'
+        default: 'staging'
+        options:
+          - 'staging'
+          - 'release'
+      realse_note:
+        type: string
+        required: false
+        description: 'Firebase Release Note'
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      working-directory: ./android
+    
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Select Print
+        run: |
+          echo ::set-output ${{ inputs.target }}
+          echo ::set-output ${{ inputs.realse_note }}
