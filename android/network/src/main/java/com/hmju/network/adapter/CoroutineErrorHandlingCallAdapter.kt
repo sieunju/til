@@ -83,7 +83,7 @@ class CoroutineErrorHandlingCallAdapter(
 
         override fun execute(): Response<Any> {
             return runBlocking(coroutineScope.coroutineContext) {
-                val apiResponse = ApiResponse.of(originCall.execute())
+                val apiResponse = ApiResponse.toParsing(originCall.execute())
                 Timber.d("Execute ApiResponse $apiResponse")
                 Response.success(apiResponse)
             }
@@ -91,7 +91,7 @@ class CoroutineErrorHandlingCallAdapter(
 
         override fun enqueue(callback: Callback<Any>) {
             coroutineScope.launch {
-                val apiResponse = ApiResponse.of(originCall.awaitResponse())
+                val apiResponse = ApiResponse.toParsing(originCall.awaitResponse())
                 Timber.d("Enqueue ApiResponse $apiResponse")
                 callback.onResponse(this@CallEnqueueDelegate, Response.success(apiResponse))
             }
@@ -117,79 +117,4 @@ class CoroutineErrorHandlingCallAdapter(
             return originCall.timeout()
         }
     }
-
-//    private class CallExecuteCoroutinesDelegate(
-//        private val originCall: Call<Any>,
-//        private val coroutineScope: CoroutineScope
-//    ) : Call<ApiResponse<Any>> {
-//        override fun clone(): Call<ApiResponse<Any>> {
-//            return CallExecuteCoroutinesDelegate(originCall.clone(), coroutineScope)
-//        }
-//
-//        override fun enqueue(callback: Callback<ApiResponse<Any>>) {
-//            coroutineScope.launch {
-//                try {
-//                    val response = originCall.awaitResponse()
-//                    val body = response.body()
-//                    if (body != null) {
-//                        Timber.d("enqueue SUCCESS $body")
-//                        callback.onResponse(
-//                            this@CallExecuteCoroutinesDelegate,
-//                            Response.success(ApiResponse.Success(body))
-//                        )
-//                    } else {
-//                        Timber.d("enqueue FAIL $response")
-//                        callback.onResponse(
-//                            this@CallExecuteCoroutinesDelegate,
-//                            Response.success(ApiResponse.Fail(response))
-//                        )
-//                    }
-//
-//                } catch (ex: Exception) {
-//                    Timber.d("enqueue ERROR $ex")
-//                    callback.onResponse(
-//                        this@CallExecuteCoroutinesDelegate,
-//                        Response.success(ApiResponse.Error(ex))
-//                    )
-//                }
-//            }
-//        }
-//
-//        override fun isExecuted(): Boolean {
-//            return originCall.isExecuted
-//        }
-//
-//        override fun isCanceled(): Boolean {
-//            return originCall.isCanceled
-//        }
-//
-//        override fun request(): Request {
-//            return originCall.request()
-//        }
-//
-//        override fun timeout(): Timeout {
-//            return originCall.timeout()
-//        }
-//
-//        override fun execute(): Response<ApiResponse<Any>> {
-//            return runBlocking(coroutineScope.coroutineContext) {
-//                try {
-//                    val response = originCall.execute()
-//                    val body = response.body()
-//                    Timber.d("execute ${response.code()}")
-//                    if (response.isSuccessful && body != null) {
-//                        Response.success(ApiResponse.Success(body))
-//                    } else {
-//                        Response.success(ApiResponse.Fail(response))
-//                    }
-//                } catch (ex: Throwable) {
-//                    Response.success(ApiResponse.Error(ex))
-//                }
-//            }
-//        }
-//
-//        override fun cancel() {
-//            originCall.cancel()
-//        }
-//    }
 }
