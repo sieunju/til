@@ -32,11 +32,11 @@ sealed class ApiResponse<out T> {
          * Converter HTTP Response -> ApiResponse
          * @param response HTTP 통해 전달 받은 데이터
          */
-        fun of(response: Response<*>): ApiResponse<Any> {
+        fun toParsing(response: Response<*>): ApiResponse<Any> {
             return try {
                 val responseBody = response.body()
                 if (response.isSuccessful && responseBody != null) {
-                    val body = responseBody.performErrorHandling()
+                    val body = getJSendData(responseBody)
                     Success(body)
                 } else {
                     Fail(response.errorBody())
@@ -47,12 +47,12 @@ sealed class ApiResponse<out T> {
         }
 
         @Throws(JSendInvalidPayloadException::class, JSendEmptyDataException::class)
-        private fun Any.performErrorHandling(): Any {
-            return if (isJSendFormat()) {
+        private fun getJSendData(data: Any): Any {
+            return if (isJSendFormat(data)) {
                 this
             } else {
-                if (this is BaseJSend) {
-                    throw JSendInvalidPayloadException(message)
+                if (data is BaseJSend) {
+                    throw JSendInvalidPayloadException(data.message)
                 } else {
                     throw JSendInvalidPayloadException("Invalid Exception")
                 }
@@ -63,40 +63,40 @@ sealed class ApiResponse<out T> {
          * JSend 규칙에 맞게 JSON 으로 되어있고 data -> payload 값이 존재 하는 경우
          */
         @Throws(JSendEmptyDataException::class)
-        private fun Any.isJSendFormat(): Boolean {
-            return when (this) {
+        private fun isJSendFormat(data: Any): Boolean {
+            return when (data) {
                 is JSendObj<*> -> {
-                    if (this.isValid) {
+                    if (data.isValid) {
                         true
-                    } else if (isSuccess) {
-                        throw JSendEmptyDataException(message)
+                    } else if (data.isSuccess) {
+                        throw JSendEmptyDataException(data.message)
                     } else {
                         false
                     }
                 }
                 is JSendObjWithMeta<*, *> -> {
-                    if (this.isValid) {
+                    if (data.isValid) {
                         true
-                    } else if (isSuccess) {
-                        throw JSendEmptyDataException(message)
+                    } else if (data.isSuccess) {
+                        throw JSendEmptyDataException(data.message)
                     } else {
                         false
                     }
                 }
                 is JSendList<*> -> {
-                    if (this.isValid) {
+                    if (data.isValid) {
                         true
-                    } else if (isSuccess) {
-                        throw JSendEmptyDataException(message)
+                    } else if (data.isSuccess) {
+                        throw JSendEmptyDataException(data.message)
                     } else {
                         false
                     }
                 }
                 is JSendListWithMeta<*, *> -> {
-                    if (this.isValid) {
+                    if (data.isValid) {
                         true
-                    } else if (isSuccess) {
-                        throw JSendEmptyDataException(message)
+                    } else if (data.isSuccess) {
+                        throw JSendEmptyDataException(data.message)
                     } else {
                         false
                     }
