@@ -4,6 +4,7 @@ import com.hmju.core.model.error.JSendEmptyDataException
 import com.hmju.core.model.error.JSendInvalidPayloadException
 import okhttp3.ResponseBody
 import retrofit2.Response
+import timber.log.Timber
 
 /**
  * Description : Coroutines Network Base Response
@@ -49,7 +50,7 @@ sealed class ApiResponse<out T> {
         @Throws(JSendInvalidPayloadException::class, JSendEmptyDataException::class)
         private fun getJSendData(data: Any): Any {
             return if (isJSendFormat(data)) {
-                this
+                data
             } else {
                 if (data is BaseJSend) {
                     throw JSendInvalidPayloadException(data.message)
