@@ -18,4 +18,5 @@ interface JSendRepository {
     fun fetchJSendListMeta(): Single<JSendListWithMeta<String, MetaEntity>>
     fun fetchSimpleJSendListMeta(): Single<JSendListWithMeta<String, CustomMetaEntity>>
     fun fetchErrorTest(): Single<JSendObjWithMeta<String, MetaEntity>>
+    suspend fun fetchCoJSendList(): ApiResponse<JSendList<String>>
 }

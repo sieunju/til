@@ -32,4 +32,7 @@ interface JSendApiService {
 
     @GET("/api/error/test")
     fun fetchErrorTest(): Single<JSendObjWithMeta<String, MetaEntity>>
+
+    @GET("/api/jsend/list")
+    suspend fun fetchCoJSendList(): ApiResponse<JSendList<String>>
 }
