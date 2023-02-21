@@ -5,8 +5,6 @@ import com.features.recyclerview.model.GoodsOneUiModel
 import com.features.recyclerview.model.GoodsTwoUiModel
 import com.features.recyclerview.usecase.GetGoodsCoUseCase
 import com.features.recyclerview.usecase.GetGoodsUseCase
-import com.hmju.core.model.base.onError
-import com.hmju.core.model.base.onSuccess
 import com.hmju.core.model.goods.GoodsEntity
 import com.hmju.core.model.params.GoodsParamMap
 import com.hmju.core.repository.JSendRepository
@@ -16,8 +14,6 @@ import com.hmju.core.ui.lifecycle.OnViewCreated
 import com.hmju.core.ui.livedata.ListLiveData
 import com.hmju.core.ui.paging.PagingModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.kotlin.addTo
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import timber.log.Timber
@@ -41,17 +37,10 @@ class RefactorDiffUtilViewModel @Inject constructor(
     fun start() {
         viewModelScope.launch(Dispatchers.Main) {
             flowOf(getGoodsCoUseCase(queryMap, 0))
-                .onStart {
-                    Timber.d("onStart Thread ${Thread.currentThread()}")
-                    pagingModel.isLoading = true
-                }
-                .map {
-                    Timber.d("mapmap Thread ${Thread.currentThread()}")
-                    it.toUiModel()
-                }
+                .onStart { pagingModel.isLoading = true }
+                .map { it.toUiModel() }
                 .flowOn(Dispatchers.IO)
                 .onEach {
-                    Timber.d("onEach Thread ${Thread.currentThread()}")
                     _dataList.addAll(it)
                     queryMap.pageNo++
                     pagingModel.isLoading = false
@@ -63,35 +52,22 @@ class RefactorDiffUtilViewModel @Inject constructor(
                 }
                 .collect()
         }
-//        getGoodsUseCase(queryMap)
-//            .map { list ->
-//                val uiList = mutableListOf<BaseUiModel>()
-//                list.forEach {
-//                    uiList.add(
-//                        if (Random.nextBoolean()) {
-//                            GoodsOneUiModel(it)
-//                        } else {
-//                            GoodsTwoUiModel(it)
-//                        }
-//                    )
-//                }
-//                uiList
-//            }
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe({
-//                _dataList.clear()
-//                _dataList.addAll(it)
-//            }, {
-//
-//            }).addTo(compositeDisposable)
     }
 
     @OnViewCreated
     fun startCo() {
+//        viewModelScope.launch {
+//            Timber.d("로루틴 테스트 스타일 시작")
+//            val job3 = testJob3()
+//            // await 하는 순간 Deferred 작업 끝날때까지 기다림
+//            val list = job3.await()
+//            Timber.d("로루틴 테스트 스타일 끝")
+//        }
+
         viewModelScope.launch(Dispatchers.Main) {
             Timber.d("로루틴 테스트 스타일 시작")
-            val job1 = testJob1()
-            val job2 = testJob2()
+            testJob1()
+            testJob2()
             Timber.d("코루틴 시작 끝")
         }
     }
@@ -126,6 +102,18 @@ class RefactorDiffUtilViewModel @Inject constructor(
     }
 
 
+    private fun testJob3(): Deferred<List<String>> {
+        return CoroutineScope(Dispatchers.IO).async {
+            val list = mutableListOf<String>()
+            for (idx in 0 until 10) {
+                list.add("TEST ${System.currentTimeMillis()}_$idx")
+                delay(1000)
+                Timber.d("실행실행 ${list.size}")
+            }
+            return@async list
+        }
+    }
+
     private fun List<GoodsEntity>.toUiModel(): List<BaseUiModel> {
         val list = mutableListOf<BaseUiModel>()
         this.forEach {
@@ -156,48 +144,7 @@ class RefactorDiffUtilViewModel @Inject constructor(
             queryMap.pageNo++
             pagingModel.isLoading = false
             pagingModel.isLast = uiList.isEmpty()
-
-            flowOf(getGoodsCoUseCase(queryMap, 0))
-                .map { it.toUiModel() }
-                .flowOn(Dispatchers.IO)
-                .onEach {
-                    _dataList.addAll(it)
-                    queryMap.pageNo++
-                    pagingModel.isLoading = false
-                    pagingModel.isLast = it.isEmpty()
-                }
-                .catch {
-                    Timber.d("ERROR $it")
-                    pagingModel.isLoading = false
-                    pagingModel.isLast = true
-                }
-                .collect()
         }
-//        getGoodsUseCase(queryMap)
-//            .doOnSubscribe { pagingModel.isLoading = true }
-//            .delay(500, TimeUnit.MILLISECONDS)
-//            .map { list ->
-//                val uiList = mutableListOf<BaseUiModel>()
-//                list.forEach {
-//                    uiList.add(
-//                        if (Random.nextBoolean()) {
-//                            GoodsOneUiModel(it)
-//                        } else {
-//                            GoodsTwoUiModel(it)
-//                        }
-//                    )
-//                }
-//                uiList
-//            }
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe({
-//                queryMap.pageNo++
-//                pagingModel.isLast = it.isEmpty()
-//                pagingModel.isLoading = false
-//                _dataList.addAll(it)
-//            }, {
-//                pagingModel.isLast = true
-//            }).addTo(compositeDisposable)
     }
 
     /**
