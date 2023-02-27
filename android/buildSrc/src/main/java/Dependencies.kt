@@ -74,8 +74,8 @@ object Log {
 }
 
 object HttpTracking {
-    const val interceptor = "com.github.sieunju.httptracking:interceptor:1.0.12-alpha06"
-    const val ui = "com.github.sieunju.httptracking:ui:1.0.12-alpha06"
+    const val interceptor = "com.github.sieunju.httptracking:interceptor:1.2.1-beta01"
+    const val ui = "com.github.sieunju.httptracking:ui:1.2.1-beta01"
 }
 
 object UnitTest {

@@ -2,10 +2,6 @@ package com.features.recyclerview.diffutil
 
 import androidx.recyclerview.widget.DiffUtil
 import com.hmju.core.ui.base.BaseUiModel
-import com.features.recyclerview.enums.DiffEnum
-import com.features.recyclerview.model.GoodsOneUiModel
-import com.features.recyclerview.model.GoodsTwoUiModel
-import java.util.concurrent.ConcurrentHashMap
 
 /**
  * Description :
@@ -20,10 +16,6 @@ class DiffUtilV2(
     override fun getOldListSize() = oldList.size
 
     override fun getNewListSize(): Int = newList.size
-
-    companion object {
-        val diffEnumMap: ConcurrentHashMap<String, DiffEnum> = ConcurrentHashMap()
-    }
 
     override fun areItemsTheSame(oldPos: Int, newPos: Int): Boolean {
         val oldItem = oldList[oldPos]
@@ -42,24 +34,6 @@ class DiffUtilV2(
             oldItem.areContentsTheSame(newItem)
         } else {
             false
-        }
-    }
-
-    private fun putDiffMap(oldItem: BaseUiModel, newItem: BaseUiModel) {
-        if (!diffEnumMap.containsKey(oldItem.getClassName())) {
-            if (oldItem is GoodsOneUiModel) {
-                diffEnumMap["GoodsOneUiModel"] = DiffEnum.GOODS_ONE
-            } else if (oldItem is GoodsTwoUiModel) {
-                diffEnumMap["GoodsTwoUiModel"] = DiffEnum.GOODS_TWO
-            }
-        }
-
-        if (!diffEnumMap.containsKey(newItem.getClassName())) {
-            if (newItem is GoodsOneUiModel) {
-                diffEnumMap["GoodsOneUiModel"] = DiffEnum.GOODS_ONE
-            } else if (newItem is GoodsTwoUiModel) {
-                diffEnumMap["GoodsTwoUiModel"] = DiffEnum.GOODS_TWO
-            }
         }
     }
 }

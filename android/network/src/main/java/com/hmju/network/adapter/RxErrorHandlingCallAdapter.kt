@@ -48,10 +48,10 @@ class RxErrorHandlingCallAdapter : CallAdapter.Factory() {
         override fun adapt(call: Call<R>): Any {
             return when (val res = original.adapt(call)) {
                 is Single<*> -> {
-                    res.map { it.errorHandling() }
+                    res.map { it.performErrorHandling() }
                 }
                 is Flowable<*> -> {
-                    res.map { it.errorHandling() }
+                    res.map { it.performErrorHandling() }
                 }
                 else -> {
                     throw IllegalArgumentException("Not Invalid Type")
@@ -60,7 +60,7 @@ class RxErrorHandlingCallAdapter : CallAdapter.Factory() {
         }
 
         @Throws(JSendInvalidPayloadException::class, JSendEmptyDataException::class)
-        private fun Any.errorHandling(): Any {
+        private fun Any.performErrorHandling(): Any {
             return if (checkDataPayload()) {
                 this
             } else {
@@ -79,47 +79,39 @@ class RxErrorHandlingCallAdapter : CallAdapter.Factory() {
         private fun Any.checkDataPayload(): Boolean {
             return when (this) {
                 is JSendObj<*> -> {
-                    return if (this.isValid) {
+                    if (this.isValid) {
                         true
+                    } else if (isSuccess) {
+                        throw JSendEmptyDataException(message)
                     } else {
-                        if (isSuccess) {
-                            throw JSendEmptyDataException(message)
-                        } else {
-                            false
-                        }
+                        false
                     }
                 }
                 is JSendObjWithMeta<*, *> -> {
-                    return if (this.isValid) {
+                    if (this.isValid) {
                         true
+                    } else if (isSuccess) {
+                        throw JSendEmptyDataException(message)
                     } else {
-                        if (isSuccess) {
-                            throw JSendEmptyDataException(message)
-                        } else {
-                            false
-                        }
+                        false
                     }
                 }
                 is JSendList<*> -> {
-                    return if (this.isValid) {
+                    if (this.isValid) {
                         true
+                    } else if (isSuccess) {
+                        throw JSendEmptyDataException(message)
                     } else {
-                        if (isSuccess) {
-                            throw JSendEmptyDataException(message)
-                        } else {
-                            false
-                        }
+                        false
                     }
                 }
                 is JSendListWithMeta<*, *> -> {
-                    return if (this.isValid) {
+                    if (this.isValid) {
                         true
+                    } else if (isSuccess) {
+                        throw JSendEmptyDataException(message)
                     } else {
-                        if (isSuccess) {
-                            throw JSendEmptyDataException(message)
-                        } else {
-                            false
-                        }
+                        false
                     }
                 }
                 // 규격화된 방식이 아닌경우 true 리턴
