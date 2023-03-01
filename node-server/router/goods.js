@@ -51,6 +51,7 @@ router.get('/api/goods', (req, res) => {
 router.post('/api/like', (req, res) => {
     res.status(200).send({
         status: true,
+        message: "MethodType POST",
         data: {
             payload: {
                 id: req.body.id
@@ -62,6 +63,7 @@ router.post('/api/like', (req, res) => {
 router.delete('/api/like/:id', (req, res) => {
     res.status(200).send({
         status: true,
+        message: "MethodType DELETE",
         data: {
             payload: {
                 id: req.params.id
@@ -73,6 +75,7 @@ router.delete('/api/like/:id', (req, res) => {
 router.put('/api/put/test', (req, res) => {
     res.status(200).send({
         status: true,
+        message: "MethodType PUT",
         data: {
             payload: req.body
         }
