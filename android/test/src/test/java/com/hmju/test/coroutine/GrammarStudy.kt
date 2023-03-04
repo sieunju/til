@@ -166,7 +166,7 @@ class GrammarStudy {
     }
 
     @Test
-    fun API_에러_테스트(){
+    fun API_에러_테스트() {
         runBlocking {
             val time = measureTimeMillis {
                 val flow1 = async { fetchApiResponse(300) }
@@ -174,6 +174,62 @@ class GrammarStudy {
                 println("Flow1 ${flow1.await()} Flow2 ${flow2.await()}")
             }
             println("걸린 시간 $time")
+        }
+    }
+
+    @OptIn(FlowPreview::class)
+    @Test
+    fun FLOW_flatmapConcat() {
+        runBlocking {
+            val time = measureTimeMillis {
+                val flow = flow<Any> {
+                    emit(1)
+                    emit(2)
+                    emit("A")
+                    emit("B")
+                }
+                // flatMapConcat 은 위에 emit 순서를 보장해서 방출하는 연산자
+                // Rx concatMeager? 이거였나? 그거랑 비슷함
+                flow.flatMapConcat { toFlatmapString(it) }
+                    .collect {
+                        println("Flatmap $it")
+                    }
+            }
+            println("걸린 시간 $time")
+        }
+    }
+
+    @OptIn(FlowPreview::class)
+    @Test
+    fun FLOW_FlatmaMerge(){
+        runBlocking {
+            val time = measureTimeMillis {
+                val flow = flow<Any> {
+                    emit(1)
+                    emit(2)
+                    emit("A")
+                    emit("B")
+                }
+                // flatMapMerge은 순서 보장 X 먼저 방출되는 사람이 임자
+                flow.flatMapMerge { toFlatmapString(it) }
+                    .collect {
+                        println("Flatmap $it")
+                    }
+            }
+            println("걸린 시간 $time")
+        }
+    }
+
+    private suspend fun toFlatmapString(value: Any): Flow<String> {
+        return flow {
+            if (value is Int) {
+                delay(1000)
+                emit("Num $value")
+            } else if (value is String) {
+                emit(value)
+            } else {
+                emit("Nothing")
+            }
         }
     }
 }
