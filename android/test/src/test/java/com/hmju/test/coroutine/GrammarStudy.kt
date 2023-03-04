@@ -1,13 +1,11 @@
 package com.hmju.test.coroutine
 
-import io.reactivex.rxjava3.core.BackpressureStrategy
-import io.reactivex.rxjava3.core.Flowable
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import kotlin.random.Random
 import kotlin.system.measureTimeMillis
-import kotlin.time.measureTime
 
 /**
  * Description : 코루틴 문법 테스트
@@ -22,6 +20,7 @@ class GrammarStudy {
     }
 
     private suspend fun coroutineString(delay: Long): String {
+        println("coroutineString Thread ${Thread.currentThread()}")
         delay(delay)
         return "coroutineString ${delay}MS"
     }
@@ -43,11 +42,38 @@ class GrammarStudy {
     }
 
     private suspend fun fetchApiResponse(delay: Long): ApiTestResponse<String> {
+        println("ApiResponse Thread ${Thread.currentThread()}")
         delay(delay)
         return if (Random.nextBoolean()) {
             ApiTestResponse.Success("ApiTestResponse Success")
         } else {
             ApiTestResponse.Error(NullPointerException("NPR"))
+        }
+    }
+
+    private fun fetchApiResponseV2(): ApiTestResponse<String> {
+        println("fetchApiResponseV2 Thread ${Thread.currentThread()}")
+        return if (Random.nextBoolean()) {
+            ApiTestResponse.Success("ApiTestResponse Success")
+        } else {
+            ApiTestResponse.Error(NullPointerException("NPR"))
+        }
+    }
+
+    private suspend fun toFlatmapString(value: Any): Flow<String> {
+        return flow {
+            when (value) {
+                is Int -> {
+                    delay(1000)
+                    emit("Num $value")
+                }
+                is String -> {
+                    emit(value)
+                }
+                else -> {
+                    emit("Nothing")
+                }
+            }
         }
     }
 
@@ -201,7 +227,7 @@ class GrammarStudy {
 
     @OptIn(FlowPreview::class)
     @Test
-    fun FLOW_FlatmaMerge(){
+    fun FLOW_FlatmaMerge() {
         runBlocking {
             val time = measureTimeMillis {
                 val flow = flow<Any> {
@@ -220,16 +246,46 @@ class GrammarStudy {
         }
     }
 
-    private suspend fun toFlatmapString(value: Any): Flow<String> {
-        return flow {
-            if (value is Int) {
-                delay(1000)
-                emit("Num $value")
-            } else if (value is String) {
-                emit(value)
-            } else {
-                emit("Nothing")
+    @Test
+    fun FLOW_MERGE() {
+        runBlocking {
+            val time = measureTimeMillis {
+                coroutineScope {
+                    // 흠...merge 가 약간 코루틴에선 의미가 없는 듯하다.
+                    merge(
+                        flowOf(fetchApiResponse(333)),
+                        flowOf(coroutineString(333)),
+                        flowOf(coroutineInt(3333))
+                    ).flowOn(Dispatchers.Default)
+                        .onEach { println("RECV ${it}") }
+                        .collect()
+                }
             }
+            println("걸린 시간 $time")
         }
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun FLOW_MERGE_2(){
+        val time = measureTimeMillis {
+            runTest {
+                coroutineScope {
+                    // 좀더 머지같은 방식
+                    // fetchApiResponseV2 함수를 실행하면 로그는 찍히는데 시간은 5초가 걸리는게 신기함...
+                    val work1 = async(Dispatchers.IO) { fetchApiResponseV2() }
+                    val work2 = async(Dispatchers.IO) { coroutineString(3333) }
+                    val work3 = async(Dispatchers.IO) { coroutineInt(5000) }
+
+                    delay(3000)
+                    println("Start!!!!")
+                    work1.await()
+                    work2.await()
+                    work3.await()
+                }
+            }
+
+        }
+        println("걸린 시간 $time")
     }
 }
