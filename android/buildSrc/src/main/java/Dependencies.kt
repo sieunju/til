@@ -91,6 +91,7 @@ object UnitTest {
     const val archCore = "androidx.arch.core:core-testing:2.1.0"
     const val androidJUnit = "androidx.test.ext:junit-ktx:1.1.3"
     const val runner = "androidx.test:runner:1.4.0"
+    const val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
 
     object Espresso {
         const val core = "androidx.test.espresso:espresso-core:3.4.0"

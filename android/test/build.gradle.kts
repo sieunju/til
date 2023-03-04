@@ -62,6 +62,9 @@ dependencies {
      */
     testImplementation(UnitTest.archCore)
     testImplementation(UnitTest.junit)
+    testImplementation(UnitTest.coroutine)
+    testImplementation(Rx.java)
+    testImplementation(Rx.kotlin)
     androidTestImplementation(UnitTest.junit)
     androidTestImplementation(UnitTest.core)
     androidTestImplementation(UnitTest.androidJUnit)
