@@ -34,6 +34,9 @@ dependencies {
     implementation(AndroidX.ktx)
     implementation(AndroidX.appCompat)
     implementation(AndroidX.material)
+    androidTestImplementation(AndroidX.lifecycle)
+    androidTestImplementation(AndroidX.viewModel)
+    androidTestImplementation(AndroidX.liveData)
 
     /**
      * Kotlinx Serialization
@@ -63,6 +66,7 @@ dependencies {
     testImplementation(UnitTest.archCore)
     testImplementation(UnitTest.junit)
     testImplementation(UnitTest.coroutine)
+    androidTestImplementation(UnitTest.coroutine)
     testImplementation(Rx.java)
     testImplementation(Rx.kotlin)
     androidTestImplementation(UnitTest.junit)

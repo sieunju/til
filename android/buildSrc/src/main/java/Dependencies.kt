@@ -10,7 +10,7 @@ object Apps {
 object Versions {
     const val retrofit = "2.9.0"
     const val glide = "4.11.0"
-    const val lifecycle = "2.3.1"
+    const val lifecycle = "2.4.1"
     const val hilt = "2.40.1"
 }
 
