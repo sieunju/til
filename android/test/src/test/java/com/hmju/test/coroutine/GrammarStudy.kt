@@ -2,7 +2,6 @@ package com.hmju.test.coroutine
 
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import kotlin.random.Random
 import kotlin.system.measureTimeMillis
@@ -265,23 +264,51 @@ class GrammarStudy {
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun FLOW_MERGE_2(){
+    fun MERGE_2(){
         val time = measureTimeMillis {
-            runTest {
+            runBlocking {
                 coroutineScope {
                     // 좀더 머지같은 방식
-                    // fetchApiResponseV2 함수를 실행하면 로그는 찍히는데 시간은 5초가 걸리는게 신기함...
-                    val work1 = async(Dispatchers.IO) { fetchApiResponseV2() }
+                    // fetchApiResponse 함수를 실행하면 로그는 찍히는데 시간은 5초가 걸리는게 신기함...
+                    // 이게바로 동시성인가..?
+                    val work1 = async(Dispatchers.IO) { fetchApiResponse(4000) }
                     val work2 = async(Dispatchers.IO) { coroutineString(3333) }
                     val work3 = async(Dispatchers.IO) { coroutineInt(5000) }
+                    val work4 = async(Dispatchers.IO) { coroutineInt(3000) }
 
-                    delay(3000)
+                    delay(1000)
                     println("Start!!!!")
-                    work1.await()
-                    work2.await()
-                    work3.await()
+                    println("Work1 ${work1.await()}")
+                    println("Work2 ${work2.await()}")
+                    println("Work3 ${work3.await()}")
+                    println("Work3 ${work4.await()}")
+                }
+            }
+
+        }
+        println("걸린 시간 $time")
+    }
+
+    @Test
+    fun 잘못된_비동기방식_2(){
+        val time = measureTimeMillis {
+            runBlocking {
+                coroutineScope {
+                    // 여기서 바로 await 처리하면 순차적으로 처리함
+                    // 즉, 별령로 어떤 처리를 할때에는 아래 방식으로 처리하지 말고 병렬로 처리할 작업들을 위에 "선언"만 하고
+                    // 그것들을 마지막에 await 하면 병렬로 처리됨
+                    val work1 = withContext(Dispatchers.IO) { fetchApiResponse(4000) }
+                    val work2 = withContext(Dispatchers.IO) { coroutineString(3333) }
+                    val work3 = withContext(Dispatchers.IO) { coroutineInt(5000) }
+                    val work4 = withContext(Dispatchers.IO) { coroutineInt(3000) }
+
+                    delay(1000)
+                    println("Start!!!!")
+                    println("Work1 $work1")
+                    println("Work2 $work2")
+                    println("Work3 $work3")
+                    println("Work3 $work4")
                 }
             }
 
