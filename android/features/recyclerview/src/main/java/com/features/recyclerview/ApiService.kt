@@ -28,12 +28,12 @@ interface ApiService {
     @GET("/api/til/test")
     fun fetchTest(): Single<JSendObj<TestEntity>>
 
-    @POST("/api/til/like")
+    @POST("/api/til/goods/like")
     fun postLike(
         @Body body: LikeRequestBody
     ): Single<JSendObj<LikeEntity>>
 
-    @DELETE("/api/til/like/{id}")
+    @DELETE("/api/til/goods/like/{id}")
     fun deleteLike(
         @Path("id") id: Long
     ): Single<JSendObj<LikeEntity>>
