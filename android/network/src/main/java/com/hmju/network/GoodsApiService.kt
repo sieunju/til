@@ -1,5 +1,6 @@
 package com.hmju.network
 
+import com.hmju.core.model.base.ApiResponse
 import com.hmju.core.model.base.JSendListWithMeta
 import com.hmju.core.model.base.JSendObj
 import com.hmju.core.model.body.LikeRequestBody
@@ -9,6 +10,7 @@ import com.hmju.core.model.meta.CustomMetaEntity
 import com.hmju.core.model.params.GoodsParamMap
 import com.hmju.core.model.test.TestEntity
 import io.reactivex.rxjava3.core.Single
+import retrofit2.Call
 import retrofit2.http.*
 
 /**
@@ -34,4 +36,14 @@ interface GoodsApiService {
     fun deleteLike(
         @Path("id") id: Long
     ): Single<JSendObj<LikeEntity>>
+
+    @GET("/api/goods")
+    suspend fun fetchGoodsCo(
+        @QueryMap(encoded = true) params: GoodsParamMap
+    ): ApiResponse<JSendListWithMeta<GoodsEntity, CustomMetaEntity>>
+
+    @GET("/api/goods")
+    fun fetchGoodsCall(
+        @QueryMap(encoded = true) params: GoodsParamMap
+    ): Call<ApiResponse<JSendListWithMeta<GoodsEntity, CustomMetaEntity>>>
 }

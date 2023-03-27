@@ -43,4 +43,8 @@ internal class JSendRepositoryImpl @Inject constructor(
     override fun fetchErrorTest(): Single<JSendObjWithMeta<String, MetaEntity>> {
         return apiService.fetchErrorTest()
     }
+
+    override suspend fun fetchCoJSendList(): ApiResponse<JSendList<String>> {
+        return apiService.fetchCoJSendList()
+    }
 }

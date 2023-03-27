@@ -10,7 +10,7 @@ object Apps {
 object Versions {
     const val retrofit = "2.9.0"
     const val glide = "4.11.0"
-    const val lifecycle = "2.3.1"
+    const val lifecycle = "2.4.1"
     const val hilt = "2.40.1"
 }
 
@@ -51,6 +51,11 @@ object Rx {
     const val kotlin = "io.reactivex.rxjava3:rxkotlin:3.0.1"
 }
 
+object Co {
+    const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
+    const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
+}
+
 object Retrofit {
     const val base = "com.squareup.retrofit2:retrofit:2.9.0"
     const val rxjava = "com.squareup.retrofit2:adapter-rxjava3:2.9.0"
@@ -74,8 +79,8 @@ object Log {
 }
 
 object HttpTracking {
-    const val interceptor = "com.github.sieunju.httptracking:interceptor:1.2.1-beta01"
-    const val ui = "com.github.sieunju.httptracking:ui:1.2.1-beta01"
+    const val interceptor = "com.github.sieunju.httptracking:interceptor:1.2.2"
+    const val ui = "com.github.sieunju.httptracking:ui:1.2.2"
 }
 
 object UnitTest {
@@ -86,6 +91,7 @@ object UnitTest {
     const val archCore = "androidx.arch.core:core-testing:2.1.0"
     const val androidJUnit = "androidx.test.ext:junit-ktx:1.1.3"
     const val runner = "androidx.test:runner:1.4.0"
+    const val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
 
     object Espresso {
         const val core = "androidx.test.espresso:espresso-core:3.4.0"
