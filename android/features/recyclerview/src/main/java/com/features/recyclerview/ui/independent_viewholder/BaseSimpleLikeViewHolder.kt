@@ -11,15 +11,15 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.findViewTreeLifecycleOwner
-import com.hmju.core.ui.entrypoints.SimpleLikeEntryPoint
-import com.hmju.core.ui.usecase.AddLikeUseCase
-import com.hmju.core.ui.usecase.RemoveLikeUseCase
-import com.hmju.core.ui.viewholders.BaseViewHolder
+import com.features.recyclerview.entrypoint.SimpleLikeEntryPoint
+import com.features.recyclerview.usecase.AddLikeUseCase
+import com.features.recyclerview.usecase.RemoveLikeUseCase
+import com.hmju.core.like_manager.LikeManager
 import com.hmju.core.model.body.LikeRequestBody
 import com.hmju.core.model.goods.GoodsEntity
-import com.hmju.core.like_manager.LikeManager
 import com.hmju.core.rxbus.RxBus
 import com.hmju.core.rxbus.SimpleLikeEvent
+import com.hmju.core.ui.viewholders.BaseViewHolder
 import dagger.hilt.EntryPoints
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.Disposable
@@ -37,7 +37,10 @@ abstract class BaseSimpleLikeViewHolder<T : ViewDataBinding>(
     LifecycleEventObserver {
 
     private val entryPoint: SimpleLikeEntryPoint by lazy {
-        EntryPoints.get(itemView.context.applicationContext, SimpleLikeEntryPoint::class.java)
+        EntryPoints.get(
+            itemView.context.applicationContext,
+            SimpleLikeEntryPoint::class.java
+        )
     }
 
     private val addLikeUseCase: AddLikeUseCase by lazy { entryPoint.addLikeUseCase() }

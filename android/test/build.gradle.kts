@@ -18,7 +18,6 @@ android {
 }
 
 dependencies {
-    androidTestImplementation(project(":network"))
     androidTestImplementation(project(":core"))
     androidTestImplementation(project(":features:base-mvvm"))
     androidTestImplementation(project(":features:base-mvvm-bridge"))

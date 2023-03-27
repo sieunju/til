@@ -1,13 +1,13 @@
 package com.features.recyclerview.ui.diffutil_refactor
 
 import androidx.lifecycle.viewModelScope
+import com.features.recyclerview.ApiService
 import com.features.recyclerview.model.GoodsOneUiModel
 import com.features.recyclerview.model.GoodsTwoUiModel
 import com.features.recyclerview.usecase.GetGoodsCoUseCase
 import com.features.recyclerview.usecase.GetGoodsUseCase
 import com.hmju.core.model.goods.GoodsEntity
 import com.hmju.core.model.params.GoodsParamMap
-import com.hmju.core.repository.JSendRepository
 import com.hmju.core.ui.base.BaseUiModel
 import com.hmju.core.ui.base.FragmentViewModel
 import com.hmju.core.ui.lifecycle.OnViewCreated
@@ -22,9 +22,8 @@ import kotlin.random.Random
 
 @HiltViewModel
 class RefactorDiffUtilViewModel @Inject constructor(
-    private val getGoodsUseCase: GetGoodsUseCase,
     private val getGoodsCoUseCase: GetGoodsCoUseCase,
-    private val jsendRepository: JSendRepository
+    private val apiService: ApiService
 ) : FragmentViewModel() {
 
     private val _dataList: ListLiveData<BaseUiModel> by lazy { ListLiveData() }
@@ -76,7 +75,7 @@ class RefactorDiffUtilViewModel @Inject constructor(
         return viewModelScope.launch(Dispatchers.Main) {
             return@launch combine(
                 flowOf(getGoodsCoUseCase(queryMap, 300)),
-                flowOf(jsendRepository.fetchCoJSendList())
+                flowOf(apiService.fetchCoJSendList())
             ) { list, jsend ->
                 Timber.d("코루틴 콤바인 ${list.size} $jsend")
                 return@combine list to jsend
