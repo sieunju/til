@@ -48,6 +48,11 @@ dependencies {
     implementation(Rx.android)
 
     /**
+     * Network
+     */
+    implementation(Retrofit.base)
+
+    /**
      * Unit Test
      */
     testImplementation(UnitTest.junit)

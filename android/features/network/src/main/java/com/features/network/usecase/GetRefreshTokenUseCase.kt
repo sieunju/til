@@ -1,15 +1,15 @@
 package com.features.network.usecase
 
+import com.features.network.ApiService
 import com.hmju.core.model.auth.TokenEntity
-import com.hmju.core.repository.AuthRepository
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
 class GetRefreshTokenUseCase @Inject constructor(
-    private val authRepository: AuthRepository
+    private val apiService: ApiService
 ) {
     operator fun invoke(): Single<TokenEntity> {
-        return authRepository.tokenRefresh()
+        return apiService.postTokenRefresh()
             .map { it.payload }
     }
 }
