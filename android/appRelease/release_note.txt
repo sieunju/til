@@ -1,9 +1,9 @@
-Build Date 2023년 03월 27일 월요일 19:40:19
-Version Name: 0.0.4
+Build Date 2023년 03월 27일 월요일 22:44:42
+Version Name: 0.0.5
 Branch: feature/refactor_network
 
-Message: commit ece7afc3393bfa0003c801be2b402194450be82d
-chore: Goods EndPoint 변경
+Message: commit 575ca75a5fd903eb55f6bb9dba6f8f4ed74680e2
+chore: 버전 업데이트
 
 
 Author: sieunju
