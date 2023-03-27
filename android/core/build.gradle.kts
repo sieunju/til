@@ -50,6 +50,7 @@ dependencies {
     implementation(Retrofit.okhttp)
     implementation(Retrofit.rxjava)
     implementation(Retrofit.kotlinx)
+    implementation(HttpTracking.interceptor)
     implementation(Retrofit.okhttpLogger)
 
     /**

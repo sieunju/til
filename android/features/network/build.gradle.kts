@@ -60,6 +60,11 @@ dependencies {
     implementation(Co.android)
 
     /**
+     * Network
+     */
+    implementation(Retrofit.base)
+
+    /**
      * Kotlinx Serialization
      */
     implementation(KotlinX.serialization)

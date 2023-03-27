@@ -1,14 +1,14 @@
 package com.features.network.usecase
 
-import com.hmju.core.repository.JSendRepository
+import com.features.network.ApiService
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
 class GetErrorTestUseCase @Inject constructor(
-    private val repository: JSendRepository
+    private val apiService: ApiService
 ) {
     operator fun invoke(): Single<String> {
-        return repository.fetchErrorTest()
+        return apiService.fetchErrorTest()
             .map { it.payload }
     }
 }

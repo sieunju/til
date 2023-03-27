@@ -45,6 +45,11 @@ dependencies {
     implementation(Rx.android)
 
     /**
+     * Network
+     */
+    implementation(Retrofit.base)
+
+    /**
      * Kotlin
      */
     implementation(Kotlin.reflect)
