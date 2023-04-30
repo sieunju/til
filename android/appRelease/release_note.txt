@@ -1,15 +1,9 @@
-Build Date 2023년 03월 27일 월요일 23:06:54
+Build Date 2023년 04월 26일 수요일 23:49:17
 Version Name: 0.0.5
 Branch: develop
 
-Message: commit 064afaae7536da111db65fa79b7b98acb075c635
-Merge branch 'feature/refactor_network' into develop
-
-* feature/refactor_network:
-  ff
-
-# Conflicts:
-#	android/appRelease/release_note.txt
+Message: commit cc62a8ad156f4df432456640490d82808fa87108
+fix: 잠깐 refactor_network PR 했는데 깃허브 500 이슈로 머지가 잘못된 부분 재 반여
 
 
 Author: sieunju
