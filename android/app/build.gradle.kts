@@ -42,6 +42,8 @@ dependencies {
     implementation(project(":features:recyclerview"))
     implementation(project(":features:base-mvvm-bridge"))
     implementation(project(":features:base-mvvm"))
+    implementation(project(":features:async_migrate"))
+    implementation(project(":features:async_migrate_bridge"))
 
     /**
      * Network
