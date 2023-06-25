@@ -2,6 +2,11 @@ package com.hmju.test.coroutine
 
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.TestCoroutineExceptionHandler
+import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.createTestCoroutineScope
+import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import kotlin.random.Random
 import kotlin.system.measureTimeMillis
@@ -127,8 +132,13 @@ class GrammarStudy {
         }
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun 병렬로_ZIP_좋은_방식() {
+        runTest {
+            val coString = async { coroutineString(1000) }
+
+        }
         runBlocking {
             val time = measureTimeMillis {
                 val model = withContext(Dispatchers.IO) {

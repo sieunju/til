@@ -1,15 +1,10 @@
-Build Date 2023년 03월 27일 월요일 23:06:54
+Build Date 2023년 05월 01일 월요일 16:40:02
 Version Name: 0.0.5
-Branch: develop
+Branch: feature/migrate_rx_to_coroutine
 
-Message: commit 064afaae7536da111db65fa79b7b98acb075c635
-Merge branch 'feature/refactor_network' into develop
-
-* feature/refactor_network:
-  ff
-
-# Conflicts:
-#	android/appRelease/release_note.txt
+Message: commit 2c2ae1e9a91c0bc1a432a26a151f7969c5b74536
+refactor: 비동기 라이브러리 이동 처리하는 작업
+- Rx -> 코루틴으로 변환 할수 있는 inline 함수 추가
 
 
 Author: sieunju

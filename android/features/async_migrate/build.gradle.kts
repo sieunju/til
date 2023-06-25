@@ -6,9 +6,7 @@ plugins {
 }
 
 android {
-    buildFeatures {
-        dataBinding = true
-    }
+    namespace = "com.feature.async_migrate"
     buildFeatures {
         dataBinding = true
     }
@@ -16,9 +14,7 @@ android {
 
 dependencies {
     implementation(project(":core"))
-    implementation(project(":features:recyclerview-bridge"))
-    implementation(project(":features:network-bridge"))
-    implementation(project(":features:base-mvvm-bridge"))
+    implementation(project(":async_migrate"))
     implementation(project(":features:async_migrate_bridge"))
 
     /**
@@ -27,6 +23,13 @@ dependencies {
     implementation(AndroidX.appCompat)
     implementation(AndroidX.constraintLayout)
     implementation(AndroidX.activity)
+    implementation(AndroidX.material)
+    implementation(AndroidX.fragment)
+    implementation(AndroidX.recyclerView)
+    implementation(AndroidX.lifecycle)
+    implementation(AndroidX.viewModel)
+    implementation(AndroidX.liveData)
+
 
     /**
      * Timber
@@ -45,6 +48,22 @@ dependencies {
     implementation(Rx.java)
     implementation(Rx.kotlin)
     implementation(Rx.android)
+
+    /**
+     * Coroutines
+     */
+    implementation(Co.core)
+    implementation(Co.android)
+
+    /**
+     * Network
+     */
+    implementation(Retrofit.base)
+
+    /**
+     * Kotlinx Serialization
+     */
+    implementation(KotlinX.serialization)
 
     /**
      * Unit Test
