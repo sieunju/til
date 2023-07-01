@@ -1,16 +1,30 @@
 package com.hmju.core.network.adapter
 
-import com.hmju.core.model.base.*
+import com.hmju.core.model.base.ApiResponse
+import com.hmju.core.model.base.BaseJSend
+import com.hmju.core.model.base.JSendList
+import com.hmju.core.model.base.JSendListWithMeta
+import com.hmju.core.model.base.JSendObj
+import com.hmju.core.model.base.JSendObjWithMeta
+import com.hmju.core.model.error.JSendEmptyDataException
+import com.hmju.core.model.error.JSendInvalidPayloadException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import okhttp3.Request
 import okio.Timeout
-import retrofit2.*
-import timber.log.Timber
+import retrofit2.Call
+import retrofit2.CallAdapter
+import retrofit2.Callback
+import retrofit2.HttpException
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.awaitResponse
+import java.io.IOException
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
+import java.net.UnknownHostException
 
 /**
  * Description : Coroutines Call Adapter
@@ -41,12 +55,12 @@ class CoroutineErrorHandlingCallAdapter(
                 if (getRawType(callType) == ApiResponse::class.java) {
                     // ApiResponse Find {<JSend...>}
                     val jsendType = getParameterUpperBound(0, callType as ParameterizedType)
-                    Timber.d("ApiResponse Format $jsendType")
                     CoroutineCallAdapterWrapper(jsendType, coroutineScope)
                 } else {
                     null
                 }
             }
+
             else -> null
         }
     }
@@ -83,16 +97,14 @@ class CoroutineErrorHandlingCallAdapter(
 
         override fun execute(): Response<Any> {
             return runBlocking(coroutineScope.coroutineContext) {
-                val apiResponse = ApiResponse.toParsing(originCall.execute())
-                Timber.d("Execute ApiResponse $apiResponse")
+                val apiResponse = getApiResponse(originCall.execute())
                 Response.success(apiResponse)
             }
         }
 
         override fun enqueue(callback: Callback<Any>) {
             coroutineScope.launch {
-                val apiResponse = ApiResponse.toParsing(originCall.awaitResponse())
-                Timber.d("Enqueue ApiResponse $apiResponse")
+                val apiResponse = getApiResponse(originCall.awaitResponse())
                 callback.onResponse(this@CallEnqueueDelegate, Response.success(apiResponse))
             }
         }
@@ -115,6 +127,161 @@ class CoroutineErrorHandlingCallAdapter(
 
         override fun timeout(): Timeout {
             return originCall.timeout()
+        }
+    }
+
+    /**
+     * Converter HTTP Response -> ApiResponse
+     * @param res HTTP 통해 전달 받은 데이터
+     */
+    private fun getApiResponse(res: Response<*>): ApiResponse<Any> {
+        return try {
+            val responseBody = res.body()
+            if (res.isSuccessful && responseBody != null) {
+                val body = getJsonData(responseBody)
+                ApiResponse.Success(body)
+            } else {
+                ApiResponse.Fail(
+                    type = ApiResponse.FailType.HTTP,
+                    msg = getHttpErrorMsg(res.raw()),
+                    errBody = res.errorBody()
+                )
+            }
+        } catch (ex: Throwable) {
+            getErrorModel(ex)
+        }
+    }
+
+    /**
+     *  JSend Data Format 과 유효한 JSend 규칙에 유효한지 데이터 확인후 에러 및 데이터 모델을 리턴하는 함수
+     *  [JSendInvalidPayloadException] JSend 규칙이지만 data or payload 값이 유효하지 않는 경우 에러를 뱉는다.
+     *  [JSendEmptyDataException] JSend 규칙이고 data 는 없지만 status 는 true 인 경우
+     *  @param data Response Data
+     *  @throws JSendInvalidPayloadException
+     *  @throws JSendEmptyDataException
+     */
+    @Throws(JSendInvalidPayloadException::class, JSendEmptyDataException::class)
+    private fun getJsonData(data: Any): Any {
+        return if (isJSendFormat(data)) {
+            data
+        } else {
+            if (data is BaseJSend) {
+                throw JSendInvalidPayloadException(data.message)
+            } else {
+                throw JSendInvalidPayloadException("Invalid Exception")
+            }
+        }
+    }
+
+    /**
+     * JSend 규칙에 맞게 JSON 으로 되어있고 data -> payload 값이 존재 하는 경우
+     */
+    @Throws(JSendEmptyDataException::class)
+    private fun isJSendFormat(data: Any): Boolean {
+        return when (data) {
+            is JSendObj<*> -> {
+                if (data.isValid) {
+                    true
+                } else if (data.isSuccess) {
+                    throw JSendEmptyDataException(data.message)
+                } else {
+                    false
+                }
+            }
+
+            is JSendObjWithMeta<*, *> -> {
+                if (data.isValid) {
+                    true
+                } else if (data.isSuccess) {
+                    throw JSendEmptyDataException(data.message)
+                } else {
+                    false
+                }
+            }
+
+            is JSendList<*> -> {
+                if (data.isValid) {
+                    true
+                } else if (data.isSuccess) {
+                    throw JSendEmptyDataException(data.message)
+                } else {
+                    false
+                }
+            }
+
+            is JSendListWithMeta<*, *> -> {
+                if (data.isValid) {
+                    true
+                } else if (data.isSuccess) {
+                    throw JSendEmptyDataException(data.message)
+                } else {
+                    false
+                }
+            }
+            // 규격화된 방식이 아닌경우 true 리턴
+            else -> true
+        }
+    }
+
+    /**
+     * HTTP Error 발생시 메시지 리턴하는 함수
+     * @param res [okhttp3.Response]
+     *
+     * @return {HTTP Status Code}, {GET,POST,PUT}, {Request API Path}
+     * @see [HTTP Code 100..599]
+     * @see [Method GET, POST, PUT..]
+     * @see [ RequestPath ]
+     */
+    private fun getHttpErrorMsg(res: okhttp3.Response?): CharSequence {
+        val errCode = res?.code ?: -1
+        val msg = StringBuilder()
+        if (res != null) {
+            msg.append(errCode)
+            msg.append(" [${res.request.method}]")
+            msg.append(":")
+            msg.append(res.request.url.encodedPath)
+        } else {
+            msg.append("[UN_KNOWN]")
+        }
+
+        return msg.toString()
+    }
+
+    /**
+     * ApiResponse Fail 데이터 모델을 가져오는 함수
+     * @param err 네트워크 통신이후 리턴받는 에러
+     * @see HttpException
+     * @see UnknownHostException
+     * @see IOException
+     *
+     * @return [ApiResponse.Fail]
+     */
+    private fun getErrorModel(err: Throwable): ApiResponse<Any> {
+        return when (err) {
+            is HttpException -> {
+                val res = err.response()
+                ApiResponse.Fail(
+                    type = ApiResponse.FailType.HTTP,
+                    msg = getHttpErrorMsg(res?.raw()),
+                    errBody = res?.errorBody()
+                )
+            }
+
+            is UnknownHostException, is IOException -> {
+                ApiResponse.Fail(
+                    type = ApiResponse.FailType.NETWORK,
+                    msg = err.message ?: "$err",
+                    err = err
+                )
+            }
+
+            else -> {
+                ApiResponse.Fail(
+                    type = ApiResponse.FailType.UN_KNOWN,
+                    msg = "정의 되지 않는 에러입니다.",
+                    err = err
+                )
+            }
         }
     }
 }

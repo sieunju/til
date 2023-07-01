@@ -1,10 +1,9 @@
-Build Date 2023년 05월 01일 월요일 16:40:02
+Build Date 2023년 07월 01일 토요일 14:13:29
 Version Name: 0.0.5
-Branch: feature/migrate_rx_to_coroutine
+Branch: develop
 
-Message: commit 2c2ae1e9a91c0bc1a432a26a151f7969c5b74536
-refactor: 비동기 라이브러리 이동 처리하는 작업
-- Rx -> 코루틴으로 변환 할수 있는 inline 함수 추가
+Message: commit 39205625708c5b00fd4109f93381fdbf500c1f27
+docs: DI graph 업데이트
 
 
 Author: sieunju
