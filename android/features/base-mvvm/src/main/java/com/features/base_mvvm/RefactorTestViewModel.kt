@@ -3,8 +3,12 @@ package com.features.base_mvvm
 import android.Manifest
 import android.app.Activity
 import android.os.Bundle
+import androidx.core.os.bundleOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.features.base_mvvm.ui.mvvm_lifecycle.MvvmLifecycleTestActivity
+import com.hmju.core.model.test.SerializableEntity
+import com.hmju.core.ui.base.ActivityResult
 import com.hmju.core.ui.base.ActivityViewModel
 import com.hmju.core.ui.base.IntentKey
 import com.hmju.core.ui.base.RxPermissionEvent
@@ -45,18 +49,13 @@ class RefactorTestViewModel @Inject constructor(
     }
 
     fun onResult() {
-//        RxActivityResultEvent.publish(
-//            ActivityResult(
-//                3000,
-//                MvvmLifecycleTestActivity::class,
-//                data = Bundle().apply {
-////                    putString(IntentKey.TOKEN, "RefactorTestViewModel Random Token")
-//                    putSerializable(
-//                        "Serializable",
-//                        SerializableEntity("testTitle", System.currentTimeMillis())
-//                    )
-//                }
-//            ))
+        _startActivityPage.value = ActivityResult(
+            requestCode = 300,
+            targetActivity = MvvmLifecycleTestActivity::class,
+            data = bundleOf(
+                "Serializable" to SerializableEntity("testTitle", System.currentTimeMillis())
+            )
+        )
     }
 
     fun onPermission() {
