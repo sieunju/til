@@ -6,6 +6,7 @@ plugins {
 }
 
 android {
+    namespace = "com.features.base_mvvm"
     buildFeatures {
         dataBinding = true
     }

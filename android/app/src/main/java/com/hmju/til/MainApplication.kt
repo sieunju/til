@@ -1,6 +1,6 @@
 package com.hmju.til
 
-import androidx.multidex.MultiDexApplication
+import android.app.Application
 import com.http.tracking.TrackingManager
 import dagger.hilt.android.HiltAndroidApp
 import io.reactivex.rxjava3.exceptions.UndeliverableException
@@ -10,7 +10,7 @@ import java.io.IOException
 import java.net.SocketException
 
 @HiltAndroidApp
-open class MainApplication : MultiDexApplication() {
+open class MainApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()

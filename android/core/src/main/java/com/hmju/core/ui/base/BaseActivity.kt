@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModelLazy
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.CreationExtras
 import com.hmju.core.ui.lifecycle.*
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.Disposable
@@ -194,8 +196,20 @@ abstract class BaseActivity<T : ViewDataBinding, VM : ActivityViewModel>(
     /**
      * 기본 viewModels 와 같은 로직의 함수
      */
-    protected inline fun <reified VM : ActivityViewModel> initViewModel(): Lazy<VM> {
-        return ViewModelLazy(VM::class, { viewModelStore }, { defaultViewModelProviderFactory })
+    protected inline fun <reified VM : ActivityViewModel> initViewModel(
+        noinline extrasProducer: (() -> CreationExtras)? = null,
+        noinline factoryProducer: (() -> ViewModelProvider.Factory)? = null
+    ): Lazy<VM> {
+        val factoryPromise = factoryProducer ?: {
+            defaultViewModelProviderFactory
+        }
+
+        return ViewModelLazy(
+            VM::class,
+            { viewModelStore },
+            factoryPromise,
+            { extrasProducer?.invoke() ?: this.defaultViewModelCreationExtras }
+        )
     }
 
     /**

@@ -7,6 +7,7 @@ plugins {
 }
 
 android {
+    namespace = "com.hmju.til"
     defaultConfig {
         applicationId = "com.hmju.til"
         versionCode = Apps.versionCode

@@ -7,6 +7,7 @@ plugins {
 }
 
 android {
+    namespace = "com.hmju.core"
     buildFeatures {
         dataBinding = true
     }

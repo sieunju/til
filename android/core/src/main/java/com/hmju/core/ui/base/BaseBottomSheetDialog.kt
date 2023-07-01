@@ -10,11 +10,15 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.createViewModelLazy
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
-import com.hmju.core.ui.lifecycle.*
+import androidx.lifecycle.viewmodel.CreationExtras
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.hmju.core.ui.lifecycle.OnCreated
+import com.hmju.core.ui.lifecycle.OnCreatedToResumed
+import com.hmju.core.ui.lifecycle.OnResumed
+import com.hmju.core.ui.lifecycle.OnStopped
+import com.hmju.core.ui.lifecycle.OnViewCreated
 import timber.log.Timber
 
 /**
@@ -122,14 +126,13 @@ abstract class BaseBottomSheetDialog<T : ViewDataBinding, VM : BottomSheetViewMo
     /**
      * 기본 viewModels 와 같은 로직의 함수
      */
-    protected inline fun <reified VM : BottomSheetViewModel> initViewModel(): Lazy<VM> {
-        return createViewModelLazy(VM::class, { viewModelStore })
-    }
-
-    /**
-     * SharedBottomSheet 전용 ViewModel onCreate 에서 실행 해야 한다
-     */
-    protected inline fun <reified VM : BottomSheetViewModel> initBottomSheetViewModel(): VM {
-        return ViewModelProvider(viewModelStore, defaultViewModelProviderFactory).get()
+    protected inline fun <reified VM : BottomSheetViewModel> initViewModel(
+        noinline extrasProducer: (() -> CreationExtras)? = null
+    ): VM {
+        return ViewModelProvider(
+            viewModelStore,
+            defaultViewModelProviderFactory,
+            extrasProducer?.invoke() ?: this.defaultViewModelCreationExtras
+        ).get()
     }
 }

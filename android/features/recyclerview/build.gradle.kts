@@ -6,6 +6,7 @@ plugins {
 }
 
 android {
+    namespace = "com.features.recyclerview"
     buildFeatures {
         dataBinding = true
     }

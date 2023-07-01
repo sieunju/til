@@ -5,7 +5,9 @@ plugins {
     kotlin("kapt")
 }
 
-android {}
+android {
+    namespace = "com.features.base_mvvm_bridge"
+}
 
 dependencies {
 

@@ -10,21 +10,21 @@ object Apps {
 object Versions {
     const val retrofit = "2.9.0"
     const val glide = "4.11.0"
-    const val lifecycle = "2.4.1"
-    const val hilt = "2.40.1"
+    const val lifecycle = "2.5.1"
+    const val hilt = "2.45"
 }
 
 object AndroidX {
-    const val ktx = "androidx.core:core-ktx:1.6.0"
-    const val appCompat = "androidx.appcompat:appcompat:1.4.2"
-    const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.4"
-    const val activity = "androidx.activity:activity-ktx:1.2.3"
-    const val material = "com.google.android.material:material:1.4.0"
+    const val ktx = "androidx.core:core-ktx:1.8.0"
+    const val appCompat = "androidx.appcompat:appcompat:1.5.1"
+    const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.1.4"
+    const val activity = "androidx.activity:activity-ktx:1.5.1"
+    const val fragment = "androidx.fragment:fragment-ktx:1.5.5"
+    const val material = "com.google.android.material:material:1.9.0"
     const val multidex = "androidx.multidex:multidex:2.0.1"
     const val legacy = "androidx.legacy:legacy-support-v4:1.0.0"
     const val viewpager = "androidx.viewpager2:viewpager2:1.0.0"
     const val cardView = "androidx.cardview:cardview:1.0.0"
-    const val fragment = "androidx.fragment:fragment-ktx:1.3.4"
     const val recyclerView = "androidx.recyclerview:recyclerview:1.2.0"
     const val lifecycle = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycle}"
     const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
@@ -32,8 +32,8 @@ object AndroidX {
 }
 
 object Kotlin {
-    const val stdLib = "org.jetbrains.kotlin:kotlin-stdlib:1.6.10"
-    const val reflect = "org.jetbrains.kotlin:kotlin-reflect:1.6.10"
+    const val stdLib = "org.jetbrains.kotlin:kotlin-stdlib:1.7.22"
+    const val reflect = "org.jetbrains.kotlin:kotlin-reflect:1.7.22"
 }
 
 object Javax {
@@ -79,8 +79,8 @@ object Log {
 }
 
 object HttpTracking {
-    const val interceptor = "com.github.sieunju.httptracking:interceptor:1.2.2"
-    const val ui = "com.github.sieunju.httptracking:ui:1.2.2"
+    const val interceptor = "com.github.sieunju.httptracking:interceptor:1.2.3"
+    const val ui = "com.github.sieunju.httptracking:ui:1.2.3"
 }
 
 object UnitTest {

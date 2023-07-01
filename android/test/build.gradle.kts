@@ -7,6 +7,7 @@ plugins {
 }
 
 android {
+    namespace = "com.hmju.test"
     defaultConfig {
         testInstrumentationRunner = "com.hmju.test.HiltTestRunner"
     }
@@ -26,6 +27,8 @@ dependencies {
     androidTestImplementation(project(":features:network-bridge"))
     androidTestImplementation(project(":features:recyclerview"))
     androidTestImplementation(project(":features:recyclerview-bridge"))
+    androidTestImplementation(project(":features:async_migrate"))
+    androidTestImplementation(project(":features:async_migrate_bridge"))
 
     /**
      * Android X

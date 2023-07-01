@@ -6,9 +6,7 @@ plugins {
 }
 
 android {
-    buildFeatures {
-        dataBinding = true
-    }
+    namespace = "com.features.main"
     buildFeatures {
         dataBinding = true
     }

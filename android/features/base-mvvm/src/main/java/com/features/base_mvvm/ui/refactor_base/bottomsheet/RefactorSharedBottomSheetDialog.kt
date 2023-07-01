@@ -28,7 +28,7 @@ class RefactorSharedBottomSheetDialog
     override fun onCreate(savedInstanceState: Bundle?) {
         viewModel = initBottomSheetViewModel()
         super.onCreate(savedInstanceState)
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.BottomSheetDialog)
+        setStyle(DialogFragment.STYLE_NORMAL, com.hmju.core.R.style.BottomSheetDialog)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

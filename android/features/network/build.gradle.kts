@@ -7,9 +7,7 @@ plugins {
 }
 
 android {
-    defaultConfig {
-         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
+    namespace = "com.features.network"
     buildFeatures {
         dataBinding = true
     }
