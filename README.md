@@ -50,5 +50,5 @@
 ```Groovy
  ./gradlew projectDependencyGraph
 ```
-![projectGraph](https://raw.githubusercontent.com/sieunju/TIL/develop/android/projectGraph.png)
+![projectGraph](https://raw.githubusercontent.com/sieunju/TIL/develop/projectGraph.png)
 
