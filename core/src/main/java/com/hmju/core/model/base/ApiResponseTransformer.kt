@@ -4,10 +4,10 @@ package com.hmju.core.model.base
  * References Kotlin Result onSuccess
  */
 inline fun <T> ApiResponse<T>.onSuccess(
-    crossinline callback: ApiResponse.Success<T>.() -> Unit
+    crossinline callback: (T) -> Unit
 ): ApiResponse<T> {
     if (this is ApiResponse.Success) {
-        callback(this)
+        callback(this.data)
     }
     return this
 }
@@ -16,7 +16,7 @@ inline fun <T> ApiResponse<T>.onSuccess(
  * References Kotlin Result onFailure
  */
 inline fun <T> ApiResponse<T>.onError(
-    crossinline callback: ApiResponse.Fail.() -> Unit
+    crossinline callback: (ApiResponse.Fail) -> Unit
 ): ApiResponse<T> {
     if (this is ApiResponse.Fail) {
         callback(this)
