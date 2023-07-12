@@ -1,9 +1,0 @@
-Build Date 2023년 07월 01일 토요일 23:57:06
-Version Name: 0.0.5
-Branch: develop
-
-Message: commit f70c7a92c3c5017d4c6443ca98daa1383b22fe85
-chore: 코루틴 어댑터 함수 정리
-
-
-Author: sieunju

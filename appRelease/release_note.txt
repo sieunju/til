@@ -1,0 +1,8 @@
+Build Date 2023년 07월 12일 수요일 13:53:38
+Version Name: 0.0.5
+Branch: develop
+
+Message: commit ff91368b76f29aa698d7c74f5242f2fb3748af84
+Update generate-release-note.yml
+
+Author: Sieun Ju
