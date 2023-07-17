@@ -7,12 +7,12 @@ on:
       target:
         type: choice
         required: true
-        desciption: 'staging or release'
+        description: 'staging or release'
         default: 'staging'
         options:
           - 'staging'
           - 'release'
-      realse_note:
+      release_note:
         type: string
         required: false
         description: 'Firebase Release Note'
