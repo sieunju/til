@@ -1,8 +1,8 @@
 object Apps {
-    const val compileSdkVersion = 32
-    const val buildToolsVersion = "32.0.0"
+    const val compileSdkVersion = 33
+    const val buildToolsVersion = "33"
     const val minSdkVersion = 23
-    const val targetSdkVersion = 32
+    const val targetSdkVersion = 33
     const val versionCode = 6
     const val versionName = "0.0.6"
 }
@@ -32,8 +32,8 @@ object AndroidX {
 }
 
 object Kotlin {
-    const val stdLib = "org.jetbrains.kotlin:kotlin-stdlib:1.7.22"
-    const val reflect = "org.jetbrains.kotlin:kotlin-reflect:1.7.22"
+    const val stdLib = "org.jetbrains.kotlin:kotlin-stdlib:1.8.0"
+    const val reflect = "org.jetbrains.kotlin:kotlin-reflect:1.8.0"
 }
 
 object Javax {

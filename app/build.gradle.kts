@@ -47,6 +47,8 @@ dependencies {
     implementation(project(":features:async_migrate_bridge"))
     implementation(project(":features:network_v2"))
     implementation(project(":features:network_v2-bridge"))
+    implementation(project(":features:compose-ui"))
+    implementation(project(":features:compose-ui-bridge"))
 
     /**
      * Network
