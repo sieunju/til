@@ -49,6 +49,14 @@
             android:onClick="@{()->vm.moveToAsyncMigratePage()}"
             android:text="비동기 라이브러리 안전하게 Migrate 처리하는 방법" />
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:onClick="@{()->vm.moveToComposeUiPage()}"
+            android:text="Compose UI 공부해보기" />
+
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

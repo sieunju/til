@@ -45,6 +45,8 @@ dependencies {
     implementation(project(":features:base-mvvm"))
     implementation(project(":features:async_migrate"))
     implementation(project(":features:async_migrate_bridge"))
+    implementation(project(":features:compose-ui"))
+    implementation(project(":features:compose-ui-bridge"))
 
     /**
      * Network

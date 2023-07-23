@@ -1,6 +1,7 @@
 package com.features.main
 
 import com.feature.async_migrate_bridge.AsyncMigrateBridge
+import com.feature.compose_ui_bridge.ComposeUiBridge
 import com.features.base_mvvm_bridge.BaseMvvmBridge
 import com.hmju.core.ui.base.ActivityViewModel
 import com.hmju.core.ui.lifecycle.OnCreated
@@ -27,7 +28,8 @@ class MainViewModel @Inject constructor(
     private val recyclerViewBridge: RecyclerViewBridge,
     private val mvvmRequirements: BaseMvvmBridge,
     private val loginManager: LoginManager,
-    private val asyncMigrateBridge: AsyncMigrateBridge
+    private val asyncMigrateBridge: AsyncMigrateBridge,
+    private val composeUiBridge: ComposeUiBridge
 ) : ActivityViewModel() {
 
     @OnIntent
@@ -64,5 +66,9 @@ class MainViewModel @Inject constructor(
 
     fun moveToAsyncMigratePage(){
         asyncMigrateBridge.moveToAsyncMigrate()
+    }
+
+    fun moveToComposeUiPage(){
+        composeUiBridge.moveToPage()
     }
 }
