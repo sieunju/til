@@ -48,7 +48,8 @@ open class BaseViewModel @Inject constructor() : ViewModel() {
     /**
      * onActivityResult 에 대한 처리
      * ReactiveX 타입
-     * @param code RequestCode
+     * @param reqCode Request Code
+     * @param resCode Response Code
      * @param data 전달 받을 데이터
      */
     fun performActivityResult(reqCode: Int, resCode: Int, data: Bundle?): Disposable {
