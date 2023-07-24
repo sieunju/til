@@ -141,6 +141,6 @@ abstract class BaseFragment<T : ViewDataBinding, VM : FragmentViewModel>(
         return ViewModelProvider(
             parentFragment.viewModelStore,
             parentFragment.defaultViewModelProviderFactory
-        ).get(VM::class.java)
+        )[VM::class.java]
     }
 }
