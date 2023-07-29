@@ -1,10 +1,9 @@
-Build Date 2023년 07월 23일 일요일 21:33:26
+Build Date 2023년 07월 29일 토요일 13:39:14
 Version Name: 0.0.6
 Branch: feature/compose_ui
 
-Message: commit 49efac10bdf53f2f9b523ec4bb89b146dacf562f
-Merge pull request #41 from sieunju/feature/fix_gitaction_script
+Message: commit 7662621d6c6e6a3e199e3fa25ba8dc0f84daccdc
+feat: Compose 공통 Typography 클래스 추가
 
-refactor: android 디렉토링 삭함으로 인해 gitaction script 문 수정
 
-Author: Sieun Ju
+Author: sieunju
