@@ -1,10 +1,9 @@
-Build Date 2023년 12월 03일 일요일 10:13:10
+Build Date 2023년 07월 29일 토요일 13:39:14
 Version Name: 0.0.6
-Branch: feature/refactor_network
+Branch: feature/compose_ui
 
-Message: commit df562762cd1ce4b2d4bcb7664c9979f139174ee3
-chore: 네트워크 개선 v2
-- 테스트 했던 Delay 들 줄임
+Message: commit 7662621d6c6e6a3e199e3fa25ba8dc0f84daccdc
+feat: Compose 공통 Typography 클래스 추가
 
 
 Author: sieunju

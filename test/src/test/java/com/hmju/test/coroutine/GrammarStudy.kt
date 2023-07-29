@@ -71,9 +71,11 @@ class GrammarStudy {
                     delay(1000)
                     emit("Num $value")
                 }
+
                 is String -> {
                     emit(value)
                 }
+
                 else -> {
                     emit("Nothing")
                 }
@@ -275,7 +277,7 @@ class GrammarStudy {
     }
 
     @Test
-    fun MERGE_2(){
+    fun MERGE_2() {
         val time = measureTimeMillis {
             runBlocking {
                 coroutineScope {
@@ -301,7 +303,7 @@ class GrammarStudy {
     }
 
     @Test
-    fun 잘못된_비동기방식_2(){
+    fun 잘못된_비동기방식_2() {
         val time = measureTimeMillis {
             runBlocking {
                 coroutineScope {
@@ -322,6 +324,30 @@ class GrammarStudy {
                 }
             }
 
+        }
+        println("걸린 시간 $time")
+    }
+
+    data class Flow_Test(
+        val a : String,
+        val b : Int,
+        val c : Double
+    )
+
+    @Test
+    fun FLOW_콤바인() {
+        val time = measureTimeMillis {
+            runBlocking {
+                coroutineScope {
+                    val work = async { flowOf(coroutineString(500)) }
+                    val work1 = async { flowOf(coroutineInt(3000)) }
+                    val work2 = async { flowOf(coroutineDouble(3500)) }
+                    val result = combine(work.await(), work1.await(), work2.await()) { a, b, c ->
+                        Flow_Test(a,b,c)
+                    }.flowOn(Dispatchers.IO).single()
+                    println(result)
+                }
+            }
         }
         println("걸린 시간 $time")
     }
