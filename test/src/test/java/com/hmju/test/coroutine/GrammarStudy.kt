@@ -328,23 +328,43 @@ class GrammarStudy {
         println("걸린 시간 $time")
     }
 
+    private fun handleFlowV1_to_v2(entity: Flow_Test) : Flow_Test2 {
+        println("현재 쓰레드 ${Thread.currentThread()}")
+        val map = hashMapOf<String,Any>()
+        map.put("A_KEY",entity.a)
+        map.put("B_KEY",entity.b)
+        map.put("C_KEY",entity.c)
+        // throw NullPointerException("asdfasdfasdf")
+        return Flow_Test2(map)
+    }
+
     data class Flow_Test(
         val a : String,
         val b : Int,
         val c : Double
     )
 
+    data class Flow_Test2(
+        val map: Map<String,Any>
+    )
+
+     @OptIn(FlowPreview::class)
     @Test
     fun FLOW_콤바인() {
         val time = measureTimeMillis {
             runBlocking {
                 coroutineScope {
-                    val work = async { flowOf(coroutineString(500)) }
-                    val work1 = async { flowOf(coroutineInt(3000)) }
-                    val work2 = async { flowOf(coroutineDouble(3500)) }
-                    val result = combine(work.await(), work1.await(), work2.await()) { a, b, c ->
+                    val work = flow { emit(coroutineString(500)) }
+                    val work1 = flow { emit(coroutineInt(3000)) }
+                    val work2 = flow {emit(coroutineDouble(3500))}
+                    val result = combine(work,work1,work2){a,b,c ->
+                        println("11111 쓰레드 ${Thread.currentThread()}")
                         Flow_Test(a,b,c)
-                    }.flowOn(Dispatchers.IO).single()
+                    }.flatMapConcat { flow { emit(handleFlowV1_to_v2(it)) } }
+                        .map { it.toString() }
+                        .flowOn(Dispatchers.IO)
+                        .catch { emit("에러 발생한걸 여기서 발견 ${it.message}") }
+                        .single()
                     println(result)
                 }
             }

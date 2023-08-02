@@ -1,9 +1,9 @@
-Build Date 2023년 07월 29일 토요일 13:39:14
+Build Date 2023년 08월 02일 수요일 21:50:45
 Version Name: 0.0.6
 Branch: feature/compose_ui
 
-Message: commit 7662621d6c6e6a3e199e3fa25ba8dc0f84daccdc
-feat: Compose 공통 Typography 클래스 추가
+Message: commit cd78034fdcffbacbda98a1c98724e88a32599ddd
+feat: 갑자기 코루틴과 Repeat Lifecycle 생각나서 한번 테스트 해본 작업
 
 
 Author: sieunju
