@@ -1,5 +1,6 @@
 package com.hmju.test.coroutine
 
+import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.test.TestCoroutineDispatcher
@@ -366,6 +367,27 @@ class GrammarStudy {
                         .catch { emit("에러 발생한걸 여기서 발견 ${it.message}") }
                         .single()
                     println(result)
+                }
+            }
+        }
+        println("걸린 시간 $time")
+    }
+
+    @Test
+    fun FLOW_COMBINE() {
+        val time = measureTimeMillis {
+            runBlocking {
+                coroutineScope {
+                    val work = flow { emit(coroutineString(500)) }
+                    val work1 = flow { emit(coroutineInt(100)) }
+                    val work2 = flow { emit(coroutineDouble(1)) }
+                    val work3 = flow { emit(coroutineString(3)) }
+                    val work4 = flow { emit(coroutineString(4)) }
+                    combine(work,work1,work2,work3,work4) {a,b,c,d,e ->
+                        return@combine "${a}${b}${c}${d}${e}"
+                    }
+                        .flowOn(Dispatchers.IO)
+                        .collect { println(it) }
                 }
             }
         }
