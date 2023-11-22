@@ -12,7 +12,12 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.createViewModelLazy
 import androidx.lifecycle.ViewModelProvider
-import com.hmju.core.ui.lifecycle.*
+import com.hmju.core.ui.lifecycle.OnCreated
+import com.hmju.core.ui.lifecycle.OnCreatedToResumed
+import com.hmju.core.ui.lifecycle.OnFragmentShown
+import com.hmju.core.ui.lifecycle.OnResumed
+import com.hmju.core.ui.lifecycle.OnStopped
+import com.hmju.core.ui.lifecycle.OnViewCreated
 import timber.log.Timber
 
 /**
@@ -25,7 +30,7 @@ abstract class BaseFragment<T : ViewDataBinding, VM : FragmentViewModel>(
 ) : Fragment() {
 
     abstract val viewModel: VM
-    abstract val bindingVariable : Int // ViewModel Binding Variable
+    abstract val bindingVariable: Int // ViewModel Binding Variable
     var binding: T by autoCleared()
 
     private var isInit = false
@@ -46,7 +51,7 @@ abstract class BaseFragment<T : ViewDataBinding, VM : FragmentViewModel>(
     ): View? {
         return DataBindingUtil.inflate<T>(inflater, layoutId, container, false).run {
             binding = this
-            lifecycleOwner = this@BaseFragment
+            lifecycleOwner = viewLifecycleOwner
             setVariable(bindingVariable, viewModel)
             this.root
         }
