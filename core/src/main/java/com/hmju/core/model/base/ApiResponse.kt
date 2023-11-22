@@ -1,7 +1,5 @@
 package com.hmju.core.model.base
 
-import okhttp3.ResponseBody
-
 /**
  * Description : Coroutines Network Base Response
  *
@@ -18,20 +16,24 @@ sealed class ApiResponse<out T> {
      */
     data class Success<out T>(val data: T) : ApiResponse<T>()
 
-    /**
-     * Network Fail Data Model
-     * @see FailType.HTTP HTTP Error
-     * @see FailType.NETWORK Network Config Error
-     * @see FailType.UN_KNOWN UN KNOWN
-     *
-     * @param type FailType
-     * @param msg Error Message
-     * @param errBody when [FailType.HTTP] Error Body
-     */
     data class Fail(
-        val type: FailType,
-        val msg: CharSequence,
-        val err: Throwable? = null,
-        val errBody: ResponseBody? = null
+        val err: Throwable
     ) : ApiResponse<Nothing>()
+
+//    /**
+//     * Network Fail Data Model
+//     * @see FailType.HTTP HTTP Error
+//     * @see FailType.NETWORK Network Config Error
+//     * @see FailType.UN_KNOWN UN KNOWN
+//     *
+//     * @param type FailType
+//     * @param msg Error Message
+//     * @param errBody when [FailType.HTTP] Error Body
+//     */
+//    data class Fail(
+//        val type: FailType,
+//        val msg: CharSequence,
+//        val err: Throwable? = null,
+//        val errBody: ResponseBody? = null
+//    ) : ApiResponse<Nothing>()
 }

@@ -1,17 +1,18 @@
 package com.hmju.core.network.adapter
 
 import com.hmju.core.model.base.*
-import com.hmju.core.model.error.JSendEmptyDataException
-import com.hmju.core.model.error.JSendInvalidPayloadException
-import io.reactivex.rxjava3.core.Flowable
+import com.hmju.core.model.error.JSendException
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import retrofit2.Call
 import retrofit2.CallAdapter
+import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
-import timber.log.Timber
+import java.io.IOException
 import java.lang.reflect.Type
+import java.net.SocketTimeoutException
+import java.net.UnknownHostException
 
 /**
  * Description : RxError Handling Adapter
@@ -33,7 +34,6 @@ class RxErrorHandlingCallAdapter : CallAdapter.Factory() {
         retrofit: Retrofit
     ): CallAdapter<*, *>? {
         val adapter = original.get(returnType, annotations, retrofit)
-        Timber.d("ReturnType $returnType $adapter")
         return if (adapter != null) {
             RxJavaCallAdapterWrapper(adapter)
         } else {
@@ -48,77 +48,65 @@ class RxErrorHandlingCallAdapter : CallAdapter.Factory() {
         override fun responseType(): Type = original.responseType()
 
         override fun adapt(call: Call<R>): Any {
-            Timber.d("RxWrapper Adapter ${responseType()}")
             return when (val res = original.adapt(call)) {
                 is Single<*> -> {
-                    res.map { it.performErrorHandling() }
+                    res.map { validateJSendCheck(it) }
+                        .onErrorResumeNext { Single.error(getJSendException(it)) }
                 }
-                is Flowable<*> -> {
-                    res.map { it.performErrorHandling() }
-                }
+
                 else -> {
                     throw IllegalArgumentException("Not Invalid Type")
                 }
             }
         }
 
-        @Throws(JSendInvalidPayloadException::class, JSendEmptyDataException::class)
-        private fun Any.performErrorHandling(): Any {
-            return if (checkDataPayload()) {
-                this
+        @Throws(JSendException.Invalidate::class)
+        private fun validateJSendCheck(res: Any): Any {
+            return if (checkPayload(res)) {
+                res
+            } else if (res is BaseJSend) {
+                throw JSendException.Invalidate(res.message)
             } else {
-                if (this is BaseJSend) {
-                    throw JSendInvalidPayloadException(message)
-                } else {
-                    throw JSendInvalidPayloadException("Invalid Exception")
-                }
+                throw JSendException.Invalidate("Invalid Exception")
             }
         }
 
         /**
-         * data 가 없거나 안에 payload 가 유효하지 않는 경우
+         * data.payload 데이터 유효한지 체크하는 함수
          */
-        @Throws(JSendEmptyDataException::class)
-        private fun Any.checkDataPayload(): Boolean {
-            return when (this) {
-                is JSendObj<*> -> {
-                    if (this.isValid) {
+        @Throws(JSendException.Invalidate::class)
+        private fun checkPayload(res: Any): Boolean {
+            return when (res) {
+                is BaseJSend -> {
+                    if (res.isValid) {
                         true
-                    } else if (isSuccess) {
-                        throw JSendEmptyDataException(message)
+                    } else if (res.isSuccess) {
+                        throw JSendException.Invalidate(res.message)
                     } else {
                         false
                     }
                 }
-                is JSendObjWithMeta<*, *> -> {
-                    if (this.isValid) {
-                        true
-                    } else if (isSuccess) {
-                        throw JSendEmptyDataException(message)
-                    } else {
-                        false
-                    }
-                }
-                is JSendList<*> -> {
-                    if (this.isValid) {
-                        true
-                    } else if (isSuccess) {
-                        throw JSendEmptyDataException(message)
-                    } else {
-                        false
-                    }
-                }
-                is JSendListWithMeta<*, *> -> {
-                    if (this.isValid) {
-                        true
-                    } else if (isSuccess) {
-                        throw JSendEmptyDataException(message)
-                    } else {
-                        false
-                    }
-                }
-                // 규격화된 방식이 아닌경우 true 리턴
+
                 else -> true
+            }
+        }
+
+        private fun getJSendException(err: Throwable): JSendException {
+            return if (err is HttpException) {
+                val res = err.response()
+                if (res != null) {
+                    JSendException.JSendResponse(err.code(), res.errorBody(), err)
+                } else {
+                    JSendException.Network(err.message, err)
+                }
+            } else if (err is SocketTimeoutException) {
+                JSendException.Network(err.message, err)
+            } else if (err is UnknownHostException) {
+                JSendException.Network(err.message, err)
+            } else if (err is IOException) {
+                JSendException.Network(err.message, err)
+            } else {
+                JSendException.Network(err.message, err)
             }
         }
     }

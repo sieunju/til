@@ -6,8 +6,7 @@ import com.hmju.core.model.base.JSendList
 import com.hmju.core.model.base.JSendListWithMeta
 import com.hmju.core.model.base.JSendObj
 import com.hmju.core.model.base.JSendObjWithMeta
-import com.hmju.core.model.error.JSendEmptyDataException
-import com.hmju.core.model.error.JSendInvalidPayloadException
+import com.hmju.core.model.error.JSendException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,6 +23,7 @@ import retrofit2.awaitResponse
 import java.io.IOException
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
+import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
 /**
@@ -130,6 +130,56 @@ class CoroutineErrorHandlingCallAdapter(
         }
     }
 
+    @Throws(JSendException.Invalidate::class)
+    private fun validateJSendCheck(res: Any): Any {
+        return if (checkPayload(res)) {
+            res
+        } else if (res is BaseJSend) {
+            throw JSendException.Invalidate(res.message)
+        } else {
+            throw JSendException.Invalidate("Invalid Exception")
+        }
+    }
+
+    /**
+     * data.payload 데이터 유효한지 체크하는 함수
+     */
+    @Throws(JSendException.Invalidate::class)
+    private fun checkPayload(res: Any): Boolean {
+        return when (res) {
+            is BaseJSend -> {
+                if (res.isValid) {
+                    true
+                } else if (res.isSuccess) {
+                    throw JSendException.Invalidate(res.message)
+                } else {
+                    false
+                }
+            }
+
+            else -> true
+        }
+    }
+
+    private fun getJSendException(err: Throwable): JSendException {
+        return if (err is HttpException) {
+            val res = err.response()
+            if (res != null) {
+                JSendException.JSendResponse(err.code(), res.errorBody(), err)
+            } else {
+                JSendException.Network(err.message, err)
+            }
+        } else if (err is SocketTimeoutException) {
+            JSendException.Network(err.message, err)
+        } else if (err is UnknownHostException) {
+            JSendException.Network(err.message, err)
+        } else if (err is IOException) {
+            JSendException.Network(err.message, err)
+        } else {
+            JSendException.Network(err.message, err)
+        }
+    }
+
     /**
      * Converter HTTP Response -> ApiResponse
      * @param res HTTP 통해 전달 받은 데이터
@@ -138,88 +188,18 @@ class CoroutineErrorHandlingCallAdapter(
         return try {
             val responseBody = res.body()
             if (res.isSuccessful && responseBody != null) {
-                val body = getJsonData(responseBody)
+                val body = validateJSendCheck(responseBody)
                 ApiResponse.Success(body)
             } else {
                 ApiResponse.Fail(
-                    type = ApiResponse.FailType.HTTP,
-                    msg = getHttpErrorMsg(res.raw()),
-                    errBody = res.errorBody()
+                    JSendException.JSendResponse(
+                        res.code(),
+                        res.errorBody()
+                    )
                 )
             }
         } catch (ex: Throwable) {
-            getErrorModel(ex)
-        }
-    }
-
-    /**
-     *  JSend Data Format 과 유효한 JSend 규칙에 유효한지 데이터 확인후 에러 및 데이터 모델을 리턴하는 함수
-     *  [JSendInvalidPayloadException] JSend 규칙이지만 data or payload 값이 유효하지 않는 경우 에러를 뱉는다.
-     *  [JSendEmptyDataException] JSend 규칙이고 data 는 없지만 status 는 true 인 경우
-     *  @param data Response Data
-     *  @throws JSendInvalidPayloadException
-     *  @throws JSendEmptyDataException
-     */
-    @Throws(JSendInvalidPayloadException::class, JSendEmptyDataException::class)
-    private fun getJsonData(data: Any): Any {
-        return if (isJSendFormat(data)) {
-            data
-        } else {
-            if (data is BaseJSend) {
-                throw JSendInvalidPayloadException(data.message)
-            } else {
-                throw JSendInvalidPayloadException("Invalid Exception")
-            }
-        }
-    }
-
-    /**
-     * JSend 규칙에 맞게 JSON 으로 되어있고 data -> payload 값이 존재 하는 경우
-     */
-    @Throws(JSendEmptyDataException::class)
-    private fun isJSendFormat(data: Any): Boolean {
-        return when (data) {
-            is JSendObj<*> -> {
-                if (data.isValid) {
-                    true
-                } else if (data.isSuccess) {
-                    throw JSendEmptyDataException(data.message)
-                } else {
-                    false
-                }
-            }
-
-            is JSendObjWithMeta<*, *> -> {
-                if (data.isValid) {
-                    true
-                } else if (data.isSuccess) {
-                    throw JSendEmptyDataException(data.message)
-                } else {
-                    false
-                }
-            }
-
-            is JSendList<*> -> {
-                if (data.isValid) {
-                    true
-                } else if (data.isSuccess) {
-                    throw JSendEmptyDataException(data.message)
-                } else {
-                    false
-                }
-            }
-
-            is JSendListWithMeta<*, *> -> {
-                if (data.isValid) {
-                    true
-                } else if (data.isSuccess) {
-                    throw JSendEmptyDataException(data.message)
-                } else {
-                    false
-                }
-            }
-            // 규격화된 방식이 아닌경우 true 리턴
-            else -> true
+            ApiResponse.Fail(getJSendException(ex))
         }
     }
 
@@ -247,41 +227,41 @@ class CoroutineErrorHandlingCallAdapter(
         return msg.toString()
     }
 
-    /**
-     * ApiResponse Fail 데이터 모델을 가져오는 함수
-     * @param err 네트워크 통신이후 리턴받는 에러
-     * @see HttpException
-     * @see UnknownHostException
-     * @see IOException
-     *
-     * @return [ApiResponse.Fail]
-     */
-    private fun getErrorModel(err: Throwable): ApiResponse<Any> {
-        return when (err) {
-            is HttpException -> {
-                val res = err.response()
-                ApiResponse.Fail(
-                    type = ApiResponse.FailType.HTTP,
-                    msg = getHttpErrorMsg(res?.raw()),
-                    errBody = res?.errorBody()
-                )
-            }
-
-            is UnknownHostException, is IOException -> {
-                ApiResponse.Fail(
-                    type = ApiResponse.FailType.NETWORK,
-                    msg = err.message ?: "$err",
-                    err = err
-                )
-            }
-
-            else -> {
-                ApiResponse.Fail(
-                    type = ApiResponse.FailType.UN_KNOWN,
-                    msg = "정의 되지 않는 에러입니다.",
-                    err = err
-                )
-            }
-        }
-    }
+//    /**
+//     * ApiResponse Fail 데이터 모델을 가져오는 함수
+//     * @param err 네트워크 통신이후 리턴받는 에러
+//     * @see HttpException
+//     * @see UnknownHostException
+//     * @see IOException
+//     *
+//     * @return [ApiResponse.Fail]
+//     */
+//    private fun getErrorModel(err: Throwable): ApiResponse<Any> {
+//        return when (err) {
+//            is HttpException -> {
+//                val res = err.response()
+//                ApiResponse.Fail(
+//                    type = ApiResponse.FailType.HTTP,
+//                    msg = getHttpErrorMsg(res?.raw()),
+//                    errBody = res?.errorBody()
+//                )
+//            }
+//
+//            is UnknownHostException, is IOException -> {
+//                ApiResponse.Fail(
+//                    type = ApiResponse.FailType.NETWORK,
+//                    msg = err.message ?: "$err",
+//                    err = err
+//                )
+//            }
+//
+//            else -> {
+//                ApiResponse.Fail(
+//                    type = ApiResponse.FailType.UN_KNOWN,
+//                    msg = "정의 되지 않는 에러입니다.",
+//                    err = err
+//                )
+//            }
+//        }
+//    }
 }

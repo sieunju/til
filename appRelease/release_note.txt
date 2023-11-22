@@ -1,8 +1,10 @@
-Build Date 2023년 07월 12일 수요일 13:53:38
-Version Name: 0.0.5
-Branch: develop
+Build Date 2023년 11월 22일 수요일 21:53:44
+Version Name: 0.0.6
+Branch: feature/refactor_network
 
-Message: commit ff91368b76f29aa698d7c74f5242f2fb3748af84
-Update generate-release-note.yml
+Message: commit 49efac10bdf53f2f9b523ec4bb89b146dacf562f
+Merge pull request #41 from sieunju/feature/fix_gitaction_script
+
+refactor: android 디렉토링 삭함으로 인해 gitaction script 문 수정
 
 Author: Sieun Ju

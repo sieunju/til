@@ -4,7 +4,17 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 /**
- * Description : 개선된 방식의 JSend Object With Meta Data Model
+ * Description : JSend JSON
+ * {
+ *  "status" : true or false,
+ *  "message" : String (에러인경우 사용자에게 표시하는 에러 메시지),
+ *  "data" : {
+ *      "payload" : { },
+ *      "meta" : {
+ *          "pageSize" : Integer
+ *      }
+ *  }
+ * }
  *
  * Created by juhongmin on 2022/05/15
  */
@@ -21,8 +31,7 @@ data class JSendObjWithMeta<T : Any, M : MetaEntity>(
         val meta: M? = null
     )
 
-    val isValid: Boolean
-        get() = depthData?.obj != null // true 유효현 데이터 상태
+    override val isValid: Boolean get() = depthData?.obj != null
 
     val payload: T
         get() = depthData?.obj ?: throw NullPointerException("Data is Null")
