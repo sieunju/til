@@ -50,6 +50,7 @@ dependencies {
     androidTestImplementation(composeBom)
     implementation("androidx.compose.material:material")
     implementation("androidx.compose.ui:ui")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose")
 
     // Android Studio Preview support
     implementation("androidx.compose.ui:ui-tooling-preview")

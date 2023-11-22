@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.features.base_mvvm.ui.mvvm_lifecycle.MvvmLifecycleTestActivity
 import com.hmju.core.model.test.SerializableEntity
 import com.hmju.core.ui.base.ActivityResult
@@ -17,6 +18,12 @@ import com.hmju.core.ui.lifecycle.OnCreated
 import com.hmju.core.ui.lifecycle.OnIntent
 import com.hmju.core.ui.lifecycle.OnPermissionResult
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -33,6 +40,20 @@ class RefactorTestViewModel @Inject constructor(
     val title: LiveData<String> get() = _title
     private val _contents: MutableLiveData<String> by lazy { MutableLiveData() }
     val contents: LiveData<String> get() = _contents
+
+    private val _testStateFlow: MutableSharedFlow<Int> by lazy { MutableSharedFlow() }
+    val testStateFlow: SharedFlow<Int> get() = _testStateFlow
+
+    override fun onDirectCreate() {
+        super.onDirectCreate()
+        viewModelScope.launch(Dispatchers.IO) {
+            for (idx in 0 until 50) {
+                _testStateFlow.emit(idx)
+                delay(1000)
+            }
+        }
+
+    }
 
     @OnIntent
     fun intentData() {
