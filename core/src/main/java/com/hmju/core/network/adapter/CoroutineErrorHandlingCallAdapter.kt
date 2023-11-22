@@ -25,6 +25,7 @@ import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
+import kotlin.coroutines.Continuation
 
 /**
  * Description : Coroutines Call Adapter
@@ -47,6 +48,19 @@ class CoroutineErrorHandlingCallAdapter(
         retrofit: Retrofit
     ): CallAdapter<*, *>? {
         return when (getRawType(returnType)) {
+//            Continuation::class.java -> {
+//                // ApiResponse<JSend...> -> Original (Call<ApiResponse<JSend...>)
+//                val callType = getParameterUpperBound(0, returnType as ParameterizedType)
+//
+//                // ApiResponse 으로 감싸져 있는지 확인
+//                if (getRawType(callType) == ApiResponse::class.java) {
+//                    // ApiResponse Find {<JSend...>}
+//                    val jsendType = getParameterUpperBound(0, callType as ParameterizedType)
+//                    CoroutineCallAdapterWrapper(jsendType, coroutineScope)
+//                } else {
+//                    null
+//                }
+//            }
             Call::class.java -> {
                 // ApiResponse<JSend...> -> Original (Call<ApiResponse<JSend...>)
                 val callType = getParameterUpperBound(0, returnType as ParameterizedType)
@@ -226,42 +240,4 @@ class CoroutineErrorHandlingCallAdapter(
 
         return msg.toString()
     }
-
-//    /**
-//     * ApiResponse Fail 데이터 모델을 가져오는 함수
-//     * @param err 네트워크 통신이후 리턴받는 에러
-//     * @see HttpException
-//     * @see UnknownHostException
-//     * @see IOException
-//     *
-//     * @return [ApiResponse.Fail]
-//     */
-//    private fun getErrorModel(err: Throwable): ApiResponse<Any> {
-//        return when (err) {
-//            is HttpException -> {
-//                val res = err.response()
-//                ApiResponse.Fail(
-//                    type = ApiResponse.FailType.HTTP,
-//                    msg = getHttpErrorMsg(res?.raw()),
-//                    errBody = res?.errorBody()
-//                )
-//            }
-//
-//            is UnknownHostException, is IOException -> {
-//                ApiResponse.Fail(
-//                    type = ApiResponse.FailType.NETWORK,
-//                    msg = err.message ?: "$err",
-//                    err = err
-//                )
-//            }
-//
-//            else -> {
-//                ApiResponse.Fail(
-//                    type = ApiResponse.FailType.UN_KNOWN,
-//                    msg = "정의 되지 않는 에러입니다.",
-//                    err = err
-//                )
-//            }
-//        }
-//    }
 }

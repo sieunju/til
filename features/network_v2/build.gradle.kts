@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.features.network"
+    namespace = "com.features.network_v2"
     buildFeatures {
         dataBinding = true
     }
@@ -18,7 +18,6 @@ android {
 
 dependencies {
     implementation(project(":core"))
-    implementation(project(":features:network-bridge"))
     implementation(project(":features:network_v2-bridge"))
 
     /**
@@ -35,22 +34,10 @@ dependencies {
     implementation(AndroidX.liveData)
 
     /**
-     * Timber
-     */
-    implementation(Log.timber)
-
-    /**
      * Hilt
      */
     implementation(Hilt.android)
     kapt(Hilt.compiler)
-
-    /**
-     * Rx
-     */
-    implementation(Rx.java)
-    implementation(Rx.kotlin)
-    implementation(Rx.android)
 
     /**
      * Coroutines
