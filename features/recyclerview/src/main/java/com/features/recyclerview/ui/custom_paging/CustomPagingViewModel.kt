@@ -7,7 +7,7 @@ import com.hmju.core.ui.livedata.ListLiveData
 import com.hmju.core.ui.paging.PagingModel
 import com.features.recyclerview.usecase.GetGoodsUseCase
 import com.hmju.core.model.goods.GoodsEntity
-import com.hmju.core.model.params.GoodsParamMap
+import com.hmju.core.model.params.GoodsParameter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.addTo
@@ -28,7 +28,7 @@ class CustomPagingViewModel @Inject constructor(
     val dataList: ListLiveData<GoodsEntity> get() = _dataList
 
     val pagingModel: PagingModel by lazy { PagingModel() }
-    private val queryMap: GoodsParamMap by lazy { GoodsParamMap() }
+    private val queryMap: GoodsParameter by lazy { GoodsParameter() }
 
     fun start() {
         queryMap.tempQueryList = listOf("HIHIHI", "안녕하세요", "반갑습니다.")

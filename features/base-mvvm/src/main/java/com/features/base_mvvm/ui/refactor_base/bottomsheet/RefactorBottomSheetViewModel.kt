@@ -7,7 +7,7 @@ import com.hmju.core.ui.base.BottomSheetViewModel
 import com.hmju.core.ui.lifecycle.OnCreated
 import com.hmju.core.ui.lifecycle.OnStopped
 import com.hmju.core.ui.lifecycle.OnViewCreated
-import com.hmju.core.model.params.GoodsParamMap
+import com.hmju.core.model.params.GoodsParameter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Flowable
@@ -37,7 +37,7 @@ class RefactorBottomSheetViewModel @Inject constructor(
 
     @OnCreated
     fun onCreated() {
-        val queryMap = GoodsParamMap()
+        val queryMap = GoodsParameter()
         queryMap.pageNo = 2
         getGoodsUseCase(queryMap)
             .observeOn(AndroidSchedulers.mainThread())

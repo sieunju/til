@@ -8,7 +8,7 @@ import com.hmju.core.model.body.LikeRequestBody
 import com.hmju.core.model.goods.GoodsEntity
 import com.hmju.core.model.like.LikeEntity
 import com.hmju.core.model.meta.CustomMetaEntity
-import com.hmju.core.model.params.GoodsParamMap
+import com.hmju.core.model.params.GoodsParameter
 import com.hmju.core.model.test.TestEntity
 import io.reactivex.rxjava3.core.Single
 import retrofit2.Call
@@ -22,7 +22,7 @@ import retrofit2.http.*
 interface ApiService {
     @GET("/api/til/goods")
     fun fetchGoods(
-        @QueryMap(encoded = true) params: GoodsParamMap
+        @QueryMap(encoded = true) params: Map<String,Any>
     ): Single<JSendListWithMeta<GoodsEntity, CustomMetaEntity>>
 
     @GET("/api/til/test")
@@ -40,12 +40,12 @@ interface ApiService {
 
     @GET("/api/til/goods")
     suspend fun fetchGoodsCo(
-        @QueryMap(encoded = true) params: GoodsParamMap
+        @QueryMap(encoded = true) params: Map<String,Any>
     ): ApiResponse<JSendListWithMeta<GoodsEntity, CustomMetaEntity>>
 
     @GET("/api/til/goods")
     fun fetchGoodsCall(
-        @QueryMap(encoded = true) params: GoodsParamMap
+        @QueryMap(encoded = true) params: Map<String,Any>
     ): Call<ApiResponse<JSendListWithMeta<GoodsEntity, CustomMetaEntity>>>
 
     @GET("/api/til/jsend/list")

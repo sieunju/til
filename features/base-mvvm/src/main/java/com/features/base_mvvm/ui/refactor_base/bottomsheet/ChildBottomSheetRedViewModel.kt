@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.features.base_mvvm.usecase.GetGoodsUseCase
 import com.hmju.core.ui.base.FragmentViewModel
 import com.hmju.core.ui.lifecycle.OnViewCreated
-import com.hmju.core.model.params.GoodsParamMap
+import com.hmju.core.model.params.GoodsParameter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.addTo
@@ -26,7 +26,7 @@ class ChildBottomSheetRedViewModel @Inject constructor(
 
     @OnViewCreated
     fun startAddLike() {
-        val queryMap = GoodsParamMap()
+        val queryMap = GoodsParameter()
         getGoodsUseCase(queryMap)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({

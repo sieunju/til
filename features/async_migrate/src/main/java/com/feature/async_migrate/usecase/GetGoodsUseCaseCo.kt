@@ -5,7 +5,7 @@ import com.hmju.async_migrate.AsyncConverterUtils.toCoroutine
 import com.hmju.core.model.base.JSendListWithMeta
 import com.hmju.core.model.base.getOrDefault
 import com.hmju.core.model.goods.GoodsEntity
-import com.hmju.core.model.params.GoodsParamMap
+import com.hmju.core.model.params.GoodsParameter
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import javax.inject.Inject
@@ -18,10 +18,10 @@ import javax.inject.Inject
 class GetGoodsUseCaseCo @Inject constructor(
     private val apiService: ApiService
 ) {
-    suspend operator fun invoke(queryMap: GoodsParamMap): List<GoodsEntity> {
+    suspend operator fun invoke(params: GoodsParameter): List<GoodsEntity> {
         return coroutineScope {
-            val work1 = async { apiService.fetchCoGoods(queryMap) }
-            val work2 = apiService.fetchGoods(queryMap).toCoroutine()
+            val work1 = async { apiService.fetchCoGoods(params.getQueryParameter()) }
+            val work2 = apiService.fetchGoods(params.getQueryParameter()).toCoroutine()
             val res1 = work1.await()
             val res2 = work2
             val list = mutableListOf<GoodsEntity>()

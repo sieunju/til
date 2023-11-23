@@ -5,9 +5,8 @@ import com.features.recyclerview.ApiService
 import com.features.recyclerview.model.GoodsOneUiModel
 import com.features.recyclerview.model.GoodsTwoUiModel
 import com.features.recyclerview.usecase.GetGoodsCoUseCase
-import com.features.recyclerview.usecase.GetGoodsUseCase
 import com.hmju.core.model.goods.GoodsEntity
-import com.hmju.core.model.params.GoodsParamMap
+import com.hmju.core.model.params.GoodsParameter
 import com.hmju.core.ui.base.BaseUiModel
 import com.hmju.core.ui.base.FragmentViewModel
 import com.hmju.core.ui.lifecycle.OnViewCreated
@@ -30,7 +29,7 @@ class RefactorDiffUtilViewModel @Inject constructor(
     val dataList: ListLiveData<BaseUiModel> get() = _dataList
 
     val pagingModel: PagingModel by lazy { PagingModel() }
-    private val queryMap: GoodsParamMap by lazy { GoodsParamMap() }
+    private val queryMap: GoodsParameter by lazy { GoodsParameter() }
 
     @OnViewCreated
     fun start() {
