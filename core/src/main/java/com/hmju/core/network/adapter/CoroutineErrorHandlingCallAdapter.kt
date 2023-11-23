@@ -26,7 +26,6 @@ import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
-import kotlin.coroutines.Continuation
 
 /**
  * Description : Coroutines Call Adapter
@@ -34,7 +33,7 @@ import kotlin.coroutines.Continuation
  * Created by juhongmin on 2023/02/04
  */
 class CoroutineErrorHandlingCallAdapter(
-    private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO)
+    private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO),
 ) : CallAdapter.Factory() {
 
     companion object {
@@ -46,27 +45,11 @@ class CoroutineErrorHandlingCallAdapter(
     override fun get(
         returnType: Type,
         annotations: Array<out Annotation>,
-        retrofit: Retrofit
+        retrofit: Retrofit,
     ): CallAdapter<*, *>? {
-        val type = getRawType(returnType)
-        Timber.d("코루틴 타입 $type")
-        return when (type) {
-            Continuation::class.java -> {
-                Timber.d("코루틴은 여기를 탑니다!!!!!!")
-                // ApiResponse<JSend...> -> Original (Call<ApiResponse<JSend...>)
-                val callType = getParameterUpperBound(0, returnType as ParameterizedType)
-
-                // ApiResponse 으로 감싸져 있는지 확인
-                if (getRawType(callType) == ApiResponse::class.java) {
-                    // ApiResponse Find {<JSend...>}
-                    val jsendType = getParameterUpperBound(0, callType as ParameterizedType)
-                    CoroutineCallAdapterWrapper(jsendType, coroutineScope)
-                } else {
-                    null
-                }
-            }
+        return when (getRawType(returnType)) {
             Call::class.java -> {
-                Timber.d("아니요 여기입니다!!")
+                // Continuation::class.java -> 기억해둘것
                 // ApiResponse<JSend...> -> Original (Call<ApiResponse<JSend...>)
                 val callType = getParameterUpperBound(0, returnType as ParameterizedType)
 
@@ -79,14 +62,13 @@ class CoroutineErrorHandlingCallAdapter(
                     null
                 }
             }
-
             else -> null
         }
     }
 
     inner class CoroutineCallAdapterWrapper<R : Type>(
         private val responseType: R,
-        private val coroutineScope: CoroutineScope
+        private val coroutineScope: CoroutineScope,
     ) : CallAdapter<R, Any> {
         // CallAdapter<Request,Response>
 
@@ -108,7 +90,7 @@ class CoroutineErrorHandlingCallAdapter(
 
     inner class CallEnqueueDelegate<T>(
         private val originCall: Call<T>,
-        private val coroutineScope: CoroutineScope
+        private val coroutineScope: CoroutineScope,
     ) : Call<Any> {
         override fun clone(): Call<Any> {
             return CallEnqueueDelegate(originCall.clone(), coroutineScope)

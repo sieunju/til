@@ -12,5 +12,9 @@ sealed class ApiResponse<out T> {
      */
     data class Success<out T>(val data: T) : ApiResponse<T>()
 
+    /**
+     * Network Fail
+     * @param err Error
+     */
     data class Fail(val err: Throwable) : ApiResponse<Nothing>()
 }

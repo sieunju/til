@@ -10,13 +10,13 @@ import okhttp3.ResponseBody
  *
  * Created by juhongmin on 11/22/23
  */
-sealed class JSendException (
+sealed class JSendException(
     open val msg: String? = null,
-    open val err: Throwable? = null
-) : RuntimeException(msg,err) {
+    open val err: Throwable? = null,
+) : RuntimeException(msg, err) {
     data class Network(
         override val msg: String? = null,
-        override val err: Throwable? = null
+        override val err: Throwable? = null,
     ) : JSendException(msg, err)
 
     /**
@@ -24,13 +24,13 @@ sealed class JSendException (
      */
     data class Invalidate(
         override val msg: String? = null,
-        override val err: Throwable? = null
-    ) : JSendException(msg,err)
+        override val err: Throwable? = null,
+    ) : JSendException(msg, err)
 
     data class JSendResponse(
         val statusCode: Int,
         val errBody: ResponseBody? = null,
-        override val cause: Throwable? = null
+        override val cause: Throwable? = null,
     ) : JSendException(null, cause) {
 
         val json: Json by lazy {
@@ -42,9 +42,17 @@ sealed class JSendException (
         }
 
         @OptIn(ExperimentalSerializationApi::class)
-        inline fun <reified T> getErrorBody() : T? {
+        inline fun <reified T> getErrorBody(): T? {
             val body = errBody ?: return null
             return json.decodeFromString(body.string())
+        }
+    }
+
+    inline fun <reified T> getBody(): T? {
+        return if (this is JSendResponse) {
+            this.getErrorBody()
+        } else {
+            null
         }
     }
 }
