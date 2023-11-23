@@ -40,6 +40,11 @@ dependencies {
     kapt(Hilt.compiler)
 
     /**
+     * Timber
+     */
+    implementation(Log.timber)
+
+    /**
      * Coroutines
      */
     implementation(Co.core)

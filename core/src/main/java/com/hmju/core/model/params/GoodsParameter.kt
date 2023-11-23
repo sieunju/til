@@ -9,11 +9,11 @@ data class GoodsParameter(
     var tempQueryString: List<String>? = null
 ) {
 
-    fun getQueryParameter(): Map<String, Any> {
-        val map = hashMapOf<String, Any>()
+    fun getQueryParameter(): Map<String, String> {
+        val map = hashMapOf<String, String>()
         map["pageNo"] = pageNo.toString()
         map["pageSize"] = pageSize.toString()
-        tempQueryList?.let { map.put("tempList", it) }
+        tempQueryList?.let { map.put("tempList", it.toString()) }
         tempQueryString?.let {
             val list = mutableListOf<String>()
             it.forEach { str ->

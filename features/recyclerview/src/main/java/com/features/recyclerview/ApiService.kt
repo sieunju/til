@@ -22,7 +22,7 @@ import retrofit2.http.*
 interface ApiService {
     @GET("/api/til/goods")
     fun fetchGoods(
-        @QueryMap(encoded = true) params: Map<String,Any>
+        @QueryMap(encoded = true) params: Map<String, String>
     ): Single<JSendListWithMeta<GoodsEntity, CustomMetaEntity>>
 
     @GET("/api/til/test")
@@ -40,12 +40,12 @@ interface ApiService {
 
     @GET("/api/til/goods")
     suspend fun fetchGoodsCo(
-        @QueryMap(encoded = true) params: Map<String,Any>
+        @QueryMap(encoded = true) params: Map<String, String>
     ): ApiResponse<JSendListWithMeta<GoodsEntity, CustomMetaEntity>>
 
     @GET("/api/til/goods")
     fun fetchGoodsCall(
-        @QueryMap(encoded = true) params: Map<String,Any>
+        @QueryMap(encoded = true) params: Map<String, String>
     ): Call<ApiResponse<JSendListWithMeta<GoodsEntity, CustomMetaEntity>>>
 
     @GET("/api/til/jsend/list")

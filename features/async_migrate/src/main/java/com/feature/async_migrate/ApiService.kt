@@ -17,11 +17,11 @@ interface ApiService {
 
     @GET("/api/til/goods")
     fun fetchGoods(
-        @QueryMap(encoded = true) params: Map<String,Any>
+        @QueryMap(encoded = true) params: Map<String, String>
     ): Single<JSendListWithMeta<GoodsEntity, CustomMetaEntity>>
 
     @GET("/api/til/goods")
     suspend fun fetchCoGoods(
-        @QueryMap(encoded = true) params: Map<String,Any>
-    ) : ApiResponse<JSendListWithMeta<GoodsEntity, CustomMetaEntity>>
+        @QueryMap(encoded = true) params: Map<String, String>
+    ): ApiResponse<JSendListWithMeta<GoodsEntity, CustomMetaEntity>>
 }

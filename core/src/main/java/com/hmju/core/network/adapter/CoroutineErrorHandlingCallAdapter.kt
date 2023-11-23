@@ -20,6 +20,7 @@ import retrofit2.HttpException
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.awaitResponse
+import timber.log.Timber
 import java.io.IOException
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
@@ -47,21 +48,25 @@ class CoroutineErrorHandlingCallAdapter(
         annotations: Array<out Annotation>,
         retrofit: Retrofit
     ): CallAdapter<*, *>? {
-        return when (getRawType(returnType)) {
-//            Continuation::class.java -> {
-//                // ApiResponse<JSend...> -> Original (Call<ApiResponse<JSend...>)
-//                val callType = getParameterUpperBound(0, returnType as ParameterizedType)
-//
-//                // ApiResponse 으로 감싸져 있는지 확인
-//                if (getRawType(callType) == ApiResponse::class.java) {
-//                    // ApiResponse Find {<JSend...>}
-//                    val jsendType = getParameterUpperBound(0, callType as ParameterizedType)
-//                    CoroutineCallAdapterWrapper(jsendType, coroutineScope)
-//                } else {
-//                    null
-//                }
-//            }
+        val type = getRawType(returnType)
+        Timber.d("코루틴 타입 $type")
+        return when (type) {
+            Continuation::class.java -> {
+                Timber.d("코루틴은 여기를 탑니다!!!!!!")
+                // ApiResponse<JSend...> -> Original (Call<ApiResponse<JSend...>)
+                val callType = getParameterUpperBound(0, returnType as ParameterizedType)
+
+                // ApiResponse 으로 감싸져 있는지 확인
+                if (getRawType(callType) == ApiResponse::class.java) {
+                    // ApiResponse Find {<JSend...>}
+                    val jsendType = getParameterUpperBound(0, callType as ParameterizedType)
+                    CoroutineCallAdapterWrapper(jsendType, coroutineScope)
+                } else {
+                    null
+                }
+            }
             Call::class.java -> {
+                Timber.d("아니요 여기입니다!!")
                 // ApiResponse<JSend...> -> Original (Call<ApiResponse<JSend...>)
                 val callType = getParameterUpperBound(0, returnType as ParameterizedType)
 
