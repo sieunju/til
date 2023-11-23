@@ -19,18 +19,18 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class NetworkV2FragmentViewModel @Inject constructor(
-    private val apiService: ApiService
+    private val apiService: ApiService,
 ) : FragmentViewModel() {
 
     @Serializable
     data class ErrorBody(
         val status: Boolean = false,
-        val message: Message = Message()
+        val message: Message = Message(),
     ) {
         @Serializable
         data class Message(
             val name: String = "",
-            val contents: String = ""
+            val contents: String = "",
         )
     }
 
@@ -51,8 +51,8 @@ class NetworkV2FragmentViewModel @Inject constructor(
                 .onSuccess { Timber.d("SUCC $it") }
                 .onError {
                     val err = it.err
-                    if (err is JSendException.JSendResponse) {
-                        Timber.d("ERROR ${err.getErrorBody<ErrorBody>()}")
+                    if (err is JSendException) {
+                        Timber.d("ERROR ${err.getBody<ErrorBody>()}")
                     }
                 }
         }

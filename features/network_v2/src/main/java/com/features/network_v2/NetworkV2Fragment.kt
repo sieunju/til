@@ -1,7 +1,5 @@
 package com.features.network_v2
 
-import android.os.Bundle
-import android.view.View
 import com.features.network_v2.databinding.FNetworkV2Binding
 import com.hmju.core.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -14,13 +12,10 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class NetworkV2Fragment : BaseFragment<
         FNetworkV2Binding,
-        NetworkV2FragmentViewModel
-        >(R.layout.f_network_v2) {
+        NetworkV2FragmentViewModel>(
+    R.layout.f_network_v2
+) {
 
     override val viewModel: NetworkV2FragmentViewModel by initViewModel()
     override val bindingVariable: Int = BR.vm
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
 }
