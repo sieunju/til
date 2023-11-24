@@ -19,10 +19,8 @@ internal object NetworkModule {
     @Singleton
     @Provides
     fun provideApiService(
-        provider: NetworkProvider
+        provider: NetworkProvider,
     ): ApiService {
-        return provider
-            .getNetwork()
-            .create(ApiService::class.java)
+        return provider.createApiService(ApiService::class.java)
     }
 }
