@@ -42,6 +42,12 @@
                 android:onClick="@{()->vm.onRequestError()}"
                 android:text="에러 바디 테스트" />
 
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="@{()->vm.onRefreshToken()}"
+                android:text="토큰 가져오기" />
+
 
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.constraintlayout.widget.ConstraintLayout>
