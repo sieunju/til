@@ -20,7 +20,8 @@ import java.net.UnknownHostException
  * Created by juhongmin on 2022/06/18
  */
 class RxErrorHandlingCallAdapter : CallAdapter.Factory() {
-    private val original = RxJava3CallAdapterFactory.createWithScheduler(Schedulers.io())
+    // private val original = RxJava3CallAdapterFactory.createWithScheduler(Schedulers.io())
+    private val original = RxJava3CallAdapterFactory.create()
 
     companion object {
         fun create(): CallAdapter.Factory {
@@ -52,6 +53,7 @@ class RxErrorHandlingCallAdapter : CallAdapter.Factory() {
                 is Single<*> -> {
                     res.map { validateJSendCheck(it) }
                         .onErrorResumeNext { Single.error(getJSendException(it)) }
+                        .subscribeOn(Schedulers.io())
                 }
 
                 else -> {

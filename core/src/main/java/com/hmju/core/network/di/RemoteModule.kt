@@ -1,11 +1,15 @@
 package com.hmju.core.network.di
 
 import com.hmju.core.login_manager.LoginManager
+import com.hmju.core.login_manager.di.LoginManagerModule
 import com.hmju.core.network.NetworkConfig
+import com.hmju.core.network.adapter.PauseAbleThreadPoolExecutor
 import com.hmju.core.network.interceptor.HeaderInterceptor
 import com.hmju.core.network.interceptor.RefreshTokenInterceptor
 import com.hmju.core.network.interceptor.TokenAuthenticator
 import com.hmju.core.network.qualifiers.*
+import com.hmju.core.pref.PreferenceManager
+import com.hmju.core.pref.di.PreferenceManagerModule
 import com.http.tracking_interceptor.TrackingHttpInterceptor
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
@@ -16,6 +20,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.Authenticator
+import okhttp3.Dispatcher
 import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -32,7 +37,7 @@ import javax.inject.Singleton
  * Created by juhongmin on 2023/03/27
  */
 @InstallIn(SingletonComponent::class)
-@Module
+@Module(includes = [LoginManagerModule::class, PreferenceManagerModule::class])
 internal object RemoteModule {
 
     @Singleton
@@ -47,7 +52,7 @@ internal object RemoteModule {
     @Provides
     @HeaderJsonInterceptor
     fun provideHeaderInterceptor(
-        loginManager: LoginManager
+        loginManager: LoginManager,
     ): Interceptor = HeaderInterceptor(loginManager)
 
     @Singleton
@@ -76,7 +81,7 @@ internal object RemoteModule {
     fun provideTokenHttpClient(
         @RefreshTokenJsonInterceptor headerInterceptor: Interceptor,
         @TrackingInterceptor trackingInterceptor: Interceptor,
-        httpLoggingInterceptor: HttpLoggingInterceptor
+        httpLoggingInterceptor: HttpLoggingInterceptor,
     ): OkHttpClient = OkHttpClient.Builder()
         .retryOnConnectionFailure(true)
         .connectTimeout(NetworkConfig.CONNECT_TIME_OUT, TimeUnit.MILLISECONDS)
@@ -93,7 +98,7 @@ internal object RemoteModule {
     @TokenRetrofit
     fun provideTokenRetrofit(
         @TokenHttpClient httpClient: OkHttpClient,
-        json: Json
+        json: Json,
     ): Retrofit = Retrofit.Builder()
         .baseUrl(NetworkConfig.BASE_URL)
         .client(httpClient)
@@ -105,7 +110,7 @@ internal object RemoteModule {
     @Provides
     fun provideTokenAuthenticator(
         loginManager: LoginManager,
-        @TokenRetrofit retrofit: Retrofit
+        @TokenRetrofit retrofit: Retrofit,
     ): Authenticator = TokenAuthenticator(loginManager, retrofit)
 
     @Singleton
@@ -115,28 +120,22 @@ internal object RemoteModule {
         @HeaderJsonInterceptor headerInterceptor: Interceptor,
         @TrackingInterceptor trackingInterceptor: Interceptor,
         tokenAuthenticator: Authenticator,
-        httpLoggingInterceptor: HttpLoggingInterceptor
-    ): OkHttpClient = OkHttpClient.Builder()
-        .retryOnConnectionFailure(true)
-        .connectTimeout(NetworkConfig.CONNECT_TIME_OUT, TimeUnit.MILLISECONDS)
-        .readTimeout(NetworkConfig.READ_TIME_OUT, TimeUnit.MILLISECONDS)
-        .writeTimeout(NetworkConfig.WRITE_TIME_OUT, TimeUnit.MILLISECONDS)
-        .addInterceptor(httpLoggingInterceptor)
-        .addInterceptor(trackingInterceptor)
-        .addInterceptor(headerInterceptor)
-        .authenticator(tokenAuthenticator)
-        .build()
-
-//    @ExperimentalSerializationApi
-//    @Provides
-//    fun provideRetrofit(
-//        @ApiHttpClient httpClient: OkHttpClient,
-//        json: Json
-//    ): Retrofit = Retrofit.Builder()
-//        .baseUrl(NetworkConfig.BASE_URL)
-//        .client(httpClient)
-//        .addCallAdapterFactory(RxErrorHandlingCallAdapter.create())
-//        .addCallAdapterFactory(CoroutineErrorHandlingCallAdapter.create())
-//        .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
-//        .build()
+        httpLoggingInterceptor: HttpLoggingInterceptor,
+        prefManager: PreferenceManager,
+        @TokenRetrofit retrofit: Retrofit,
+    ): OkHttpClient {
+        return OkHttpClient.Builder()
+            .retryOnConnectionFailure(true)
+            .connectTimeout(NetworkConfig.CONNECT_TIME_OUT, TimeUnit.MILLISECONDS)
+            .readTimeout(NetworkConfig.READ_TIME_OUT, TimeUnit.MILLISECONDS)
+            .writeTimeout(NetworkConfig.WRITE_TIME_OUT, TimeUnit.MILLISECONDS)
+            .dispatcher(Dispatcher(PauseAbleThreadPoolExecutor(prefManager, retrofit)).apply {
+                 maxRequests = 2
+            })
+            .addInterceptor(httpLoggingInterceptor)
+            // .addInterceptor(trackingInterceptor)
+            .addInterceptor(headerInterceptor)
+            .authenticator(tokenAuthenticator)
+            .build()
+    }
 }

@@ -51,6 +51,12 @@ dependencies {
     implementation(Co.android)
 
     /**
+     * Rx
+     */
+    implementation(Rx.android)
+    implementation(Rx.kotlin)
+
+    /**
      * Network
      */
     implementation(Retrofit.base)

@@ -56,8 +56,8 @@ class CoroutineErrorHandlingCallAdapter(
                 // ApiResponse 으로 감싸져 있는지 확인
                 if (getRawType(callType) == ApiResponse::class.java) {
                     // ApiResponse Find {<JSend...>}
-                    val jsendType = getParameterUpperBound(0, callType as ParameterizedType)
-                    CoroutineCallAdapterWrapper(jsendType, coroutineScope)
+                    val type = getParameterUpperBound(0, callType as ParameterizedType)
+                    CoroutineCallAdapterWrapper(type, coroutineScope)
                 } else {
                     null
                 }

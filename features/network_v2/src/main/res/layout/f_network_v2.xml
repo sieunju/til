@@ -48,6 +48,12 @@
                 android:onClick="@{()->vm.onRefreshToken()}"
                 android:text="토큰 가져오기" />
 
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="@{()->vm.reqTest()}"
+                android:text="API 병렬 테스트" />
+
 
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.constraintlayout.widget.ConstraintLayout>

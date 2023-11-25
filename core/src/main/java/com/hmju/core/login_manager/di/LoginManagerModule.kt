@@ -18,5 +18,5 @@ import javax.inject.Singleton
 internal abstract class LoginManagerModule {
     @Singleton
     @Binds
-    abstract fun bindLoginManager(loginManager: LoginManagerImpl): LoginManager
+    abstract fun bindLoginManager(impl: LoginManagerImpl): LoginManager
 }

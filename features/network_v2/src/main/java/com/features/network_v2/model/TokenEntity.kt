@@ -33,5 +33,9 @@ data class TokenEntity(
         val type: String = "",
         val nickname: String = "",
         val exp: Long = 0
-    )
+    ) {
+        fun getExpiredMs(): Long {
+            return exp * 1000
+        }
+    }
 }
