@@ -88,6 +88,7 @@ open class MainApplication : Application() {
         TrackingManager.getInstance()
             .setBuildType(true)
             .setWifiShare(true)
+            .setLogMaxSize(10_000)
             .build(this)
     }
 }

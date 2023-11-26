@@ -122,18 +122,23 @@ internal object RemoteModule {
         tokenAuthenticator: Authenticator,
         httpLoggingInterceptor: HttpLoggingInterceptor,
         prefManager: PreferenceManager,
-        @TokenRetrofit retrofit: Retrofit,
+        @TokenHttpClient tokenClient: OkHttpClient,
     ): OkHttpClient {
         return OkHttpClient.Builder()
             .retryOnConnectionFailure(true)
             .connectTimeout(NetworkConfig.CONNECT_TIME_OUT, TimeUnit.MILLISECONDS)
             .readTimeout(NetworkConfig.READ_TIME_OUT, TimeUnit.MILLISECONDS)
             .writeTimeout(NetworkConfig.WRITE_TIME_OUT, TimeUnit.MILLISECONDS)
-            .dispatcher(Dispatcher(PauseAbleThreadPoolExecutor(prefManager, retrofit)).apply {
-                 maxRequests = 2
+            .dispatcher(Dispatcher(
+                PauseAbleThreadPoolExecutor(
+                    prefManager,
+                    tokenClient
+                )
+            ).apply {
+                // maxRequests = 4
             })
             .addInterceptor(httpLoggingInterceptor)
-            // .addInterceptor(trackingInterceptor)
+            .addInterceptor(trackingInterceptor)
             .addInterceptor(headerInterceptor)
             .authenticator(tokenAuthenticator)
             .build()

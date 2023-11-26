@@ -1,11 +1,10 @@
-Build Date 2023년 11월 23일 목요일 20:56:32
+Build Date 2023년 11월 24일 금요일 21:27:45
 Version Name: 0.0.6
 Branch: feature/refactor_network
 
-Message: commit 8b7102d22030c430cecd5552ab796e4d29fb8047
+Message: commit 5ab224b0fd94bf4ca16b4990e22ac1d7a14c05c5
 refactor: Network V2 리펙토링
-- GoodsParameter 방식 변경
-- 네트워크 v2 API 추가
+- 각 피처모듈마다 ApiService 생성하는 함수 좀더 간단한 방식으로 개선
 
 
 Author: sieunju
