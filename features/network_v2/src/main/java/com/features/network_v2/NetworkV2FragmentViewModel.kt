@@ -1,22 +1,25 @@
 package com.features.network_v2
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.features.network_v2.model.JSendEntity
-import com.features.network_v2.model.TokenBody
 import com.hmju.core.model.base.onError
 import com.hmju.core.model.base.onSuccess
-import com.hmju.core.model.error.JSendException
 import com.hmju.core.model.params.GoodsParameter
 import com.hmju.core.pref.PreferenceManager
 import com.hmju.core.ui.base.FragmentViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.kotlin.addTo
+import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.Json
 import timber.log.Timber
-import java.text.SimpleDateFormat
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.random.Random
 
@@ -28,16 +31,8 @@ import kotlin.random.Random
 @HiltViewModel
 class NetworkV2FragmentViewModel @Inject constructor(
     private val apiService: ApiService,
-    private val prefManager: PreferenceManager,
+    private val prefManager: PreferenceManager
 ) : FragmentViewModel() {
-
-    private val json: Json by lazy {
-        Json {
-            isLenient = true // Json 큰따옴표 느슨하게 체크.
-            ignoreUnknownKeys = true // Field 값이 없는 경우 무시
-            coerceInputValues = true // "null" 이 들어간경우 default Argument 값으로 대체
-        }
-    }
 
     @Serializable
     data class ErrorBody(
@@ -51,64 +46,17 @@ class NetworkV2FragmentViewModel @Inject constructor(
         )
     }
 
-    override fun onDirectViewCreated() {
-        super.onDirectViewCreated()
-        prefManager.setValue(PreferenceManager.KEY_TOKEN_EXPIRED_MS, System.currentTimeMillis())
-        val dateFormat = SimpleDateFormat("yyyy년 MM월 dd일 kk시 mm분 ss초")
-        Timber.d("저장된 만료 날짜 ${dateFormat.format(prefManager.getLong(PreferenceManager.KEY_TOKEN_EXPIRED_MS))}")
-    }
-
-    fun onRequestGoods() {
-        viewModelScope.launch {
-            val params = GoodsParameter()
-            apiService
-                .fetchGoods(params.getQueryParameter())
-                .onSuccess { Timber.d("SUCC $it") }
-                .onError { Timber.d("ERROR $it") }
-        }
-    }
+    private val _progressText: MutableLiveData<String> by lazy { MutableLiveData() }
+    val progressText: LiveData<String> get() = _progressText
+    private val _isLoading: MutableLiveData<Boolean> by lazy { MutableLiveData() }
+    val isLoading: LiveData<Boolean> get() = _isLoading
 
     fun onRequestError() {
         viewModelScope.launch {
             apiService.fetchError404()
                 .onSuccess { Timber.d("SUCC $it") }
-                .onError {
-                    val err = it.err
-                    if (err is JSendException) {
-                        Timber.d("ERROR ${err.getBody<ErrorBody>()}")
-                    }
-                }
+                .onError { Timber.d("ERROR ${it.err.getBody<ErrorBody>()}") }
         }
-    }
-
-    fun onRefreshToken() {
-//        viewModelScope.launch {
-//            apiService.postToken(TokenBody("hohoh.com"))
-//                .onSuccess {
-//                    prefManager.setValue(
-//                        PreferenceManager.KEY_TOKEN_EXPIRED_MS,
-//                        it.payload.getPayload(json).getExpiredMs()
-//                    )
-//                }
-//        }
-
-        for (idx in 0 until 30) {
-            requestMultipleApi()
-        }
-    }
-
-    fun reqTest() {
-        requestMultipleApi()
-//        viewModelScope.launch {
-//            for (idx in 0 until 100) {
-//                for (idx in 0 until 30) {
-//                    requestMultipleApi()
-//                }
-//                delay(10_000)
-//            }
-//            Timber.d("끝났습니다.....")
-//        }
-
     }
 
     fun requestMultipleApi() {
@@ -140,5 +88,81 @@ class NetworkV2FragmentViewModel @Inject constructor(
             // .doFinally { Timber.d("작업 완료") }
             .subscribe()
             .addTo(compositeDisposable)
+    }
+
+    private var disposable: Disposable? = null
+
+    fun handleRefreshTokenTest(minute: Int) {
+        disposable?.dispose()
+        disposable = null
+        _isLoading.value = true
+        val takeMs = minute * (1000 * 60)
+        val endTimeMs = System.currentTimeMillis().plus(takeMs)
+        val takeCount = takeMs.toFloat() / 333.0
+        disposable = Flowable.interval(0L, 333L, TimeUnit.MILLISECONDS)
+            .takeUntil { System.currentTimeMillis() >= endTimeMs }
+            .doOnNext { startRequest() }
+            .observeOn(AndroidSchedulers.mainThread())
+            .doAfterNext {
+                val percentage = (it.toFloat() / takeCount) * 100.0
+                _progressText.value = "${percentage.toInt()}%"
+            }
+            .doFinally {
+                _progressText.value = "완료"
+                _isLoading.value = false
+            }
+            .doOnCancel {
+                _progressText.value = "완료"
+                _isLoading.value = false
+            }
+            .subscribe()
+    }
+
+    private fun startRequest() {
+        Single.mergeDelayError(
+            reqTest1(),
+            reqTest2(),
+            reqTest3()
+        ).subscribe().addTo(compositeDisposable)
+    }
+
+    private fun reqTest1(): Single<Int> {
+        val queryMap = GoodsParameter()
+        queryMap.pageNo = 3
+        queryMap.pageSize = 30
+        return apiService.fetchJSendRx()
+            .flatMap { apiService.fetchGoodsRx(queryMap.getQueryParameter()) }
+            .map { 1 }
+            .onErrorReturn { 1 }
+    }
+
+    private fun reqTest2(): Single<Int> {
+        val queryMap = GoodsParameter()
+        queryMap.pageNo = 3
+        queryMap.pageSize = 30
+        return Single.zip(
+            apiService.fetchGoodsRx(queryMap.getQueryParameter())
+                .subscribeOn(Schedulers.io()),
+            apiService.fetchJSendRx()
+                .subscribeOn(Schedulers.io()),
+            apiService.fetchTest()
+                .subscribeOn(Schedulers.io())
+        ) { _, _, _ ->
+            return@zip 2
+        }.onErrorReturn { 2 }.subscribeOn(Schedulers.io())
+    }
+
+    private fun reqTest3(): Single<Int> {
+        val queryMap = GoodsParameter()
+        queryMap.pageNo = 3
+        queryMap.pageSize = 30
+        return Single.zip(
+            apiService.fetchAndroid(),
+            apiService.fetchAndroid(),
+            apiService.fetchTest()
+        ) { _, _, _ -> }
+            .map { 3 }
+            .onErrorReturn { 3 }
+            .subscribeOn(Schedulers.io())
     }
 }

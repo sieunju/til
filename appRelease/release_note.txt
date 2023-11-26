@@ -1,10 +1,10 @@
-Build Date 2023년 11월 24일 금요일 21:27:45
+Build Date 2023년 11월 26일 일요일 22:15:24
 Version Name: 0.0.6
 Branch: feature/refactor_network
 
-Message: commit 5ab224b0fd94bf4ca16b4990e22ac1d7a14c05c5
+Message: commit 65c33e3b8c59cc275db9dff0a036709bfceb2bb5
 refactor: Network V2 리펙토링
-- 각 피처모듈마다 ApiService 생성하는 함수 좀더 간단한 방식으로 개선
+- PauseAbleThreadPoolExecutor 매개변수 Retrofit 사용하지 않고 더 밑단인 OkHttpClient 로 처리하도록 변경
 
 
 Author: sieunju

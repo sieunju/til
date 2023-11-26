@@ -10,6 +10,7 @@ import com.hmju.core.model.base.JSendObj
 import com.hmju.core.model.goods.GoodsEntity
 import com.hmju.core.model.meta.CustomMetaEntity
 import io.reactivex.rxjava3.core.Single
+import okhttp3.ResponseBody
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -48,8 +49,9 @@ interface ApiService {
     @GET("/api/til/error/404")
     fun fetchError404Rx(): Single<JSendObj<JSendEntity>>
 
-    @POST("/api/til/auth/refresh")
-    fun postTokenRx(
-        @Body body: TokenBody,
-    ): Single<JSendObj<TokenEntity>>
+    @GET("/api/til/auth/test")
+    fun fetchTest(): Single<ResponseBody>
+
+    @GET("/api/android")
+    fun fetchAndroid(): Single<ResponseBody>
 }

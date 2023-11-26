@@ -1,5 +1,7 @@
 package com.hmju.core.model.base
 
+import com.hmju.core.model.error.JSendException
+
 /**
  * Description : Coroutines Network Base Response
  *
@@ -16,5 +18,5 @@ sealed class ApiResponse<out T> {
      * Network Fail
      * @param err Error
      */
-    data class Fail(val err: Throwable) : ApiResponse<Nothing>()
+    data class Fail(val err: JSendException) : ApiResponse<Nothing>()
 }

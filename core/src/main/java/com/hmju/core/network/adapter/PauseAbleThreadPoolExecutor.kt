@@ -13,6 +13,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 import timber.log.Timber
 import java.text.SimpleDateFormat
+import java.util.Arrays
 import java.util.concurrent.SynchronousQueue
 import java.util.concurrent.ThreadPoolExecutor
 import java.util.concurrent.TimeUnit
@@ -27,10 +28,10 @@ import java.util.concurrent.locks.ReentrantLock
  */
 class PauseAbleThreadPoolExecutor constructor(
     private val prefManager: PreferenceManager,
-    private val httpClient: OkHttpClient,
+    private val httpClient: OkHttpClient
 ) : ThreadPoolExecutor(
     0,
-    4,
+    1,
     60,
     TimeUnit.SECONDS,
     SynchronousQueue()
@@ -54,14 +55,13 @@ class PauseAbleThreadPoolExecutor constructor(
         super.beforeExecute(t, r)
         pauseLock.lock()
         if (isCallRefreshToken()) {
-            Timber.tag("HTTP_LOG").d("토큰이 만료 되었습니다. ${t.name}")
+            Timber.tag("HTTP_LOG_").d("================= 토큰을 재발급 합니다 ${t.name} ============================")
             handleTokenRefresh()
         } else {
-            Timber.tag("HTTP_LOG").d("단순 API 호출합니다. ${t.name}")
+             Timber.tag("HTTP_LOG_").d("단순 API 호출합니다. ${t.name}")
         }
         try {
             while (isPaused) {
-                Timber.tag("HTTP_LOG").d("하하하하하핳 ")
                 unPaused.await()
             }
         } catch (ie: InterruptedException) {
@@ -91,7 +91,7 @@ class PauseAbleThreadPoolExecutor constructor(
 
     /**
      * 토큰 만료 됐는지 상태 체크하는 함수
-     *
+     * 30초 단위
      * @return true, false
      */
     private fun isCallRefreshToken(): Boolean {
@@ -122,6 +122,10 @@ class PauseAbleThreadPoolExecutor constructor(
         }
     }
 
+    /**
+     * 쓰레드 대기 하고 토큰 재발급 처리해서 제 셋팅하는 함수
+     * 테스트용오르 JWT Decode 해서 만료 시간을 가져온후 해당 값을 SharedPreference 저장
+     */
     private fun handleTokenRefresh() {
         isPaused = true
         val res = reqRefreshToken()
@@ -131,12 +135,17 @@ class PauseAbleThreadPoolExecutor constructor(
         unPaused.signalAll()
     }
 
+    /**
+     * Request API Refresh Token
+     *
+     * @return 재발급 받은 토큰 데이터 모델
+     */
     @OptIn(ExperimentalSerializationApi::class)
     private fun reqRefreshToken(): JSendObj<TokenEntity> {
         val body = JSONObject()
         body.put("emai", "j.sieun@gmail.com")
         body.put("delay", 3000)
-        body.put("expiredTime", "5m")
+        body.put("expiredTime", "1m")
         val req = Request.Builder()
             .url(NetworkConfig.BASE_URL.plus("/api/til/auth/refresh"))
             .post(body.toString().toRequestBody())

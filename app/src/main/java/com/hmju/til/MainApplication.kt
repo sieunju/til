@@ -1,8 +1,8 @@
 package com.hmju.til
 
 import android.app.Application
-import com.http.tracking.TrackingManager
 import dagger.hilt.android.HiltAndroidApp
+import hmju.http.tracking.HttpTracking
 import io.reactivex.rxjava3.exceptions.UndeliverableException
 import io.reactivex.rxjava3.plugins.RxJavaPlugins
 import timber.log.Timber
@@ -85,7 +85,7 @@ open class MainApplication : Application() {
     }
 
     private fun initTracking() {
-        TrackingManager.getInstance()
+        HttpTracking.Builder()
             .setBuildType(true)
             .setWifiShare(true)
             .setLogMaxSize(10_000)

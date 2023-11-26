@@ -10,12 +10,12 @@ import com.hmju.core.network.interceptor.TokenAuthenticator
 import com.hmju.core.network.qualifiers.*
 import com.hmju.core.pref.PreferenceManager
 import com.hmju.core.pref.di.PreferenceManagerModule
-import com.http.tracking_interceptor.TrackingHttpInterceptor
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import hmju.http.tracking_interceptor.TrackingHttpInterceptor
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -53,7 +53,8 @@ internal object RemoteModule {
     @HeaderJsonInterceptor
     fun provideHeaderInterceptor(
         loginManager: LoginManager,
-    ): Interceptor = HeaderInterceptor(loginManager)
+        prefManager: PreferenceManager
+    ): Interceptor = HeaderInterceptor(loginManager,prefManager)
 
     @Singleton
     @Provides
@@ -72,7 +73,7 @@ internal object RemoteModule {
             Timber.tag("HTTP_LOG").d(it)
         }
     ).apply {
-        setLevel(HttpLoggingInterceptor.Level.BODY)
+        setLevel(HttpLoggingInterceptor.Level.HEADERS)
     }
 
     @Singleton
@@ -81,7 +82,7 @@ internal object RemoteModule {
     fun provideTokenHttpClient(
         @RefreshTokenJsonInterceptor headerInterceptor: Interceptor,
         @TrackingInterceptor trackingInterceptor: Interceptor,
-        httpLoggingInterceptor: HttpLoggingInterceptor,
+        httpLoggingInterceptor: HttpLoggingInterceptor
     ): OkHttpClient = OkHttpClient.Builder()
         .retryOnConnectionFailure(true)
         .connectTimeout(NetworkConfig.CONNECT_TIME_OUT, TimeUnit.MILLISECONDS)
@@ -98,7 +99,7 @@ internal object RemoteModule {
     @TokenRetrofit
     fun provideTokenRetrofit(
         @TokenHttpClient httpClient: OkHttpClient,
-        json: Json,
+        json: Json
     ): Retrofit = Retrofit.Builder()
         .baseUrl(NetworkConfig.BASE_URL)
         .client(httpClient)
@@ -110,7 +111,7 @@ internal object RemoteModule {
     @Provides
     fun provideTokenAuthenticator(
         loginManager: LoginManager,
-        @TokenRetrofit retrofit: Retrofit,
+        @TokenRetrofit retrofit: Retrofit
     ): Authenticator = TokenAuthenticator(loginManager, retrofit)
 
     @Singleton
@@ -122,7 +123,7 @@ internal object RemoteModule {
         tokenAuthenticator: Authenticator,
         httpLoggingInterceptor: HttpLoggingInterceptor,
         prefManager: PreferenceManager,
-        @TokenHttpClient tokenClient: OkHttpClient,
+        @TokenHttpClient tokenClient: OkHttpClient
     ): OkHttpClient {
         return OkHttpClient.Builder()
             .retryOnConnectionFailure(true)
@@ -137,10 +138,10 @@ internal object RemoteModule {
             ).apply {
                 // maxRequests = 4
             })
-            .addInterceptor(httpLoggingInterceptor)
-            .addInterceptor(trackingInterceptor)
             .addInterceptor(headerInterceptor)
-            .authenticator(tokenAuthenticator)
+            .addInterceptor(httpLoggingInterceptor)
+            // .addInterceptor(trackingInterceptor)
+            // .authenticator(tokenAuthenticator)
             .build()
     }
 }
