@@ -55,10 +55,11 @@ class PauseAbleThreadPoolExecutor constructor(
         super.beforeExecute(t, r)
         pauseLock.lock()
         if (isCallRefreshToken()) {
-            Timber.tag("HTTP_LOG_").d("================= 토큰을 재발급 합니다 ${t.name} ============================")
+            Timber.tag("HTTP_LOG_")
+                .d("================= 토큰을 재발급 합니다 ${t.name} ============================")
             handleTokenRefresh()
         } else {
-             // Timber.tag("HTTP_LOG_").d("단순 API 호출합니다. ${t.name}")
+            // Timber.tag("HTTP_LOG_").d("단순 API 호출합니다. ${t.name}")
         }
         try {
             while (isPaused) {
