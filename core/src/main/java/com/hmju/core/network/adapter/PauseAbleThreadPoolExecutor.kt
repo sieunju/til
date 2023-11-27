@@ -13,8 +13,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 import timber.log.Timber
 import java.text.SimpleDateFormat
-import java.util.Arrays
-import java.util.concurrent.SynchronousQueue
+import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.ThreadPoolExecutor
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.locks.Condition
@@ -31,10 +30,11 @@ class PauseAbleThreadPoolExecutor constructor(
     private val httpClient: OkHttpClient
 ) : ThreadPoolExecutor(
     0,
-    1,
+    4,
     60,
     TimeUnit.SECONDS,
-    SynchronousQueue()
+    LinkedBlockingQueue(),
+    CallerRunsPolicy()
 ) {
 
     private val json: Json by lazy {
@@ -58,7 +58,7 @@ class PauseAbleThreadPoolExecutor constructor(
             Timber.tag("HTTP_LOG_").d("================= 토큰을 재발급 합니다 ${t.name} ============================")
             handleTokenRefresh()
         } else {
-             Timber.tag("HTTP_LOG_").d("단순 API 호출합니다. ${t.name}")
+             // Timber.tag("HTTP_LOG_").d("단순 API 호출합니다. ${t.name}")
         }
         try {
             while (isPaused) {
