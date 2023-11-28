@@ -24,23 +24,14 @@ class NetworkUnitTest {
     lateinit var getGoodsUseCase: GetGoodsUseCase
 
     @Before
-    fun init(){
+    fun init() {
         hiltRule.inject()
     }
 
     @Test
-    fun testNetworkStart(){
-        println("네트워크 TIL Start")
-        getGoodsUseCase(GoodsParameter())
-            .subscribe({
-                println("SUCC ${it.size}")
-            },{
-                println("ERROR ${it}")
-            })
-//        launchActivity<NetworkActivity>().apply {
-//            moveToState(Lifecycle.State.RESUMED)
-//        }
-        println("네트워크 TIL End")
-        Thread.sleep(3_000)
+    fun testNetworkStart() {
+        val result = getGoodsUseCase(GoodsParameter())
+            .blockingGet()
+        println("네트워크 TEST $result")
     }
 }
