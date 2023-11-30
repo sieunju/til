@@ -12,7 +12,6 @@ import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 import timber.log.Timber
-import java.text.SimpleDateFormat
 import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.ThreadPoolExecutor
 import java.util.concurrent.TimeUnit
@@ -49,16 +48,16 @@ class PauseAbleThreadPoolExecutor constructor(
     private val pauseLock = ReentrantLock()
     private val unPaused: Condition = pauseLock.newCondition()
 
-    private val dateFormat: SimpleDateFormat by lazy { SimpleDateFormat("yyyy년 MM월 dd일 kk시 mm분 ss초") }
-
     override fun beforeExecute(t: Thread, r: Runnable) {
         super.beforeExecute(t, r)
         pauseLock.lock()
         if (isCallRefreshToken()) {
+            // println("================= 토큰을 재발급 합니다 ${t.name} ============================")
             Timber.tag("HTTP_LOG_")
                 .d("================= 토큰을 재발급 합니다 ${t.name} ============================")
             handleTokenRefresh()
         } else {
+            // println("================= 단순 API 호출합니다. ${t.name} ============================")
             // Timber.tag("HTTP_LOG_").d("단순 API 호출합니다. ${t.name}")
         }
         try {
@@ -70,24 +69,25 @@ class PauseAbleThreadPoolExecutor constructor(
         } finally {
             pauseLock.unlock()
         }
-//        pauseLock.lock()
-//        if (isCallRefreshToken()) {
-//            Timber.d("토큰이 만료 되었습니다. ${t.id}")
-//            // pause()
-//            isPaused = true
-//            handleTokenRefresh()
-//            isPaused = false
-//            // resume()
-//        }
-//        try {
-//            while (isPaused) {
-//                unPaused.await()
-//            }
-//        } catch (ie: InterruptedException) {
-//            t.interrupt()
-//        } finally {
-//            pauseLock.unlock()
-//        }
+        // 기존 로직 참고용
+        /* pauseLock.lock()
+        if (isCallRefreshToken()) {
+            // pause()
+            isPaused = true
+            handleTokenRefresh()
+            isPaused = false
+            // resume()
+        }
+        try {
+            while (isPaused) {
+                unPaused.await()
+            }
+        } catch (ie: InterruptedException) {
+            t.interrupt()
+        } finally {
+            pauseLock.unlock()
+        }
+         */
     }
 
     /**
@@ -144,7 +144,7 @@ class PauseAbleThreadPoolExecutor constructor(
     @OptIn(ExperimentalSerializationApi::class)
     private fun reqRefreshToken(): JSendObj<TokenEntity> {
         val body = JSONObject()
-        body.put("emai", "j.sieun@gmail.com")
+        body.put("email", "j.sieun@gmail.com")
         body.put("delay", 3000)
         body.put("expiredTime", "1m")
         val req = Request.Builder()
