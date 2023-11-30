@@ -20,7 +20,7 @@ import java.util.concurrent.locks.ReentrantLock
 
 
 /**
- * Description : 특정 타임때 쓰레드 중단 했다가 재게 처리하는 클래스
+ * Description : HTTP 통신시 쓰레드 제어 하는 클래스
  *
  * Created by juhongmin on 11/25/23
  */
