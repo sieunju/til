@@ -22,6 +22,7 @@ import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.random.Random
+import kotlin.system.measureNanoTime
 
 /**
  * Description :
@@ -57,6 +58,41 @@ class NetworkV2FragmentViewModel @Inject constructor(
                 .onSuccess { Timber.d("SUCC $it") }
                 .onError { Timber.d("ERROR ${it.err.getBody<ErrorBody>()}") }
         }
+    }
+
+    fun onSimpleTest() {
+        val startTime = System.currentTimeMillis()
+        Single.zip(
+            apiService.fetchTest1()
+                .map { 1 }
+                .onErrorReturn {
+                    Timber.tag("HTTP_LOG").d("111 ERROR $it")
+                    10
+                }
+                .subscribeOn(Schedulers.io()),
+            apiService.fetchTest()
+                .map { 2 }
+                .onErrorReturn {
+                    Timber.tag("HTTP_LOG").d("222 ERROR $it")
+                    10
+                }
+                .subscribeOn(Schedulers.io()),
+            apiService.fetchTest2()
+                .map { 3 }
+                .onErrorReturn {
+                    Timber.tag("HTTP_LOG").d("3333 ERROR $it")
+                    10
+                }
+                .subscribeOn(Schedulers.io()),
+        ) { a, b, c ->
+            a.plus(b).plus(c)
+        }
+            .doOnSuccess {
+                Timber.tag("HTTP_LOG")
+                    .d("RESULT $it 걸린 시간 ${System.currentTimeMillis() - startTime}")
+            }
+            .subscribe()
+            .addTo(compositeDisposable)
     }
 
     fun requestMultipleApi() {
@@ -118,7 +154,7 @@ class NetworkV2FragmentViewModel @Inject constructor(
             .subscribe()
     }
 
-    private fun startRequest() {
+    fun startRequest() {
         Single.mergeDelayError(
             reqTest1(),
             reqTest2(),
@@ -134,6 +170,7 @@ class NetworkV2FragmentViewModel @Inject constructor(
             .flatMap { apiService.fetchGoodsRx(queryMap.getQueryParameter()) }
             .map { 1 }
             .onErrorReturn { 1 }
+            .subscribeOn(Schedulers.io())
     }
 
     private fun reqTest2(): Single<Int> {

@@ -1,10 +1,9 @@
-Build Date 2023년 11월 26일 일요일 22:15:24
+Build Date 2023년 12월 01일 금요일 01:01:41
 Version Name: 0.0.6
 Branch: feature/refactor_network
 
-Message: commit 65c33e3b8c59cc275db9dff0a036709bfceb2bb5
-refactor: Network V2 리펙토링
-- PauseAbleThreadPoolExecutor 매개변수 Retrofit 사용하지 않고 더 밑단인 OkHttpClient 로 처리하도록 변경
+Message: commit 5b16175f8a3065684835f66fcf9aeb62f65dd56c
+chore: 쓰레드 제어 클래스 로직 정리 및 오타 수정
 
 
 Author: sieunju

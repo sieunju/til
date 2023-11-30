@@ -12,5 +12,6 @@ interface PreferenceManager {
 
     companion object {
         const val KEY_TOKEN_EXPIRED_MS = "token_expired_ms"
+        const val KEY_TOKEN = "j_token"
     }
 }

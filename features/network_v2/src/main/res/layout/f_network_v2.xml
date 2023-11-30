@@ -91,6 +91,12 @@
                 android:onClick="@{()->vm.onRequestError()}"
                 android:text="에러 바디 테스트" />
 
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="@{()->vm.onSimpleTest()}"
+                android:text="간단한 테스트" />
+
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
