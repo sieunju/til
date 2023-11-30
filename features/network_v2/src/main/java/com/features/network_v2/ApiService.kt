@@ -1,6 +1,7 @@
 package com.features.network_v2
 
 import com.features.network_v2.model.JSendEntity
+import com.features.network_v2.model.JwtTokenTestEntity
 import com.features.network_v2.model.TokenBody
 import com.features.network_v2.model.TokenEntity
 import com.hmju.core.model.base.ApiResponse
@@ -49,9 +50,16 @@ interface ApiService {
     @GET("/api/til/error/404")
     fun fetchError404Rx(): Single<JSendObj<JSendEntity>>
 
-    @GET("/api/til/auth/test")
-    fun fetchTest(): Single<ResponseBody>
-
     @GET("/api/android")
     fun fetchAndroid(): Single<ResponseBody>
+
+    @GET("/api/til/auth/jwt/test")
+    fun fetchTest(): Single<JSendObj<JwtTokenTestEntity>>
+
+    @GET("/api/til/auth/jwt/test1")
+    fun fetchTest1(): Single<JSendObj<JwtTokenTestEntity>>
+
+    @GET("/api/til/auth/jwt/test2")
+    fun fetchTest2(): Single<JSendObj<JwtTokenTestEntity>>
+
 }

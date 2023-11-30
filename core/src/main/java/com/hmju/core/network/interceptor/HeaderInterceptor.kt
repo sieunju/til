@@ -16,15 +16,13 @@ class HeaderInterceptor(
     private val prefManager: PreferenceManager
 ) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
-        val origin = chain.request()
-        return chain.proceed(origin.newBuilder().apply {
-            header(NetworkConfig.HEADER_KEY_ACCEPT, NetworkConfig.HEADER_VAL_ACCEPT)
-            header(NetworkConfig.HEADER_KEY_CONTENT, NetworkConfig.HEADER_VAL_CONTENT)
-            // header(NetworkConfig.HEADER_KEY_TOKEN, loginManager.getToken())
-            header(
-                "ExpiredToken",
-                prefManager.getLong(PreferenceManager.KEY_TOKEN_EXPIRED_MS).toString()
-            )
-        }.build())
+        val req = chain.request().newBuilder()
+            .header(NetworkConfig.HEADER_KEY_ACCEPT, NetworkConfig.HEADER_VAL_ACCEPT)
+            .header(NetworkConfig.HEADER_KEY_CONTENT, NetworkConfig.HEADER_VAL_CONTENT)
+            // .header(NetworkConfig.HEADER_KEY_TOKEN, loginManager.getToken())
+            .header("Authorization",prefManager.getString(PreferenceManager.KEY_TOKEN))
+            .header("ExpiredToken", prefManager.getLong(PreferenceManager.KEY_TOKEN_EXPIRED_MS).toString())
+            .build()
+        return chain.proceed(req)
     }
 }
