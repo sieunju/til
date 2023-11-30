@@ -58,7 +58,7 @@ class PauseAbleThreadPoolExecutor constructor(
             handleTokenRefresh()
         } else {
             // println("================= 단순 API 호출합니다. ${t.name} ============================")
-            // Timber.tag("HTTP_LOG_").d("단순 API 호출합니다. ${t.name}")
+            Timber.tag("HTTP_LOG_").d("단순 API 호출합니다. ${t.name}")
         }
         try {
             while (isPaused) {
@@ -132,6 +132,7 @@ class PauseAbleThreadPoolExecutor constructor(
         val res = reqRefreshToken()
         val expiredTimeMs = res.payload.getPayload(json).getExpiredMs()
         prefManager.setValue(PreferenceManager.KEY_TOKEN_EXPIRED_MS, expiredTimeMs)
+        prefManager.setValue(PreferenceManager.KEY_TOKEN,res.payload.token)
         isPaused = false
         unPaused.signalAll()
     }
@@ -145,7 +146,7 @@ class PauseAbleThreadPoolExecutor constructor(
     private fun reqRefreshToken(): JSendObj<TokenEntity> {
         val body = JSONObject()
         body.put("email", "j.sieun@gmail.com")
-        body.put("delay", 3000)
+        body.put("delay", 2000)
         body.put("expiredTime", "1m")
         val req = Request.Builder()
             .url(NetworkConfig.BASE_URL.plus("/api/til/auth/refresh"))

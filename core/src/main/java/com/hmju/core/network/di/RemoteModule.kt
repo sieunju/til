@@ -116,31 +116,30 @@ internal object RemoteModule {
 
     @Singleton
     @Provides
+    fun provideDispatcher(
+        prefManager: PreferenceManager,
+        @TokenHttpClient client: OkHttpClient,
+    ) : Dispatcher = Dispatcher(PauseAbleThreadPoolExecutor(prefManager, client))
+
+    @Singleton
+    @Provides
     @ApiHttpClient
     fun provideHttpClient(
         @HeaderJsonInterceptor headerInterceptor: Interceptor,
         @TrackingInterceptor trackingInterceptor: Interceptor,
         tokenAuthenticator: Authenticator,
         httpLoggingInterceptor: HttpLoggingInterceptor,
-        prefManager: PreferenceManager,
-        @TokenHttpClient tokenClient: OkHttpClient
+        dispatcher: Dispatcher
     ): OkHttpClient {
         return OkHttpClient.Builder()
             .retryOnConnectionFailure(true)
             .connectTimeout(NetworkConfig.CONNECT_TIME_OUT, TimeUnit.MILLISECONDS)
             .readTimeout(NetworkConfig.READ_TIME_OUT, TimeUnit.MILLISECONDS)
             .writeTimeout(NetworkConfig.WRITE_TIME_OUT, TimeUnit.MILLISECONDS)
-            .dispatcher(Dispatcher(
-                PauseAbleThreadPoolExecutor(
-                    prefManager,
-                    tokenClient
-                )
-            ).apply {
-                // maxRequests = 4
-            })
+            .dispatcher(dispatcher)
             .addInterceptor(headerInterceptor)
             .addInterceptor(httpLoggingInterceptor)
-            // .addInterceptor(trackingInterceptor)
+            .addInterceptor(trackingInterceptor)
             // .authenticator(tokenAuthenticator)
             .build()
     }
