@@ -31,7 +31,8 @@ class NetworkUnitTest {
     @Test
     fun testNetworkStart() {
         val result = getGoodsUseCase(GoodsParameter())
+            .flatMap { getGoodsUseCase(GoodsParameter()) }
             .blockingGet()
-        println("네트워크 TEST $result")
+        println("네트워크 TEST ${result.size}")
     }
 }
