@@ -13,7 +13,6 @@ import com.hmju.core.ui.base.FragmentViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.launch
@@ -107,35 +106,11 @@ class NetworkV2FragmentViewModel @Inject constructor(
             .addTo(compositeDisposable)
     }
 
-    private var disposable: Disposable? = null
-
     fun handleRefreshTokenTest(minute: Int) {
-        disposable?.dispose()
-        disposable = null
         _isLoading.value = true
         val takeMs = minute * (1000 * 60)
         val endTimeMs = System.currentTimeMillis().plus(takeMs)
         val takeCount = takeMs.toFloat() / 333.0
-//        disposable = Flowable.interval(0L, 333L, TimeUnit.MILLISECONDS)
-//            .takeUntil { System.currentTimeMillis() >= endTimeMs }
-//            // .doOnNext { startRequest() }
-//            .doOnNext { startJwtRequest() }
-//            .doAfterNext {
-//                val percentage = (it.toFloat() / takeCount) * 100.0
-//                _progressText.postValue("${percentage.toInt()}%")
-//            }
-//            .doFinally {
-//                _progressText.postValue("완료 ${Constants.tokenErrorCount}")
-//                _isLoading.postValue(false)
-//                Constants.tokenErrorCount = 0
-//            }
-//            .doOnCancel {
-//                _progressText.postValue("완료 ${Constants.tokenErrorCount}")
-//                _isLoading.postValue(false)
-//                Constants.tokenErrorCount = 0
-//            }
-//            .subscribe()
-
         Flowable.interval(0, 333L, TimeUnit.MILLISECONDS)
             .takeUntil { System.currentTimeMillis() >= endTimeMs }
             .flatMap { startJwtRequest(it).toFlowable() }
