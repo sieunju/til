@@ -1,11 +1,12 @@
 package com.hmju.core.login_manager
 
-import android.content.Context
-import android.content.SharedPreferences
+import android.util.Base64
+import androidx.core.content.edit
+import com.hmju.core.pref.PreferenceManager
 import com.hmju.core.rxbus.LoginEvent
 import com.hmju.core.rxbus.RxBus
-import dagger.hilt.android.qualifiers.ApplicationContext
 import io.reactivex.rxjava3.core.Single
+import org.json.JSONObject
 import javax.inject.Inject
 import kotlin.random.Random
 
@@ -15,33 +16,40 @@ import kotlin.random.Random
  * Created by juhongmin on 2022/01/12
  */
 class LoginManagerImpl @Inject constructor(
-    @ApplicationContext private val context: Context
+    private val prefManager: PreferenceManager
 ) : LoginManager {
 
-    private val pref: SharedPreferences =
-        context.getSharedPreferences("til_pref", Context.MODE_PRIVATE)
-
-    companion object {
-        const val KEY_TOKEN = "user_token"
-        const val KEY_NICK_NAME = "user_nick_name"
-    }
-
+    private var expiredMs: Long = 0
     private var userToken: String = ""
 
+    private fun getTokenExpiredMs(token: String): Long {
+        return try {
+            val startIdx = token.indexOf(".")
+            val endIdx = token.lastIndexOf(".")
+            val bytes = Base64.decode(token.substring(startIdx, endIdx), Base64.DEFAULT)
+            val json = JSONObject(String(bytes, Charsets.UTF_8))
+            json.getLong("exp") * 1000
+        } catch (ex: Exception) {
+            System.currentTimeMillis()
+        }
+    }
+
+    @Synchronized
     override fun setToken(token: String) {
-        with(pref.edit()) {
-            putString(KEY_TOKEN, token)
-            apply()
-            // Test
-            RxBus.publish(LoginEvent(Random.nextBoolean(), token))
+        // 토큰 전처리 가공
+        prefManager.getPref().edit {
+            expiredMs = getTokenExpiredMs(token)
+            userToken = token
+            putLong(PreferenceManager.KEY_TOKEN_EXPIRED_MS, expiredMs)
+            putString(PreferenceManager.KEY_TOKEN, userToken)
         }
 
-        userToken = token
+        RxBus.publish(LoginEvent(Random.nextBoolean(), token))
     }
 
     override fun getToken(): String {
         if (userToken.isEmpty()) {
-            userToken = pref.getString(KEY_TOKEN, "") ?: ""
+            userToken = prefManager.getString(PreferenceManager.KEY_TOKEN)
         }
         return userToken
     }
@@ -52,5 +60,9 @@ class LoginManagerImpl @Inject constructor(
 
     override fun rxIsLogin(): Single<Boolean> {
         return Single.just(getToken().isNotEmpty())
+    }
+
+    override fun getTokenExpiredMs(): Long {
+        return expiredMs
     }
 }

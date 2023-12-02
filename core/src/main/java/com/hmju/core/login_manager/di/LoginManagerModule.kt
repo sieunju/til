@@ -2,6 +2,7 @@ package com.hmju.core.login_manager.di
 
 import com.hmju.core.login_manager.LoginManager
 import com.hmju.core.login_manager.LoginManagerImpl
+import com.hmju.core.pref.di.PreferenceManagerModule
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -14,7 +15,7 @@ import javax.inject.Singleton
  * Created by juhongmin on 2022/01/12
  */
 @InstallIn(SingletonComponent::class)
-@Module
+@Module(includes = [PreferenceManagerModule::class])
 internal abstract class LoginManagerModule {
     @Singleton
     @Binds

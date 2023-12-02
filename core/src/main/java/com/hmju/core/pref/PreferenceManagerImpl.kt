@@ -7,7 +7,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 /**
- * Description :
+ * Description : SharedPreferences Manager
  *
  * Created by juhongmin on 11/24/23
  */
@@ -15,17 +15,24 @@ class PreferenceManagerImpl @Inject constructor(
     @ApplicationContext private val context: Context,
 ) : PreferenceManager {
 
-    private val pref = context.getSharedPreferences("til_pref", Context.MODE_PRIVATE)
+    private val preferences: SharedPreferences by lazy {
+        context.getSharedPreferences("til_pref", Context.MODE_PRIVATE)
+    }
+
+    override fun getPref(): SharedPreferences {
+        return preferences
+    }
+
     override fun getString(key: String): String {
-        return pref.getString(key, "") ?: ""
+        return preferences.getString(key, "") ?: ""
     }
 
     override fun getLong(key: String): Long {
-        return pref.getLong(key, 0)
+        return preferences.getLong(key, 0)
     }
 
     override fun <T> setValue(key: String, value: T) {
-        pref.edit {
+        preferences.edit {
             when (value) {
                 is String -> putString(key, value)
                 is Long -> putLong(key, value)

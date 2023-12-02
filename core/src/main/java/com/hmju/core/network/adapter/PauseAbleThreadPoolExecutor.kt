@@ -1,13 +1,17 @@
 package com.hmju.core.network.adapter
 
-import com.hmju.core.Constants
-import com.hmju.core.model.auth.TokenEntity
-import com.hmju.core.model.base.JSendObj
+import com.hmju.core.login_manager.LoginManager
 import com.hmju.core.network.NetworkConfig
-import com.hmju.core.pref.PreferenceManager
+import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.core.SingleTransformer
+import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -18,6 +22,7 @@ import java.util.concurrent.ThreadPoolExecutor
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.locks.Condition
 import java.util.concurrent.locks.ReentrantLock
+import kotlin.math.pow
 
 
 /**
@@ -26,7 +31,7 @@ import java.util.concurrent.locks.ReentrantLock
  * Created by juhongmin on 11/25/23
  */
 class PauseAbleThreadPoolExecutor constructor(
-    private val prefManager: PreferenceManager,
+    private val loginManager: LoginManager,
     private val httpClient: OkHttpClient
 ) : ThreadPoolExecutor(
     4,
@@ -45,7 +50,7 @@ class PauseAbleThreadPoolExecutor constructor(
         }
     }
 
-    private val TIME_DELAY = 0
+    private val TIME_DELAY = 1000
 
     private var isPaused = false
     private val pauseLock = ReentrantLock()
@@ -56,8 +61,9 @@ class PauseAbleThreadPoolExecutor constructor(
         pauseLock.lock()
         if (isCallRefreshToken()) {
             // println("================= 토큰을 재발급 합니다 ${t.name} ============================")
-            Timber.tag("HTTP_LOG_")
-                .d("================= 토큰을 재발급 합니다 ${t.name} ============================")
+            Timber.d("================= 토큰을 재발급 합니다 ${t.name} ============================\"")
+//            Timber.tag("HTTP_LOG_")
+//                .d("================= 토큰을 재발급 합니다 ${t.name} ============================")
             handleTokenRefresh()
         } else {
             // println("================= 단순 API 호출합니다. ${t.name} ============================")
@@ -100,7 +106,7 @@ class PauseAbleThreadPoolExecutor constructor(
      */
     private fun isCallRefreshToken(): Boolean {
         val currTime = System.currentTimeMillis()
-        val expiredTime = prefManager.getLong(PreferenceManager.KEY_TOKEN_EXPIRED_MS)
+        val expiredTime = loginManager.getTokenExpiredMs()
         return expiredTime.minus(5_000) <= currTime || expiredTime == 0L
     }
 
@@ -130,21 +136,15 @@ class PauseAbleThreadPoolExecutor constructor(
     @Synchronized
     private fun handleTokenRefresh() {
         // 해당 로직은 4초 미만으로 구성되어야함
-        Constants.callRefreshTokenMs = System.nanoTime()
         isPaused = true
-        val res = reqRefreshToken()
-        val expiredTimeMs = res.payload.getPayload(json).getExpiredMs()
-        prefManager.setValue(PreferenceManager.KEY_TOKEN_EXPIRED_MS, expiredTimeMs)
-        prefManager.setValue(PreferenceManager.KEY_TOKEN, res.payload.token)
+        // val refreshToken = reqRefreshToken()
+        val refreshToken = reqRetryRefreshToken().blockingGet()
+        loginManager.setToken(refreshToken)
         isPaused = false
         // 대기 중인 모든 스레드를 깨웁니다.
         // 이 조건을 기다리고 있는 스레드가 있으면 모두 깨어납니다.
         // 각 스레드는 Wait에서 반환되기 전에 잠금을 다시 획득해야 합니다.
         unPaused.signalAll()
-        val tookMs = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - Constants.callRefreshTokenMs)
-        if (tookMs > TIME_DELAY.plus(700)) {
-            Constants.tokenErrorCount = Constants.tokenErrorCount.plus(1)
-        }
     }
 
     /**
@@ -153,16 +153,72 @@ class PauseAbleThreadPoolExecutor constructor(
      * @return 재발급 받은 토큰 데이터 모델
      */
     @OptIn(ExperimentalSerializationApi::class)
-    private fun reqRefreshToken(): JSendObj<TokenEntity> {
-        val body = JSONObject()
-        body.put("email", "j.sieun@gmail.com")
-        body.put("delay", TIME_DELAY)
-        body.put("expiredTime", "1m")
+    private fun reqRefreshToken(): String {
+        val reqBody = JSONObject()
+        reqBody.put("email", "j.sieun@gmail.com")
+        reqBody.put("delay", TIME_DELAY)
+        reqBody.put("expiredTime", "1m")
         val req = Request.Builder()
             .url(NetworkConfig.BASE_URL.plus("/api/til/auth/refresh"))
-            .post(body.toString().toRequestBody())
+            .post(reqBody.toString().toRequestBody())
             .build()
+
+        /**
+         * {
+         *   "status": true,
+         *   "data": {
+         *     "payload": {
+         *       "token": "JWT Token Example..."
+         *     }
+         *   }
+         * }
+         */
         val res = httpClient.newCall(req).execute()
-        return json.decodeFromString(res.body?.string()!!)
+        val resBody = json.decodeFromString<JsonObject>(res.body?.string()!!)
+        return resBody["data"]
+            ?.jsonObject
+            ?.get("payload")
+            ?.jsonObject
+            ?.get("token")
+            ?.jsonPrimitive
+            ?.content!!
+    }
+
+    /**
+     * 토큰 갱신 API 실패시 재시도 하는 함수
+     */
+    private fun reqRetryRefreshToken(): Single<String> {
+        return Single.create { emitter ->
+            try {
+                val res = reqRefreshToken()
+                emitter.onSuccess(res)
+            } catch (ex: Exception) {
+                emitter.onError(ex)
+            }
+        }.compose(applyRetryPolicy()).subscribeOn(Schedulers.io())
+    }
+
+    /**
+     * 재시도 N 번 처리하는 함수
+     */
+    private fun <T : Any> applyRetryPolicy(
+        maxRetries: Int = 3
+    ) = SingleTransformer<T, T> { single ->
+        single.retryWhen { errors ->
+            errors.zipWith(
+                Flowable.range(1, maxRetries + 1)
+            ) { error, retryCount -> Pair(error, retryCount) }
+                .flatMap { (err, retryCount) ->
+                    // 최대 maxRetries번까지 재시도
+                    if (retryCount <= maxRetries && err is Throwable) {
+                        // 지수 백오프 정책을 적용하여 재시도 간격을 증가시킴
+                        val delayMillis = 2.0.pow(retryCount.toDouble()).toLong() * 1000
+                        Flowable.timer(delayMillis, TimeUnit.MILLISECONDS)
+                    } else {
+                        // 재시도 횟수 초과 또는 에러가 기타 경우에는 에러 전파
+                        Flowable.error(err)
+                    }
+                }
+        }
     }
 }

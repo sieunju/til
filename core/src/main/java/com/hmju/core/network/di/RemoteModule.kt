@@ -8,7 +8,6 @@ import com.hmju.core.network.interceptor.HeaderInterceptor
 import com.hmju.core.network.interceptor.RefreshTokenInterceptor
 import com.hmju.core.network.interceptor.TokenAuthenticator
 import com.hmju.core.network.qualifiers.*
-import com.hmju.core.pref.PreferenceManager
 import com.hmju.core.pref.di.PreferenceManagerModule
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
@@ -52,9 +51,8 @@ internal object RemoteModule {
     @Provides
     @HeaderJsonInterceptor
     fun provideHeaderInterceptor(
-        loginManager: LoginManager,
-        prefManager: PreferenceManager
-    ): Interceptor = HeaderInterceptor(loginManager, prefManager)
+        loginManager: LoginManager
+    ): Interceptor = HeaderInterceptor(loginManager)
 
     @Singleton
     @Provides
@@ -111,15 +109,17 @@ internal object RemoteModule {
     @Provides
     fun provideTokenAuthenticator(
         loginManager: LoginManager,
-        @TokenRetrofit retrofit: Retrofit
-    ): Authenticator = TokenAuthenticator(loginManager, retrofit)
+        @TokenHttpClient client: OkHttpClient,
+    ): Authenticator = TokenAuthenticator(loginManager, client)
 
     @Singleton
     @Provides
     fun provideDispatcher(
-        prefManager: PreferenceManager,
+        loginManager: LoginManager,
         @TokenHttpClient client: OkHttpClient,
-    ): Dispatcher = Dispatcher(PauseAbleThreadPoolExecutor(prefManager, client))
+    ): Dispatcher = Dispatcher(
+        PauseAbleThreadPoolExecutor(loginManager, client)
+    )
 
     @Singleton
     @Provides

@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.features.network_v2.model.JSendEntity
-import com.hmju.core.Constants
 import com.hmju.core.model.base.onError
 import com.hmju.core.model.base.onSuccess
 import com.hmju.core.model.params.GoodsParameter
@@ -119,14 +118,12 @@ class NetworkV2FragmentViewModel @Inject constructor(
                 _progressText.postValue("${percentage.toInt()}%")
             }
             .doFinally {
-                _progressText.postValue("완료 ${Constants.tokenErrorCount}")
+                _progressText.postValue("완료")
                 _isLoading.postValue(false)
-                Constants.tokenErrorCount = 0
             }
             .doOnCancel {
-                _progressText.postValue("취소 ${Constants.tokenErrorCount}")
+                _progressText.postValue("취소")
                 _isLoading.postValue(false)
-                Constants.tokenErrorCount = 0
             }
             .subscribe().addTo(compositeDisposable)
     }
