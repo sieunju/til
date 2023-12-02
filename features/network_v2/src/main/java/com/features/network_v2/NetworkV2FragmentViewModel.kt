@@ -4,13 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.features.network_v2.model.JSendEntity
+import com.hmju.core.Constants
 import com.hmju.core.model.base.onError
 import com.hmju.core.model.base.onSuccess
 import com.hmju.core.model.params.GoodsParameter
 import com.hmju.core.pref.PreferenceManager
 import com.hmju.core.ui.base.FragmentViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.Disposable
@@ -22,7 +22,6 @@ import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.random.Random
-import kotlin.system.measureNanoTime
 
 /**
  * Description :
@@ -63,27 +62,9 @@ class NetworkV2FragmentViewModel @Inject constructor(
     fun onSimpleTest() {
         val startTime = System.currentTimeMillis()
         Single.zip(
-            apiService.fetchTest1()
-                .map { 1 }
-                .onErrorReturn {
-                    Timber.tag("HTTP_LOG").d("111 ERROR $it")
-                    10
-                }
-                .subscribeOn(Schedulers.io()),
-            apiService.fetchTest()
-                .map { 2 }
-                .onErrorReturn {
-                    Timber.tag("HTTP_LOG").d("222 ERROR $it")
-                    10
-                }
-                .subscribeOn(Schedulers.io()),
-            apiService.fetchTest2()
-                .map { 3 }
-                .onErrorReturn {
-                    Timber.tag("HTTP_LOG").d("3333 ERROR $it")
-                    10
-                }
-                .subscribeOn(Schedulers.io()),
+            reqJwtTest1(),
+            reqJwtTest2(),
+            reqJwtTest3(),
         ) { a, b, c ->
             a.plus(b).plus(c)
         }
@@ -135,23 +116,58 @@ class NetworkV2FragmentViewModel @Inject constructor(
         val takeMs = minute * (1000 * 60)
         val endTimeMs = System.currentTimeMillis().plus(takeMs)
         val takeCount = takeMs.toFloat() / 333.0
-        disposable = Flowable.interval(0L, 333L, TimeUnit.MILLISECONDS)
+//        disposable = Flowable.interval(0L, 333L, TimeUnit.MILLISECONDS)
+//            .takeUntil { System.currentTimeMillis() >= endTimeMs }
+//            // .doOnNext { startRequest() }
+//            .doOnNext { startJwtRequest() }
+//            .doAfterNext {
+//                val percentage = (it.toFloat() / takeCount) * 100.0
+//                _progressText.postValue("${percentage.toInt()}%")
+//            }
+//            .doFinally {
+//                _progressText.postValue("완료 ${Constants.tokenErrorCount}")
+//                _isLoading.postValue(false)
+//                Constants.tokenErrorCount = 0
+//            }
+//            .doOnCancel {
+//                _progressText.postValue("완료 ${Constants.tokenErrorCount}")
+//                _isLoading.postValue(false)
+//                Constants.tokenErrorCount = 0
+//            }
+//            .subscribe()
+
+        Flowable.interval(0, 333L, TimeUnit.MILLISECONDS)
             .takeUntil { System.currentTimeMillis() >= endTimeMs }
-            .doOnNext { startRequest() }
-            .observeOn(AndroidSchedulers.mainThread())
-            .doAfterNext {
+            .flatMap { startJwtRequest(it).toFlowable() }
+            .doOnNext {
                 val percentage = (it.toFloat() / takeCount) * 100.0
-                _progressText.value = "${percentage.toInt()}%"
+                _progressText.postValue("${percentage.toInt()}%")
             }
             .doFinally {
-                _progressText.value = "완료"
-                _isLoading.value = false
+                _progressText.postValue("완료 ${Constants.tokenErrorCount}")
+                _isLoading.postValue(false)
+                Constants.tokenErrorCount = 0
             }
             .doOnCancel {
-                _progressText.value = "완료"
-                _isLoading.value = false
+                _progressText.postValue("취소 ${Constants.tokenErrorCount}")
+                _isLoading.postValue(false)
+                Constants.tokenErrorCount = 0
             }
-            .subscribe()
+            .subscribe().addTo(compositeDisposable)
+    }
+
+    private fun startJwtRequest(percent: Long): Single<Long> {
+        val startNs = System.nanoTime()
+        return Single.zip(
+            reqJwtTest1(),
+            reqJwtTest2(),
+            reqJwtTest3()
+        ) { a, b, c ->
+            percent
+        }.doOnSuccess {
+            val tookMs = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startNs)
+            Timber.d("작업 완료 ${tookMs}ms")
+        }
     }
 
     fun startRequest() {
@@ -182,7 +198,7 @@ class NetworkV2FragmentViewModel @Inject constructor(
                 .subscribeOn(Schedulers.io()),
             apiService.fetchJSendRx()
                 .subscribeOn(Schedulers.io()),
-            apiService.fetchTest()
+            apiService.fetchJwtTest()
                 .subscribeOn(Schedulers.io())
         ) { _, _, _ ->
             return@zip 2
@@ -196,10 +212,31 @@ class NetworkV2FragmentViewModel @Inject constructor(
         return Single.zip(
             apiService.fetchAndroid(),
             apiService.fetchAndroid(),
-            apiService.fetchTest()
+            apiService.fetchJwtTest()
         ) { _, _, _ -> }
             .map { 3 }
             .onErrorReturn { 3 }
+            .subscribeOn(Schedulers.io())
+    }
+
+    private fun reqJwtTest1(): Single<Int> {
+        return apiService.fetchJwtTest()
+            .map { 1 }
+            .onErrorReturn { 11 }
+            .subscribeOn(Schedulers.io())
+    }
+
+    private fun reqJwtTest2(): Single<Int> {
+        return apiService.fetchJwtTest1()
+            .map { 2 }
+            .onErrorReturn { 12 }
+            .subscribeOn(Schedulers.io())
+    }
+
+    private fun reqJwtTest3(): Single<Int> {
+        return apiService.fetchJwtTest2()
+            .map { 3 }
+            .onErrorReturn { 13 }
             .subscribeOn(Schedulers.io())
     }
 }

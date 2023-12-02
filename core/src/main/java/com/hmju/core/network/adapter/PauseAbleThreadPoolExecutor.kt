@@ -1,5 +1,6 @@
 package com.hmju.core.network.adapter
 
+import com.hmju.core.Constants
 import com.hmju.core.model.auth.TokenEntity
 import com.hmju.core.model.base.JSendObj
 import com.hmju.core.network.NetworkConfig
@@ -44,6 +45,8 @@ class PauseAbleThreadPoolExecutor constructor(
         }
     }
 
+    private val TIME_DELAY = 0
+
     private var isPaused = false
     private val pauseLock = ReentrantLock()
     private val unPaused: Condition = pauseLock.newCondition()
@@ -58,7 +61,7 @@ class PauseAbleThreadPoolExecutor constructor(
             handleTokenRefresh()
         } else {
             // println("================= 단순 API 호출합니다. ${t.name} ============================")
-            Timber.tag("HTTP_LOG_").d("단순 API 호출합니다. ${t.name}")
+            // Timber.tag("HTTP_LOG_").d("단순 API 호출합니다. ${t.name}")
         }
         try {
             while (isPaused) {
@@ -98,7 +101,7 @@ class PauseAbleThreadPoolExecutor constructor(
     private fun isCallRefreshToken(): Boolean {
         val currTime = System.currentTimeMillis()
         val expiredTime = prefManager.getLong(PreferenceManager.KEY_TOKEN_EXPIRED_MS)
-        return expiredTime.minus(30_000) <= currTime || expiredTime == 0L
+        return expiredTime.minus(5_000) <= currTime || expiredTime == 0L
     }
 
     fun pause() {
@@ -114,9 +117,6 @@ class PauseAbleThreadPoolExecutor constructor(
         pauseLock.lock()
         try {
             isPaused = false
-            // 대기 중인 모든 스레드를 깨웁니다.
-            // 이 조건을 기다리고 있는 스레드가 있으면 모두 깨어납니다.
-            // 각 스레드는 Wait에서 반환되기 전에 잠금을 다시 획득해야 합니다.
             unPaused.signalAll()
         } finally {
             pauseLock.unlock()
@@ -127,14 +127,24 @@ class PauseAbleThreadPoolExecutor constructor(
      * 쓰레드 대기 하고 토큰 재발급 처리해서 제 셋팅하는 함수
      * 테스트용오르 JWT Decode 해서 만료 시간을 가져온후 해당 값을 SharedPreference 저장
      */
+    @Synchronized
     private fun handleTokenRefresh() {
+        // 해당 로직은 4초 미만으로 구성되어야함
+        Constants.callRefreshTokenMs = System.nanoTime()
         isPaused = true
         val res = reqRefreshToken()
         val expiredTimeMs = res.payload.getPayload(json).getExpiredMs()
         prefManager.setValue(PreferenceManager.KEY_TOKEN_EXPIRED_MS, expiredTimeMs)
-        prefManager.setValue(PreferenceManager.KEY_TOKEN,res.payload.token)
+        prefManager.setValue(PreferenceManager.KEY_TOKEN, res.payload.token)
         isPaused = false
+        // 대기 중인 모든 스레드를 깨웁니다.
+        // 이 조건을 기다리고 있는 스레드가 있으면 모두 깨어납니다.
+        // 각 스레드는 Wait에서 반환되기 전에 잠금을 다시 획득해야 합니다.
         unPaused.signalAll()
+        val tookMs = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - Constants.callRefreshTokenMs)
+        if (tookMs > TIME_DELAY.plus(700)) {
+            Constants.tokenErrorCount = Constants.tokenErrorCount.plus(1)
+        }
     }
 
     /**
@@ -146,7 +156,7 @@ class PauseAbleThreadPoolExecutor constructor(
     private fun reqRefreshToken(): JSendObj<TokenEntity> {
         val body = JSONObject()
         body.put("email", "j.sieun@gmail.com")
-        body.put("delay", 3000)
+        body.put("delay", TIME_DELAY)
         body.put("expiredTime", "1m")
         val req = Request.Builder()
             .url(NetworkConfig.BASE_URL.plus("/api/til/auth/refresh"))

@@ -15,6 +15,7 @@ import okhttp3.ResponseBody
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Query
 import retrofit2.http.QueryMap
 
 /**
@@ -54,12 +55,18 @@ interface ApiService {
     fun fetchAndroid(): Single<ResponseBody>
 
     @GET("/api/til/auth/jwt/test")
-    fun fetchTest(): Single<JSendObj<JwtTokenTestEntity>>
+    fun fetchJwtTest(
+        @Query("timeDelay") delay: Int = 0
+    ): Single<JSendObj<JwtTokenTestEntity>>
 
     @GET("/api/til/auth/jwt/test1")
-    fun fetchTest1(): Single<JSendObj<JwtTokenTestEntity>>
+    fun fetchJwtTest1(
+        @Query("timeDelay") delay: Int = 0
+    ): Single<JSendObj<JwtTokenTestEntity>>
 
     @GET("/api/til/auth/jwt/test2")
-    fun fetchTest2(): Single<JSendObj<JwtTokenTestEntity>>
+    fun fetchJwtTest2(
+        @Query("timeDelay") delay: Int = 0
+    ): Single<JSendObj<JwtTokenTestEntity>>
 
 }
