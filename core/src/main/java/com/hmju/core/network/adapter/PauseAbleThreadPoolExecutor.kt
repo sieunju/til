@@ -28,8 +28,8 @@ class PauseAbleThreadPoolExecutor constructor(
     private val prefManager: PreferenceManager,
     private val httpClient: OkHttpClient
 ) : ThreadPoolExecutor(
-    0,
     4,
+    Int.MAX_VALUE,
     60,
     TimeUnit.SECONDS,
     LinkedBlockingQueue(),
@@ -146,7 +146,7 @@ class PauseAbleThreadPoolExecutor constructor(
     private fun reqRefreshToken(): JSendObj<TokenEntity> {
         val body = JSONObject()
         body.put("email", "j.sieun@gmail.com")
-        body.put("delay", 2000)
+        body.put("delay", 3000)
         body.put("expiredTime", "1m")
         val req = Request.Builder()
             .url(NetworkConfig.BASE_URL.plus("/api/til/auth/refresh"))

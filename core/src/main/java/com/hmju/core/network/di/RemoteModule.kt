@@ -54,7 +54,7 @@ internal object RemoteModule {
     fun provideHeaderInterceptor(
         loginManager: LoginManager,
         prefManager: PreferenceManager
-    ): Interceptor = HeaderInterceptor(loginManager,prefManager)
+    ): Interceptor = HeaderInterceptor(loginManager, prefManager)
 
     @Singleton
     @Provides
@@ -73,7 +73,7 @@ internal object RemoteModule {
             Timber.tag("HTTP_LOG").d(it)
         }
     ).apply {
-        setLevel(HttpLoggingInterceptor.Level.HEADERS)
+        setLevel(HttpLoggingInterceptor.Level.BODY)
     }
 
     @Singleton
@@ -88,9 +88,9 @@ internal object RemoteModule {
         .connectTimeout(NetworkConfig.CONNECT_TIME_OUT, TimeUnit.MILLISECONDS)
         .readTimeout(NetworkConfig.READ_TIME_OUT, TimeUnit.MILLISECONDS)
         .writeTimeout(NetworkConfig.WRITE_TIME_OUT, TimeUnit.MILLISECONDS)
-        .addInterceptor(httpLoggingInterceptor)
-        .addInterceptor(trackingInterceptor)
         .addInterceptor(headerInterceptor)
+        .addInterceptor(httpLoggingInterceptor)
+        // .addInterceptor(trackingInterceptor)
         .build()
 
     @ExperimentalSerializationApi
@@ -119,7 +119,7 @@ internal object RemoteModule {
     fun provideDispatcher(
         prefManager: PreferenceManager,
         @TokenHttpClient client: OkHttpClient,
-    ) : Dispatcher = Dispatcher(PauseAbleThreadPoolExecutor(prefManager, client))
+    ): Dispatcher = Dispatcher(PauseAbleThreadPoolExecutor(prefManager, client))
 
     @Singleton
     @Provides
@@ -138,8 +138,8 @@ internal object RemoteModule {
             .writeTimeout(NetworkConfig.WRITE_TIME_OUT, TimeUnit.MILLISECONDS)
             .dispatcher(dispatcher)
             .addInterceptor(headerInterceptor)
-            .addInterceptor(httpLoggingInterceptor)
-            .addInterceptor(trackingInterceptor)
+            // .addInterceptor(httpLoggingInterceptor)
+            // .addInterceptor(trackingInterceptor)
             // .authenticator(tokenAuthenticator)
             .build()
     }
