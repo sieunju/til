@@ -67,8 +67,7 @@ class NetworkV2FragmentViewModel @Inject constructor(
             a.plus(b).plus(c)
         }
             .doOnSuccess {
-                Timber.tag("HTTP_LOG")
-                    .d("RESULT $it 걸린 시간 ${System.currentTimeMillis() - startTime}")
+                Timber.d("RESULT $it 걸린 시간 ${System.currentTimeMillis() - startTime}")
             }
             .subscribe()
             .addTo(compositeDisposable)
@@ -192,21 +191,21 @@ class NetworkV2FragmentViewModel @Inject constructor(
     }
 
     private fun reqJwtTest1(): Single<Int> {
-        return apiService.fetchJwtTest()
+        return apiService.fetchJwtTest(3000)
             .map { 1 }
             .onErrorReturn { 11 }
             .subscribeOn(Schedulers.io())
     }
 
     private fun reqJwtTest2(): Single<Int> {
-        return apiService.fetchJwtTest1()
+        return apiService.fetchJwtTest1(1000)
             .map { 2 }
             .onErrorReturn { 12 }
             .subscribeOn(Schedulers.io())
     }
 
     private fun reqJwtTest3(): Single<Int> {
-        return apiService.fetchJwtTest2()
+        return apiService.fetchJwtTest2(2000)
             .map { 3 }
             .onErrorReturn { 13 }
             .subscribeOn(Schedulers.io())
