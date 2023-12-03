@@ -41,7 +41,7 @@ class TokenAuthenticator(
         }
     }
 
-    private val TIME_DELAY = 3000
+    private val TIME_DELAY = 0
 
     override fun authenticate(route: Route?, response: Response): Request? {
         // Token Expired

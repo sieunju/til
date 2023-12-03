@@ -9,23 +9,17 @@ import com.hmju.core.network.interceptor.RefreshTokenInterceptor
 import com.hmju.core.network.interceptor.TokenAuthenticator
 import com.hmju.core.network.qualifiers.*
 import com.hmju.core.pref.di.PreferenceManagerModule
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import hmju.http.tracking_interceptor.TrackingHttpInterceptor
-import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.Authenticator
 import okhttp3.Dispatcher
 import okhttp3.Interceptor
-import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
@@ -88,21 +82,7 @@ internal object RemoteModule {
         .writeTimeout(NetworkConfig.WRITE_TIME_OUT, TimeUnit.MILLISECONDS)
         .addInterceptor(headerInterceptor)
         .addInterceptor(httpLoggingInterceptor)
-        // .addInterceptor(trackingInterceptor)
-        .build()
-
-    @ExperimentalSerializationApi
-    @Singleton
-    @Provides
-    @TokenRetrofit
-    fun provideTokenRetrofit(
-        @TokenHttpClient httpClient: OkHttpClient,
-        json: Json
-    ): Retrofit = Retrofit.Builder()
-        .baseUrl(NetworkConfig.BASE_URL)
-        .client(httpClient)
-        .addCallAdapterFactory(RxJava3CallAdapterFactory.createWithScheduler(Schedulers.io()))
-        .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+        .addInterceptor(trackingInterceptor)
         .build()
 
     @Singleton
@@ -137,10 +117,10 @@ internal object RemoteModule {
             .readTimeout(NetworkConfig.READ_TIME_OUT, TimeUnit.MILLISECONDS)
             .writeTimeout(NetworkConfig.WRITE_TIME_OUT, TimeUnit.MILLISECONDS)
             .dispatcher(dispatcher)
+            .authenticator(tokenAuthenticator)
             .addInterceptor(headerInterceptor)
-            // .addInterceptor(httpLoggingInterceptor)
-            // .addInterceptor(trackingInterceptor)
-            // .authenticator(tokenAuthenticator)
+            .addInterceptor(httpLoggingInterceptor)
+            .addInterceptor(trackingInterceptor)
             .build()
     }
 }

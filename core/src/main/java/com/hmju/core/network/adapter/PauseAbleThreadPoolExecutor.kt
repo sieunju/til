@@ -50,7 +50,7 @@ class PauseAbleThreadPoolExecutor constructor(
         }
     }
 
-    private val TIME_DELAY = 1000
+    private val TIME_DELAY = 0
 
     private var isPaused = false
     private val pauseLock = ReentrantLock()
@@ -60,15 +60,10 @@ class PauseAbleThreadPoolExecutor constructor(
         super.beforeExecute(t, r)
         pauseLock.lock()
         if (isCallRefreshToken()) {
-            // println("================= 토큰을 재발급 합니다 ${t.name} ============================")
             Timber.d("================= 토큰을 재발급 합니다 ${t.name} ============================\"")
-//            Timber.tag("HTTP_LOG_")
-//                .d("================= 토큰을 재발급 합니다 ${t.name} ============================")
             handleTokenRefresh()
-        } else {
-            // println("================= 단순 API 호출합니다. ${t.name} ============================")
-            // Timber.tag("HTTP_LOG_").d("단순 API 호출합니다. ${t.name}")
         }
+
         try {
             while (isPaused) {
                 unPaused.await()
