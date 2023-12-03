@@ -10,6 +10,7 @@ import com.hmju.core.model.params.GoodsParameter
 import com.hmju.core.login_manager.LoginManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.kotlin.addTo
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -54,11 +55,10 @@ class MvvmLifecycleTest3ViewModel @Inject constructor(
         getGoodsUseCase(queryMap)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                loginManager.setToken(it[0].imagePath)
                 Timber.d("SUCC $it")
             }, {
                 Timber.e("Error $it")
-            })
+            }).addTo(compositeDisposable)
     }
 
     fun moveTest2Page() {

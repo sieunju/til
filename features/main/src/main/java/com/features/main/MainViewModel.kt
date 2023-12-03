@@ -2,19 +2,14 @@ package com.features.main
 
 import com.feature.async_migrate_bridge.AsyncMigrateBridge
 import com.features.base_mvvm_bridge.BaseMvvmBridge
-import com.hmju.core.ui.base.ActivityViewModel
-import com.hmju.core.ui.lifecycle.OnCreated
-import com.hmju.core.ui.lifecycle.OnIntent
 import com.features.network_bridge.NetworkBridge
 import com.features.recyclerview_bridge.RecyclerViewBridge
 import com.hmju.core.login_manager.LoginManager
+import com.hmju.core.ui.base.ActivityViewModel
+import com.hmju.core.ui.lifecycle.OnIntent
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.rxjava3.core.Flowable
-import io.reactivex.rxjava3.kotlin.addTo
 import timber.log.Timber
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-import kotlin.random.Random
 
 /**
  * Description :
@@ -39,17 +34,6 @@ class MainViewModel @Inject constructor(
         Timber.d("[s] onCreate Intent Data ===============================================")
     }
 
-    @OnCreated
-    fun randomLogin() {
-        Flowable.interval(3000, TimeUnit.MILLISECONDS)
-            .subscribe({
-                loginManager.setToken(if (Random.nextInt(100) > 30) "Token" else "")
-                // Timber.d("isLoginCheck ${loginManager.isLogin()}")
-            }, {
-
-            }).addTo(compositeDisposable)
-    }
-
     fun moveToNetworkPage() {
         networkRequirements.moveToNetworkPage()
     }
@@ -62,7 +46,7 @@ class MainViewModel @Inject constructor(
         mvvmRequirements.moveToBaseMvvm()
     }
 
-    fun moveToAsyncMigratePage(){
+    fun moveToAsyncMigratePage() {
         asyncMigrateBridge.moveToAsyncMigrate()
     }
 }

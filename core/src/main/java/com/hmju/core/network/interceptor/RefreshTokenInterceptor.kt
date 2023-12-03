@@ -3,6 +3,8 @@ package com.hmju.core.network.interceptor
 import com.hmju.core.network.NetworkConfig
 import okhttp3.Interceptor
 import okhttp3.Response
+import timber.log.Timber
+import java.util.concurrent.TimeUnit
 
 /**
  * Description : 토큰 갱신용 Interceptor
@@ -11,10 +13,22 @@ import okhttp3.Response
  */
 class RefreshTokenInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
-        val origin = chain.request()
-        return chain.proceed(origin.newBuilder().apply {
-            header(NetworkConfig.HEADER_KEY_ACCEPT, NetworkConfig.HEADER_VAL_ACCEPT)
-            header(NetworkConfig.HEADER_KEY_CONTENT, NetworkConfig.HEADER_VAL_CONTENT)
-        }.build())
+        val req = chain.request().newBuilder()
+            .header(NetworkConfig.HEADER_KEY_ACCEPT, NetworkConfig.HEADER_VAL_ACCEPT)
+            .header(NetworkConfig.HEADER_KEY_CONTENT, NetworkConfig.HEADER_VAL_CONTENT)
+            .build()
+
+        val startNs = System.nanoTime()
+        val response: Response
+        try {
+            response = chain.proceed(req)
+        } catch (e: Exception) {
+            throw e
+        }
+        val tookMs = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startNs)
+        val str = StringBuilder()
+        str.append("Code ${response.code} Request ${response.request.url.encodedPath} (${tookMs}ms)")
+        Timber.tag("Network_Test").w(str.toString())
+        return response
     }
 }

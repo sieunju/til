@@ -50,6 +50,7 @@ class PauseAbleThreadPoolExecutor constructor(
         }
     }
 
+    // private val TIME_DELAY = 5000
     private val TIME_DELAY = 0
 
     private var isPaused = false
@@ -60,7 +61,7 @@ class PauseAbleThreadPoolExecutor constructor(
         super.beforeExecute(t, r)
         pauseLock.lock()
         if (isCallRefreshToken()) {
-            Timber.d("Dispatcher 토큰을 재발급합니다. ${t.name}")
+            Timber.tag("Network_Test").w("Dispatcher 토큰을 재발급합니다. ${t.name}")
             handleTokenRefresh()
         }
 
@@ -130,7 +131,6 @@ class PauseAbleThreadPoolExecutor constructor(
      */
     @Synchronized
     private fun handleTokenRefresh() {
-        // 해당 로직은 4초 미만으로 구성되어야함
         isPaused = true
         // val refreshToken = reqRefreshToken()
         val refreshToken = reqRetryRefreshToken().blockingGet()

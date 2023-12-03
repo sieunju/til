@@ -6,18 +6,17 @@ import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.features.base_mvvm.usecase.GetGoodsUseCase
+import com.hmju.core.login_manager.LoginManager
+import com.hmju.core.model.params.GoodsParameter
 import com.hmju.core.ui.base.ActivityViewModel
 import com.hmju.core.ui.base.BaseActivity
 import com.hmju.core.ui.base.IntentKey
 import com.hmju.core.ui.lifecycle.*
-import com.hmju.core.model.params.GoodsParameter
-import com.hmju.core.login_manager.LoginManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
-import kotlin.random.Random
 
 /**
  * Description :
@@ -59,7 +58,6 @@ class MvvmLifecycleTestViewModel @Inject constructor(
     }
 
     fun onRandomToken() {
-        loginManager.setToken("Token ${System.currentTimeMillis()}")
         savedStateHandle.set("HiKey", "dddfefefeffe")
         savedStateHandle.set("Hello....", System.currentTimeMillis())
         savedStateHandle.set(IntentKey.TOKEN, "ChangeResult")
@@ -70,7 +68,6 @@ class MvvmLifecycleTestViewModel @Inject constructor(
     }
 
     fun onClick3() {
-        loginManager.setToken("Token ${System.currentTimeMillis()}_${Random.nextBytes(10000)}")
 //        movePage(
 //            MovePageEvent(
 //                target = MvvmLifecycleTest2Activity::class.java,

@@ -4,15 +4,14 @@ import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.features.base_mvvm.usecase.GetGoodsUseCase
+import com.hmju.core.login_manager.LoginManager
+import com.hmju.core.model.params.GoodsParameter
 import com.hmju.core.ui.base.FragmentViewModel
 import com.hmju.core.ui.base.IntentKey
 import com.hmju.core.ui.lifecycle.OnActivityResult
 import com.hmju.core.ui.lifecycle.OnCreated
 import com.hmju.core.ui.lifecycle.OnResumed
-import com.hmju.core.model.params.GoodsParameter
-import com.hmju.core.login_manager.LoginManager
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.rxjava3.kotlin.addTo
 import javax.inject.Inject
 
 /**
@@ -36,11 +35,6 @@ class LifecycleViewModel @Inject constructor(
         _activityResult.value = "asdfasdf"
 //        activityStack.value = getActivityStackStr()
 //        fragmentStack.value = getFragmentStackStr()
-        goodsUseCase(queryMap)
-            .subscribe({
-                loginManager.setToken(it[0].imagePath)
-            }, {
-            }).addTo(compositeDisposable)
     }
 
     @OnResumed

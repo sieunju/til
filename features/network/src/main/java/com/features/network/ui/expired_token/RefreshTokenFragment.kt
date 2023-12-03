@@ -67,7 +67,7 @@ class RefreshTokenFragment :
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
                         Timber.d("Response $it")
-                        loginManager.setToken(it.token)
+                        // loginManager.setToken(it.token)
                     }, {
                         Timber.e("Error $it")
                     }).addTo(compositeDisposable)

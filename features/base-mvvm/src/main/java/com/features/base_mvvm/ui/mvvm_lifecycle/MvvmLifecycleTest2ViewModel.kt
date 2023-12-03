@@ -12,6 +12,7 @@ import com.hmju.core.model.params.GoodsParameter
 import com.hmju.core.login_manager.LoginManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.kotlin.addTo
 import timber.log.Timber
 import javax.inject.Inject
 import kotlin.random.Random
@@ -46,10 +47,9 @@ class MvvmLifecycleTest2ViewModel @Inject constructor(
         getGoodsUseCase(GoodsParameter())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                loginManager.setToken(it[Random.nextInt(10)].message)
             }, {
 
-            })
+            }).addTo(compositeDisposable)
     }
 
     fun moveTest3Page() {

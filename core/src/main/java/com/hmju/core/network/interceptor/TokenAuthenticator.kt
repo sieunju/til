@@ -48,9 +48,11 @@ class TokenAuthenticator(
         Timber.d("TokenAuthenticator ${response.code}")
         return if (response.code == 401) {
             handleTokenRefresh()
-            response.request.newBuilder()
+            val req = response.request.newBuilder()
                 .header(NetworkConfig.HEADER_KEY_AUTHORIZATION, loginManager.getToken())
                 .build()
+            Timber.tag("Network_Test").e("Authenticator ${req.url.encodedPath}")
+            req
         } else {
             null
         }
