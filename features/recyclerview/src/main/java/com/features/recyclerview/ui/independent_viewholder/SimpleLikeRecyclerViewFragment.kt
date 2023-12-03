@@ -6,16 +6,17 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.hmju.core.ui.base.BaseFragment
 import com.features.recyclerview.BR
 import com.features.recyclerview.R
 import com.features.recyclerview.databinding.FSimpleLikeRecyclerviewBinding
 import com.features.recyclerview.usecase.GetGoodsUseCase
 import com.hmju.core.model.goods.GoodsEntity
-import com.hmju.core.model.params.GoodsParamMap
+import com.hmju.core.model.params.GoodsParameter
+import com.hmju.core.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.addTo
 import javax.inject.Inject
 
 /**
@@ -35,8 +36,8 @@ class SimpleLikeRecyclerViewFragment :
     @Inject
     lateinit var getGoodsListUseCase: GetGoodsUseCase
 
-    private val oneTypeQuery = GoodsParamMap()
-    private val twoTypeQuery = GoodsParamMap()
+    private val oneTypeParams = GoodsParameter()
+    private val twoTypeParams = GoodsParameter()
 
     private val oneAdapter = Adapter(true)
     private val twoAdapter = Adapter(false)
@@ -57,24 +58,22 @@ class SimpleLikeRecyclerViewFragment :
                 }
             }
         }
-        oneTypeQuery.pageSize = 100
-        getGoodsListUseCase(oneTypeQuery)
+        oneTypeParams.pageSize = 100
+        getGoodsListUseCase(oneTypeParams)
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
+            .doOnSuccess {
                 oneList.addAll(it)
                 oneAdapter.submitList(oneList)
-            }, {
+            }
+            .subscribe().addTo(compositeDisposable)
 
-            })
-
-        getGoodsListUseCase(twoTypeQuery)
+        getGoodsListUseCase(twoTypeParams)
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
+            .doOnSuccess {
                 twoList.addAll(it)
                 twoAdapter.submitList(twoList)
-            }, {
-
-            })
+            }
+            .subscribe().addTo(compositeDisposable)
     }
 
     override fun onDestroyView() {
@@ -134,12 +133,15 @@ class SimpleLikeRecyclerViewFragment :
                 pos % 4 == 1 -> {
                     R.layout.vh_simple_like_recyclerview_1
                 }
+
                 pos % 4 == 2 -> {
                     R.layout.vh_simple_like_recyclerview_2
                 }
+
                 pos % 4 == 3 -> {
                     R.layout.vh_simple_like_recyclerview_3
                 }
+
                 else -> {
                     R.layout.vh_simple_like_recyclerview_4
                 }
@@ -151,12 +153,15 @@ class SimpleLikeRecyclerViewFragment :
                 R.layout.vh_simple_like_recyclerview_1 -> SimpleLike1ViewHolder(
                     parent
                 )
+
                 R.layout.vh_simple_like_recyclerview_2 -> SimpleLike2ViewHolder(
                     parent
                 )
+
                 R.layout.vh_simple_like_recyclerview_3 -> SimpleLike3ViewHolder(
                     parent
                 )
+
                 else -> SimpleLike4ViewHolder(parent)
             }
         }

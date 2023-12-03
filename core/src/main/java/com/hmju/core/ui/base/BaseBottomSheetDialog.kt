@@ -52,7 +52,7 @@ abstract class BaseBottomSheetDialog<T : ViewDataBinding, VM : BottomSheetViewMo
     ): View? {
         return DataBindingUtil.inflate<T>(inflater, layoutId, container, false).run {
             binding = this
-            lifecycleOwner = this@BaseBottomSheetDialog
+            lifecycleOwner = viewLifecycleOwner
             setVariable(bindingVariable, viewModel)
             this.root
         }

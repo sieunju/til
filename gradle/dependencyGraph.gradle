@@ -1,9 +1,9 @@
 // from: https://github.com/DroidKaigi/conference-app-2021/blob/main/gradle/dependencyGraph.gradle
 // from: https://github.com/JakeWharton/SdkSearch/blob/3351cad9bfacb0a364858e843774147143f58c7a/gradle/projectDependencyGraph.gradle
-task projectDependencyGraph {
+tasks.register('projectDependencyGraph') {
     doLast {
         def dotFileName = 'projectGraph'
-        def dot = new File(rootProject.rootDir, dotFileName)
+        def dot = new File("${rootProject.rootDir}/assets", dotFileName)
         dot.parentFile.mkdirs()
         dot.delete()
 
@@ -53,7 +53,7 @@ task projectDependencyGraph {
                 javaProjects.add(project)
             }
 
-            project.configurations.all { config ->
+            project.configurations.configureEach { config ->
                 if (config.name.toLowerCase().contains("test")) return
                 config.dependencies
                         .withType(ProjectDependency)

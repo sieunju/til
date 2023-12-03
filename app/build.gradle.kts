@@ -45,6 +45,8 @@ dependencies {
     implementation(project(":features:base-mvvm"))
     implementation(project(":features:async_migrate"))
     implementation(project(":features:async_migrate_bridge"))
+    implementation(project(":features:network_v2"))
+    implementation(project(":features:network_v2-bridge"))
 
     /**
      * Network

@@ -10,7 +10,7 @@ import com.hmju.core.ui.base.ActivityViewModel
 import com.hmju.core.ui.base.BaseActivity
 import com.hmju.core.ui.base.IntentKey
 import com.hmju.core.ui.lifecycle.*
-import com.hmju.core.model.params.GoodsParamMap
+import com.hmju.core.model.params.GoodsParameter
 import com.hmju.core.login_manager.LoginManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.kotlin.addTo
@@ -37,7 +37,7 @@ class MvvmLifecycleTestViewModel @Inject constructor(
 
     @OnCreated
     fun getGoods() {
-        val queryMap = GoodsParamMap()
+        val queryMap = GoodsParameter()
         getGoodsUseCase(queryMap)
             .subscribe({
                 println("List $it")

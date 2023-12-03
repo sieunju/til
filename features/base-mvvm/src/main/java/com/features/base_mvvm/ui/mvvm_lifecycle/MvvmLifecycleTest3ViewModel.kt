@@ -6,7 +6,7 @@ import com.hmju.core.ui.base.ActivityViewModel
 import com.hmju.core.ui.lifecycle.OnCreated
 import com.hmju.core.ui.lifecycle.OnResumed
 import com.hmju.core.ui.lifecycle.OnStopped
-import com.hmju.core.model.params.GoodsParamMap
+import com.hmju.core.model.params.GoodsParameter
 import com.hmju.core.login_manager.LoginManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -50,7 +50,7 @@ class MvvmLifecycleTest3ViewModel @Inject constructor(
 
     @OnCreated
     fun start() {
-        val queryMap = GoodsParamMap()
+        val queryMap = GoodsParameter()
         getGoodsUseCase(queryMap)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({

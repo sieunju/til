@@ -10,6 +10,7 @@ import io.reactivex.rxjava3.core.Single
 interface LoginManager {
     fun setToken(token: String)
     fun getToken(): String
-    fun isLogin() : Boolean
-    fun rxIsLogin() : Single<Boolean>
+    fun isLogin(): Boolean
+    fun rxIsLogin(): Single<Boolean>
+    fun getTokenExpiredMs(): Long
 }

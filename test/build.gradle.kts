@@ -29,6 +29,8 @@ dependencies {
     androidTestImplementation(project(":features:recyclerview-bridge"))
     androidTestImplementation(project(":features:async_migrate"))
     androidTestImplementation(project(":features:async_migrate_bridge"))
+    androidTestImplementation(project(":features:network_v2"))
+    androidTestImplementation(project(":features:network_v2-bridge"))
 
     /**
      * Android X

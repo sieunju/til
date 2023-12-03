@@ -8,7 +8,7 @@ import com.hmju.core.ui.base.IntentKey
 import com.hmju.core.ui.lifecycle.OnActivityResult
 import com.hmju.core.ui.lifecycle.OnCreated
 import com.hmju.core.ui.lifecycle.OnResumed
-import com.hmju.core.model.params.GoodsParamMap
+import com.hmju.core.model.params.GoodsParameter
 import com.hmju.core.login_manager.LoginManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -43,7 +43,7 @@ class MvvmLifecycleTest2ViewModel @Inject constructor(
     }
 
     fun changeToken() {
-        getGoodsUseCase(GoodsParamMap())
+        getGoodsUseCase(GoodsParameter())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 loginManager.setToken(it[Random.nextInt(10)].message)

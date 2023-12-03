@@ -1,8 +1,10 @@
-Build Date 2023년 07월 12일 수요일 13:53:38
-Version Name: 0.0.5
-Branch: develop
+Build Date 2023년 12월 03일 일요일 10:13:10
+Version Name: 0.0.6
+Branch: feature/refactor_network
 
-Message: commit ff91368b76f29aa698d7c74f5242f2fb3748af84
-Update generate-release-note.yml
+Message: commit df562762cd1ce4b2d4bcb7664c9979f139174ee3
+chore: 네트워크 개선 v2
+- 테스트 했던 Delay 들 줄임
 
-Author: Sieun Ju
+
+Author: sieunju

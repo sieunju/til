@@ -15,4 +15,6 @@ open class BaseJSend {
 
     @SerialName("message")
     val message: String? = null
+
+    open val isValid : Boolean = false
 }

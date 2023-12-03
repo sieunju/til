@@ -21,7 +21,7 @@ import javax.inject.Inject
 @ExperimentalSerializationApi
 internal class NetworkProviderImpl @Inject constructor(
     json: Json,
-    @ApiHttpClient httpClient: OkHttpClient
+    @ApiHttpClient httpClient: OkHttpClient,
 ) : NetworkProvider {
 
     private val apiRetrofit: Retrofit by lazy {
@@ -34,7 +34,7 @@ internal class NetworkProviderImpl @Inject constructor(
             .build()
     }
 
-    override fun getNetwork(): Retrofit {
-        return apiRetrofit
+    override fun <T> createApiService(service: Class<T>): T {
+        return apiRetrofit.create(service)
     }
 }

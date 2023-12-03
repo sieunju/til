@@ -4,7 +4,17 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 /**
- * Description : 한 데이터 모델 한에 실제 데이터를 받기 위한 데이터 모델
+ * Description : JSend JSON
+ * {
+ *  "status" : true or false,
+ *  "message" : String (에러인경우 사용자에게 표시하는 에러 메시지),
+ *  "data" : {
+ *      "payload" : [],
+ *      "meta" : {
+ *          "pageSize" : Integer
+ *      }
+ *  }
+ * }
  *
  * Created by juhongmin on 2022/05/15
  */
@@ -21,8 +31,7 @@ data class JSendListWithMeta<T : Any, M : MetaEntity>(
         val meta: M? = null
     )
 
-    val isValid: Boolean
-        get() = depthData != null
+    override val isValid: Boolean get() = depthData != null
 
     val payload: List<T>
         get() = depthData?.list ?: listOf()

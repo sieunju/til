@@ -4,7 +4,7 @@ import com.feature.async_migrate.ApiService
 import com.hmju.core.model.base.JSendListWithMeta
 import com.hmju.core.model.goods.GoodsEntity
 import com.hmju.core.model.meta.CustomMetaEntity
-import com.hmju.core.model.params.GoodsParamMap
+import com.hmju.core.model.params.GoodsParameter
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
@@ -17,8 +17,8 @@ class GetGoodsUseCaseRx @Inject constructor(
     private val apiService: ApiService
 ) {
     operator fun invoke(
-        queryMap: GoodsParamMap
+        params: GoodsParameter
     ): Single<JSendListWithMeta<GoodsEntity, CustomMetaEntity>> {
-        return apiService.fetchGoods(queryMap)
+        return apiService.fetchGoods(params.getQueryParameter())
     }
 }

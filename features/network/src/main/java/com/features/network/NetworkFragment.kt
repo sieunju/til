@@ -8,15 +8,20 @@ import com.features.network.databinding.FNetworkBinding
 import com.features.network.ui.error_handling.ErrorHandlingFragment
 import com.features.network.ui.expired_token.RefreshTokenFragment
 import com.features.network.ui.json_jsend.JsonJsendFragment
+import com.features.network_v2_bridge.NetworkV2Bridge
 import com.google.android.material.button.MaterialButton
 import com.hmju.core.ui.base.BaseFragment
 import com.hmju.core.ui.base.FragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class NetworkFragment : BaseFragment<FNetworkBinding, FragmentViewModel>(R.layout.f_network) {
     override val viewModel: FragmentViewModel by initViewModel()
     override val bindingVariable: Int = BR.vm
+
+    @Inject
+    lateinit var v2Bridge: NetworkV2Bridge
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -25,18 +30,25 @@ class NetworkFragment : BaseFragment<FNetworkBinding, FragmentViewModel>(R.layou
 
     private fun initButton() {
         binding.llButtons.runCatching {
-            addButton("토큰 만료시 재인증하는 방법", RefreshTokenFragment())
-            addButton("JSON jsend 규칙으로 데이터 모델 구성해보기", JsonJsendFragment())
-            addButton("네트워크 에러 헨들링 처리해보기", ErrorHandlingFragment())
+            addButton("토큰 만료시 재인증하는 방법") {
+                moveToFragment(RefreshTokenFragment())
+            }
+            addButton("JSON jsend 규칙으로 데이터 모델 구성해보기") {
+                moveToFragment(JsonJsendFragment())
+            }
+            addButton("네트워크 에러 헨들링 처리해보기") {
+                moveToFragment(ErrorHandlingFragment())
+            }
+            addButton("네트워크 V2 리펙토링") {
+                v2Bridge.moveToNetworkV2Page(parentFragmentManager, R.id.fragment)
+            }
         }
     }
 
-    private fun LinearLayoutCompat.addButton(title: String, targetFragment: Fragment) {
+    private fun LinearLayoutCompat.addButton(title: String, callback: () -> Unit) {
         addView(MaterialButton(requireContext()).apply {
             text = title
-            setOnClickListener {
-                moveToFragment(targetFragment)
-            }
+            setOnClickListener { callback() }
         })
     }
 

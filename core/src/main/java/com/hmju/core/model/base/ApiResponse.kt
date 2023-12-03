@@ -1,6 +1,6 @@
 package com.hmju.core.model.base
 
-import okhttp3.ResponseBody
+import com.hmju.core.model.error.JSendException
 
 /**
  * Description : Coroutines Network Base Response
@@ -9,29 +9,14 @@ import okhttp3.ResponseBody
  */
 sealed class ApiResponse<out T> {
 
-    enum class FailType {
-        NETWORK, HTTP, UN_KNOWN
-    }
-
     /**
      * Network Success Response Data
      */
     data class Success<out T>(val data: T) : ApiResponse<T>()
 
     /**
-     * Network Fail Data Model
-     * @see FailType.HTTP HTTP Error
-     * @see FailType.NETWORK Network Config Error
-     * @see FailType.UN_KNOWN UN KNOWN
-     *
-     * @param type FailType
-     * @param msg Error Message
-     * @param errBody when [FailType.HTTP] Error Body
+     * Network Fail
+     * @param err Error
      */
-    data class Fail(
-        val type: FailType,
-        val msg: CharSequence,
-        val err: Throwable? = null,
-        val errBody: ResponseBody? = null
-    ) : ApiResponse<Nothing>()
+    data class Fail(val err: JSendException) : ApiResponse<Nothing>()
 }

@@ -1,7 +1,7 @@
 package com.hmju.test
 
 import com.features.recyclerview.usecase.GetGoodsUseCase
-import com.hmju.core.model.params.GoodsParamMap
+import com.hmju.core.model.params.GoodsParameter
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
@@ -24,23 +24,15 @@ class NetworkUnitTest {
     lateinit var getGoodsUseCase: GetGoodsUseCase
 
     @Before
-    fun init(){
+    fun init() {
         hiltRule.inject()
     }
 
     @Test
-    fun testNetworkStart(){
-        println("네트워크 TIL Start")
-        getGoodsUseCase(GoodsParamMap())
-            .subscribe({
-                println("SUCC ${it.size}")
-            },{
-                println("ERROR ${it}")
-            })
-//        launchActivity<NetworkActivity>().apply {
-//            moveToState(Lifecycle.State.RESUMED)
-//        }
-        println("네트워크 TIL End")
-        Thread.sleep(3_000)
+    fun testNetworkStart() {
+        val result = getGoodsUseCase(GoodsParameter())
+            .flatMap { getGoodsUseCase(GoodsParameter()) }
+            .blockingGet()
+        println("네트워크 TEST ${result.size}")
     }
 }

@@ -8,7 +8,7 @@ import com.hmju.core.ui.paging.PagingModel
 import com.features.recyclerview.model.GoodsOneUiModel
 import com.features.recyclerview.model.GoodsTwoUiModel
 import com.features.recyclerview.usecase.GetGoodsUseCase
-import com.hmju.core.model.params.GoodsParamMap
+import com.hmju.core.model.params.GoodsParameter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.addTo
@@ -24,7 +24,7 @@ class DiffUtil2ViewModel @Inject constructor(
     val dataList: ListLiveData<BaseUiModel> get() = _dataList
 
     val pagingModel: PagingModel by lazy { PagingModel() }
-    private val queryMap: GoodsParamMap by lazy { GoodsParamMap() }
+    private val queryMap: GoodsParameter by lazy { GoodsParameter() }
 
     @OnViewCreated
     fun onStart() {
