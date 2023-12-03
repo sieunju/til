@@ -60,7 +60,7 @@ class PauseAbleThreadPoolExecutor constructor(
         super.beforeExecute(t, r)
         pauseLock.lock()
         if (isCallRefreshToken()) {
-            Timber.d("================= 토큰을 재발급 합니다 ${t.name} ============================\"")
+            Timber.d("Dispatcher 토큰을 재발급합니다. ${t.name}")
             handleTokenRefresh()
         }
 
