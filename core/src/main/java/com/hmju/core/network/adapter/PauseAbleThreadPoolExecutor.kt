@@ -96,7 +96,7 @@ class PauseAbleThreadPoolExecutor constructor(
 
     /**
      * 토큰 만료 됐는지 상태 체크하는 함수
-     * 30초 단위
+     * N초 단위
      * @return true, false
      */
     private fun isCallRefreshToken(): Boolean {
