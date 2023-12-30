@@ -5,6 +5,7 @@ import androidx.annotation.CallSuper
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModel
 import com.hmju.core.ui.lifecycle.OnActivityResult
+import com.hmju.core.ui.lifecycle.OnFragmentResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Flowable
@@ -26,7 +27,7 @@ open class BaseViewModel @Inject constructor() : ViewModel() {
 
     protected val compositeDisposable: CompositeDisposable by lazy { CompositeDisposable() }
 
-    private var lifecycleEvent: Lifecycle.Event = Lifecycle.Event.ON_ANY
+    protected var lifecycleEvent: Lifecycle.Event = Lifecycle.Event.ON_ANY
 
     fun getCurrentLifecycle() = lifecycleEvent
 
@@ -35,6 +36,7 @@ open class BaseViewModel @Inject constructor() : ViewModel() {
      *
      * 선언된 함수를 실행 하는 함수
      */
+    @Deprecated("테스트 결과 별로 좋지 않는 방향이라 Deprecated 합니다.")
     inline fun <reified T : Annotation> performLifecycle(): Disposable {
         return Flowable.fromIterable(javaClass.methods.toList())
             .filter { it.isAnnotationPresent(T::class.java) }
@@ -48,24 +50,23 @@ open class BaseViewModel @Inject constructor() : ViewModel() {
     /**
      * onActivityResult 에 대한 처리
      * ReactiveX 타입
-     * @param code RequestCode
+     * @param reqCode RequestCode
+     * @param resCode ResultCode
      * @param data 전달 받을 데이터
      */
-    fun performActivityResult(reqCode: Int, resCode: Int, data: Bundle?): Disposable {
+    fun handleActivityResult(reqCode: Int, resCode: Int, data: Bundle?): Disposable {
         return Flowable.fromIterable(javaClass.methods.toList())
             .filter { it.isAnnotationPresent(OnActivityResult::class.java) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ method ->
+            .doOnNext { method ->
                 method.getAnnotation(OnActivityResult::class.java)?.let { annotation ->
-                    // RequestCode 와 같은 함수만 호출
+                    // RequestCode, RESULT Code 와 같은 함수만 호출
                     if (annotation.requestCode == reqCode && annotation.resCode == resCode) {
                         method.invoke(this, data)
                     }
                 }
-            }, {
-                Timber.e("performActivityResult Error $it")
-            })
+            }.subscribe()
     }
 
     /**
@@ -94,11 +95,12 @@ open class BaseViewModel @Inject constructor() : ViewModel() {
     /**
      * Activity, Fragment Lifecycle Annotation 로 처리하는게 아닌
      * 직접적으로 처리해야 하는 경우 해당 함수 호출합니다.
+     * onCreate 에서 바로 onResume 타는 경우
      * ex.) View 단에서 TabLayout 를 셋팅 해야 하는경우
      */
     @CallSuper
-    open fun onDirectViewCreated() {
-        lifecycleEvent = Lifecycle.Event.ON_CREATE
+    open fun onDirectCreatedToResumed() {
+        lifecycleEvent = Lifecycle.Event.ON_RESUME
     }
 
     /**

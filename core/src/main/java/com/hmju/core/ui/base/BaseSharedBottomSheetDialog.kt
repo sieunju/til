@@ -13,10 +13,6 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.hmju.core.ui.lifecycle.OnCreated
-import com.hmju.core.ui.lifecycle.OnResumed
-import com.hmju.core.ui.lifecycle.OnStopped
-import com.hmju.core.ui.lifecycle.OnViewCreated
 import timber.log.Timber
 
 /**
@@ -31,7 +27,8 @@ abstract class BaseSharedBottomSheetDialog<T : ViewDataBinding, VM : BottomSheet
     lateinit var viewModel: VM
     abstract val bindingVariable: Int // ViewModel Binding Variable
 
-    var binding: T by autoCleared()
+    private var _binding: T? = null
+    val binding: T get() = _binding!!
 
     private var isInit = false
 
@@ -40,7 +37,6 @@ abstract class BaseSharedBottomSheetDialog<T : ViewDataBinding, VM : BottomSheet
         super.onCreate(savedInstanceState)
         viewModel.runCatching {
             onDirectCreate()
-            addDisposable(performLifecycle<OnCreated>())
         }
     }
 
@@ -50,8 +46,8 @@ abstract class BaseSharedBottomSheetDialog<T : ViewDataBinding, VM : BottomSheet
         savedInstanceState: Bundle?
     ): View? {
         return DataBindingUtil.inflate<T>(inflater, layoutId, container, false).run {
-            binding = this
-            lifecycleOwner = this@BaseSharedBottomSheetDialog
+            _binding = this
+            lifecycleOwner = viewLifecycleOwner
             setVariable(bindingVariable, viewModel)
             this.root
         }
@@ -60,10 +56,7 @@ abstract class BaseSharedBottomSheetDialog<T : ViewDataBinding, VM : BottomSheet
     @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.runCatching {
-            onDirectViewCreated()
-            addDisposable(performLifecycle<OnViewCreated>())
-        }
+        viewModel.runCatching { onDirectViewCreated() }
 
         with(viewModel) {
             startActivityPage.observe(viewLifecycleOwner) {
@@ -86,9 +79,11 @@ abstract class BaseSharedBottomSheetDialog<T : ViewDataBinding, VM : BottomSheet
     @CallSuper
     override fun onResume() {
         super.onResume()
-        if (isInit) {
-            viewModel.runCatching {
-                addDisposable(performLifecycle<OnResumed>())
+        viewModel.runCatching {
+            onDirectCreatedToResumed()
+
+            if (isInit) {
+                onDirectResumed()
             }
         }
         isInit = true
@@ -97,15 +92,15 @@ abstract class BaseSharedBottomSheetDialog<T : ViewDataBinding, VM : BottomSheet
     @CallSuper
     override fun onStop() {
         super.onStop()
-        viewModel.runCatching {
-            addDisposable(performLifecycle<OnStopped>())
-        }
+        viewModel.runCatching { onDirectStop() }
     }
 
     @CallSuper
     override fun onDestroyView() {
         super.onDestroyView()
+        isInit = false
         viewModel.clearDisposable()
+        _binding = null
     }
 
     @CallSuper

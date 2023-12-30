@@ -3,9 +3,8 @@ package com.features.base_mvvm.ui.refactor_base.bottomsheet
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.features.base_mvvm.usecase.GetGoodsUseCase
-import com.hmju.core.ui.base.FragmentViewModel
-import com.hmju.core.ui.lifecycle.OnViewCreated
 import com.hmju.core.model.params.GoodsParameter
+import com.hmju.core.ui.base.FragmentViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.addTo
@@ -24,8 +23,12 @@ class ChildBottomSheetRedViewModel @Inject constructor(
     private val _longText: MutableLiveData<String> by lazy { MutableLiveData() }
     val longText: LiveData<String> get() = _longText
 
-    @OnViewCreated
-    fun startAddLike() {
+    override fun onDirectViewCreated() {
+        super.onDirectViewCreated()
+        startAddLike()
+    }
+
+    private fun startAddLike() {
         val queryMap = GoodsParameter()
         getGoodsUseCase(queryMap)
             .observeOn(AndroidSchedulers.mainThread())

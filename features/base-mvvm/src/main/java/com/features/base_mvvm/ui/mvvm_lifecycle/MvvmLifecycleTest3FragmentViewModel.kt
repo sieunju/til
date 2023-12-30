@@ -3,7 +3,6 @@ package com.features.base_mvvm.ui.mvvm_lifecycle
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import com.hmju.core.ui.base.FragmentViewModel
-import com.hmju.core.ui.lifecycle.OnResumed
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -20,18 +19,8 @@ class MvvmLifecycleTest3FragmentViewModel @Inject constructor(
     val startFragment: MutableLiveData<Unit> by lazy { MutableLiveData() }
     val startToast: MutableLiveData<String> by lazy { MutableLiveData() }
 
-    @OnResumed
-    fun checkLogin() {
-        // Do Something..
-    }
-
-    @OnResumed
-    fun refreshCart() {
-        // Do Something..
-    }
-
-    @OnResumed
-    fun onResume() {
+    override fun onDirectCreatedToResumed() {
+        super.onDirectCreatedToResumed()
         startToast.value = "테스트 3 완료"
         stateHandle["TEST_KEY"] = "adfasdfasdf"
     }

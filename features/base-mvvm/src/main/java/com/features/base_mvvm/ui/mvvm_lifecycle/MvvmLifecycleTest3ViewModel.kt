@@ -1,13 +1,11 @@
 package com.features.base_mvvm.ui.mvvm_lifecycle
 
-import androidx.lifecycle.SavedStateHandle
 import com.features.base_mvvm.usecase.GetGoodsUseCase
-import com.hmju.core.ui.base.ActivityViewModel
-import com.hmju.core.ui.lifecycle.OnCreated
-import com.hmju.core.ui.lifecycle.OnResumed
-import com.hmju.core.ui.lifecycle.OnStopped
-import com.hmju.core.model.params.GoodsParameter
 import com.hmju.core.login_manager.LoginManager
+import com.hmju.core.model.params.GoodsParameter
+import com.hmju.core.ui.base.ActivityResult
+import com.hmju.core.ui.base.ActivityViewModel
+import com.hmju.core.ui.base.IntentKey
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.addTo
@@ -21,36 +19,34 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class MvvmLifecycleTest3ViewModel @Inject constructor(
-    private val handle: SavedStateHandle,
     private val getGoodsUseCase: GetGoodsUseCase,
     private val loginManager: LoginManager
 ) : ActivityViewModel() {
 
-    @OnCreated
-    fun savedHandle() {
-        handle.keys().forEach {
-            Timber.d("Key $it ${handle.get<Any>(it)}")
+    override fun onDirectCreate() {
+        super.onDirectCreate()
+        savedStateHandle.keys().forEach {
+            Timber.d("Key $it ${getIntentData<Any>(it)}")
         }
-        handle["TEST_KEY"] = "TETKKEKEKQKEKQKEKEKEKEKEKE"
-//        activityStack.value = getActivityStackStr()
-//        fragmentStack.value = getFragmentStackStr()
+        setResultSaveData("TEST_KEY", "TETKKEKEKQKEKQKEKEKEKEKEKE")
+        start()
+        // activityStack.value = getActivityStackStr()
+        // fragmentStack.value = getFragmentStackStr()
     }
 
-    @OnResumed
-    fun onResume() {
-//        activityStack.value = getActivityStackStr()
-//        fragmentStack.value = getFragmentStackStr()
+    override fun onDirectResumed() {
+        super.onDirectResumed()
+        // activityStack.value = getActivityStackStr()
+        // fragmentStack.value = getFragmentStackStr()
     }
 
-    @OnStopped
-    fun onStop() {
-//        saveResultData(Bundle().apply {
-//            putString("TEST_KEY", "AAEFEFEFEFEFEFEFEFEFA")
-//        })
+    override fun onDirectStop() {
+        super.onDirectStop()
+        setResultSaveData("TEST_KEY", "AAEFEFEFEFEFEFEFEFEFA")
     }
 
-    @OnCreated
-    fun start() {
+
+    private fun start() {
         val queryMap = GoodsParameter()
         getGoodsUseCase(queryMap)
             .observeOn(AndroidSchedulers.mainThread())
@@ -62,11 +58,8 @@ class MvvmLifecycleTest3ViewModel @Inject constructor(
     }
 
     fun moveTest2Page() {
-//        movePage(MovePageEvent(
-//            MvvmLifecycleTest2Activity::class.java,
-//            bundle = Bundle().apply {
-//                putLong(IntentKey.NOW_TIME, System.currentTimeMillis())
-//            }
-//        ))
+        ActivityResult.Builder(MvvmLifecycleTest2Activity::class)
+            .setBundle(IntentKey.NOW_TIME, System.currentTimeMillis())
+            .movePage()
     }
 }

@@ -8,7 +8,6 @@ import com.hmju.core.model.base.onError
 import com.hmju.core.model.base.onSuccess
 import com.hmju.core.model.params.GoodsParameter
 import com.hmju.core.ui.base.ActivityViewModel
-import com.hmju.core.ui.lifecycle.OnCreated
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -26,8 +25,13 @@ class AsyncMigrateActivityViewModel @Inject constructor(
     private val apiService: ApiService
 ) : ActivityViewModel() {
 
-    @OnCreated
-    fun start() {
+    override fun onDirectCreate() {
+        super.onDirectCreate()
+        start()
+        test()
+    }
+
+    private fun start() {
         val queryMap = GoodsParameter()
         viewModelScope.launch {
             val list = getGoodsUseCaseCo(queryMap)
@@ -35,8 +39,7 @@ class AsyncMigrateActivityViewModel @Inject constructor(
         }
     }
 
-    @OnCreated
-    fun test() {
+    private fun test() {
         viewModelScope.launch {
             val params = GoodsParameter()
             apiService.fetchCoGoods(params.getQueryParameter())

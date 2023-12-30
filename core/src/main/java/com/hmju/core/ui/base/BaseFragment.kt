@@ -5,19 +5,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
+import androidx.core.app.ActivityOptionsCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.createViewModelLazy
 import androidx.lifecycle.ViewModelProvider
-import com.hmju.core.ui.lifecycle.OnCreated
-import com.hmju.core.ui.lifecycle.OnCreatedToResumed
-import com.hmju.core.ui.lifecycle.OnFragmentShown
-import com.hmju.core.ui.lifecycle.OnResumed
-import com.hmju.core.ui.lifecycle.OnStopped
-import com.hmju.core.ui.lifecycle.OnViewCreated
+import com.hmju.core.ui.lifecycle.OnFragmentResult
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import timber.log.Timber
 
 /**
@@ -31,17 +32,24 @@ abstract class BaseFragment<T : ViewDataBinding, VM : FragmentViewModel>(
 
     abstract val viewModel: VM
     abstract val bindingVariable: Int // ViewModel Binding Variable
-    var binding: T by autoCleared()
+    private var _binding: T? = null
+    val binding: T get() = _binding!!
 
     private var isInit = false
+
+    private val fragmentResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            viewModel.runCatching {
+                val reqCode = it.data?.extras?.getInt(BaseActivity.REQ_CODE) ?: -1
+                Timber.d("Fragment ResultCode ${it.resultCode} ReqCode $reqCode ${it.data?.extras}")
+                addDisposable(handleFragmentResult(reqCode, it.resultCode, it.data?.extras))
+            }
+        }
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.runCatching {
-            onDirectCreate()
-            addDisposable(performLifecycle<OnCreated>())
-        }
+        viewModel.runCatching { onDirectCreate() }
     }
 
     override fun onCreateView(
@@ -50,7 +58,7 @@ abstract class BaseFragment<T : ViewDataBinding, VM : FragmentViewModel>(
         savedInstanceState: Bundle?
     ): View? {
         return DataBindingUtil.inflate<T>(inflater, layoutId, container, false).run {
-            binding = this
+            _binding = this
             lifecycleOwner = viewLifecycleOwner
             setVariable(bindingVariable, viewModel)
             this.root
@@ -60,22 +68,10 @@ abstract class BaseFragment<T : ViewDataBinding, VM : FragmentViewModel>(
     @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.runCatching {
-            onDirectViewCreated()
-            addDisposable(performLifecycle<OnViewCreated>())
-        }
+        viewModel.runCatching { onDirectViewCreated() }
 
         with(viewModel) {
-            startActivityPage.observe(viewLifecycleOwner) {
-                Intent(requireContext(), it.targetActivity.java).apply {
-                    if (it.flags != -1) {
-                        flags = it.flags
-                    }
-                    putExtras(it.data)
-
-                    startActivity(this)
-                }
-            }
+            startActivityPage.observe(viewLifecycleOwner) { startActivityAndAnimation(it) }
         }
     }
 
@@ -83,11 +79,10 @@ abstract class BaseFragment<T : ViewDataBinding, VM : FragmentViewModel>(
     override fun onResume() {
         super.onResume()
         viewModel.runCatching {
-            onDirectResumed()
-            addDisposable(performLifecycle<OnCreatedToResumed>())
+            onDirectCreatedToResumed()
 
             if (isInit) {
-                addDisposable(performLifecycle<OnResumed>())
+                onDirectResumed()
             }
         }
         isInit = true
@@ -96,10 +91,7 @@ abstract class BaseFragment<T : ViewDataBinding, VM : FragmentViewModel>(
     @CallSuper
     override fun onStop() {
         super.onStop()
-        viewModel.runCatching {
-            onDirectStop()
-            addDisposable(performLifecycle<OnStopped>())
-        }
+        viewModel.runCatching { onDirectStop() }
     }
 
     @CallSuper
@@ -107,7 +99,7 @@ abstract class BaseFragment<T : ViewDataBinding, VM : FragmentViewModel>(
         super.onDestroyView()
         isInit = false
         viewModel.clearDisposable()
-
+        _binding = null
         Timber.d("onDestroyView ${javaClass.simpleName}")
     }
 
@@ -115,9 +107,7 @@ abstract class BaseFragment<T : ViewDataBinding, VM : FragmentViewModel>(
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         if (!hidden) {
-            viewModel.runCatching {
-                addDisposable(performLifecycle<OnFragmentShown>())
-            }
+            viewModel.runCatching { onDirectShown() }
         }
     }
 
@@ -141,6 +131,68 @@ abstract class BaseFragment<T : ViewDataBinding, VM : FragmentViewModel>(
         return ViewModelProvider(
             parentFragment.viewModelStore,
             parentFragment.defaultViewModelProviderFactory
-        ).get(VM::class.java)
+        )[VM::class.java]
+    }
+
+    /**
+     * onActivityResult 에 대한 처리
+     * ReactiveX 타입
+     * @param reqCode RequestCode
+     * @param resCode Result Code
+     * @param data 전달 받을 데이터
+     */
+    private fun handleFragmentResult(reqCode: Int, resCode: Int, data: Bundle?): Disposable {
+        return Flowable.fromIterable(javaClass.methods.toList())
+            .filter { it.isAnnotationPresent(OnFragmentResult::class.java) }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnNext { method ->
+                method.getAnnotation(OnFragmentResult::class.java)?.let { annotation ->
+                    // RequestCode, RESULT Code 와 같은 함수만 호출
+                    if (annotation.requestCode == reqCode && annotation.resCode == resCode) {
+                        method.invoke(this, data)
+                    }
+                }
+            }.subscribe()
+    }
+
+    /**
+     * ActivityResult to Intent 변환 처리함수
+     */
+    private fun getActivityResultIntent(page: ActivityResult): Intent {
+        return Intent(requireContext(), page.targetActivity.java).apply {
+            if (page.flags != -1) {
+                flags = page.flags
+            }
+            page.data.putInt(BaseActivity.REQ_CODE, page.requestCode)
+            putExtras(page.data)
+        }
+    }
+
+    /**
+     * Start Activity And Animation
+     */
+    private fun startActivityAndAnimation(
+        result: ActivityResult
+    ) {
+        val intent = getActivityResultIntent(result)
+        if (result.requestCode != -1) {
+            val options: ActivityOptionsCompat? =
+                if (result.enterAni != -1 && result.exitAni != -1) {
+                    ActivityOptionsCompat.makeCustomAnimation(
+                        requireContext(),
+                        result.enterAni,
+                        result.exitAni
+                    )
+                } else {
+                    null
+                }
+            fragmentResult.launch(intent, options)
+        } else {
+            startActivity(intent)
+            if (result.enterAni != -1 && result.exitAni != -1) {
+                activity?.overridePendingTransition(result.enterAni, result.exitAni)
+            }
+        }
     }
 }

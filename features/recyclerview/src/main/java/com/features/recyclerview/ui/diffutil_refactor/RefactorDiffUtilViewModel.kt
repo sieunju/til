@@ -9,12 +9,25 @@ import com.hmju.core.model.goods.GoodsEntity
 import com.hmju.core.model.params.GoodsParameter
 import com.hmju.core.ui.base.BaseUiModel
 import com.hmju.core.ui.base.FragmentViewModel
-import com.hmju.core.ui.lifecycle.OnViewCreated
 import com.hmju.core.ui.livedata.ListLiveData
 import com.hmju.core.ui.paging.PagingModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 import kotlin.random.Random
@@ -31,8 +44,13 @@ class RefactorDiffUtilViewModel @Inject constructor(
     val pagingModel: PagingModel by lazy { PagingModel() }
     private val queryMap: GoodsParameter by lazy { GoodsParameter() }
 
-    @OnViewCreated
-    fun start() {
+    override fun onDirectViewCreated() {
+        super.onDirectViewCreated()
+        start()
+        startCo()
+    }
+
+    private fun start() {
         viewModelScope.launch(Dispatchers.Main) {
             flowOf(getGoodsCoUseCase(queryMap, 0))
                 .onStart { pagingModel.isLoading = true }
@@ -52,8 +70,7 @@ class RefactorDiffUtilViewModel @Inject constructor(
         }
     }
 
-    @OnViewCreated
-    fun startCo() {
+    private fun startCo() {
 //        viewModelScope.launch {
 //            Timber.d("로루틴 테스트 스타일 시작")
 //            val job3 = testJob3()

@@ -3,7 +3,6 @@ package com.features.base_mvvm
 import android.Manifest
 import android.app.Activity
 import android.os.Bundle
-import androidx.core.os.bundleOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.features.base_mvvm.ui.mvvm_lifecycle.MvvmLifecycleTestActivity
@@ -13,8 +12,6 @@ import com.hmju.core.ui.base.ActivityViewModel
 import com.hmju.core.ui.base.IntentKey
 import com.hmju.core.ui.base.RxPermissionEvent
 import com.hmju.core.ui.lifecycle.OnActivityResult
-import com.hmju.core.ui.lifecycle.OnCreated
-import com.hmju.core.ui.lifecycle.OnIntent
 import com.hmju.core.ui.lifecycle.OnPermissionResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import timber.log.Timber
@@ -34,8 +31,8 @@ class RefactorTestViewModel @Inject constructor(
     private val _contents: MutableLiveData<String> by lazy { MutableLiveData() }
     val contents: LiveData<String> get() = _contents
 
-    @OnIntent
-    fun intentData() {
+    override fun onIntent() {
+        super.onIntent()
         Timber.d("[s] onCreate Intent Data ===============================================")
         savedStateHandle.keys().forEach {
             Timber.d("Key $it Value ${savedStateHandle.get<Any>(it)}")
@@ -43,19 +40,16 @@ class RefactorTestViewModel @Inject constructor(
         Timber.d("[s] onCreate Intent Data ===============================================")
     }
 
-    @OnCreated
-    fun onCreate() {
+    override fun onDirectCreate() {
+        super.onDirectCreate()
         _title.value = savedStateHandle.get<String>(IntentKey.TOKEN) ?: run { "Data 가 없습니다.." }
     }
 
     fun onResult() {
-        _startActivityPage.value = ActivityResult(
-            requestCode = 300,
-            targetActivity = MvvmLifecycleTestActivity::class,
-            data = bundleOf(
-                "Serializable" to SerializableEntity("testTitle", System.currentTimeMillis())
-            )
-        )
+        ActivityResult.Builder(MvvmLifecycleTestActivity::class)
+            .setRequestCode(300)
+            .setBundle("Serializable", SerializableEntity("testTitle", System.currentTimeMillis()))
+            .movePage()
     }
 
     fun onPermission() {

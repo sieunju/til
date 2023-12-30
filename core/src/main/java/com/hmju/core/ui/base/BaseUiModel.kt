@@ -12,6 +12,8 @@ abstract class BaseUiModel(@LayoutRes val layoutId: Int) {
 
     abstract fun areContentsTheSame(diffItem: Any): Boolean
 
+    // abstract fun getViewHolderType(): KClass<out BaseViewHolder<*>>
+
     open fun getViewHolderType(): KClass<out BaseViewHolder<*>> {
         throw IllegalArgumentException("Invalid ViewHolder")
     }

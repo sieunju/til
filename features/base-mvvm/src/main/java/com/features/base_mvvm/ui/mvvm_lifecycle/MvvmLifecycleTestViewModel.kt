@@ -34,19 +34,19 @@ class MvvmLifecycleTestViewModel @Inject constructor(
     private val _contents: MutableLiveData<String> by lazy { MutableLiveData() }
     val contents: LiveData<String> get() = _contents
 
-    @OnCreated
-    fun getGoods() {
+    override fun onDirectCreate() {
+        super.onDirectCreate()
         val queryMap = GoodsParameter()
         getGoodsUseCase(queryMap)
             .subscribe({
                 println("List $it")
             }, {
 
-            })
+            }).addTo(compositeDisposable)
     }
 
-    @OnIntent
-    fun intentData() {
+    override fun onIntent() {
+        super.onIntent()
         Timber.d("[s] onCreate Intent Data ===============================================")
         val builder = StringBuilder()
         savedStateHandle.keys().forEach {
@@ -118,8 +118,15 @@ class MvvmLifecycleTestViewModel @Inject constructor(
 //        )
     }
 
-    @OnResumed
-    fun testResumeOne() {
+    override fun onDirectCreatedToResumed() {
+        super.onDirectCreatedToResumed()
+        testResumeOne()
+        testResumeTwo()
+        testOnStopped()
+    }
+
+
+    private fun testResumeOne() {
         Timber.d("resume One")
         loginManager.rxIsLogin()
             .subscribeOn(Schedulers.computation())
@@ -130,13 +137,11 @@ class MvvmLifecycleTestViewModel @Inject constructor(
             }).addTo(compositeDisposable)
     }
 
-    @OnResumed
-    fun testResumeTwo() {
+    private fun testResumeTwo() {
         Timber.d("resume Two")
     }
 
-    @OnStopped
-    fun testOnStopped() {
+    private fun testOnStopped() {
         Timber.d("stopped ")
     }
 

@@ -2,7 +2,6 @@ package com.features.base_mvvm.ui.refactor_base.child
 
 import androidx.lifecycle.MutableLiveData
 import com.hmju.core.ui.base.FragmentViewModel
-import com.hmju.core.ui.lifecycle.OnCreated
 import dagger.hilt.android.lifecycle.HiltViewModel
 import timber.log.Timber
 import javax.inject.Inject
@@ -26,8 +25,8 @@ class ChildRefactorBlueViewModel @Inject constructor(
         startParentBottomSheetDialog.value = null
     }
 
-    @OnCreated
-    fun onCreated() {
+    override fun onDirectCreate() {
+        super.onDirectCreate()
         savedStateHandle.keys().forEach {
             Timber.d("Key $it Value ${savedStateHandle.get<Any>(it)}")
         }
