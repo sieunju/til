@@ -69,7 +69,8 @@ class PauseAbleThreadPoolExecutor constructor(
             while (isPaused) {
                 unPaused.await()
             }
-        } catch (ie: InterruptedException) {
+        } catch (e: InterruptedException) {
+            Timber.d("ERROR? $e")
             t.interrupt()
         } finally {
             pauseLock.unlock()
@@ -131,15 +132,20 @@ class PauseAbleThreadPoolExecutor constructor(
      */
     @Synchronized
     private fun handleTokenRefresh() {
-        isPaused = true
-        // val refreshToken = reqRefreshToken()
-        val refreshToken = reqRetryRefreshToken().blockingGet()
-        loginManager.setToken(refreshToken)
-        isPaused = false
-        // 대기 중인 모든 스레드를 깨웁니다.
-        // 이 조건을 기다리고 있는 스레드가 있으면 모두 깨어납니다.
-        // 각 스레드는 Wait에서 반환되기 전에 잠금을 다시 획득해야 합니다.
-        unPaused.signalAll()
+        try {
+            isPaused = true
+            val refreshToken = reqRetryRefreshToken().blockingGet()
+            loginManager.setToken(refreshToken)
+        } catch (ex: Exception) {
+            // error 대응 어떻게 할까?
+            Timber.tag("Network_Test").d("handleTokenRefresh Error $ex")
+        } finally {
+            isPaused = false
+            // 대기 중인 모든 스레드를 깨웁니다.
+            // 이 조건을 기다리고 있는 스레드가 있으면 모두 깨어납니다.
+            // 각 스레드는 Wait에서 반환되기 전에 잠금을 다시 획득해야 합니다.
+            unPaused.signalAll()
+        }
     }
 
     /**
@@ -152,7 +158,7 @@ class PauseAbleThreadPoolExecutor constructor(
         val reqBody = JSONObject()
         reqBody.put("email", "j.sieun@gmail.com")
         reqBody.put("delay", TIME_DELAY)
-        reqBody.put("expiredTime", "1m")
+        reqBody.put("expiredTime", "10m")
         val req = Request.Builder()
             .url(NetworkConfig.BASE_URL.plus("/api/til/auth/refresh"))
             .post(reqBody.toString().toRequestBody())
@@ -205,7 +211,7 @@ class PauseAbleThreadPoolExecutor constructor(
             ) { error, retryCount -> Pair(error, retryCount) }
                 .flatMap { (err, retryCount) ->
                     // 최대 maxRetries번까지 재시도
-                    if (retryCount <= maxRetries && err is Throwable) {
+                    if (retryCount <= maxRetries) {
                         // 지수 백오프 정책을 적용하여 재시도 간격을 증가시킴
                         val delayMillis = 2.0.pow(retryCount.toDouble()).toLong() * 1000
                         Flowable.timer(delayMillis, TimeUnit.MILLISECONDS)

@@ -6,8 +6,6 @@ import com.features.base_mvvm.usecase.GetGoodsUseCase
 import com.hmju.core.ui.base.ActivityViewModel
 import com.hmju.core.ui.base.IntentKey
 import com.hmju.core.ui.lifecycle.OnActivityResult
-import com.hmju.core.ui.lifecycle.OnCreated
-import com.hmju.core.ui.lifecycle.OnResumed
 import com.hmju.core.model.params.GoodsParameter
 import com.hmju.core.login_manager.LoginManager
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +13,6 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.addTo
 import timber.log.Timber
 import javax.inject.Inject
-import kotlin.random.Random
 
 /**
  * Description :
@@ -30,17 +27,17 @@ class MvvmLifecycleTest2ViewModel @Inject constructor(
 
     val startMovePageEvent: MutableLiveData<Unit> by lazy { MutableLiveData() }
 
-    @OnCreated
-    fun onCreate() {
+    override fun onDirectCreate() {
+        super.onDirectCreate()
         Timber.d("Token ${savedStateHandle.get<String>(IntentKey.TOKEN)}")
         Timber.d("NowTime ${savedStateHandle.get<Long>(IntentKey.NOW_TIME)}")
         Timber.d("Test Long Arr ${savedStateHandle.get<LongArray>(IntentKey.TEST_LONG_ARR)}")
     }
 
-    @OnResumed
-    fun onResume() {
-//        activityStack.value = getActivityStackStr()
-//        fragmentStack.value = getFragmentStackStr()
+    override fun onDirectResumed() {
+        super.onDirectResumed()
+        // activityStack.value = getActivityStackStr()
+        // fragmentStack.value = getFragmentStackStr()
     }
 
     fun changeToken() {

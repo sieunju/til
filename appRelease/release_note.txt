@@ -5,6 +5,7 @@ Branch: feature/refactor_network
 Message: commit df562762cd1ce4b2d4bcb7664c9979f139174ee3
 chore: 네트워크 개선 v2
 - 테스트 했던 Delay 들 줄임
+안녕하세요 이거는 테스트입니다.
 
 
 Author: sieunju
