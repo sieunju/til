@@ -31,6 +31,7 @@
     - [JSON jsend 규칙으로 데이터 모델 구성해보기](https://github.com/sieunju/TIL/wiki/JSON-jsend-%EA%B7%9C%EC%B9%99%EC%9C%BC%EB%A1%9C-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%AA%A8%EB%8D%B8-%EA%B5%AC%EC%84%B1%ED%95%B4%EB%B3%B4%EA%B8%B0)
     - [JSend Data Model 에서 Depth 지옥에서 벗어나보기](https://github.com/sieunju/TIL/wiki/JSend-Data-Model-%EC%97%90%EC%84%9C-Depth-%EC%A7%80%EC%98%A5%EC%97%90%EC%84%9C-%EB%B2%97%EC%96%B4%EB%82%98%EB%B3%B4%EA%B8%B0)
     - [네트워크 통신 코루틴으로 처리해보기](https://github.com/sieunju/TIL/wiki/%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC-%ED%86%B5%EC%8B%A0-%EC%BD%94%EB%A3%A8%ED%8B%B4%EC%9C%BC%EB%A1%9C-%EC%B2%98%EB%A6%AC%ED%95%98%EA%B8%B0)
+    - [JWT 토큰 재발급 효율적으로 처리해보기](https://github.com/sieunju/TIL/wiki/JWT-%ED%86%A0%ED%81%B0-%EC%9E%AC%EB%B0%9C%EA%B8%89-%ED%9A%A8%EC%9C%A8%EC%A0%81%EC%9C%BC%EB%A1%9C-%EC%B2%98%EB%A6%AC%ED%95%98%EA%B8%B0-V2)
 
 - RecyclerView
     - [Controller 와 ViewHolder 간의 의존성 제거해보기](https://github.com/sieunju/TIL/wiki/Controller-%EC%99%80-ViewHolder-%EA%B0%84%EC%9D%98-%EC%9D%98%EC%A1%B4%EC%84%B1-%EC%A0%9C%EA%B1%B0-%ED%95%B4%EB%B3%B4%EA%B8%B0)

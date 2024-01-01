@@ -4,9 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.features.base_mvvm.usecase.GetGoodsUseCase
 import com.hmju.core.ui.base.BottomSheetViewModel
-import com.hmju.core.ui.lifecycle.OnCreated
-import com.hmju.core.ui.lifecycle.OnStopped
-import com.hmju.core.ui.lifecycle.OnViewCreated
 import com.hmju.core.model.params.GoodsParameter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -35,8 +32,8 @@ class RefactorBottomSheetViewModel @Inject constructor(
 
     val startDismiss: MutableLiveData<Unit> by lazy { MutableLiveData() }
 
-    @OnCreated
-    fun onCreated() {
+    override fun onDirectCreate() {
+        super.onDirectCreate()
         val queryMap = GoodsParameter()
         queryMap.pageNo = 2
         getGoodsUseCase(queryMap)
@@ -48,8 +45,13 @@ class RefactorBottomSheetViewModel @Inject constructor(
             }).addTo(compositeDisposable)
     }
 
-    @OnViewCreated
-    fun startBlueTitle() {
+    override fun onDirectViewCreated() {
+        super.onDirectViewCreated()
+        startBlueTitle()
+        startRedTitle()
+    }
+
+    private fun startBlueTitle() {
         Flowable.interval(0, 1000, TimeUnit.MILLISECONDS, AndroidSchedulers.mainThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -59,8 +61,7 @@ class RefactorBottomSheetViewModel @Inject constructor(
             }).addTo(compositeDisposable)
     }
 
-    @OnViewCreated
-    fun startRedTitle() {
+    private fun startRedTitle() {
         Flowable.interval(0, 1000, TimeUnit.MILLISECONDS, AndroidSchedulers.mainThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -70,8 +71,8 @@ class RefactorBottomSheetViewModel @Inject constructor(
             }).addTo(compositeDisposable)
     }
 
-    @OnStopped
-    fun onStop() {
+    override fun onDirectStop() {
+        super.onDirectStop()
         Timber.d("onStop")
     }
 

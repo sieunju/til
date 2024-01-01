@@ -6,11 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import com.features.base_mvvm.usecase.GetGoodsUseCase
 import com.hmju.core.login_manager.LoginManager
 import com.hmju.core.model.params.GoodsParameter
+import com.hmju.core.ui.base.ActivityResult
 import com.hmju.core.ui.base.FragmentViewModel
 import com.hmju.core.ui.base.IntentKey
 import com.hmju.core.ui.lifecycle.OnActivityResult
-import com.hmju.core.ui.lifecycle.OnCreated
-import com.hmju.core.ui.lifecycle.OnResumed
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -29,42 +28,32 @@ class LifecycleViewModel @Inject constructor(
     val activityResult: LiveData<String> get() = _activityResult
     private val queryMap: GoodsParameter by lazy { GoodsParameter() }
 
-    @OnCreated
-    fun onCreate() {
+    override fun onDirectCreate() {
+        super.onDirectCreate()
         _activityResult.postValue("qwerqwer")
         _activityResult.value = "asdfasdf"
 //        activityStack.value = getActivityStackStr()
 //        fragmentStack.value = getFragmentStackStr()
     }
 
-    @OnResumed
-    fun onResume() {
-//        activityStack.value = getActivityStackStr()
+    override fun onDirectResumed() {
+        super.onDirectResumed()
+        //        activityStack.value = getActivityStackStr()
 //        fragmentStack.value = getFragmentStackStr()
     }
 
     fun move200Page() {
-//        movePage(
-//            MovePageEvent(
-//                MvvmLifecycleTest2Activity::class.java,
-//                bundle = Bundle().apply {
-//                    putString(IntentKey.TOKEN, loginManager.getToken())
-//                },
-//                requestCode = 200
-//            )
-//        )
+        ActivityResult.Builder(MvvmLifecycleTest2Activity::class)
+            .setRequestCode(200)
+            .setBundle(IntentKey.TOKEN,loginManager.getToken())
+            .movePage()
     }
 
     fun move201Page() {
-//        movePage(
-//            MovePageEvent(
-//                MvvmLifecycleTest2Activity::class.java,
-//                bundle = Bundle().apply {
-//                    putLong(IntentKey.NOW_TIME, System.currentTimeMillis())
-//                },
-//                requestCode = 201
-//            )
-//        )
+        ActivityResult.Builder(MvvmLifecycleTest2Activity::class)
+            .setRequestCode(201)
+            .setBundle(IntentKey.NOW_TIME,System.currentTimeMillis())
+            .movePage()
     }
 
     @OnActivityResult(200)

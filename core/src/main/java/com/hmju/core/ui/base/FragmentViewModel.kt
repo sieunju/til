@@ -1,5 +1,8 @@
 package com.hmju.core.ui.base
 
+import android.os.Looper
+import androidx.annotation.CallSuper
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
@@ -11,20 +14,48 @@ import javax.inject.Inject
  * Fragment 사용되는 공통 LiveData 들을 정의합니다.
  * Created by juhongmin on 2022/04/15
  */
+@Suppress("unused")
 @HiltViewModel
 open class FragmentViewModel @Inject constructor() : BaseViewModel() {
 
     @Inject
     lateinit var savedStateHandle: SavedStateHandle
 
-    protected val _startActivityPage: MutableLiveData<ActivityResult> by lazy { MutableLiveData() }
+    private val _startActivityPage: MutableLiveData<ActivityResult> by lazy { MutableLiveData() }
     val startActivityPage: LiveData<ActivityResult> get() = _startActivityPage
 
     /**
-     * SavedStateHandle 사용할수 있는 상태인지 체크하는 함수
-     * @return true 사용가능한 상태, false 사용 불가능한 상태
+     * Fragment onHiddenChanged (hidden == false)
      */
-    fun checkBundleEnable(): Boolean {
-        return this::savedStateHandle.isInitialized
+    @CallSuper
+    open fun onDirectShown(){}
+
+    /**
+     * Fragment Lifecycle Annotation 로 처리하는게 아닌
+     * 직접적으로 처리해야 하는 경우 해당 함수 호출합니다.
+     * ex.) View 단에서 TabLayout 를 셋팅 해야 하는경우
+     */
+    @CallSuper
+    open fun onDirectViewCreated() {
+        lifecycleEvent = Lifecycle.Event.ON_CREATE
+    }
+
+    /**
+     * 페이지 이동 관련 확장 함수
+     * @sample
+     * ActivityResult.Builder().moveToPage()
+     *
+     */
+    protected fun ActivityResult.Builder.movePage() {
+        val page = build()
+        try {
+            if (Looper.myLooper() == Looper.getMainLooper()) {
+                _startActivityPage.value = page
+            } else {
+                _startActivityPage.postValue(page)
+            }
+        } catch (ex: Exception) {
+            _startActivityPage.postValue(page)
+        }
     }
 }

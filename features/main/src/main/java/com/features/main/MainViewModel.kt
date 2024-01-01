@@ -7,7 +7,6 @@ import com.features.network_bridge.NetworkBridge
 import com.features.recyclerview_bridge.RecyclerViewBridge
 import com.hmju.core.login_manager.LoginManager
 import com.hmju.core.ui.base.ActivityViewModel
-import com.hmju.core.ui.lifecycle.OnIntent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import timber.log.Timber
 import javax.inject.Inject
@@ -27,8 +26,8 @@ class MainViewModel @Inject constructor(
     private val composeUiBridge: ComposeUiBridge
 ) : ActivityViewModel() {
 
-    @OnIntent
-    fun intentData() {
+    override fun onIntent() {
+        super.onIntent()
         Timber.d("[s] onCreate Intent Data ===============================================")
         savedStateHandle.keys().forEach {
             Timber.d("Key $it Value ${savedStateHandle.get<Any>(it)}")

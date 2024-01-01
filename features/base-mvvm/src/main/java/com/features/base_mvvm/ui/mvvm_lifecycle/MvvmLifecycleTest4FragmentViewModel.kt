@@ -2,7 +2,6 @@ package com.features.base_mvvm.ui.mvvm_lifecycle
 
 import androidx.lifecycle.MutableLiveData
 import com.hmju.core.ui.base.FragmentViewModel
-import com.hmju.core.ui.lifecycle.OnResumed
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -17,8 +16,8 @@ class MvvmLifecycleTest4FragmentViewModel @Inject constructor() : FragmentViewMo
     val startFragment: MutableLiveData<Unit> by lazy { MutableLiveData() }
     val startToast: MutableLiveData<String> by lazy { MutableLiveData() }
 
-    @OnResumed
-    fun onResume() {
+    override fun onDirectCreatedToResumed() {
+        super.onDirectCreatedToResumed()
         startToast.value = "테스트 4 완료"
     }
 

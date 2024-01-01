@@ -13,6 +13,7 @@ import kotlin.reflect.KProperty
  *
  * Created by juhongmin on 2022/04/15
  */
+@Deprecated("테스트 해본결과 좋지 않는 것으로 판단되어 Deprecated 합니다.")
 class AutoClearedValue<T : Any>(val fragment: Fragment) : ReadWriteProperty<Fragment, T> {
     private var _value: T? = null
 

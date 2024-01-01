@@ -6,12 +6,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModelLazy
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
-import com.hmju.core.ui.lifecycle.*
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.Disposable
 import timber.log.Timber
@@ -38,12 +38,10 @@ abstract class BaseActivity<T : ViewDataBinding, VM : ActivityViewModel>(
 
     private val activityResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            Timber.d("Activity ResultCode ${it.resultCode}  ${it.data?.extras}")
             viewModel.runCatching {
                 val reqCode = it.data?.extras?.getInt(REQ_CODE) ?: -1
-                addDisposable(
-                    performActivityResult(reqCode, it.resultCode, it.data?.extras)
-                )
+                Timber.d("Activity ResultCode ${it.resultCode} ReqCode $reqCode ${it.data?.extras}")
+                addDisposable(handleActivityResult(reqCode, it.resultCode, it.data?.extras))
             }
         }
 
@@ -55,31 +53,20 @@ abstract class BaseActivity<T : ViewDataBinding, VM : ActivityViewModel>(
             }
         }
 
-    private var activityResultDisposable: Disposable? = null
     private var permissionDisposable: Disposable? = null
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        performBinding()
+        handleBinding()
 
         viewModel.runCatching {
             onDirectCreate()
-            addDisposable(performLifecycle<OnCreated>())
-            addDisposable(performLifecycle<OnIntent>())
+            onIntent()
         }
 
         with(viewModel) {
-            startActivityPage.observe(this@BaseActivity) {
-                Intent(this@BaseActivity, it.targetActivity.java).apply {
-                    if (it.flags != -1) {
-                        flags = it.flags
-                    }
-                    putExtras(it.data)
-
-                    startActivity(this)
-                }
-            }
+            startActivityPage.observe(this@BaseActivity) { startActivityAndAnimation(it) }
         }
     }
 
@@ -92,7 +79,7 @@ abstract class BaseActivity<T : ViewDataBinding, VM : ActivityViewModel>(
                 data.keySet()?.forEach { key ->
                     savedStateHandle.set(key, data.get(key))
                 }
-                addDisposable(performLifecycle<OnIntent>())
+                onIntent()
             }
         }
     }
@@ -101,29 +88,24 @@ abstract class BaseActivity<T : ViewDataBinding, VM : ActivityViewModel>(
     override fun onResume() {
         super.onResume()
         viewModel.runCatching {
-            onDirectResumed()
-            addDisposable(performLifecycle<OnCreatedToResumed>())
+            onDirectCreatedToResumed()
 
             if (isInit) {
-                addDisposable(performLifecycle<OnResumed>())
+                onDirectResumed()
             }
         }
         isInit = true
 
         // StartActivityResult observer
-        performActivityResult()
         performPermissions()
     }
 
     @CallSuper
     override fun onStop() {
         super.onStop()
-        viewModel.runCatching {
-            onDirectStop()
-            addDisposable(performLifecycle<OnStopped>())
-        }
+        viewModel.runCatching { onDirectStop() }
+
         // ActivityResult Disposable Observer
-        disposableActivityResult()
         disposablePermissions()
     }
 
@@ -150,41 +132,11 @@ abstract class BaseActivity<T : ViewDataBinding, VM : ActivityViewModel>(
         super.finish()
     }
 
-    /**
-     * Activity Result 처리 함수
-     */
-    private fun performActivityResult() {
-        activityResultDisposable = RxActivityResultEvent.listen()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                val intent = Intent(this, it.targetActivity.java).apply {
-                    if (it.flags != -1) {
-                        flags = it.flags
-                    }
-                    it.data.putInt(REQ_CODE, it.requestCode)
-                    putExtras(it.data)
-                }
-                activityResult.launch(intent)
-            }, {
-                Timber.d("ERROR $it")
-            })
-    }
-
-    private fun disposableActivityResult() {
-        if (activityResultDisposable != null) {
-            activityResultDisposable?.dispose()
-            activityResultDisposable = null
-        }
-    }
-
     private fun performPermissions() {
         permissionDisposable = RxPermissionEvent.listen()
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                permissionResult.launch(it.toTypedArray())
-            }, {
-
-            })
+            .doOnNext { permissionResult.launch(it.toTypedArray()) }
+            .subscribe()
     }
 
     private fun disposablePermissions() {
@@ -216,10 +168,48 @@ abstract class BaseActivity<T : ViewDataBinding, VM : ActivityViewModel>(
     /**
      * Activity DataBinding 처리 함수
      */
-    private fun performBinding() {
+    private fun handleBinding() {
         binding = DataBindingUtil.setContentView<T>(this, layoutId).apply {
             lifecycleOwner = this@BaseActivity
             setVariable(bindingVariable, viewModel)
+        }
+    }
+
+    /**
+     * ActivityResult to Intent 변환 처리함수
+     */
+    private fun getActivityResultIntent(page: ActivityResult): Intent {
+        return Intent(this, page.targetActivity.java).apply {
+            if (page.flags != -1) {
+                flags = page.flags
+            }
+            page.data.putInt(REQ_CODE, page.requestCode)
+            putExtras(page.data)
+        }
+    }
+
+    /**
+     * Start Activity And Animation
+     */
+    private fun startActivityAndAnimation(result: ActivityResult) {
+        val intent = getActivityResultIntent(result)
+        if (result.requestCode != -1) {
+            val options: ActivityOptionsCompat? =
+                if (result.enterAni != -1 && result.exitAni != -1) {
+                    ActivityOptionsCompat.makeCustomAnimation(
+                        this,
+                        result.enterAni,
+                        result.exitAni
+                    )
+                } else {
+                    null
+                }
+            activityResult.launch(intent, options)
+        } else {
+            startActivity(intent)
+            if (result.enterAni != -1 && result.exitAni != -1) {
+                overridePendingTransition(result.enterAni, result.exitAni)
+            }
         }
     }
 }

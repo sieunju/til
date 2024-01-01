@@ -2,6 +2,7 @@ package com.hmju.core.ui.base
 
 import android.Manifest
 import android.os.Bundle
+import android.os.Looper
 import android.os.Parcelable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -33,8 +34,15 @@ open class ActivityViewModel @Inject constructor() : BaseViewModel() {
     @Inject
     lateinit var savedStateHandle: SavedStateHandle
 
-    protected val _startActivityPage: MutableLiveData<ActivityResult> by lazy { MutableLiveData() }
+    private val _startActivityPage: MutableLiveData<ActivityResult> by lazy { MutableLiveData() }
     val startActivityPage: LiveData<ActivityResult> get() = _startActivityPage
+
+    /**
+     * Activity 에서 onNewIntent 함수 호출할떄 호출되는 함수
+     * 로직 동일성을 위해 onCreate 와 onNewIntent 에서 사용합니다.
+     * ex.) 딥링크 처리시 사용하면 좋습니다.
+     */
+    open fun onIntent() {}
 
     fun getBundleData(): Bundle {
         val bundle = Bundle()
@@ -138,10 +146,43 @@ open class ActivityViewModel @Inject constructor() : BaseViewModel() {
     }
 
     /**
-     * SavedStateHandle 사용할수 있는 상태인지 체크하는 함수
-     * @return true 사용가능한 상태, false 사용 불가능한 상태
+     * Activity Result 관련 Data Set
      */
-    fun checkBundleEnable(): Boolean {
-        return this::savedStateHandle.isInitialized
+    fun setResultSaveData(key: String, value: Any) {
+        savedStateHandle.set(key, value)
+    }
+
+    /**
+     * Activity getIntentData 함수
+     * @return NonNull
+     */
+    protected inline fun <reified T> getIntentData(key: String, default: T): T {
+        return savedStateHandle.get<T>(key) ?: default
+    }
+
+    /**
+     * Fragment getIntentData 함수
+     * @return Nullable
+     */
+    protected inline fun <reified T> getIntentData(key: String): T? {
+        return savedStateHandle.get<T>(key)
+    }
+
+    /**
+     * 페이지 이동 관련 확장 함수
+     * @sample
+     * ActivityResult.Builder().moveToPage()
+     *
+     */
+    protected fun ActivityResult.Builder.movePage() {
+        try {
+            if (Looper.myLooper() == Looper.getMainLooper()) {
+                _startActivityPage.value = this.build()
+            } else {
+                _startActivityPage.postValue(this.build())
+            }
+        } catch (ex: Exception) {
+            _startActivityPage.postValue(this.build())
+        }
     }
 }

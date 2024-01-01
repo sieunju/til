@@ -1,9 +1,0 @@
-Build Date 2023년 11월 22일 수요일 18:14:02
-Version Name: 0.0.6
-Branch: feature/compose_ui
-
-Message: commit b0e226f2eed6c60852a1fd614ca0048467716a17
-feat: Flow Combine 예제 추가 (Rx zip)
-
-
-Author: sieunju

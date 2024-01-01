@@ -1,14 +1,13 @@
 package com.features.recyclerview.ui.diffutil_v2
 
-import com.hmju.core.ui.base.BaseUiModel
-import com.hmju.core.ui.base.FragmentViewModel
-import com.hmju.core.ui.lifecycle.OnViewCreated
-import com.hmju.core.ui.livedata.ListLiveData
-import com.hmju.core.ui.paging.PagingModel
 import com.features.recyclerview.model.GoodsOneUiModel
 import com.features.recyclerview.model.GoodsTwoUiModel
 import com.features.recyclerview.usecase.GetGoodsUseCase
 import com.hmju.core.model.params.GoodsParameter
+import com.hmju.core.ui.base.BaseUiModel
+import com.hmju.core.ui.base.FragmentViewModel
+import com.hmju.core.ui.livedata.ListLiveData
+import com.hmju.core.ui.paging.PagingModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.addTo
@@ -26,7 +25,11 @@ class DiffUtil2ViewModel @Inject constructor(
     val pagingModel: PagingModel by lazy { PagingModel() }
     private val queryMap: GoodsParameter by lazy { GoodsParameter() }
 
-    @OnViewCreated
+    override fun onDirectViewCreated() {
+        super.onDirectViewCreated()
+        onStart()
+    }
+
     fun onStart() {
         fetchGoods()
     }
