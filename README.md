@@ -3,7 +3,8 @@
 ## ✔ 프로젝트 구성
 - 멀티 모듈 방식 기본적인 buildSrc, data, domain, model, presentation 로 구성되어 있으며
 필요에 따라 모듈이 추가 될 수 있습니다.
-- [API 문서](https://node.qtzz.synology.me/api-docs/#/TIL)
+- [AS-IS API 문서](https://node.qtzz.synology.me/api-docs/#/TIL) 
+- [TO-BE API 문서](https://til.qtzz.synology.me/swagger-ui/index.html) 슬슬 여기로 이전될 예정입니다. 🐶
 
 ## ✔ 스펙
 - 클린 아키 텍처로 구성했습니다.
