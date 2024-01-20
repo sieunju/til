@@ -6,12 +6,17 @@
 - [AS-IS API 문서](https://node.qtzz.synology.me/api-docs/#/TIL) 여기는 죽었어요 😭
 - [TO-BE API 문서](https://til.qtzz.synology.me/swagger-ui/index.html) 슬슬 여기로 이전될 예정입니다. 🐶
 
+## ✔ 버전
+- ![min23](https://img.shields.io/badge/minSDK-23-blue.svg)  ![target33](https://img.shields.io/badge/targetSDK-33-red.svg)
+- ![kotlin 1.8.0](https://img.shields.io/badge/Kotlin/1.8.0-7F52FF?style=flat-square&logo=Kotlin&logoColor=white)
+- ![Hilt 2.45](https://img.shields.io/badge/Hilt-2.45-red.svg)
+
 ## ✔ 스펙
-- 클린 아키 텍처로 구성했습니다.
+- Multi Module
 - Dependency Inject
     - Hilt
 - HTTP Network
-    - Retrofit
+    - OkHttp3 & Retrofit
 - 비동기
     - Reactive X
     - Coroutine
