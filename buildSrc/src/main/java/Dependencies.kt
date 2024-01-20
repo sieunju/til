@@ -1,8 +1,8 @@
 object Apps {
-    const val compileSdkVersion = 33
-    const val buildToolsVersion = "33"
+    const val compileSdkVersion = 34
+    const val buildToolsVersion = "34"
     const val minSdkVersion = 23
-    const val targetSdkVersion = 33
+    const val targetSdkVersion = 34
     const val versionCode = 6
     const val versionName = "0.0.6"
 }

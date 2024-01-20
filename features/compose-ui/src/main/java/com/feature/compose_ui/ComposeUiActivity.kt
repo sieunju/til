@@ -8,17 +8,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ViewCompositionStrategy
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.ExperimentalUnitApi
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import com.feature.compose_ui.databinding.AComposeUiBinding
 import com.hmju.core.ui.base.BaseActivity
@@ -59,7 +54,7 @@ class ComposeUiActivity :
         ) {
             Text(
                 text = "Hello H0",
-                style = JTheme.h0,
+                style = TilTheme.text.h0,
                 modifier = Modifier.clickable {
                     val intent = Intent(this@ComposeUiActivity, GeneralComposeActivity::class.java)
                     this@ComposeUiActivity.startActivity(intent)
@@ -67,23 +62,23 @@ class ComposeUiActivity :
             )
             Text(
                 text = "Hello H1",
-                style = JTheme.h1
+                style = TilTheme.text.h1
             )
             Text(
                 text = "Hello H2",
-                style = JTheme.h2
+                style = TilTheme.text.h2
             )
             Text(
                 text = "Hello H3",
-                style = JTheme.h3
+                style = TilTheme.text.h3
             )
             Text(
                 text = "Hello h4",
-                style = JTheme.h4
+                style = TilTheme.text.h4
             )
             Text(
                 text = "Hello h5",
-                style = JTheme.h5
+                style = TilTheme.text.h5
             )
         }
     }

@@ -1,7 +1,6 @@
 package com.feature.compose_ui
 
 import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.sp
@@ -12,26 +11,26 @@ import androidx.compose.ui.unit.sp
  * Created by juhongmin on 2023/07/24
  */
 @Immutable
-@Suppress("unused","MemberVisibilityCanBePrivate")
-class SimpleTypography internal constructor(
-    val h0 : TextStyle,
-    val h0_B : TextStyle,
-    val h0_M : TextStyle,
-    val h1 : TextStyle,
-    val h1_B : TextStyle,
-    val h1_M : TextStyle,
-    val h2 : TextStyle,
-    val h2_B : TextStyle,
-    val h2_M : TextStyle,
-    val h3 : TextStyle,
-    val h3_B : TextStyle,
-    val h3_M : TextStyle,
-    val h4 : TextStyle,
-    val h4_B : TextStyle,
-    val h4_M : TextStyle,
-    val h5 : TextStyle,
-    val h5_B : TextStyle,
-    val h5_M : TextStyle,
+@Suppress("unused", "MemberVisibilityCanBePrivate")
+class TilTextStyle internal constructor(
+    val h0: TextStyle,
+    val h0_B: TextStyle,
+    val h0_M: TextStyle,
+    val h1: TextStyle,
+    val h1_B: TextStyle,
+    val h1_M: TextStyle,
+    val h2: TextStyle,
+    val h2_B: TextStyle,
+    val h2_M: TextStyle,
+    val h3: TextStyle,
+    val h3_B: TextStyle,
+    val h3_M: TextStyle,
+    val h4: TextStyle,
+    val h4_B: TextStyle,
+    val h4_M: TextStyle,
+    val h5: TextStyle,
+    val h5_B: TextStyle,
+    val h5_M: TextStyle,
 ) {
     constructor() : this(
         h0 = TextStyle(
@@ -102,5 +101,3 @@ class SimpleTypography internal constructor(
         )
     )
 }
-
-internal val localTextTypography = staticCompositionLocalOf { SimpleTypography() }

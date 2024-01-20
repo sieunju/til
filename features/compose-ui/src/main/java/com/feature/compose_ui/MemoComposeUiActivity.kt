@@ -7,35 +7,37 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
-import com.feature.compose_ui.model.MemoEntity
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.feature.compose_ui.model.MemoModel
+import com.feature.compose_ui.model.MemoUiModel
 import com.feature.compose_ui.usecase.GetMemoListUseCase
-import com.hmju.core.model.params.MemoParameter
+import com.hmju.core.model.params.PagingParameter
+import com.hmju.core.ui.paging.PagingModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.debounce
 import timber.log.Timber
+import java.util.Date
 import javax.inject.Inject
 
 /**
@@ -48,7 +50,8 @@ class MemoComposeUiActivity : AppCompatActivity() {
 
     @Inject
     lateinit var getUseCase: GetMemoListUseCase
-    private val params: MemoParameter by lazy { MemoParameter() }
+    private val params: PagingParameter by lazy { PagingParameter() }
+    private val pagingModel: PagingModel by lazy { PagingModel() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,16 +60,20 @@ class MemoComposeUiActivity : AppCompatActivity() {
         }
     }
 
-    @OptIn(ExperimentalFoundationApi::class)
+    @OptIn(ExperimentalFoundationApi::class, FlowPreview::class)
     @Composable
     private fun MemoListScreen() {
-        val dataList = remember { mutableStateListOf<MemoEntity>() }
+        val uiList = remember { mutableStateListOf<MemoUiModel>() }
         val state = rememberLazyListState()
         LaunchedEffect(Unit) {
-            dataList.addAll(getUseCase(params))
+            pagingModel.initParams()
+            uiList.addAll(getUiModels(getUseCase(params, lifecycleScope)))
+            params.pageNo++
+            pagingModel.isLoading = false
         }
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(horizontal = 15.dp),
             state = state
         ) {
             stickyHeader {
@@ -74,64 +81,100 @@ class MemoComposeUiActivity : AppCompatActivity() {
                     modifier = Modifier
                         .fillMaxWidth()
                         .wrapContentHeight()
-                        .background(Color.White)
+                        .background(TilTheme.color.white)
                 ) {
                     Text(
                         text = "메모 리스트 페이지",
                         modifier = Modifier
-                            .wrapContentSize()
+                            .fillMaxWidth()
                             .padding(top = 15.dp, bottom = 15.dp),
-                        style = JTheme.h3,
+                        style = TilTheme.text.h4,
                         textAlign = TextAlign.Center
                     )
                 }
             }
             itemsIndexed(
-                items = dataList,
-                key = { _, item -> item.id },
-                contentType = { _, item -> "Memo" }
-            ) { _, item ->
-                MemoItem(item)
+                items = uiList,
+                key = { idx, _ -> idx },
+                contentType = { _, item -> item.getType() },
+                itemContent = { _, item -> item.GetUi() }
+            )
+        }
+
+
+        val hasMore = remember {
+            derivedStateOf {
+                val lastPos = state.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: 0
+                val itemCount = uiList.size
+                val updatePos = (itemCount - lastPos) / 2
+                return@derivedStateOf if (lastPos >= updatePos) {
+                    pagingModel.hasMore()
+                } else {
+                    false
+                }
             }
         }
-        val position = remember { derivedStateOf { state.firstVisibleItemIndex } }
-        val updatePosition = (dataList.size - position.value) / 2
-        if (position.value >= updatePosition) {
-            Timber.d("페이징 처리합니다. $updatePosition")
-            LaunchedEffect(Unit) {
-                dataList.addAll(getUseCase(params))
-            }
+
+        LaunchedEffect(hasMore) {
+            snapshotFlow { hasMore.value }
+                .debounce(200L)
+                .collect {
+                    if (it) {
+                        Timber.d("API Call $params $pagingModel ${hasMore.value}")
+                        pagingModel.isLoading = true
+                        val list = getUseCase(params, lifecycleScope)
+                        uiList.addAll(getUiModels(list))
+                        params.pageNo++
+                        pagingModel.isLast = list.isEmpty()
+                        pagingModel.isLoading = false
+                        Timber.d("UI 셋팅 완료합니다. $pagingModel ${hasMore.value}")
+                    }
+                }
         }
     }
 
+    private fun getUiModels(list: List<MemoModel>): List<MemoUiModel> {
+        val uiList = mutableListOf<MemoUiModel>()
+        list.forEach { model ->
+            uiList.add(MemoUiModel.Title(model))
+            uiList.add(MemoUiModel.Contents(model))
+            if (model.tag > 3) {
+                uiList.add(MemoUiModel.TagBlueColor(model))
+            } else {
+                uiList.add(MemoUiModel.TagGrayColor(model))
+            }
+            model.imageUrl?.let { uiList.add(MemoUiModel.ImageThumb(it)) }
+            uiList.add(MemoUiModel.Buttons(model))
+            uiList.add(MemoUiModel.MemoDivider)
+        }
+        return uiList
+    }
+
+    @OptIn(ExperimentalGlideComposeApi::class)
+    @Preview(showBackground = true, backgroundColor = 0xFFFFFF)
     @Composable
-    private fun MemoItem(item: MemoEntity) {
+    private fun PreviewExample() {
+        val model = MemoModel(
+            id = 0,
+            tag = 3,
+            title = "Example Title",
+            contents = "Example Contents",
+            registerDate = Date(),
+            imageUrl = "https://til.qtzz.synology.me/resources/img/20210921/1632238064795dwalkkz7dea.png",
+            imageName = "마테리얼 이미지"
+        )
         Column(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxSize()
                 .padding(15.dp)
-                .background(Color.Gray)
-                .wrapContentHeight()
         ) {
-            Text(
-                text = item.title,
-                modifier = Modifier
-                    .padding(top = 30.dp, bottom = 30.dp),
-                color = Color.Blue,
-                style = JTheme.h3
-            )
-            Text(
-                text = item.contents,
-                modifier = Modifier
-                    .padding(top = 30.dp, bottom = 30.dp),
-                style = JTheme.h5
-            )
-            Text(
-                text = item.registerDate,
-                modifier = Modifier
-                    .padding(top = 30.dp, bottom = 30.dp),
-                style = JTheme.h5
-            )
+            MemoUiModel.Title(model.title).GetUi()
+            MemoUiModel.Contents(model.title).GetUi()
+            MemoUiModel.TagGrayColor(model).GetUi()
+            MemoUiModel.TagBlueColor(model).GetUi()
+            MemoUiModel.Contents(model).GetUi()
+            MemoUiModel.ImageThumb(model.imageUrl!!).GetUi()
+            MemoUiModel.Buttons(model).GetUi()
         }
     }
 }

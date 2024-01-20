@@ -2,6 +2,9 @@ package com.feature.compose_ui.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 /**
  * Description :
@@ -18,4 +21,15 @@ data class MemoEntity(
     @SerialName("register_date")
     val registerDate: String = ""
 ) {
+    companion object {
+        val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.KOREA)
+    }
+
+    fun getDate(): Date? {
+        return try {
+            format.parse(registerDate)
+        } catch (ex: Exception) {
+            null
+        }
+    }
 }
