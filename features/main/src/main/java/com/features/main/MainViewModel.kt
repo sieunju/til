@@ -51,7 +51,11 @@ class MainViewModel @Inject constructor(
         asyncMigrateBridge.moveToAsyncMigrate()
     }
 
-    fun moveToComposeUiPage(){
+    fun moveToComposeUiPage() {
         composeUiBridge.moveToPage()
+    }
+
+    fun moveToMemoComposePage() {
+        composeUiBridge.moveToMemoPage()
     }
 }

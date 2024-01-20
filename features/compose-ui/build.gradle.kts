@@ -28,6 +28,16 @@ dependencies {
     implementation(AndroidX.constraintLayout)
 
     /**
+     * Network
+     */
+    implementation(Retrofit.base)
+
+    /**
+     * Kotlinx Serialization
+     */
+    implementation(KotlinX.serialization)
+
+    /**
      * Timber
      */
     implementation(Log.timber)

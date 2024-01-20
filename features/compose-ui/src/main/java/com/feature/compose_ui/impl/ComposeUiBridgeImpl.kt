@@ -3,6 +3,7 @@ package com.feature.compose_ui.impl
 import android.content.Context
 import android.content.Intent
 import com.feature.compose_ui.ComposeUiActivity
+import com.feature.compose_ui.MemoComposeUiActivity
 import com.feature.compose_ui_bridge.ComposeUiBridge
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -17,6 +18,13 @@ internal class ComposeUiBridgeImpl @Inject constructor(
 ) : ComposeUiBridge {
     override fun moveToPage() {
         Intent(context, ComposeUiActivity::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            context.startActivity(this)
+        }
+    }
+
+    override fun moveToMemoPage() {
+        Intent(context, MemoComposeUiActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(this)
         }

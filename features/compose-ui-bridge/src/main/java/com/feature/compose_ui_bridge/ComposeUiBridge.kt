@@ -7,4 +7,5 @@ package com.feature.compose_ui_bridge
  */
 interface ComposeUiBridge {
     fun moveToPage()
+    fun moveToMemoPage()
 }
