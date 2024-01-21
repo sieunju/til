@@ -1,4 +1,4 @@
-package com.feature.compose_ui
+package com.hmju.core.compose
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.text.TextStyle

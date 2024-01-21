@@ -1,4 +1,4 @@
-package com.feature.compose_ui
+package com.hmju.core.compose
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable

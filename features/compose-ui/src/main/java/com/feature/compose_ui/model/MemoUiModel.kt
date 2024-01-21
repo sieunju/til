@@ -29,7 +29,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.bumptech.glide.integration.compose.placeholder
-import com.feature.compose_ui.TilTheme
+import com.hmju.core.compose.TilTheme
 import com.hmju.core.R
 
 /**

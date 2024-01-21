@@ -1,4 +1,4 @@
-package com.feature.compose_ui
+package com.hmju.core.compose
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
