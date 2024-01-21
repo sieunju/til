@@ -68,6 +68,7 @@ object Glide {
     const val base = "com.github.bumptech.glide:glide:4.11.0"
     const val okhttp = "com.github.bumptech.glide:okhttp3-integration:4.11.0"
     const val compiler = "com.github.bumptech.glide:compiler:4.11.0"
+    const val compose = "com.github.bumptech.glide:compose:1.0.0-beta01"
 }
 
 object KotlinX {
@@ -81,6 +82,18 @@ object Log {
 object HttpTracking {
     const val interceptor = "com.github.sieunju.httptracking:interceptor:1.3.2"
     const val ui = "com.github.sieunju.httptracking:ui:1.3.2"
+}
+
+object Compose {
+    const val base = "androidx.compose:compose-bom:2022.10.00"
+    const val material = "androidx.compose.material3:material3"
+    const val ui = "androidx.compose.ui:ui"
+    const val preview = "androidx.compose.ui:ui-tooling-preview"
+    const val liveData = "androidx.compose.runtime:runtime-livedata"
+    const val activity = "androidx.activity:activity-compose:1.5.1"
+    const val tracing = "androidx.compose.runtime:runtime-tracing:1.0.0-beta01"
+    const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1"
+    const val constraint = "androidx.constraintlayout:constraintlayout-compose:1.0.1"
 }
 
 object UnitTest {
@@ -101,5 +114,11 @@ object UnitTest {
     object Hilt {
         const val base = "com.google.dagger:hilt-android-testing:${Versions.hilt}"
         const val compiler = "com.google.dagger:hilt-android-compiler:${Versions.hilt}"
+    }
+
+    object Compose {
+        const val tooling = "androidx.compose.ui:ui-tooling"
+        const val junit = "androidx.compose.ui:ui-test-junit4"
+        const val manifest = "androidx.compose.ui:ui-test-manifest"
     }
 }
