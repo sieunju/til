@@ -9,7 +9,7 @@ object Apps {
 
 object Versions {
     const val retrofit = "2.9.0"
-    const val glide = "4.11.0"
+    const val glide = "4.16.0"
     const val lifecycle = "2.5.1"
     const val hilt = "2.45"
 }
@@ -85,6 +85,7 @@ object HttpTracking {
 }
 
 object Compose {
+    const val compile = "1.4.3"
     const val base = "androidx.compose:compose-bom:2022.10.00"
     const val material = "androidx.compose.material3:material3"
     const val ui = "androidx.compose.ui:ui"
