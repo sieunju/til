@@ -137,7 +137,7 @@ class MemoComposeUiActivity : AppCompatActivity() {
         list.forEach { model ->
             uiList.add(MemoUiModel.Date(model))
             uiList.add(MemoUiModel.Divider1)
-            uiList.add(MemoUiModel.Title(model.title))
+            uiList.add(MemoUiModel.Title(model))
             uiList.add(MemoUiModel.ImageAndInfo(model))
             uiList.add(MemoUiModel.Buttons(model))
             uiList.add(MemoUiModel.Divider10)

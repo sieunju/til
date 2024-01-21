@@ -73,7 +73,6 @@ sealed interface MemoUiModel {
                     contentDescription = null,
                     modifier = Modifier
                         .fillMaxHeight()
-                        .padding(top = 10.dp, bottom = 10.dp)
                         .constrainAs(iv) {
                             end.linkTo(parent.end)
                         }
@@ -363,10 +362,7 @@ sealed interface MemoUiModel {
 
         @Composable
         override fun GetUi() {
-            Divider(
-                color = TilTheme.color.gray1,
-                thickness = 1.dp
-            )
+            Divider(color = TilTheme.color.gray1, thickness = 1.dp)
         }
     }
 
@@ -377,10 +373,7 @@ sealed interface MemoUiModel {
 
         @Composable
         override fun GetUi() {
-            Divider(
-                color = TilTheme.color.gray1,
-                thickness = 10.dp
-            )
+            Divider(color = TilTheme.color.gray1, thickness = 10.dp)
         }
     }
 }
