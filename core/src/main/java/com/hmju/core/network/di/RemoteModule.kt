@@ -81,8 +81,8 @@ internal object RemoteModule {
         .readTimeout(NetworkConfig.READ_TIME_OUT, TimeUnit.MILLISECONDS)
         .writeTimeout(NetworkConfig.WRITE_TIME_OUT, TimeUnit.MILLISECONDS)
         .addInterceptor(headerInterceptor)
-        // .addInterceptor(httpLoggingInterceptor)
-        // .addInterceptor(trackingInterceptor)
+        .addInterceptor(httpLoggingInterceptor)
+        .addInterceptor(trackingInterceptor)
         .build()
 
     @Singleton
@@ -116,11 +116,11 @@ internal object RemoteModule {
             .connectTimeout(NetworkConfig.CONNECT_TIME_OUT, TimeUnit.MILLISECONDS)
             .readTimeout(NetworkConfig.READ_TIME_OUT, TimeUnit.MILLISECONDS)
             .writeTimeout(NetworkConfig.WRITE_TIME_OUT, TimeUnit.MILLISECONDS)
-            .dispatcher(dispatcher)
+            // .dispatcher(dispatcher)
             .authenticator(tokenAuthenticator)
             .addInterceptor(headerInterceptor)
-            // .addInterceptor(httpLoggingInterceptor)
-            // .addInterceptor(trackingInterceptor)
+            .addInterceptor(httpLoggingInterceptor)
+            .addInterceptor(trackingInterceptor)
             .build()
     }
 }

@@ -7,7 +7,7 @@ import androidx.core.view.doOnAttach
 import androidx.core.view.doOnDetach
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.ViewTreeLifecycleOwner
+import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 
 /**
@@ -39,7 +39,7 @@ abstract class BaseViewHolder<T : ViewDataBinding>(
     protected fun setLifecycleOwner() {
         itemView.doOnAttach {
             try {
-                binding.lifecycleOwner = ViewTreeLifecycleOwner.get(it)
+                binding.lifecycleOwner = it.findViewTreeLifecycleOwner()
             } catch (ex: Exception) {
                 // data binding failed to call observer method 변경된 BindingAdapter 나 xml 에서 databinding
             }

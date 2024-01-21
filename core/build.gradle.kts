@@ -9,10 +9,14 @@ plugins {
 android {
     namespace = "com.hmju.core"
     buildFeatures {
+        compose = true
         dataBinding = true
     }
     kapt {
         correctErrorTypes = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.4.1"
     }
 }
 
@@ -83,10 +87,20 @@ dependencies {
     implementation(Kotlin.reflect)
 
     /**
+     * Compose
+     */
+    implementation(platform(Compose.base))
+    implementation(Compose.material)
+    implementation(Compose.preview)
+    implementation(Compose.ui)
+
+    /**
      * Unit Test
      */
     testImplementation(UnitTest.junit)
     androidTestImplementation(UnitTest.junit)
     androidTestImplementation(UnitTest.androidJUnit)
     androidTestImplementation(UnitTest.Espresso.core)
+    androidTestImplementation(platform(Compose.base))
+    debugImplementation(UnitTest.Compose.tooling)
 }

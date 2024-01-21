@@ -119,6 +119,7 @@ abstract class BaseActivity<T : ViewDataBinding, VM : ActivityViewModel>(
     @CallSuper
     override fun finish() {
         with(viewModel) {
+            if (!checkBundleEnable()) return@with
             val reqCode = savedStateHandle.get<Int>(REQ_CODE) ?: -1
             val resCode = savedStateHandle.get<Int>(RES_CODE) ?: RESULT_CANCELED
             if (reqCode != -1) {

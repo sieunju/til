@@ -16,5 +16,5 @@ object NetworkConfig {
     const val HEADER_KEY_AUTHORIZATION = "Authorization"
 
     // local.properties 옮길수 있으나, 지극히 개인적인 거라 상관 없을듯
-    const val BASE_URL: String = "https://node.qtzz.synology.me"
+    const val BASE_URL: String = "https://til.qtzz.synology.me"
 }
