@@ -1,6 +1,7 @@
 package com.feature.compose_ui.model
 
 import android.graphics.drawable.GradientDrawable
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -10,6 +11,9 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
@@ -18,8 +22,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.bumptech.glide.integration.compose.placeholder
@@ -37,6 +43,49 @@ sealed interface MemoUiModel {
     @Composable
     fun GetUi()
 
+    data class Date(
+        val dateText: String
+    ) : MemoUiModel {
+        override fun getType(): String {
+            return "MemoDate"
+        }
+
+        @Composable
+        override fun GetUi() {
+            ConstraintLayout(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp)
+                    .padding(10.dp)
+            ) {
+                val (date, iv) = createRefs()
+                Text(
+                    text = dateText,
+                    style = TilTheme.text.h3,
+                    modifier = Modifier
+                        .wrapContentSize()
+                        .constrainAs(date) {
+                            start.linkTo(parent.start)
+                        }
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.ic_right),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .padding(top = 10.dp, bottom = 10.dp)
+                        .constrainAs(iv) {
+                            end.linkTo(parent.end)
+                        }
+                )
+            }
+        }
+
+        constructor(model: MemoModel) : this(
+            dateText = model.getDateText()
+        )
+    }
+
     data class Title(
         val title: String
     ) : MemoUiModel {
@@ -53,20 +102,17 @@ sealed interface MemoUiModel {
         @Composable
         override fun GetUi() {
             Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp))
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
                     text = title,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(TilTheme.color.black)
                         .padding(top = 15.dp, bottom = 15.dp, start = 15.dp),
                     textAlign = TextAlign.Left,
                     style = TilTheme.text.h3_B,
                     maxLines = 1,
-                    color = TilTheme.color.white
+                    color = TilTheme.color.gray2
                 )
             }
         }
@@ -156,6 +202,74 @@ sealed interface MemoUiModel {
         )
     }
 
+    data class ImageAndInfo(
+        val imageUrl: String,
+        val title: String,
+        val contents: String
+    ) : MemoUiModel {
+        override fun getType(): String {
+            return "ImageAndInfo"
+        }
+
+        @OptIn(ExperimentalGlideComposeApi::class)
+        @Composable
+        override fun GetUi() {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .padding(bottom = 15.dp)
+            ) {
+                GlideImage(
+                    model = imageUrl,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .width(100.dp)
+                        .height(100.dp)
+                        .clip(RoundedCornerShape(5.dp)),
+                    contentScale = ContentScale.Crop,
+                    loading = placeholder(
+                        GradientDrawable(
+                            GradientDrawable.Orientation.BL_TR,
+                            intArrayOf(R.color.gray3, R.color.gray3)
+                        )
+                    ),
+                    failure = placeholder(R.drawable.ic_error)
+                )
+
+                Column(
+                    modifier = Modifier
+                        .weight(1F)
+                        .padding(start = 15.dp, end = 15.dp)
+                        .wrapContentHeight()
+                ) {
+
+                    Text(
+                        text = title,
+                        maxLines = 1,
+                        textAlign = TextAlign.Left,
+                        style = TilTheme.text.h4_B,
+                        color = TilTheme.color.black
+                    )
+
+                    Text(
+                        text = contents,
+                        maxLines = 3,
+                        textAlign = TextAlign.Left,
+                        style = TilTheme.text.h5,
+                        color = TilTheme.color.black
+                    )
+                }
+            }
+        }
+
+        constructor(model: MemoModel) : this(
+            imageUrl = model.imageUrl ?: "",
+            title = model.title,
+            contents = model.contents
+        )
+    }
+
     data class ImageThumb(
         val imageUrl: String
     ) : MemoUiModel {
@@ -197,8 +311,8 @@ sealed interface MemoUiModel {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clip(RoundedCornerShape(bottomStart = 15.dp, bottomEnd = 15.dp))
                     .height(50.dp)
+                    .padding(bottom = 10.dp)
             ) {
                 Box(
                     modifier = Modifier
@@ -242,16 +356,30 @@ sealed interface MemoUiModel {
         }
     }
 
-    object MemoDivider : MemoUiModel {
+    object Divider1 : MemoUiModel {
         override fun getType(): String {
-            return "Divider"
+            return "Divider1"
         }
 
         @Composable
         override fun GetUi() {
             Divider(
-                color = TilTheme.color.white,
-                thickness = 20.dp
+                color = TilTheme.color.gray1,
+                thickness = 1.dp
+            )
+        }
+    }
+
+    object Divider10 : MemoUiModel {
+        override fun getType(): String {
+            return "Divider10"
+        }
+
+        @Composable
+        override fun GetUi() {
+            Divider(
+                color = TilTheme.color.gray1,
+                thickness = 10.dp
             )
         }
     }

@@ -27,7 +27,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
-import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.feature.compose_ui.model.MemoModel
 import com.feature.compose_ui.model.MemoUiModel
 import com.feature.compose_ui.usecase.GetMemoListUseCase
@@ -136,21 +135,16 @@ class MemoComposeUiActivity : AppCompatActivity() {
     private fun getUiModels(list: List<MemoModel>): List<MemoUiModel> {
         val uiList = mutableListOf<MemoUiModel>()
         list.forEach { model ->
-            uiList.add(MemoUiModel.Title(model))
-            uiList.add(MemoUiModel.Contents(model))
-            if (model.tag > 3) {
-                uiList.add(MemoUiModel.TagBlueColor(model))
-            } else {
-                uiList.add(MemoUiModel.TagGrayColor(model))
-            }
-            model.imageUrl?.let { uiList.add(MemoUiModel.ImageThumb(it)) }
+            uiList.add(MemoUiModel.Date(model))
+            uiList.add(MemoUiModel.Divider1)
+            uiList.add(MemoUiModel.Title(model.title))
+            uiList.add(MemoUiModel.ImageAndInfo(model))
             uiList.add(MemoUiModel.Buttons(model))
-            uiList.add(MemoUiModel.MemoDivider)
+            uiList.add(MemoUiModel.Divider10)
         }
         return uiList
     }
 
-    @OptIn(ExperimentalGlideComposeApi::class)
     @Preview(showBackground = true, backgroundColor = 0xFFFFFF)
     @Composable
     private fun PreviewExample() {
@@ -165,16 +159,16 @@ class MemoComposeUiActivity : AppCompatActivity() {
         )
         Column(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
+                .wrapContentHeight()
                 .padding(15.dp)
         ) {
+            MemoUiModel.Date(model).GetUi()
+            MemoUiModel.Divider1.GetUi()
             MemoUiModel.Title(model.title).GetUi()
-            MemoUiModel.Contents(model.title).GetUi()
-            MemoUiModel.TagGrayColor(model).GetUi()
-            MemoUiModel.TagBlueColor(model).GetUi()
-            MemoUiModel.Contents(model).GetUi()
-            MemoUiModel.ImageThumb(model.imageUrl!!).GetUi()
+            MemoUiModel.ImageAndInfo(model).GetUi()
             MemoUiModel.Buttons(model).GetUi()
+            MemoUiModel.Divider10.GetUi()
         }
     }
 }

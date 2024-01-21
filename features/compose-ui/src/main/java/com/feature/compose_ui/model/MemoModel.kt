@@ -1,6 +1,8 @@
 package com.feature.compose_ui.model
 
+import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
 
 /**
  * Description : Compose Memo UiModel
@@ -16,6 +18,9 @@ data class MemoModel(
     val imageUrl: String? = null,
     val imageName: String? = null
 ) {
+
+    private val df = SimpleDateFormat("yy.MM.dd", Locale.KOREA)
+
     constructor(
         memo: MemoEntity,
         file: FileEntity?
@@ -28,4 +33,8 @@ data class MemoModel(
         imageUrl = file?.imageUrl,
         imageName = file?.originalName
     )
+
+    fun getDateText(): String {
+        return df.format(registerDate)
+    }
 }

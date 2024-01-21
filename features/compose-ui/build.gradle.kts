@@ -75,4 +75,6 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.5.1")
 
     implementation("com.github.bumptech.glide:compose:1.0.0-beta01")
+    implementation("androidx.compose.runtime:runtime-tracing:1.0.0-alpha01")
+    implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
 }
