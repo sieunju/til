@@ -7,7 +7,7 @@
 - [TO-BE API 문서](https://til.qtzz.synology.me/swagger-ui/index.html) 슬슬 여기로 이전될 예정입니다. 🐶
 
 ## ✔ 버전
-- ![min23](https://img.shields.io/badge/minSDK-23-blue.svg)  ![target33](https://img.shields.io/badge/targetSDK-33-red.svg)
+- ![min23](https://img.shields.io/badge/minSDK-23-blue.svg)  ![target33](https://img.shields.io/badge/targetSDK-34-red.svg)
 - ![kotlin 1.8.0](https://img.shields.io/badge/Kotlin/1.8.0-7F52FF?style=flat-square&logo=Kotlin&logoColor=white)
 - ![Hilt 2.45](https://img.shields.io/badge/Hilt-2.45-red.svg)
 
