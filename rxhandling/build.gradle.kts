@@ -37,6 +37,7 @@ dependencies {
      */
     testImplementation(UnitTest.junit)
     androidTestImplementation(UnitTest.junit)
+    androidTestImplementation(UnitTest.androidJUnit)
     testImplementation(UnitTest.androidJUnit)
     androidTestImplementation(UnitTest.rules)
     androidTestImplementation(UnitTest.runner)

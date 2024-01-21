@@ -17,4 +17,8 @@ data class PagingModel(
         isLoading = true
         isLast = false
     }
+
+    fun hasMore(): Boolean {
+        return !isLast && !isLoading
+    }
 }

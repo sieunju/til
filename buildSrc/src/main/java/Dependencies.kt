@@ -1,15 +1,15 @@
 object Apps {
-    const val compileSdkVersion = 32
-    const val buildToolsVersion = "32.0.0"
+    const val compileSdkVersion = 34
+    const val buildToolsVersion = "34"
     const val minSdkVersion = 23
-    const val targetSdkVersion = 32
+    const val targetSdkVersion = 34
     const val versionCode = 6
     const val versionName = "0.0.6"
 }
 
 object Versions {
     const val retrofit = "2.9.0"
-    const val glide = "4.11.0"
+    const val glide = "4.16.0"
     const val lifecycle = "2.5.1"
     const val hilt = "2.45"
 }
@@ -32,8 +32,8 @@ object AndroidX {
 }
 
 object Kotlin {
-    const val stdLib = "org.jetbrains.kotlin:kotlin-stdlib:1.7.22"
-    const val reflect = "org.jetbrains.kotlin:kotlin-reflect:1.7.22"
+    const val stdLib = "org.jetbrains.kotlin:kotlin-stdlib:1.8.10"
+    const val reflect = "org.jetbrains.kotlin:kotlin-reflect:1.8.10"
 }
 
 object Javax {
@@ -68,6 +68,7 @@ object Glide {
     const val base = "com.github.bumptech.glide:glide:4.11.0"
     const val okhttp = "com.github.bumptech.glide:okhttp3-integration:4.11.0"
     const val compiler = "com.github.bumptech.glide:compiler:4.11.0"
+    const val compose = "com.github.bumptech.glide:compose:1.0.0-beta01"
 }
 
 object KotlinX {
@@ -81,6 +82,19 @@ object Log {
 object HttpTracking {
     const val interceptor = "com.github.sieunju.httptracking:interceptor:1.3.2"
     const val ui = "com.github.sieunju.httptracking:ui:1.3.2"
+}
+
+object Compose {
+    const val compile = "1.4.3"
+    const val base = "androidx.compose:compose-bom:2022.10.00"
+    const val material = "androidx.compose.material3:material3"
+    const val ui = "androidx.compose.ui:ui"
+    const val preview = "androidx.compose.ui:ui-tooling-preview"
+    const val liveData = "androidx.compose.runtime:runtime-livedata"
+    const val activity = "androidx.activity:activity-compose:1.5.1"
+    const val tracing = "androidx.compose.runtime:runtime-tracing:1.0.0-beta01"
+    const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1"
+    const val constraint = "androidx.constraintlayout:constraintlayout-compose:1.0.1"
 }
 
 object UnitTest {
@@ -101,5 +115,11 @@ object UnitTest {
     object Hilt {
         const val base = "com.google.dagger:hilt-android-testing:${Versions.hilt}"
         const val compiler = "com.google.dagger:hilt-android-compiler:${Versions.hilt}"
+    }
+
+    object Compose {
+        const val tooling = "androidx.compose.ui:ui-tooling"
+        const val junit = "androidx.compose.ui:ui-test-junit4"
+        const val manifest = "androidx.compose.ui:ui-test-manifest"
     }
 }

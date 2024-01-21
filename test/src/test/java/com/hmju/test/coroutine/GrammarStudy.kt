@@ -1,5 +1,6 @@
 package com.hmju.test.coroutine
 
+import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.test.TestCoroutineDispatcher
@@ -71,9 +72,11 @@ class GrammarStudy {
                     delay(1000)
                     emit("Num $value")
                 }
+
                 is String -> {
                     emit(value)
                 }
+
                 else -> {
                     emit("Nothing")
                 }
@@ -275,7 +278,7 @@ class GrammarStudy {
     }
 
     @Test
-    fun MERGE_2(){
+    fun MERGE_2() {
         val time = measureTimeMillis {
             runBlocking {
                 coroutineScope {
@@ -301,7 +304,7 @@ class GrammarStudy {
     }
 
     @Test
-    fun 잘못된_비동기방식_2(){
+    fun 잘못된_비동기방식_2() {
         val time = measureTimeMillis {
             runBlocking {
                 coroutineScope {
@@ -322,6 +325,71 @@ class GrammarStudy {
                 }
             }
 
+        }
+        println("걸린 시간 $time")
+    }
+
+    private fun handleFlowV1_to_v2(entity: Flow_Test) : Flow_Test2 {
+        println("현재 쓰레드 ${Thread.currentThread()}")
+        val map = hashMapOf<String,Any>()
+        map.put("A_KEY",entity.a)
+        map.put("B_KEY",entity.b)
+        map.put("C_KEY",entity.c)
+        // throw NullPointerException("asdfasdfasdf")
+        return Flow_Test2(map)
+    }
+
+    data class Flow_Test(
+        val a : String,
+        val b : Int,
+        val c : Double
+    )
+
+    data class Flow_Test2(
+        val map: Map<String,Any>
+    )
+
+     @OptIn(FlowPreview::class)
+    @Test
+    fun FLOW_콤바인() {
+        val time = measureTimeMillis {
+            runBlocking {
+                coroutineScope {
+                    val work = flow { emit(coroutineString(500)) }
+                    val work1 = flow { emit(coroutineInt(3000)) }
+                    val work2 = flow {emit(coroutineDouble(3500))}
+                    val result = combine(work,work1,work2){a,b,c ->
+                        println("11111 쓰레드 ${Thread.currentThread()}")
+                        Flow_Test(a,b,c)
+                    }.flatMapConcat { flow { emit(handleFlowV1_to_v2(it)) } }
+                        .map { it.toString() }
+                        .flowOn(Dispatchers.IO)
+                        .catch { emit("에러 발생한걸 여기서 발견 ${it.message}") }
+                        .single()
+                    println(result)
+                }
+            }
+        }
+        println("걸린 시간 $time")
+    }
+
+    @Test
+    fun FLOW_COMBINE() {
+        val time = measureTimeMillis {
+            runBlocking {
+                coroutineScope {
+                    val work = flow { emit(coroutineString(500)) }
+                    val work1 = flow { emit(coroutineInt(100)) }
+                    val work2 = flow { emit(coroutineDouble(1)) }
+                    val work3 = flow { emit(coroutineString(3)) }
+                    val work4 = flow { emit(coroutineString(4)) }
+                    combine(work,work1,work2,work3,work4) {a,b,c,d,e ->
+                        return@combine "${a}${b}${c}${d}${e}"
+                    }
+                        .flowOn(Dispatchers.IO)
+                        .collect { println(it) }
+                }
+            }
         }
         println("걸린 시간 $time")
     }

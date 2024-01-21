@@ -12,6 +12,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
     override val bindingVariable: Int = BR.vm
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppTheme)
         intent.putExtra("KEY", "AAFEFEFEFE")
         super.onCreate(savedInstanceState)
     }

@@ -58,4 +58,12 @@ open class FragmentViewModel @Inject constructor() : BaseViewModel() {
             _startActivityPage.postValue(page)
         }
     }
+
+    /**
+     * SavedStateHandle 사용할수 있는 상태인지 체크하는 함수
+     * @return true 사용가능한 상태, false 사용 불가능한 상태
+     */
+    fun checkBundleEnable(): Boolean {
+        return this::savedStateHandle.isInitialized
+    }
 }

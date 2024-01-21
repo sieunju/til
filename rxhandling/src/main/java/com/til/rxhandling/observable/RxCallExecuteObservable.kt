@@ -7,8 +7,8 @@ import io.reactivex.rxjava3.exceptions.CompositeException
 import io.reactivex.rxjava3.exceptions.Exceptions
 import io.reactivex.rxjava3.plugins.RxJavaPlugins
 import retrofit2.Call
+import retrofit2.HttpException
 import retrofit2.Response
-import retrofit2.adapter.rxjava3.HttpException
 import timber.log.Timber
 
 /**
@@ -77,7 +77,7 @@ internal class RxCallExecuteObservable<T>(
 
             override fun onNext(response: Response<R>) {
                 if (response.isSuccessful) {
-                    observer.onNext(response.body())
+                    response.body()?.let { observer.onNext(it) }
                 } else {
                     terminated = true
                     val t: Throwable = HttpException(response)

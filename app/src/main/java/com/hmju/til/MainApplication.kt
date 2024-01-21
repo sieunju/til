@@ -28,14 +28,12 @@ open class MainApplication : Application() {
      * reactivex.exceptions.UndeliverableException 처리 함수.
      */
     private fun initRxJava() {
-        // reactivex.exceptions.UndeliverableException
-        // 참고 링크 https://thdev.tech/android/2019/03/04/RxJava2-Error-handling/
         RxJavaPlugins.setErrorHandler { e ->
             var error = e
             if (error is UndeliverableException) {
                 error = e.cause ?: Throwable("UndeliverableException")
             }
-            if (error is IOException || error is SocketException) {
+            if (error is SocketException || error is IOException) {
                 // fine, irrelevant network problem or API that throws on cancellation
                 return@setErrorHandler
             }

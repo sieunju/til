@@ -31,6 +31,8 @@ dependencies {
     androidTestImplementation(project(":features:async_migrate_bridge"))
     androidTestImplementation(project(":features:network_v2"))
     androidTestImplementation(project(":features:network_v2-bridge"))
+    androidTestImplementation(project(":features:compose-ui"))
+    androidTestImplementation(project(":features:compose-ui-bridge"))
 
     /**
      * Android X
