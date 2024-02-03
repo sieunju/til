@@ -4,6 +4,7 @@ import com.feature.async_migrate.ApiService
 import com.hmju.async_migrate.AsyncConverterUtils.toCoroutine
 import com.hmju.core.model.base.JSendListWithMeta
 import com.hmju.core.model.base.getOrDefault
+import com.hmju.core.model.error.JSendException
 import com.hmju.core.model.goods.GoodsEntity
 import com.hmju.core.model.params.GoodsParameter
 import kotlinx.coroutines.async
@@ -21,7 +22,13 @@ class GetGoodsUseCaseCo @Inject constructor(
     suspend operator fun invoke(params: GoodsParameter): List<GoodsEntity> {
         return coroutineScope {
             val work1 = async { apiService.fetchCoGoods(params.getQueryParameter()) }
-            val work2 = apiService.fetchGoods(params.getQueryParameter()).toCoroutine()
+            val work2 = try {
+                apiService.fetchGoods(params.getQueryParameter()).toCoroutine()
+            } catch (ex: JSendException) {
+                println("JTimber 여기가 에러다 $ex")
+                JSendListWithMeta()
+            }
+
             val res1 = work1.await()
             val res2 = work2
             val list = mutableListOf<GoodsEntity>()
