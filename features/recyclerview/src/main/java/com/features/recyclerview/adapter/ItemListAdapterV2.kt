@@ -6,8 +6,6 @@ import com.features.recyclerview.diffutil.CommonDiffUtilV3
 import com.hmju.core.ui.base.BaseUiModel
 import com.hmju.core.ui.base.BaseViewModel
 import com.hmju.core.ui.viewholders.BaseViewHolder
-import java.util.concurrent.ConcurrentHashMap
-import java.util.concurrent.ConcurrentMap
 import kotlin.reflect.KClass
 import kotlin.reflect.full.primaryConstructor
 
@@ -18,11 +16,7 @@ import kotlin.reflect.full.primaryConstructor
  */
 class ItemListAdapterV2 : ListAdapter<BaseUiModel, BaseViewHolder<*>>(CommonDiffUtilV3()) {
 
-    companion object {
-        private val viewHolderTypeMap: ConcurrentMap<Int, KClass<out BaseViewHolder<*>>> =
-            ConcurrentHashMap()
-    }
-
+    private val viewHolderTypeMap: MutableMap<Int, KClass<out BaseViewHolder<*>>> = mutableMapOf()
     private var viewModel: BaseViewModel? = null
 
     override fun submitList(list: MutableList<BaseUiModel>?) {

@@ -22,8 +22,8 @@ class RefactorBaseRootTestViewModel @Inject constructor(
     private val _intervalText: MutableLiveData<String> by lazy { MutableLiveData() }
     val intervalText: LiveData<String> get() = _intervalText
 
-    override fun onDirectCreate() {
-        super.onDirectCreate()
+    override fun onDirectViewCreated() {
+        super.onDirectViewCreated()
         startInterval()
     }
 

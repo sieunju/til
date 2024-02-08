@@ -1,6 +1,8 @@
 package com.hmju.core.ui.base
 
+import android.app.Activity
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,13 +15,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.createViewModelLazy
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
-import com.hmju.core.ui.lifecycle.OnFragmentResult
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Flowable
-import io.reactivex.rxjava3.disposables.Disposable
-import io.reactivex.rxjava3.schedulers.Schedulers
-import timber.log.Timber
+import com.bumptech.glide.Glide
 
 /**
  * Description : MVVM BaseFragment
@@ -37,19 +35,11 @@ abstract class BaseFragment<T : ViewDataBinding, VM : FragmentViewModel>(
 
     private var isInit = false
 
-    private val fragmentResult =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            viewModel.runCatching {
-                val reqCode = it.data?.extras?.getInt(BaseActivity.REQ_CODE) ?: -1
-                Timber.d("Fragment ResultCode ${it.resultCode} ReqCode $reqCode ${it.data?.extras}")
-                addDisposable(handleFragmentResult(reqCode, it.resultCode, it.data?.extras))
-            }
-        }
-
-    @CallSuper
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel.runCatching { onDirectCreate() }
+    private val fragmentResult = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        val reqCode = result.data?.extras?.getInt(BaseActivity.REQ_CODE) ?: -1
+        viewModel.onFragmentResult(reqCode, result.resultCode, result.data?.extras ?: Bundle())
     }
 
     override fun onCreateView(
@@ -57,10 +47,21 @@ abstract class BaseFragment<T : ViewDataBinding, VM : FragmentViewModel>(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        return initBinding(inflater, container)
+    }
+
+    /**
+     * initBinding
+     */
+    private fun initBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): View {
         return DataBindingUtil.inflate<T>(inflater, layoutId, container, false).run {
             _binding = this
             lifecycleOwner = viewLifecycleOwner
             setVariable(bindingVariable, viewModel)
+            viewModel.initRequestManager(Glide.with(this@BaseFragment))
             this.root
         }
     }
@@ -68,9 +69,10 @@ abstract class BaseFragment<T : ViewDataBinding, VM : FragmentViewModel>(
     @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.runCatching { onDirectViewCreated() }
 
         with(viewModel) {
+            setLifecycle(Lifecycle.Event.ON_CREATE)
+            onDirectViewCreated()
             startActivityPage.observe(viewLifecycleOwner) { startActivityAndAnimation(it) }
         }
     }
@@ -78,42 +80,43 @@ abstract class BaseFragment<T : ViewDataBinding, VM : FragmentViewModel>(
     @CallSuper
     override fun onResume() {
         super.onResume()
-        viewModel.runCatching {
+        with(viewModel) {
+            setLifecycle(Lifecycle.Event.ON_RESUME)
             onDirectCreatedToResumed()
-
             if (isInit) {
                 onDirectResumed()
             }
+            isInit = true
         }
-        isInit = true
     }
 
     @CallSuper
     override fun onStop() {
         super.onStop()
-        viewModel.runCatching { onDirectStop() }
+        with(viewModel) {
+            setLifecycle(Lifecycle.Event.ON_STOP)
+            onDirectStop()
+        }
     }
 
     @CallSuper
     override fun onDestroyView() {
         super.onDestroyView()
         isInit = false
-        viewModel.clearDisposable()
+        with(viewModel) {
+            setLifecycle(Lifecycle.Event.ON_DESTROY)
+            clearDisposable()
+            clearRequestManager()
+        }
         _binding = null
-        Timber.d("onDestroyView ${javaClass.simpleName}")
     }
 
     @CallSuper
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         if (!hidden) {
-            viewModel.runCatching { onDirectShown() }
+            viewModel.onDirectShown()
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Timber.d("onDestroy ${javaClass.simpleName}")
     }
 
     /**
@@ -134,27 +137,27 @@ abstract class BaseFragment<T : ViewDataBinding, VM : FragmentViewModel>(
         )[VM::class.java]
     }
 
-    /**
-     * onActivityResult 에 대한 처리
-     * ReactiveX 타입
-     * @param reqCode RequestCode
-     * @param resCode Result Code
-     * @param data 전달 받을 데이터
-     */
-    private fun handleFragmentResult(reqCode: Int, resCode: Int, data: Bundle?): Disposable {
-        return Flowable.fromIterable(javaClass.methods.toList())
-            .filter { it.isAnnotationPresent(OnFragmentResult::class.java) }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnNext { method ->
-                method.getAnnotation(OnFragmentResult::class.java)?.let { annotation ->
-                    // RequestCode, RESULT Code 와 같은 함수만 호출
-                    if (annotation.requestCode == reqCode && annotation.resCode == resCode) {
-                        method.invoke(this, data)
-                    }
-                }
-            }.subscribe()
-    }
+//    /**
+//     * onActivityResult 에 대한 처리
+//     * ReactiveX 타입
+//     * @param reqCode RequestCode
+//     * @param resCode Result Code
+//     * @param data 전달 받을 데이터
+//     */
+//    private fun handleFragmentResult(reqCode: Int, resCode: Int, data: Bundle?): Disposable {
+//        return Flowable.fromIterable(javaClass.methods.toList())
+//            .filter { it.isAnnotationPresent(OnFragmentResult::class.java) }
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .doOnNext { method ->
+//                method.getAnnotation(OnFragmentResult::class.java)?.let { annotation ->
+//                    // RequestCode, RESULT Code 와 같은 함수만 호출
+//                    if (annotation.requestCode == reqCode && annotation.resCode == resCode) {
+//                        method.invoke(this, data)
+//                    }
+//                }
+//            }.subscribe()
+//    }
 
     /**
      * ActivityResult to Intent 변환 처리함수
@@ -177,21 +180,29 @@ abstract class BaseFragment<T : ViewDataBinding, VM : FragmentViewModel>(
     ) {
         val intent = getActivityResultIntent(result)
         if (result.requestCode != -1) {
-            val options: ActivityOptionsCompat? =
-                if (result.enterAni != -1 && result.exitAni != -1) {
-                    ActivityOptionsCompat.makeCustomAnimation(
-                        requireContext(),
+            val options = if (result.isValidateAni()) {
+                ActivityOptionsCompat.makeCustomAnimation(
+                    requireContext(),
+                    result.enterAni,
+                    result.exitAni
+                )
+            } else {
+                null
+            }
+            fragmentResult.launch(intent, options)
+        } else {
+            startActivity(intent)
+            if (result.isValidateAni()) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                    activity?.overrideActivityTransition(
+                        Activity.OVERRIDE_TRANSITION_OPEN,
                         result.enterAni,
                         result.exitAni
                     )
                 } else {
-                    null
+                    @Suppress("DEPRECATION")
+                    activity?.overridePendingTransition(result.enterAni, result.exitAni)
                 }
-            fragmentResult.launch(intent, options)
-        } else {
-            startActivity(intent)
-            if (result.enterAni != -1 && result.exitAni != -1) {
-                activity?.overridePendingTransition(result.enterAni, result.exitAni)
             }
         }
     }

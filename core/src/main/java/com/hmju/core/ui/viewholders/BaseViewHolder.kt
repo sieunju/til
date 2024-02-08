@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
+import com.hmju.core.ui.base.BaseViewModel
 
 /**
  * Description : TIL 공통 ViewHolder Class
@@ -47,5 +48,10 @@ abstract class BaseViewHolder<T : ViewDataBinding>(
         itemView.doOnDetach {
             binding.lifecycleOwner = null
         }
+    }
+
+    protected fun bindRequestManager(viewModel: BaseViewModel?){
+        if (viewModel == null) return
+
     }
 }

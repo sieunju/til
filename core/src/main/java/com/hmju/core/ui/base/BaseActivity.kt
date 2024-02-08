@@ -9,12 +9,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelLazy
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.disposables.Disposable
-import timber.log.Timber
+import com.bumptech.glide.Glide
 
 /**
  * Description : MVVM BaseActivity
@@ -36,36 +35,22 @@ abstract class BaseActivity<T : ViewDataBinding, VM : ActivityViewModel>(
 
     private var isInit = false
 
-    private val activityResult =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            viewModel.runCatching {
-                val reqCode = it.data?.extras?.getInt(REQ_CODE) ?: -1
-                Timber.d("Activity ResultCode ${it.resultCode} ReqCode $reqCode ${it.data?.extras}")
-                addDisposable(handleActivityResult(reqCode, it.resultCode, it.data?.extras))
-            }
-        }
-
-    private val permissionResult =
-        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
-            Timber.d("Permission Result $it")
-            runCatching {
-                viewModel.performPermissionResult(it)
-            }
-        }
-
-    private var permissionDisposable: Disposable? = null
+    private val activityResult = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        val reqCode = result.data?.extras?.getInt(REQ_CODE) ?: -1
+        viewModel.onActivityResult(reqCode, result.resultCode, result.data?.extras ?: Bundle())
+    }
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        handleBinding()
-
-        viewModel.runCatching {
-            onDirectCreate()
-            onIntent()
-        }
+        initBinding()
 
         with(viewModel) {
+            setLifecycle(Lifecycle.Event.ON_CREATE)
+            onDirectCreate()
+            onIntent()
             startActivityPage.observe(this@BaseActivity) { startActivityAndAnimation(it) }
         }
     }
@@ -87,32 +72,33 @@ abstract class BaseActivity<T : ViewDataBinding, VM : ActivityViewModel>(
     @CallSuper
     override fun onResume() {
         super.onResume()
-        viewModel.runCatching {
+        with(viewModel) {
+            setLifecycle(Lifecycle.Event.ON_RESUME)
             onDirectCreatedToResumed()
-
             if (isInit) {
                 onDirectResumed()
             }
+            isInit = true
         }
-        isInit = true
-
-        // StartActivityResult observer
-        performPermissions()
     }
 
     @CallSuper
     override fun onStop() {
         super.onStop()
-        viewModel.runCatching { onDirectStop() }
-
-        // ActivityResult Disposable Observer
-        disposablePermissions()
+        with(viewModel) {
+            setLifecycle(Lifecycle.Event.ON_STOP)
+            onDirectStop()
+        }
     }
 
     @CallSuper
     override fun onDestroy() {
         super.onDestroy()
-        viewModel.clearDisposable()
+        with(viewModel) {
+            setLifecycle(Lifecycle.Event.ON_DESTROY)
+            clearDisposable()
+            clearRequestManager()
+        }
         isInit = false
     }
 
@@ -130,20 +116,6 @@ abstract class BaseActivity<T : ViewDataBinding, VM : ActivityViewModel>(
             }
         }
         super.finish()
-    }
-
-    private fun performPermissions() {
-        permissionDisposable = RxPermissionEvent.listen()
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnNext { permissionResult.launch(it.toTypedArray()) }
-            .subscribe()
-    }
-
-    private fun disposablePermissions() {
-        if (permissionDisposable != null) {
-            permissionDisposable?.dispose()
-            permissionDisposable = null
-        }
     }
 
     /**
@@ -168,10 +140,11 @@ abstract class BaseActivity<T : ViewDataBinding, VM : ActivityViewModel>(
     /**
      * Activity DataBinding 처리 함수
      */
-    private fun handleBinding() {
+    private fun initBinding() {
         binding = DataBindingUtil.setContentView<T>(this, layoutId).apply {
             lifecycleOwner = this@BaseActivity
             setVariable(bindingVariable, viewModel)
+            viewModel.initRequestManager(Glide.with(this@BaseActivity))
         }
     }
 

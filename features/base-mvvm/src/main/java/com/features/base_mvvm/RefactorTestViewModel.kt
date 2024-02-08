@@ -1,6 +1,5 @@
 package com.features.base_mvvm
 
-import android.Manifest
 import android.app.Activity
 import android.os.Bundle
 import androidx.lifecycle.LiveData
@@ -10,9 +9,6 @@ import com.hmju.core.model.test.SerializableEntity
 import com.hmju.core.ui.base.ActivityResult
 import com.hmju.core.ui.base.ActivityViewModel
 import com.hmju.core.ui.base.IntentKey
-import com.hmju.core.ui.base.RxPermissionEvent
-import com.hmju.core.ui.lifecycle.OnActivityResult
-import com.hmju.core.ui.lifecycle.OnPermissionResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import timber.log.Timber
 import javax.inject.Inject
@@ -52,53 +48,31 @@ class RefactorTestViewModel @Inject constructor(
             .movePage()
     }
 
-    fun onPermission() {
-//        _startActivityPage.value = ActivityResult(
-//            targetActivity = MvvmLifecycleTest3Activity::class,
-//            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP,
-//            data = bundleOf(
-//                "TIT" to "qwe"
-//            )
-//        )
+    override fun onActivityResult(reqCode: Int, resCode: Int, data: Bundle) {
+        super.onActivityResult(reqCode, resCode, data)
+        when (reqCode) {
+            3000 -> {
+                if (resCode == Activity.RESULT_CANCELED) {
+                    Timber.d("[s] Cancel Result Data ==================================================")
+                    val builder = StringBuilder()
+                    data.keySet().forEach { key ->
+                        Timber.d("Key $key Value ${data.get(key)}")
+                        builder.append("Key $key Value ${data.get(key)}\n")
+                    }
+                    _contents.value = builder.toString()
+                    Timber.d("[e] Cancel Result Data ==================================================")
+                } else {
+                    Timber.d("[s] Result Data ==================================================")
+                    val builder = StringBuilder()
+                    data.keySet().forEach { key ->
+                        Timber.d("Key $key Value ${data.get(key)}")
+                        builder.append("Key $key Value ${data.get(key)}\n")
+                    }
+                    _contents.value = builder.toString()
+                    Timber.d("[e] Result Data ==================================================")
+                }
+            }
 
-        RxPermissionEvent.publish(
-            listOf(
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.CAMERA
-            )
-        )
-    }
-
-    @OnPermissionResult([Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CAMERA])
-    fun onStorageResult(map: Map<String, Boolean>) {
-        Timber.d("Permission Map $map")
-    }
-
-    @OnActivityResult(3000, Activity.RESULT_OK)
-    fun onActivityResult(data: Bundle?) {
-        if (data == null) return
-
-        Timber.d("[s] Result Data ==================================================")
-        val builder = StringBuilder()
-        data.keySet().forEach { key ->
-            Timber.d("Key $key Value ${data.get(key)}")
-            builder.append("Key $key Value ${data.get(key)}\n")
         }
-        _contents.value = builder.toString()
-        Timber.d("[e] Result Data ==================================================")
-    }
-
-    @OnActivityResult(3000, Activity.RESULT_CANCELED)
-    fun onActivityResultFail(data: Bundle?) {
-        if (data == null) return
-
-        Timber.d("[s] Cancel Result Data ==================================================")
-        val builder = StringBuilder()
-        data.keySet().forEach { key ->
-            Timber.d("Key $key Value ${data.get(key)}")
-            builder.append("Key $key Value ${data.get(key)}\n")
-        }
-        _contents.value = builder.toString()
-        Timber.d("[e] Cancel Result Data ==================================================")
     }
 }

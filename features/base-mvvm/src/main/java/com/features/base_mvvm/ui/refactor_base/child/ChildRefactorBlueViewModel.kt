@@ -25,8 +25,8 @@ class ChildRefactorBlueViewModel @Inject constructor(
         startParentBottomSheetDialog.value = null
     }
 
-    override fun onDirectCreate() {
-        super.onDirectCreate()
+    override fun onDirectViewCreated() {
+        super.onDirectViewCreated()
         savedStateHandle.keys().forEach {
             Timber.d("Key $it Value ${savedStateHandle.get<Any>(it)}")
         }

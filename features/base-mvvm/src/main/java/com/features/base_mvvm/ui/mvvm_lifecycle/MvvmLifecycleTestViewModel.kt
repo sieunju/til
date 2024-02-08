@@ -1,6 +1,5 @@
 package com.features.base_mvvm.ui.mvvm_lifecycle
 
-import android.Manifest
 import android.app.Activity
 import android.os.Bundle
 import androidx.lifecycle.LiveData
@@ -11,7 +10,6 @@ import com.hmju.core.model.params.GoodsParameter
 import com.hmju.core.ui.base.ActivityViewModel
 import com.hmju.core.ui.base.BaseActivity
 import com.hmju.core.ui.base.IntentKey
-import com.hmju.core.ui.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -96,26 +94,23 @@ class MvvmLifecycleTestViewModel @Inject constructor(
 //            ))
     }
 
-    @OnActivityResult(3001, Activity.RESULT_OK)
-    fun onActivityResult(data: Bundle?) {
-        Timber.d("[s] Result Data ==================================================")
-        data?.let {
-            it.keySet().forEach { str ->
-                Timber.d("Key $str Value ${it.get(str)}")
+    override fun onActivityResult(reqCode: Int, resCode: Int, data: Bundle) {
+        super.onActivityResult(reqCode, resCode, data)
+        when (reqCode) {
+            3001 -> {
+                if (resCode == Activity.RESULT_OK) {
+                    Timber.d("[s] Result Data ==================================================")
+                    data.keySet().forEach { str ->
+                        Timber.d("Key $str Value ${data.get(str)}")
+                    }
+                    Timber.d("[e] Result Data ==================================================")
+                }
             }
         }
-        Timber.d("[e] Result Data ==================================================")
     }
 
     fun movePermission() {
         savedStateHandle.set(BaseActivity.RES_CODE, Activity.RESULT_OK)
-//        movePermissions(
-//            listOf(
-//                Manifest.permission.ACCESS_FINE_LOCATION,
-//                Manifest.permission.CAMERA,
-//                Manifest.permission.READ_EXTERNAL_STORAGE
-//            )
-//        )
     }
 
     override fun onDirectCreatedToResumed() {
@@ -143,20 +138,5 @@ class MvvmLifecycleTestViewModel @Inject constructor(
 
     private fun testOnStopped() {
         Timber.d("stopped ")
-    }
-
-    @OnPermissionResult([Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CAMERA])
-    fun onPermissionResult1(map: Map<String, Boolean>) {
-        Timber.d("Permission1 Map $map")
-    }
-
-    @OnPermissionResult([Manifest.permission.CAMERA])
-    fun onPermissionResult2(map: Map<String, Boolean>) {
-        Timber.d("Permission2 Map $map")
-    }
-
-    @OnPermissionResult([Manifest.permission.READ_EXTERNAL_STORAGE])
-    fun onStorageResult(map: Map<String, Boolean>) {
-        Timber.d("Permission3 Map $map")
     }
 }

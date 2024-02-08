@@ -32,12 +32,6 @@ abstract class BaseBottomSheetDialog<T : ViewDataBinding, VM : BottomSheetViewMo
 
     private var isInit = false
 
-    @CallSuper
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel.runCatching { onDirectCreate() }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

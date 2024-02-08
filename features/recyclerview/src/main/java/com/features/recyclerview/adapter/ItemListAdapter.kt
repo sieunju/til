@@ -11,8 +11,6 @@ import com.hmju.core.ui.base.BaseUiModel
 import com.hmju.core.ui.base.BaseViewModel
 import com.hmju.core.ui.viewholders.BaseViewHolder
 import timber.log.Timber
-import java.util.concurrent.ConcurrentHashMap
-import java.util.concurrent.ConcurrentMap
 import kotlin.reflect.KClass
 import kotlin.reflect.full.primaryConstructor
 
@@ -24,14 +22,9 @@ import kotlin.reflect.full.primaryConstructor
 class ItemListAdapter : RecyclerView.Adapter<BaseViewHolder<*>>() {
 
     private val dataList: MutableList<BaseUiModel> by lazy { mutableListOf() }
-
-    companion object {
-        private val viewHolderTypeMap: ConcurrentMap<Int, KClass<out BaseViewHolder<*>>> =
-            ConcurrentHashMap()
-    }
+    private val viewHolderTypeMap : MutableMap<Int,KClass<out BaseViewHolder<*>>> = mutableMapOf()
 
     private var viewModel: BaseViewModel? = null
-    private var targetView: ViewGroup? = null
 
     /**
      * 데이터가 변경되었을때 이전 데이터들 비교하여 갱신 처리 함수
