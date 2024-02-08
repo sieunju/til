@@ -2,7 +2,7 @@ plugins {
     id("com.android.application")
     id("kotlinx-serialization")
     id("dagger.hilt.android.plugin")
-    kotlin("android")
+    id("org.jetbrains.kotlin.android")
     kotlin("kapt")
 }
 
@@ -29,13 +29,14 @@ android {
         }
     }
     buildFeatures {
-        dataBinding = true
+        dataBinding { enable = true }
     }
 }
 
 dependencies {
     implementation(project(":core"))
 
+    implementation(project(":legacy"))
     implementation(project(":features:main"))
     implementation(project(":features:network-bridge"))
     implementation(project(":features:network"))
