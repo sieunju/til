@@ -105,6 +105,7 @@ class ActivityResult private constructor(
             return ActivityResult(
                 requestCode = requestCode,
                 targetActivity = targetActivity,
+                flags = flags,
                 data = data,
                 enterAni = enterAni,
                 exitAni = exitAni
