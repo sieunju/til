@@ -75,69 +75,6 @@ open class ActivityViewModel @Inject constructor() : BaseViewModel() {
         }
     }
 
-//    /**
-//     * onPermissionResult 에 대한 처리
-//     * @param resultPermissionMap 전달 받은 권한 리턴 맵
-//     */
-//    fun performPermissionResult(resultPermissionMap: Map<String, Boolean>) {
-//        Flowable.fromIterable(javaClass.methods.toList())
-//            .filter { it.isAnnotationPresent(OnPermissionResult::class.java) }
-//            .map { method ->
-//                val map = ConcurrentHashMap<String, Boolean>()
-//                method.getAnnotation(OnPermissionResult::class.java)?.let { annotation ->
-//                    annotation.permissions.forEach { permission ->
-//                        resultPermissionMap[permission]?.let { isGranted ->
-//                            map[permission] = isGranted
-//                        }
-//                    }
-//                }
-//                return@map map to method
-//            }
-//            .subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe({ pair ->
-//                if (pair.first.size > 0) {
-//                    pair.second.invoke(this, pair.first)
-//                }
-//            }, {
-//                Timber.d("ERROR $it")
-//            }).addTo(compositeDisposable)
-//    }
-//
-//    /**
-//     * 데이터 리스트 안에 유효하지 않는 권한에 대해서 필터링 처리 해주는 함수
-//     * @param list 검증되지 않은 권한 값
-//     */
-//    private fun validatePermission(list: List<String>): List<String> {
-//        val permissionList = mutableListOf<String>()
-//        // 권한을 가지고 있는 필드 값들은 앱실행후 한번만 요청하고 처리하도록
-//        if (cachePermissionMap.size == 0) {
-//            val permissionClass = Manifest.permission::class.java.newInstance()
-//            val groupClass = Manifest.permission_group::class.java.newInstance()
-//
-//            Manifest.permission::class.java.fields.forEach {
-//                if (!it.isAnnotationPresent(Deprecated::class.java) && it.get(permissionClass) is String) {
-//                    cachePermissionMap[it.get(permissionClass) as String] = 0
-//                }
-//            }
-//
-//            Manifest.permission_group::class.java.fields.forEach {
-//                if (!it.isAnnotationPresent(Deprecated::class.java) && it.get(groupClass) is String) {
-//                    cachePermissionMap[it.get(groupClass) as String] = 0
-//                }
-//            }
-//        }
-//
-//        // Timber.d("Permission Map $cachePermissionMap")
-//
-//        list.forEach { str ->
-//            if (cachePermissionMap.containsKey(str)) {
-//                permissionList.add(str)
-//            }
-//        }
-//        return permissionList
-//    }
-
 
     /**
      * Activity, Fragment Lifecycle Annotation 로 처리하는게 아닌

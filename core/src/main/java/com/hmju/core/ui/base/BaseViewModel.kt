@@ -34,44 +34,6 @@ open class BaseViewModel @Inject constructor() : ViewModel() {
         lifecycleEvent = newLifecycle
     }
 
-//    /**
-//     * [OnCreated], [OnResumed], [OnStopped], [OnViewCreated]
-//     *
-//     * 선언된 함수를 실행 하는 함수
-//     */
-//    @Deprecated("테스트 결과 별로 좋지 않는 방향이라 Deprecated 합니다.")
-//    inline fun <reified T : Annotation> performLifecycle(): Disposable {
-//        return Flowable.fromIterable(javaClass.methods.toList())
-//            .filter { it.isAnnotationPresent(T::class.java) }
-//            .subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe({
-//                it.invoke(this)
-//            }, {})
-//    }
-
-//    /**
-//     * onActivityResult 에 대한 처리
-//     * ReactiveX 타입
-//     * @param reqCode RequestCode
-//     * @param resCode ResultCode
-//     * @param data 전달 받을 데이터
-//     */
-//    fun handleActivityResult(reqCode: Int, resCode: Int, data: Bundle?): Disposable {
-//        return Flowable.fromIterable(javaClass.methods.toList())
-//            .filter { it.isAnnotationPresent(OnActivityResult::class.java) }
-//            .subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .doOnNext { method ->
-//                method.getAnnotation(OnActivityResult::class.java)?.let { annotation ->
-//                    // RequestCode, RESULT Code 와 같은 함수만 호출
-//                    if (annotation.requestCode == reqCode && annotation.resCode == resCode) {
-//                        method.invoke(this, data)
-//                    }
-//                }
-//            }.subscribe()
-//    }
-
     /**
      * CompositeDisposable 를 public 으로 처리할수 있는 함수
      * @param disposable Disposable

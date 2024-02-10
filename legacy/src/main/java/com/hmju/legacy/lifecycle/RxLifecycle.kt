@@ -8,14 +8,14 @@ import io.reactivex.rxjava3.disposables.Disposable
  *
  * Created by juhongmin on 2022/02/27
  */
-@Deprecated(message = "ViewModel 에서 Annotation 으로 처리하는것으로 변경했습니다.")
 typealias DisposableFunction = () -> Disposable
 
+@Suppress("unused")
 fun onInit(function: DisposableFunction): RxLifecycle = RxLifecycle().init(function)
 
+@Suppress("unused")
 fun onVisible(function: DisposableFunction): RxLifecycle = RxLifecycle().visible(function)
 
-@Deprecated(message = "ViewModel 에서 Annotation 으로 처리하는것으로 변경했습니다.")
 class RxLifecycle : LifecycleObserver {
     private var onInit: DisposableFunction? = null
     private var initDisposable: Disposable? = null
@@ -41,13 +41,13 @@ class RxLifecycle : LifecycleObserver {
     }
 
     override fun onInvisible() {
-        if(visibleDisposable?.isDisposed == false) {
+        if (visibleDisposable?.isDisposed == false) {
             visibleDisposable?.dispose()
         }
     }
 
     override fun onRelease() {
-        if(initDisposable?.isDisposed == false) {
+        if (initDisposable?.isDisposed == false) {
             initDisposable?.dispose()
         }
     }

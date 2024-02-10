@@ -13,6 +13,7 @@ import android.app.Activity
  *
  * Created by juhongmin on 12/30/23
  */
+@Suppress("unused")
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.RUNTIME)
 annotation class OnFragmentResult(val requestCode: Int, val resCode: Int = Activity.RESULT_CANCELED)
