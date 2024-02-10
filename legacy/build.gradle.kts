@@ -14,6 +14,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":core"))
+
     /**
      * Android X
      */

@@ -18,12 +18,10 @@
     kotlinx.serialization.KSerializer serializer(...);
 }
 
-# Change here com.yourcompany.yourpackage
--keep,includedescriptorclasses class com.til.model.**$$serializer { *; } # <-- change package name to your app's
--keepclassmembers class com.til.model.** { # <-- change package name to your app's
-    *** Companion;
+-keepclasseswithmembers class * { # <-- change package name to your app's
+    kotlinx.serialization.KSerializer serializer(...);
 }
--keepclasseswithmembers class com.til.model.** { # <-- change package name to your app's
+-keepclassmembers,allowobfuscation class * {
     kotlinx.serialization.KSerializer serializer(...);
 }
 #[e] Kotlinx Serialization ===================================================================

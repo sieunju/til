@@ -1,4 +1,4 @@
-package com.hmju.core.ui.lifecycle
+package com.hmju.legacy.lifecycle
 
 /**
  * Description : onPermissions Result 에 대한 값을 ViewModel 에서 받을수 있도록 처리하는

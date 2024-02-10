@@ -1,4 +1,4 @@
-package com.hmju.core.ui.lifecycle
+package com.hmju.legacy.lifecycle
 
 /**
  * Description :

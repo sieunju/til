@@ -38,18 +38,6 @@ data class GoodsOneUiModel(
     override fun getViewHolderType(): KClass<out BaseViewHolder<*>> {
         return SimpleLike1ViewHolder::class
     }
-
-    private fun ggg() {
-
-    }
-
-    private fun hhh() {
-
-    }
-
-    private fun asdf() {
-
-    }
 }
 
 data class GoodsTwoUiModel(

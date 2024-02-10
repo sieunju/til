@@ -1,10 +1,17 @@
+import org.gradle.api.JavaVersion
+
 object Apps {
     const val compileSdkVersion = 34
     const val buildToolsVersion = "34"
-    const val minSdkVersion = 23
+    const val minSdkVersion = 26
     const val targetSdkVersion = 34
     const val versionCode = 6
     const val versionName = "0.0.6"
+}
+
+object Java {
+    val compile = JavaVersion.VERSION_17
+    const val jvmTarget = "17"
 }
 
 object Versions {

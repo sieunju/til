@@ -1,4 +1,4 @@
-package com.features.recyclerview.model
+package com.hmju.legacy.recyclerview.model
 
 import kotlin.random.Random
 import com.hmju.core.ui.base.BaseUiModel

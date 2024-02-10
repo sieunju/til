@@ -1,7 +1,37 @@
-package com.features.recyclerview.diffutil
+package com.hmju.legacy.recyclerview.diffutil
 
-import com.features.recyclerview.model.*
 import androidx.recyclerview.widget.DiffUtil
+import com.hmju.legacy.recyclerview.model.Model1
+import com.hmju.legacy.recyclerview.model.Model10
+import com.hmju.legacy.recyclerview.model.Model11
+import com.hmju.legacy.recyclerview.model.Model12
+import com.hmju.legacy.recyclerview.model.Model13
+import com.hmju.legacy.recyclerview.model.Model14
+import com.hmju.legacy.recyclerview.model.Model15
+import com.hmju.legacy.recyclerview.model.Model16
+import com.hmju.legacy.recyclerview.model.Model17
+import com.hmju.legacy.recyclerview.model.Model18
+import com.hmju.legacy.recyclerview.model.Model19
+import com.hmju.legacy.recyclerview.model.Model2
+import com.hmju.legacy.recyclerview.model.Model20
+import com.hmju.legacy.recyclerview.model.Model21
+import com.hmju.legacy.recyclerview.model.Model22
+import com.hmju.legacy.recyclerview.model.Model23
+import com.hmju.legacy.recyclerview.model.Model24
+import com.hmju.legacy.recyclerview.model.Model25
+import com.hmju.legacy.recyclerview.model.Model26
+import com.hmju.legacy.recyclerview.model.Model27
+import com.hmju.legacy.recyclerview.model.Model28
+import com.hmju.legacy.recyclerview.model.Model29
+import com.hmju.legacy.recyclerview.model.Model3
+import com.hmju.legacy.recyclerview.model.Model30
+import com.hmju.legacy.recyclerview.model.Model31
+import com.hmju.legacy.recyclerview.model.Model4
+import com.hmju.legacy.recyclerview.model.Model5
+import com.hmju.legacy.recyclerview.model.Model6
+import com.hmju.legacy.recyclerview.model.Model7
+import com.hmju.legacy.recyclerview.model.Model8
+import com.hmju.legacy.recyclerview.model.Model9
 
 /**
  * Description : InstanceOf 레거시한 방식

@@ -1,4 +1,4 @@
-package com.hmju.core.ui.lifecycle
+package com.hmju.legacy.lifecycle
 
 import io.reactivex.rxjava3.disposables.Disposable
 
