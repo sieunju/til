@@ -4,7 +4,12 @@ import android.util.Base64
 import androidx.core.content.edit
 import com.hmju.core.pref.PreferenceManager
 import io.reactivex.rxjava3.core.Single
-import org.json.JSONObject
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.jsonPrimitive
+import kotlinx.serialization.json.long
 import javax.inject.Inject
 
 /**
@@ -19,13 +24,21 @@ class LoginManagerImpl @Inject constructor(
     private var expiredMs: Long = 0
     private var userToken: String = ""
 
+    private val jsonFormat: Json = Json {
+        isLenient = true // Json 큰따옴표 느슨하게 체크.
+        ignoreUnknownKeys = true // Field 값이 없는 경우 무시
+        coerceInputValues = true // "null" 이 들어간경우 default Argument 값으로 대체
+    }
+
+
+    @OptIn(ExperimentalSerializationApi::class)
     private fun getTokenExpiredMs(token: String): Long {
         return try {
             val startIdx = token.indexOf(".")
             val endIdx = token.lastIndexOf(".")
             val bytes = Base64.decode(token.substring(startIdx, endIdx), Base64.DEFAULT)
-            val json = JSONObject(String(bytes, Charsets.UTF_8))
-            json.getLong("exp") * 1000
+            val json = jsonFormat.decodeFromString<JsonObject>(String(bytes, Charsets.UTF_8))
+            json["exp"]?.jsonPrimitive?.long!! * 1000
         } catch (ex: Exception) {
             System.currentTimeMillis()
         }
@@ -70,6 +83,9 @@ class LoginManagerImpl @Inject constructor(
     }
 
     override fun getTokenExpiredMs(): Long {
+        if (expiredMs == 0L) {
+            expiredMs = prefManager.getLong(PreferenceManager.KEY_TOKEN_EXPIRED_MS)
+        }
         return expiredMs
     }
 }
