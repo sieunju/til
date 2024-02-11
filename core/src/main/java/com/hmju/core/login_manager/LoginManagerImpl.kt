@@ -3,12 +3,9 @@ package com.hmju.core.login_manager
 import android.util.Base64
 import androidx.core.content.edit
 import com.hmju.core.pref.PreferenceManager
-import com.hmju.core.rxbus.LoginEvent
-import com.hmju.core.rxbus.RxBus
 import io.reactivex.rxjava3.core.Single
 import org.json.JSONObject
 import javax.inject.Inject
-import kotlin.random.Random
 
 /**
  * Description : 로그인 메니저 구현체 클래스
@@ -35,7 +32,9 @@ class LoginManagerImpl @Inject constructor(
     }
 
     @Synchronized
-    override fun setToken(token: String) {
+    override fun setToken(
+        token: String
+    ) {
         // 토큰 전처리 가공
         prefManager.getPref().edit {
             expiredMs = getTokenExpiredMs(token)
@@ -43,8 +42,6 @@ class LoginManagerImpl @Inject constructor(
             putLong(PreferenceManager.KEY_TOKEN_EXPIRED_MS, expiredMs)
             putString(PreferenceManager.KEY_TOKEN, userToken)
         }
-
-        RxBus.publish(LoginEvent(Random.nextBoolean(), token))
     }
 
     override fun getToken(): String {
@@ -52,6 +49,16 @@ class LoginManagerImpl @Inject constructor(
             userToken = prefManager.getString(PreferenceManager.KEY_TOKEN)
         }
         return userToken
+    }
+
+    override fun setRefreshToken(
+        token: String
+    ) {
+        prefManager.setValue(PreferenceManager.KEY_REFRESH_TOKEN, token)
+    }
+
+    override fun getRefreshToken(): String {
+        return prefManager.getString(PreferenceManager.KEY_REFRESH_TOKEN)
     }
 
     override fun isLogin(): Boolean {

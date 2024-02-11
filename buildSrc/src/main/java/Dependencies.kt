@@ -103,17 +103,17 @@ object Compose {
 
 object UnitTest {
     const val junit = "junit:junit:4.13.2"
-    const val rules = "androidx.test:rules:1.4.0"
+    const val rules = "androidx.test:rules:1.5.0"
     const val room = "androidx.room:room-testing:2.3.0"
-    const val core = "androidx.test:core-ktx:1.8.0"
+    const val core = "androidx.test:core-ktx:1.5.0"
     const val archCore = "androidx.arch.core:core-testing:2.1.0"
     const val androidJUnit = "androidx.test.ext:junit-ktx:1.1.5"
     const val runner = "androidx.test:runner:1.5.2"
     const val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
 
     object Espresso {
-        const val core = "androidx.test.espresso:espresso-core:3.4.0"
-        const val intents = "androidx.test.espresso:espresso-intents:3.4.0"
+        const val core = "androidx.test.espresso:espresso-core:3.5.1"
+        const val intents = "androidx.test.espresso:espresso-intents:3.5.1"
     }
 
     object Hilt {

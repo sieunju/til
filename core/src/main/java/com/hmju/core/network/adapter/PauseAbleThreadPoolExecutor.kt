@@ -30,7 +30,7 @@ import kotlin.math.pow
  *
  * Created by juhongmin on 11/25/23
  */
-class PauseAbleThreadPoolExecutor constructor(
+class PauseAbleThreadPoolExecutor(
     private val loginManager: LoginManager,
     private val httpClient: OkHttpClient
 ) : ThreadPoolExecutor(
@@ -156,11 +156,11 @@ class PauseAbleThreadPoolExecutor constructor(
     @OptIn(ExperimentalSerializationApi::class)
     private fun reqRefreshToken(): String {
         val reqBody = JSONObject()
-        reqBody.put("email", "j.sieun@gmail.com")
+        reqBody.put("email", "til_android@gmail.com")
         reqBody.put("delay", TIME_DELAY)
         reqBody.put("expiredTime", "10m")
         val req = Request.Builder()
-            .url(NetworkConfig.BASE_URL.plus("/api/til/auth/refresh"))
+            .url(NetworkConfig.BASE_URL.plus("/api/v1/auth/refresh"))
             .post(reqBody.toString().toRequestBody())
             .build()
 

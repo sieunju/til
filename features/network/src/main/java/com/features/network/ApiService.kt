@@ -1,6 +1,6 @@
 package com.features.network
 
-import com.hmju.core.model.auth.TokenEntity
+import com.hmju.core.model.auth.AuthTokenEntity
 import com.hmju.core.model.base.*
 import com.hmju.core.model.meta.CustomMetaEntity
 import com.hmju.core.model.test.JSendTestEntity
@@ -16,10 +16,10 @@ import retrofit2.http.POST
  */
 interface ApiService {
     @POST("/api/til/auth/refresh")
-    fun postTokenRefresh(): Single<JSendObj<TokenEntity>>
+    fun postTokenRefresh(): Single<JSendObj<AuthTokenEntity>>
 
     @POST("/api/til/auth/expired")
-    fun postTokenExpired(): Single<JSendObj<TokenEntity>>
+    fun postTokenExpired(): Single<JSendObj<AuthTokenEntity>>
 
     @GET("/api/til/jsend/error/test")
     fun fetchErrorTest(): Single<JSendObjWithMeta<String, MetaEntity>>
