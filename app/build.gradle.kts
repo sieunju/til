@@ -68,7 +68,6 @@ dependencies {
     implementation(AndroidX.activity)
     implementation(AndroidX.material)
     implementation(AndroidX.constraintLayout)
-    implementation(AndroidX.multidex)
 
     /**
      * Hilt
@@ -80,7 +79,6 @@ dependencies {
      * Kotlinx Serialization
      */
     implementation(KotlinX.serialization)
-    implementation(Kotlin.stdLib)
 
     /**
      * Rx
