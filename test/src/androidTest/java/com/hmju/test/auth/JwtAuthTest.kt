@@ -11,6 +11,8 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
+import kotlinx.serialization.json.long
 import kotlinx.serialization.json.put
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -19,6 +21,7 @@ import org.json.JSONObject
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import java.text.SimpleDateFormat
 import java.util.concurrent.TimeUnit
 
 /**
@@ -39,7 +42,7 @@ class JwtAuthTest {
         .writeTimeout(NetworkConfig.WRITE_TIME_OUT, TimeUnit.MILLISECONDS)
         .build()
 
-    private val json: Json = Json {
+    private val jsonFormat: Json = Json {
         isLenient = true // Json 큰따옴표 느슨하게 체크.
         ignoreUnknownKeys = true // Field 값이 없는 경우 무시
         coerceInputValues = true // "null" 이 들어간경우 default Argument 값으로 대체
@@ -55,6 +58,8 @@ class JwtAuthTest {
         val tokenEntity = reqCreateToken()
         val refreshToken = reqRefreshToken(tokenEntity.refreshToken)
         val refreshExpiredAt = getTokenExpiredMs(refreshToken.refreshToken)
+        val sdf = SimpleDateFormat("yyyy.MM.dd HH:mm:sss")
+        println("Date ${sdf.format(refreshExpiredAt)}")
         assert(refreshExpiredAt >= 30 * 60 * 1000)
     }
 
@@ -73,7 +78,7 @@ class JwtAuthTest {
             .build()
 
         val res = client.newCall(req).execute()
-        val resBody = json.decodeFromString<JsonObject>(res.body?.string()!!)
+        val resBody = jsonFormat.decodeFromString<JsonObject>(res.body?.string()!!)
 
         /**
          * {
@@ -90,7 +95,7 @@ class JwtAuthTest {
             ?.jsonObject
             ?.get("payload")
             ?.jsonObject!!.toString()
-        return json.decodeFromString<AuthTokenEntity>(contents)
+        return jsonFormat.decodeFromString<AuthTokenEntity>(contents)
     }
 
     @OptIn(ExperimentalSerializationApi::class)
@@ -106,7 +111,7 @@ class JwtAuthTest {
             .build()
 
         val res = client.newCall(req).execute()
-        val resBody = json.decodeFromString<JsonObject>(res.body?.string()!!)
+        val resBody = jsonFormat.decodeFromString<JsonObject>(res.body?.string()!!)
 
         /**
          * {
@@ -123,16 +128,17 @@ class JwtAuthTest {
             ?.jsonObject
             ?.get("payload")
             ?.jsonObject!!.toString()
-        return json.decodeFromString<AuthTokenEntity>(contents)
+        return jsonFormat.decodeFromString<AuthTokenEntity>(contents)
     }
 
+    @OptIn(ExperimentalSerializationApi::class)
     private fun getTokenExpiredMs(token: String): Long {
         return try {
             val startIdx = token.indexOf(".")
             val endIdx = token.lastIndexOf(".")
             val bytes = Base64.decode(token.substring(startIdx, endIdx), Base64.DEFAULT)
-            val json = JSONObject(String(bytes, Charsets.UTF_8))
-            json.getLong("exp") * 1000
+            val json = jsonFormat.decodeFromString<JsonObject>(String(bytes, Charsets.UTF_8))
+            json["exp"]?.jsonPrimitive?.long!! * 1000
         } catch (ex: Exception) {
             System.currentTimeMillis()
         }
