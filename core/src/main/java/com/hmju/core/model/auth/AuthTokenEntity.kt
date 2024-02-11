@@ -9,12 +9,12 @@ import java.util.Date
 data class AuthTokenEntity(
     @SerialName("access_token")
     val token: String = "",
-    @SerialName("access_expired_date")
+    @SerialName("access_expired_at")
     @Serializable(DateSerializer::class)
     val tokenExpiredAt: Date = Date(),
     @SerialName("refresh_token")
     val refreshToken: String = "",
     @Serializable(DateSerializer::class)
-    @SerialName("refresh_expired_date")
+    @SerialName("refresh_expired_at")
     val refreshTokenExpiredAt: Date = Date()
 )
