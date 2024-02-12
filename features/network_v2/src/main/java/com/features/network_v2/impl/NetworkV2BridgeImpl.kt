@@ -2,7 +2,6 @@ package com.features.network_v2.impl
 
 import androidx.fragment.app.FragmentManager
 import com.features.network_v2.NetworkV2Fragment
-import com.features.network_v2.R
 import com.features.network_v2_bridge.NetworkV2Bridge
 import javax.inject.Inject
 

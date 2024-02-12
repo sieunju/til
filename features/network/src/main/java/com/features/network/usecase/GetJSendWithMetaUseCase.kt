@@ -1,9 +1,9 @@
 package com.features.network.usecase
 
 import com.features.network.ApiService
+import com.features.network.models.JSendTestEntity
 import com.hmju.core.model.base.JSendObjWithMeta
-import com.hmju.core.model.meta.CustomMetaEntity
-import com.hmju.core.model.test.JSendTestEntity
+import com.hmju.core.model.base.MetaEntity
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
@@ -15,7 +15,8 @@ import javax.inject.Inject
 class GetJSendWithMetaUseCase @Inject constructor(
     private val apiService: ApiService
 ) {
-    operator fun invoke(): Single<JSendObjWithMeta<JSendTestEntity, CustomMetaEntity>> {
-        return apiService.fetchJSendWithMeta()
+    operator fun invoke(): Single<JSendObjWithMeta<JSendTestEntity, MetaEntity>> {
+        return apiService.fetchJSendWithMetaRx()
+            .onErrorReturn { JSendObjWithMeta() }
     }
 }

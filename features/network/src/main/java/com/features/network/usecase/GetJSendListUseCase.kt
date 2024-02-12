@@ -9,6 +9,6 @@ class GetJSendListUseCase @Inject constructor(
     private val apiService: ApiService
 ) {
     operator fun invoke(): Single<JSendList<String>> {
-        return apiService.fetchJSendList()
+        return apiService.fetchJSendListRx().onErrorReturn { JSendList() }
     }
 }

@@ -8,8 +8,6 @@ import com.hmju.core.model.body.LikeRequestBody
 import com.hmju.core.model.goods.GoodsEntity
 import com.hmju.core.model.like.LikeEntity
 import com.hmju.core.model.meta.CustomMetaEntity
-import com.hmju.core.model.params.GoodsParameter
-import com.hmju.core.model.test.TestEntity
 import io.reactivex.rxjava3.core.Single
 import retrofit2.Call
 import retrofit2.http.*
@@ -24,9 +22,6 @@ interface ApiService {
     fun fetchGoods(
         @QueryMap(encoded = true) params: Map<String, String>
     ): Single<JSendListWithMeta<GoodsEntity, CustomMetaEntity>>
-
-    @GET("/api/til/test")
-    fun fetchTest(): Single<JSendObj<TestEntity>>
 
     @POST("/api/til/goods/like")
     fun postLike(

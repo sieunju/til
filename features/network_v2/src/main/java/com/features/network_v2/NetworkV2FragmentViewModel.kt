@@ -27,7 +27,7 @@ import kotlin.random.Random
  * Created by juhongmin on 11/22/23
  */
 @HiltViewModel
-class NetworkV2FragmentViewModel @Inject constructor(
+internal class NetworkV2FragmentViewModel @Inject constructor(
     private val apiService: ApiService,
     private val prefManager: PreferenceManager
 ) : FragmentViewModel() {
@@ -53,7 +53,10 @@ class NetworkV2FragmentViewModel @Inject constructor(
         viewModelScope.launch {
             apiService.fetchError404()
                 .onSuccess { Timber.d("SUCC $it") }
-                .onError { Timber.d("ERROR ${it.err.getBody<ErrorBody>()}") }
+                .onError {
+                    Timber.d("ERROR $it")
+                    Timber.d("ERROR ${it.err.getBody<ErrorBody>()}")
+                }
         }
     }
 

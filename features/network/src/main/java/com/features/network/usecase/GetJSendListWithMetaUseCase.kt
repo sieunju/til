@@ -10,6 +10,6 @@ class GetJSendListWithMetaUseCase @Inject constructor(
     private val apiService: ApiService
 ) {
     operator fun invoke(): Single<JSendListWithMeta<String, MetaEntity>> {
-        return apiService.fetchJSendListWithMeta()
+        return apiService.fetchJSendListWithMetaRx().onErrorReturn { JSendListWithMeta() }
     }
 }

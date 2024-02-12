@@ -20,7 +20,6 @@ import retrofit2.HttpException
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.awaitResponse
-import timber.log.Timber
 import java.io.IOException
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
@@ -62,6 +61,7 @@ class CoroutineErrorHandlingCallAdapter(
                     null
                 }
             }
+
             else -> null
         }
     }
@@ -98,15 +98,25 @@ class CoroutineErrorHandlingCallAdapter(
 
         override fun execute(): Response<Any> {
             return runBlocking(coroutineScope.coroutineContext) {
-                val apiResponse = getApiResponse(originCall.execute())
-                Response.success(apiResponse)
+                val res : Any = try {
+                    val apiResponse = getApiResponse(originCall.execute())
+                    apiResponse
+                } catch (err: Throwable) {
+                    ApiResponse.Fail(getJSendException(err))
+                }
+                Response.success(res)
             }
         }
 
         override fun enqueue(callback: Callback<Any>) {
             coroutineScope.launch {
-                val apiResponse = getApiResponse(originCall.awaitResponse())
-                callback.onResponse(this@CallEnqueueDelegate, Response.success(apiResponse))
+                val res: Response<Any> = try {
+                    val apiResponse = getApiResponse(originCall.awaitResponse())
+                    Response.success(apiResponse)
+                } catch (err: Throwable) {
+                    Response.success(ApiResponse.Fail(getJSendException(err)))
+                }
+                callback.onResponse(this@CallEnqueueDelegate, res)
             }
         }
 
@@ -193,10 +203,7 @@ class CoroutineErrorHandlingCallAdapter(
                 ApiResponse.Success(body)
             } else {
                 ApiResponse.Fail(
-                    JSendException.JSendResponse(
-                        res.code(),
-                        res.errorBody()
-                    )
+                    JSendException.JSendResponse(res.code(), res.errorBody())
                 )
             }
         } catch (ex: Throwable) {

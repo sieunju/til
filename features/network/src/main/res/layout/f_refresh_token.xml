@@ -15,24 +15,6 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <Button
-                android:id="@+id/refresh"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="토큰 갱신 처리" />
-
-            <Button
-                android:id="@+id/test"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="테스트 API 호출" />
-
-            <Button
-                android:id="@+id/expired"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="토큰 만료합니다." />
-
-            <Button
                 android:id="@+id/performance"
                 android:layout_width="wrap_content"
                 android:text="성능 테스트"

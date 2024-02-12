@@ -1,10 +1,8 @@
 package com.features.network
 
-import com.hmju.core.model.auth.AuthTokenEntity
+import com.features.network.models.JSendTestEntity
 import com.hmju.core.model.base.*
 import com.hmju.core.model.meta.CustomMetaEntity
-import com.hmju.core.model.test.JSendTestEntity
-import com.hmju.core.model.test.TestEntity
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -15,39 +13,38 @@ import retrofit2.http.POST
  * Created by juhongmin on 2023/03/27
  */
 interface ApiService {
-    @POST("/api/til/auth/refresh")
-    fun postTokenRefresh(): Single<JSendObj<AuthTokenEntity>>
 
-    @POST("/api/til/auth/expired")
-    fun postTokenExpired(): Single<JSendObj<AuthTokenEntity>>
+    @GET("/api/v1/til/jsend/list/meta")
+    suspend fun fetchJSendListWithMeta(): ApiResponse<JSendListWithMeta<String, MetaEntity>>
 
-    @GET("/api/til/jsend/error/test")
-    fun fetchErrorTest(): Single<JSendObjWithMeta<String, MetaEntity>>
+    @GET("/api/v1/til/jsend")
+    suspend fun fetchJSend(): ApiResponse<JSendObj<JSendTestEntity>>
 
-    @GET("/api/til/jsend/list")
-    fun fetchJSendList(): Single<JSendList<String>>
+    @GET("/api/v1/til/jsend/meta")
+    suspend fun fetchJSendWithMeta(): ApiResponse<JSendObjWithMeta<JSendTestEntity, CustomMetaEntity>>
 
-    @GET("/api/til/jsend/list/meta")
-    fun fetchJSendListWithMeta(): Single<JSendListWithMeta<String, MetaEntity>>
+    @POST("/api/v1/til/error/505")
+    suspend fun postError505(): ApiResponse<String>
 
-    @GET("/api/til/jsend")
-    fun fetchJSend(): Single<JSendObj<JSendTestEntity>>
+    @GET("/api/v1/til/error/404")
+    suspend fun getError404(): ApiResponse<String>
 
-    @GET("/api/til/jsend/meta")
-    fun fetchJSendWithMeta(): Single<JSendObjWithMeta<JSendTestEntity, CustomMetaEntity>>
+    @POST("/api/v1/til/error/404")
+    suspend fun postError404(): ApiResponse<String>
 
-    @GET("/api/til/test")
-    fun fetchTest(): Single<JSendObj<TestEntity>>
+    @GET("/api/v1/til/jsend/meta")
+    fun fetchJSendWithMetaRx(): Single<JSendObjWithMeta<JSendTestEntity, MetaEntity>>
 
-    @GET("/api/til/error/505")
-    fun getError505(): Single<String>
+    @GET("/api/v1/til/jsend")
+    fun fetchJSendRx(): Single<JSendObj<JSendTestEntity>>
 
-    @POST("/api/til//error/505")
-    fun postError505(): Single<String>
+    @GET("/api/v1/til/jsend/list/meta")
+    fun fetchJSendListWithMetaRx(): Single<JSendListWithMeta<String, MetaEntity>>
 
-    @GET("/api/til/error/404")
-    fun getError404(): Single<String>
+    @GET("/api/v1/til/jsend/list")
+    fun fetchJSendListRx(): Single<JSendList<String>>
 
-    @POST("/api/til/error/404")
-    fun postError404(): Single<String>
+    @GET("/api/v1/til/jsend/error/test")
+    fun fetchErrorTestRx(): Single<JSendObjWithMeta<String, MetaEntity>>
+
 }

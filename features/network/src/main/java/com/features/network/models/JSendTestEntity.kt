@@ -1,8 +1,8 @@
-package com.hmju.core.model.test
+package com.features.network.models
 
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class JSendTestEntity(
-    val id : Long
+    val id: String = ""
 )

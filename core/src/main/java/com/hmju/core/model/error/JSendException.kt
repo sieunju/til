@@ -11,27 +11,30 @@ import okhttp3.ResponseBody
  * Created by juhongmin on 11/22/23
  */
 sealed class JSendException(
-    open val msg: String? = null,
-    open val err: Throwable? = null,
+    msg: String?,
+    err: Throwable?
 ) : RuntimeException(msg, err) {
     data class Network(
-        override val msg: String? = null,
-        override val err: Throwable? = null,
+        val msg: String? = null,
+        val err: Throwable
     ) : JSendException(msg, err)
 
     /**
      * JSend 규칙에 안맞는 경우 에러 뱉도록 처리
      */
     data class Invalidate(
-        override val msg: String? = null,
-        override val err: Throwable? = null,
-    ) : JSendException(msg, err)
+        val msg: String? = null,
+    ) : JSendException(msg, null)
+
+    data class EtcException(
+        val err: Throwable
+    ) : JSendException(null, err)
 
     data class JSendResponse(
         val statusCode: Int,
         val errBody: ResponseBody? = null,
-        override val cause: Throwable? = null,
-    ) : JSendException(null, cause) {
+        val err: Throwable? = null
+    ) : JSendException(null, null) {
 
         val json: Json by lazy {
             Json {
@@ -50,7 +53,11 @@ sealed class JSendException(
 
     inline fun <reified T> getBody(): T? {
         return if (this is JSendResponse) {
-            this.getErrorBody()
+            try {
+                this.getErrorBody()
+            } catch (ex: Exception) {
+                null
+            }
         } else {
             null
         }

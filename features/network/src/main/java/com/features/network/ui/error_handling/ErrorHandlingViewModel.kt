@@ -1,9 +1,15 @@
 package com.features.network.ui.error_handling
 
+import androidx.lifecycle.viewModelScope
 import com.features.network.ApiService
+import com.hmju.core.model.base.onError
+import com.hmju.core.model.base.onSuccess
 import com.hmju.core.ui.base.FragmentViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.rxjava3.kotlin.addTo
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -18,50 +24,45 @@ class ErrorHandlingViewModel @Inject constructor(
 ) : FragmentViewModel() {
 
     fun performGet505() {
-//        jSendRepository.fetchJSend().subscribe().addTo(compositeDisposable)
-        apiService.fetchJSend().subscribe({
-            Timber.d("다 왔습니다. $it")
-        }, {
+        val work1 = viewModelScope.async {
+            apiService.fetchJSend()
+                .onSuccess { Timber.d("Success $it") }
+        }
+        val work2 = viewModelScope.async {
+            apiService.fetchJSendListWithMeta()
+                .onSuccess { Timber.d("여깁니다 ${it.payload}") }
+        }
+        val work3 = viewModelScope.async(Dispatchers.IO) {
+            apiService.fetchJSendWithMeta()
+                .onSuccess {
+                    Timber.d("Thread ${Thread.currentThread()}")
+                    Timber.d("SUCC $it")
+                }
+        }
 
-        }).addTo(compositeDisposable)
-        apiService.fetchJSendListWithMeta().subscribe({
-            Timber.d("여깁니다 $it")
-            it.payload
-        }, {}).addTo(compositeDisposable)
-        apiService.fetchJSendListWithMeta()
-            .map {
-                Timber.d("Map Thread ${Thread.currentThread()}")
-                return@map it
-            }
-            .subscribe({
-                Timber.d("Thread ${Thread.currentThread()}")
-                Timber.d("SUCC ${it}")
-            }, {
-
-            }).addTo(compositeDisposable)
-//        errorHandlingRepository.getError505()
-//            .subscribe({
-//            },{
-//
-//            })
-//            .addTo(compositeDisposable)
+        viewModelScope.launch {
+            awaitAll(work1, work2, work3)
+        }
     }
 
     fun performPost505() {
-        apiService.postError505()
-            .subscribe()
-            .addTo(compositeDisposable)
+        viewModelScope.launch {
+            apiService.postError505()
+                .onError { Timber.d("Result $it") }
+        }
     }
 
     fun performGet404() {
-        apiService.getError404()
-            .subscribe()
-            .addTo(compositeDisposable)
+        viewModelScope.launch {
+            apiService.getError404()
+                .onError { Timber.d("Result $it") }
+        }
     }
 
     fun performPost404() {
-        apiService.postError404()
-            .subscribe()
-            .addTo(compositeDisposable)
+        viewModelScope.launch {
+            apiService.postError404()
+                .onError { Timber.d("Result $it") }
+        }
     }
 }

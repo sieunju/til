@@ -7,6 +7,7 @@ import com.features.network.BR
 import com.features.network.R
 import com.features.network.databinding.FJsonJsendBinding
 import com.features.network.usecase.*
+import com.hmju.core.ui.base.FragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -20,9 +21,9 @@ import javax.inject.Inject
  */
 @AndroidEntryPoint
 class JsonJsendFragment :
-    BaseFragment<FJsonJsendBinding, JsonJsendFragmentViewModel>(R.layout.f_json_jsend) {
+    BaseFragment<FJsonJsendBinding, FragmentViewModel>(R.layout.f_json_jsend) {
 
-    override val viewModel: JsonJsendFragmentViewModel by initViewModel()
+    override val viewModel: FragmentViewModel by initViewModel()
 
     override val bindingVariable: Int = BR.vm
 

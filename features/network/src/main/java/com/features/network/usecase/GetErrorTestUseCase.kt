@@ -8,7 +8,8 @@ class GetErrorTestUseCase @Inject constructor(
     private val apiService: ApiService
 ) {
     operator fun invoke(): Single<String> {
-        return apiService.fetchErrorTest()
+        return apiService.fetchErrorTestRx()
             .map { it.payload }
+            .onErrorReturn { "" }
     }
 }
