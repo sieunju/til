@@ -53,7 +53,7 @@ class LoginManagerImpl @Inject constructor(
             expiredMs = getTokenExpiredMs(token)
             accessToken = "${BuildConfig.AUTH_TYPE} $token"
             putLong(PreferenceManager.KEY_TOKEN_EXPIRED_MS, expiredMs)
-            putString(PreferenceManager.KEY_TOKEN, accessToken)
+            putString(PreferenceManager.KEY_TOKEN, token)
         }
     }
 
