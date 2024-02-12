@@ -1,5 +1,7 @@
 package com.hmju.core.model.base
 
+import com.hmju.core.model.error.JSendException
+
 /**
  * References Kotlin Result onSuccess
  */
@@ -7,7 +9,11 @@ inline fun <T> ApiResponse<T>.onSuccess(
     crossinline callback: (T) -> Unit
 ): ApiResponse<T> {
     if (this is ApiResponse.Success) {
-        callback(this.data)
+        try {
+            callback(this.data)
+        } catch (ex: Exception) {
+            return ApiResponse.Fail(JSendException.EtcException(ex))
+        }
     }
     return this
 }
@@ -19,7 +25,11 @@ inline fun <T> ApiResponse<T>.onError(
     crossinline callback: (ApiResponse.Fail) -> Unit
 ): ApiResponse<T> {
     if (this is ApiResponse.Fail) {
-        callback(this)
+        try {
+            callback(this)
+        } catch (ex: Exception) {
+            // ignore
+        }
     }
     return this
 }
