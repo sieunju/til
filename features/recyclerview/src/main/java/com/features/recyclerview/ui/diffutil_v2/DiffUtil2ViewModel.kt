@@ -38,25 +38,21 @@ class DiffUtil2ViewModel @Inject constructor(
         getGoodsUseCase(queryMap)
             .doOnSubscribe { pagingModel.isLoading = true }
             .map { list ->
-                val uiList = mutableListOf<BaseUiModel>()
-                list.forEach {
-                    uiList.add(
-                        if (Random.nextBoolean()) {
-                            GoodsOneUiModel(it)
-                        } else {
-                            GoodsTwoUiModel(it)
-                        }
-                    )
+                list.map {
+                    if (Random.nextBoolean()) {
+                        GoodsOneUiModel(it)
+                    } else {
+                        GoodsTwoUiModel(it)
+                    }
                 }
-                return@map uiList
             }.observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
+            .doOnSuccess {
                 queryMap.pageNo++
                 pagingModel.isLast = it.isEmpty()
                 pagingModel.isLoading = false
                 _dataList.addAll(it)
-            }, {
-                pagingModel.isLast = true
-            }).addTo(compositeDisposable)
+            }
+            .doOnError { pagingModel.isLast = true }
+            .subscribe().addTo(compositeDisposable)
     }
 }

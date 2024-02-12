@@ -1,42 +1,60 @@
-package com.features.recyclerview.adapter
+package com.hmju.core.ui.adapter
 
 import android.view.ViewGroup
-import androidx.recyclerview.widget.ListAdapter
-import com.features.recyclerview.diffutil.CommonDiffUtilV3
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import com.hmju.core.ui.base.BaseUiModel
 import com.hmju.core.ui.base.BaseViewModel
+import com.hmju.core.ui.diffutil.BaseDiffUtil
 import com.hmju.core.ui.viewholders.BaseViewHolder
 import kotlin.reflect.KClass
 import kotlin.reflect.full.primaryConstructor
 
 /**
- * Description : 공통 어댑터 클래스 V2 버전
+ * Description : TIL 공통 아이템 리스트 어댑터 클래스
  *
- * Created by juhongmin on 2023/01/28
+ * Created by juhongmin on 2022/02/16
  */
-class ItemListAdapterV2 : ListAdapter<BaseUiModel, BaseViewHolder<*>>(CommonDiffUtilV3()) {
+class ItemListAdapter : RecyclerView.Adapter<BaseViewHolder<*>>() {
 
+    private val dataList: MutableList<BaseUiModel> by lazy { mutableListOf() }
     private val viewHolderTypeMap: MutableMap<Int, KClass<out BaseViewHolder<*>>> = mutableMapOf()
+
     private var viewModel: BaseViewModel? = null
 
-    override fun submitList(list: MutableList<BaseUiModel>?) {
-        handleViewTypeMap(list)
-        super.submitList(list)
+    /**
+     * 데이터가 변경되었을때 이전 데이터들 비교하여 갱신 처리 함수
+     * @param newList oldList + 새로운 데이터 리스트
+     */
+    fun submitList(
+        newList: List<BaseUiModel>?
+    ) {
+        if (newList == null) return
+        val diffResult = DiffUtil.calculateDiff(BaseDiffUtil(dataList, newList))
+        handleViewTypeMap(newList)
+        dataList.clear()
+        dataList.addAll(newList)
+        diffResult.dispatchUpdatesTo(this)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
         return getViewHolderType(parent, viewType)
     }
 
-    override fun onBindViewHolder(holder: BaseViewHolder<*>, position: Int) {
-        runCatching {
-            holder.onBindView(getItem(position))
+
+    override fun onBindViewHolder(holder: BaseViewHolder<*>, pos: Int) {
+        dataList.getOrNull(pos)?.let {
+            runCatching { holder.onBindView(it) }
         }
     }
 
+    override fun getItemCount(): Int {
+        return dataList.size
+    }
+
     override fun getItemViewType(pos: Int): Int {
-        return if (currentList.size > pos) {
-            getItem(pos).layoutId
+        return if (dataList.size > pos) {
+            dataList[pos].layoutId
         } else {
             super.getItemViewType(pos)
         }
@@ -50,6 +68,14 @@ class ItemListAdapterV2 : ListAdapter<BaseUiModel, BaseViewHolder<*>>(CommonDiff
     override fun onViewDetachedFromWindow(holder: BaseViewHolder<*>) {
         super.onViewDetachedFromWindow(holder)
         holder.onViewDetachedFromWindow()
+    }
+
+    private fun handleViewTypeMap(newList: List<BaseUiModel>) {
+        newList.forEach { model ->
+            if (!viewHolderTypeMap.contains(model.layoutId)) {
+                viewHolderTypeMap[model.layoutId] = model.getViewHolderType()
+            }
+        }
     }
 
     /**
@@ -72,18 +98,6 @@ class ItemListAdapterV2 : ListAdapter<BaseUiModel, BaseViewHolder<*>>(CommonDiff
         } else {
             // Parent, ViewModel Type
             findConstructor.call(parent, viewModel)
-        }
-    }
-
-    /**
-     * ViewHolderType 을 Map 에 저장처리하는 함수
-     */
-    private fun handleViewTypeMap(newList: List<BaseUiModel>?) {
-        if (newList == null) return
-        newList.forEach { model ->
-            if (!viewHolderTypeMap.contains(model.layoutId)) {
-                viewHolderTypeMap[model.layoutId] = model.getViewHolderType()
-            }
         }
     }
 }

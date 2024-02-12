@@ -1,19 +1,19 @@
-package com.features.recyclerview.diffutil
+package com.hmju.core.ui.diffutil
 
 import androidx.recyclerview.widget.DiffUtil
 import com.hmju.core.ui.base.BaseUiModel
 
 /**
- * Description :
+ * Description : DiffUtilClass
  *
  * Created by juhongmin on 2022/06/26
  */
-class DiffUtilV2(
+class BaseDiffUtil(
     private val oldList: List<BaseUiModel>,
     private val newList: List<BaseUiModel>
 ) : DiffUtil.Callback() {
 
-    override fun getOldListSize() = oldList.size
+    override fun getOldListSize(): Int = oldList.size
 
     override fun getNewListSize(): Int = newList.size
 
