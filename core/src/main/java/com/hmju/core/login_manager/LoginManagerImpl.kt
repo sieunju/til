@@ -2,6 +2,7 @@ package com.hmju.core.login_manager
 
 import android.util.Base64
 import androidx.core.content.edit
+import com.hmju.core.BuildConfig
 import com.hmju.core.pref.PreferenceManager
 import io.reactivex.rxjava3.core.Single
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -22,14 +23,13 @@ class LoginManagerImpl @Inject constructor(
 ) : LoginManager {
 
     private var expiredMs: Long = 0
-    private var userToken: String = ""
+    private var accessToken: String = ""
 
     private val jsonFormat: Json = Json {
         isLenient = true // Json 큰따옴표 느슨하게 체크.
         ignoreUnknownKeys = true // Field 값이 없는 경우 무시
         coerceInputValues = true // "null" 이 들어간경우 default Argument 값으로 대체
     }
-
 
     @OptIn(ExperimentalSerializationApi::class)
     private fun getTokenExpiredMs(token: String): Long {
@@ -51,17 +51,17 @@ class LoginManagerImpl @Inject constructor(
         // 토큰 전처리 가공
         prefManager.getPref().edit {
             expiredMs = getTokenExpiredMs(token)
-            userToken = token
+            accessToken = "${BuildConfig.AUTH_TYPE} $token"
             putLong(PreferenceManager.KEY_TOKEN_EXPIRED_MS, expiredMs)
-            putString(PreferenceManager.KEY_TOKEN, userToken)
+            putString(PreferenceManager.KEY_TOKEN, accessToken)
         }
     }
 
     override fun getToken(): String {
-        if (userToken.isEmpty()) {
-            userToken = prefManager.getString(PreferenceManager.KEY_TOKEN)
+        if (accessToken.isEmpty()) {
+            accessToken = "${BuildConfig.AUTH_TYPE} ${prefManager.getString(PreferenceManager.KEY_TOKEN)}"
         }
-        return userToken
+        return accessToken
     }
 
     override fun setRefreshToken(

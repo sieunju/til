@@ -1,17 +1,29 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     id("com.android.library")
     id("kotlinx-serialization")
     id("dagger.hilt.android.plugin")
-    kotlin("android")
+    id("org.jetbrains.kotlin.android")
     kotlin("kapt")
+}
+
+val localProperties = Properties().apply {
+    load(FileInputStream(File(rootProject.rootDir, "local.properties")))
 }
 
 android {
     namespace = "com.hmju.core"
+    defaultConfig {
+        buildConfigField("String","BASE_URL","\"${localProperties["BASE_URL"]}\"")
+        buildConfigField("String","AUTH_TYPE","\"${localProperties["AUTH_TYPE"]}\"")
+    }
     buildFeatures {
         compose = true
-        dataBinding = true
+        buildConfig = true
     }
+    dataBinding { enable = true }
     kapt {
         correctErrorTypes = true
     }
