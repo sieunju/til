@@ -2,11 +2,12 @@ package com.features.recyclerview.ui.custom_paging
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.features.recyclerview.models.entity.GoodsEntity
 import com.hmju.core.ui.base.FragmentViewModel
 import com.hmju.core.ui.livedata.ListLiveData
 import com.hmju.core.ui.paging.PagingModel
 import com.features.recyclerview.usecase.GetGoodsUseCase
-import com.hmju.core.model.goods.GoodsEntity
+
 import com.hmju.core.model.params.GoodsParameter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers

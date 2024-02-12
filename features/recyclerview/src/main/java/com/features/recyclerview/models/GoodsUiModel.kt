@@ -1,9 +1,9 @@
-package com.features.recyclerview.model
+package com.features.recyclerview.models
 
 import com.features.recyclerview.R
+import com.features.recyclerview.models.entity.GoodsEntity
 import com.features.recyclerview.ui.independent_viewholder.SimpleLike1ViewHolder
 import com.features.recyclerview.ui.independent_viewholder.SimpleLike2ViewHolder
-import com.hmju.core.model.goods.GoodsEntity
 import com.hmju.core.ui.base.BaseUiModel
 import com.hmju.core.ui.viewholders.BaseViewHolder
 import kotlin.reflect.KClass

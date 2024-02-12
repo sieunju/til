@@ -24,5 +24,30 @@ if (hasLibraryPlugin || hasApplicationPlugin) {
         kotlinOptions {
             jvmTarget = Java.jvmTarget
         }
+
+        signingConfigs {
+            create("release") {
+                storeFile = file("../keystore/til.jks")
+                storePassword = "til1234qwer"
+                keyAlias = "til"
+                keyPassword = "til1234qwer"
+            }
+        }
+
+        buildTypes {
+            getByName("debug") {
+                minifyEnabled false
+                debuggable true
+            }
+
+            getByName("release") {
+                signingConfig = signingConfigs.getByName("release")
+                minifyEnabled true
+                if (hasApplicationPlugin) {
+                    shrinkResources true
+                }
+                proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+            }
+        }
     }
 }

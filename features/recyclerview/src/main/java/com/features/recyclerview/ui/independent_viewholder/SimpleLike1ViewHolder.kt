@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import com.features.recyclerview.R
 import com.features.recyclerview.BR
 import com.features.recyclerview.databinding.VhSimpleLikeRecyclerview1Binding
-import com.features.recyclerview.model.GoodsOneUiModel
+import com.features.recyclerview.models.GoodsOneUiModel
 
 
 /**

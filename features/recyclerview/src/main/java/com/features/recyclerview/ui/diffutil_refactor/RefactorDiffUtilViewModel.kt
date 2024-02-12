@@ -2,10 +2,10 @@ package com.features.recyclerview.ui.diffutil_refactor
 
 import androidx.lifecycle.viewModelScope
 import com.features.recyclerview.ApiService
-import com.features.recyclerview.model.GoodsOneUiModel
-import com.features.recyclerview.model.GoodsTwoUiModel
+import com.features.recyclerview.models.entity.GoodsEntity
+import com.features.recyclerview.models.GoodsOneUiModel
+import com.features.recyclerview.models.GoodsTwoUiModel
 import com.features.recyclerview.usecase.GetGoodsCoUseCase
-import com.hmju.core.model.goods.GoodsEntity
 import com.hmju.core.model.params.GoodsParameter
 import com.hmju.core.ui.base.BaseUiModel
 import com.hmju.core.ui.base.FragmentViewModel
@@ -71,14 +71,6 @@ class RefactorDiffUtilViewModel @Inject constructor(
     }
 
     private fun startCo() {
-//        viewModelScope.launch {
-//            Timber.d("로루틴 테스트 스타일 시작")
-//            val job3 = testJob3()
-//            // await 하는 순간 Deferred 작업 끝날때까지 기다림
-//            val list = job3.await()
-//            Timber.d("로루틴 테스트 스타일 끝")
-//        }
-
         viewModelScope.launch(Dispatchers.Main) {
             Timber.d("로루틴 테스트 스타일 시작")
             testJob1()

@@ -1,4 +1,4 @@
-package com.hmju.core.model.like
+package com.features.recyclerview.models.entity
 
 import kotlinx.serialization.Serializable
 

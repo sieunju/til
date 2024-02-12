@@ -1,7 +1,7 @@
 package com.features.recyclerview.usecase
 
 import com.features.recyclerview.ApiService
-import com.hmju.core.model.goods.GoodsEntity
+import com.features.recyclerview.models.entity.GoodsEntity
 import com.hmju.core.model.params.GoodsParameter
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject

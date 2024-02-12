@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.features.recyclerview.BR
 import com.features.recyclerview.R
 import com.features.recyclerview.databinding.VhSimpleLikeRecyclerview2Binding
-import com.features.recyclerview.model.GoodsTwoUiModel
+import com.features.recyclerview.models.GoodsTwoUiModel
 
 /**
  * Description : 간단한 좋아요 아이템 샘플 1

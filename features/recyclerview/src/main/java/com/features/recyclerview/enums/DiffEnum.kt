@@ -1,7 +1,7 @@
 package com.features.recyclerview.enums
 
-import com.features.recyclerview.model.GoodsOneUiModel
-import com.features.recyclerview.model.GoodsTwoUiModel
+import com.features.recyclerview.models.GoodsOneUiModel
+import com.features.recyclerview.models.GoodsTwoUiModel
 
 
 /**

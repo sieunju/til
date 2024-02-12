@@ -1,7 +1,7 @@
 package com.features.recyclerview.ui.diffutil_v2
 
-import com.features.recyclerview.model.GoodsOneUiModel
-import com.features.recyclerview.model.GoodsTwoUiModel
+import com.features.recyclerview.models.GoodsOneUiModel
+import com.features.recyclerview.models.GoodsTwoUiModel
 import com.features.recyclerview.usecase.GetGoodsUseCase
 import com.hmju.core.model.params.GoodsParameter
 import com.hmju.core.ui.base.BaseUiModel

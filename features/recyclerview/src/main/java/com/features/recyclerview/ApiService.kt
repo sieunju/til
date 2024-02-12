@@ -5,11 +5,10 @@ import com.hmju.core.model.base.JSendList
 import com.hmju.core.model.base.JSendListWithMeta
 import com.hmju.core.model.base.JSendObj
 import com.hmju.core.model.body.LikeRequestBody
-import com.hmju.core.model.goods.GoodsEntity
-import com.hmju.core.model.like.LikeEntity
+import com.features.recyclerview.models.entity.LikeEntity
 import com.hmju.core.model.meta.CustomMetaEntity
+import com.features.recyclerview.models.entity.GoodsEntity
 import io.reactivex.rxjava3.core.Single
-import retrofit2.Call
 import retrofit2.http.*
 
 /**

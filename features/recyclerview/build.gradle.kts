@@ -1,14 +1,22 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("kotlinx-serialization")
     id("dagger.hilt.android.plugin")
     kotlin("kapt")
 }
 
 android {
     namespace = "com.features.recyclerview"
-    buildFeatures {
-        dataBinding = true
+    dataBinding { enable = true }
+
+    buildTypes {
+        getByName("release") {
+            isMinifyEnabled = true
+        }
+        getByName("debug") {
+            isMinifyEnabled = false
+        }
     }
 }
 
@@ -61,6 +69,11 @@ dependencies {
      */
     implementation(Co.core)
     implementation(Co.android)
+
+    /**
+     * Kotlinx Serialization
+     */
+    implementation(KotlinX.serialization)
 
     /**
      * Unit Test

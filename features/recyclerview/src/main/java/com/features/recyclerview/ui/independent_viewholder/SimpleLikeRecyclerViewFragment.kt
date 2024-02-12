@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.features.recyclerview.BR
 import com.features.recyclerview.R
 import com.features.recyclerview.databinding.FSimpleLikeRecyclerviewBinding
+import com.features.recyclerview.models.entity.GoodsEntity
 import com.features.recyclerview.usecase.GetGoodsUseCase
-import com.hmju.core.model.goods.GoodsEntity
 import com.hmju.core.model.params.GoodsParameter
 import com.hmju.core.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint

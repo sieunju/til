@@ -9,9 +9,9 @@ import com.hmju.core.ui.base.BaseFragment
 import com.features.recyclerview.BR
 import com.features.recyclerview.R
 import com.features.recyclerview.databinding.FCustomPagingBinding
+import com.features.recyclerview.models.entity.GoodsEntity
 import com.features.recyclerview.ui.independent_viewholder.BaseSimpleLikeViewHolder
 import com.features.recyclerview.ui.independent_viewholder.SimpleLike1ViewHolder
-import com.hmju.core.model.goods.GoodsEntity
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
