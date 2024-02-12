@@ -3,14 +3,10 @@ package com.features.recyclerview.adapter
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.features.recyclerview.R
 import com.features.recyclerview.diffutil.DiffUtilV2
-import com.features.recyclerview.ui.independent_viewholder.SimpleLike1ViewHolder
-import com.features.recyclerview.ui.independent_viewholder.SimpleLike2ViewHolder
 import com.hmju.core.ui.base.BaseUiModel
 import com.hmju.core.ui.base.BaseViewModel
 import com.hmju.core.ui.viewholders.BaseViewHolder
-import timber.log.Timber
 import kotlin.reflect.KClass
 import kotlin.reflect.full.primaryConstructor
 
@@ -22,7 +18,7 @@ import kotlin.reflect.full.primaryConstructor
 class ItemListAdapter : RecyclerView.Adapter<BaseViewHolder<*>>() {
 
     private val dataList: MutableList<BaseUiModel> by lazy { mutableListOf() }
-    private val viewHolderTypeMap : MutableMap<Int,KClass<out BaseViewHolder<*>>> = mutableMapOf()
+    private val viewHolderTypeMap: MutableMap<Int, KClass<out BaseViewHolder<*>>> = mutableMapOf()
 
     private var viewModel: BaseViewModel? = null
 
@@ -50,12 +46,7 @@ class ItemListAdapter : RecyclerView.Adapter<BaseViewHolder<*>>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
-        return try {
-            getViewHolderType(parent, viewType)
-        } catch (ex: IllegalArgumentException) {
-            Timber.d("여길 타나요?? $ex")
-            getLegacyViewHolder(parent, viewType)
-        }
+        return getViewHolderType(parent, viewType)
     }
 
     /**
@@ -82,10 +73,8 @@ class ItemListAdapter : RecyclerView.Adapter<BaseViewHolder<*>>() {
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder<*>, pos: Int) {
-        if (dataList.size > pos) {
-            runCatching {
-                holder.onBindView(dataList[pos])
-            }
+        dataList.getOrNull(pos)?.let {
+            runCatching { holder.onBindView(it) }
         }
     }
 
@@ -109,14 +98,5 @@ class ItemListAdapter : RecyclerView.Adapter<BaseViewHolder<*>>() {
     override fun onViewDetachedFromWindow(holder: BaseViewHolder<*>) {
         super.onViewDetachedFromWindow(holder)
         holder.onViewDetachedFromWindow()
-    }
-
-    @Deprecated("Legacy getViewHolder")
-    private fun getLegacyViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
-        return when (viewType) {
-            R.layout.vh_simple_like_recyclerview_1 -> SimpleLike1ViewHolder(parent)
-            R.layout.vh_simple_like_recyclerview_2 -> SimpleLike2ViewHolder(parent)
-            else -> throw IllegalArgumentException("Invalid View Type $viewType")
-        }
     }
 }
