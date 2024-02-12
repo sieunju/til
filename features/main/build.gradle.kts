@@ -39,20 +39,6 @@ dependencies {
     kapt(Hilt.compiler)
 
     /**
-     * Rx
-     */
-    implementation(Rx.java)
-    implementation(Rx.kotlin)
-    implementation(Rx.android)
-
-    /**
-     * Coroutine
-     */
-    implementation(Co.core)
-    implementation(Co.android)
-    implementation(Retrofit.base)
-
-    /**
      * Unit Test
      */
     testImplementation(UnitTest.junit)
