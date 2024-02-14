@@ -1,4 +1,4 @@
-package com.feature.compose_ui
+package com.features.compose_ui
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

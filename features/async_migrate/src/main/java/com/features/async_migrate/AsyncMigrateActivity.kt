@@ -1,8 +1,8 @@
 package com.features.async_migrate
 
-import com.feature.async_migrate.BR
-import com.feature.async_migrate.R
-import com.feature.async_migrate.databinding.ActivityAsyncMigrateBinding
+import com.features.async_migrate.BR
+import com.features.async_migrate.R
+import com.features.async_migrate.databinding.ActivityAsyncMigrateBinding
 import com.hmju.core.ui.base.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 

@@ -1,4 +1,4 @@
-package com.feature.compose_ui
+package com.features.compose_ui
 
 import org.junit.Test
 

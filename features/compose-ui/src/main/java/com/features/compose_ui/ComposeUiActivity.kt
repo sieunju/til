@@ -15,9 +15,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.feature.compose_ui.BR
-import com.feature.compose_ui.R
-import com.feature.compose_ui.databinding.AComposeUiBinding
+import com.features.compose_ui.BR
+import com.features.compose_ui.R
+import com.features.compose_ui.databinding.AComposeUiBinding
 import com.hmju.core.compose.TilTheme
 import com.hmju.core.ui.base.BaseActivity
 import timber.log.Timber
