@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.features.base_mvvm.usecase.GetGoodsUseCase
 import com.hmju.core.login_manager.LoginManager
-import com.hmju.core.model.params.GoodsParameter
+import com.hmju.core.models.params.GoodsParameter
 import com.hmju.core.ui.base.ActivityViewModel
 import com.hmju.core.ui.base.BaseActivity
 import com.hmju.core.ui.base.IntentKey

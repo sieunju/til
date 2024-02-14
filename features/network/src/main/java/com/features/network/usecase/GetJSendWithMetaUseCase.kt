@@ -1,9 +1,9 @@
 package com.features.network.usecase
 
 import com.features.network.ApiService
-import com.features.network.models.JSendTestEntity
-import com.hmju.core.model.base.JSendObjWithMeta
-import com.hmju.core.model.base.MetaEntity
+import com.features.network.models.entity.JSendTestEntity
+import com.hmju.core.models.base.JSendObjWithMeta
+import com.hmju.core.models.base.MetaEntity
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 

@@ -11,7 +11,7 @@ import com.features.recyclerview.R
 import com.features.recyclerview.databinding.FSimpleLikeRecyclerviewBinding
 import com.features.recyclerview.models.entity.GoodsEntity
 import com.features.recyclerview.usecase.GetGoodsUseCase
-import com.hmju.core.model.params.GoodsParameter
+import com.hmju.core.models.params.GoodsParameter
 import com.hmju.core.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers

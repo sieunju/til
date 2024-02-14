@@ -2,7 +2,7 @@ package com.features.base_mvvm.ui.mvvm_lifecycle
 
 import com.features.base_mvvm.usecase.GetGoodsUseCase
 import com.hmju.core.login_manager.LoginManager
-import com.hmju.core.model.params.GoodsParameter
+import com.hmju.core.models.params.GoodsParameter
 import com.hmju.core.ui.base.ActivityResult
 import com.hmju.core.ui.base.ActivityViewModel
 import com.hmju.core.ui.base.IntentKey

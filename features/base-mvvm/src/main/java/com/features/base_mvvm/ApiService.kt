@@ -1,8 +1,8 @@
 package com.features.base_mvvm
 
-import com.hmju.core.model.base.JSendListWithMeta
-import com.hmju.core.model.goods.GoodsEntity
-import com.hmju.core.model.meta.CustomMetaEntity
+import com.hmju.core.models.base.JSendListWithMeta
+import com.hmju.core.models.goods.GoodsEntity
+import com.hmju.core.models.meta.CustomMetaEntity
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
 import retrofit2.http.QueryMap

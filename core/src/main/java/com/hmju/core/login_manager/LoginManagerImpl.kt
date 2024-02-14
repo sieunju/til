@@ -11,6 +11,7 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import kotlinx.serialization.json.long
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -55,18 +56,20 @@ class LoginManagerImpl @Inject constructor(
             putLong(PreferenceManager.KEY_TOKEN_EXPIRED_MS, expiredMs)
             putString(PreferenceManager.KEY_TOKEN, token)
         }
+        Timber.d("setAccessToken $token")
     }
 
     override fun getToken(): String {
-        if (accessToken.isEmpty()) {
-            accessToken = "${BuildConfig.AUTH_TYPE} ${prefManager.getString(PreferenceManager.KEY_TOKEN)}"
-        }
-        return accessToken
+//        if (accessToken.isEmpty()) {
+//            accessToken = "${BuildConfig.AUTH_TYPE} ${prefManager.getString(PreferenceManager.KEY_TOKEN)}"
+//        }
+        return "${BuildConfig.AUTH_TYPE} ${prefManager.getString(PreferenceManager.KEY_TOKEN)}"
     }
 
     override fun setRefreshToken(
         token: String
     ) {
+        Timber.d("setRefreshToken $token")
         prefManager.setValue(PreferenceManager.KEY_REFRESH_TOKEN, token)
     }
 

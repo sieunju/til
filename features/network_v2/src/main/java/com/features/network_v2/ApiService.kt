@@ -2,11 +2,11 @@ package com.features.network_v2
 
 import com.features.network_v2.model.JSendEntity
 import com.features.network_v2.model.JwtTokenTestEntity
-import com.hmju.core.model.base.ApiResponse
-import com.hmju.core.model.base.JSendListWithMeta
-import com.hmju.core.model.base.JSendObj
-import com.hmju.core.model.goods.GoodsEntity
-import com.hmju.core.model.meta.CustomMetaEntity
+import com.hmju.core.models.base.ApiResponse
+import com.hmju.core.models.base.JSendListWithMeta
+import com.hmju.core.models.base.JSendObj
+import com.hmju.core.models.goods.GoodsEntity
+import com.hmju.core.models.meta.CustomMetaEntity
 import io.reactivex.rxjava3.core.Single
 import okhttp3.ResponseBody
 import retrofit2.http.GET

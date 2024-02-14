@@ -16,7 +16,7 @@ import com.features.recyclerview.models.entity.GoodsEntity
 import com.features.recyclerview.usecase.AddLikeUseCase
 import com.features.recyclerview.usecase.RemoveLikeUseCase
 import com.hmju.core.like_manager.LikeManager
-import com.hmju.core.model.body.LikeRequestBody
+import com.hmju.core.models.body.LikeRequestBody
 import com.hmju.core.rxbus.RxBus
 import com.hmju.core.rxbus.SimpleLikeEvent
 import com.hmju.core.ui.viewholders.BaseViewHolder

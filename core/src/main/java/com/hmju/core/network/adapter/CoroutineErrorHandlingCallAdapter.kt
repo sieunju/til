@@ -1,12 +1,12 @@
 package com.hmju.core.network.adapter
 
-import com.hmju.core.model.base.ApiResponse
-import com.hmju.core.model.base.BaseJSend
-import com.hmju.core.model.base.JSendList
-import com.hmju.core.model.base.JSendListWithMeta
-import com.hmju.core.model.base.JSendObj
-import com.hmju.core.model.base.JSendObjWithMeta
-import com.hmju.core.model.error.JSendException
+import com.hmju.core.models.base.ApiResponse
+import com.hmju.core.models.base.BaseJSend
+import com.hmju.core.models.base.JSendList
+import com.hmju.core.models.base.JSendListWithMeta
+import com.hmju.core.models.base.JSendObj
+import com.hmju.core.models.base.JSendObjWithMeta
+import com.hmju.core.models.error.JSendException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

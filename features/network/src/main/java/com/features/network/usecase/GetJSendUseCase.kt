@@ -1,8 +1,8 @@
 package com.features.network.usecase
 
 import com.features.network.ApiService
-import com.hmju.core.model.base.JSendObj
-import com.features.network.models.JSendTestEntity
+import com.hmju.core.models.base.JSendObj
+import com.features.network.models.entity.JSendTestEntity
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 

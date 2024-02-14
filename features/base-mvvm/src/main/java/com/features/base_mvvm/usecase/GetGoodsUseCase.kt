@@ -1,8 +1,8 @@
 package com.features.base_mvvm.usecase
 
 import com.features.base_mvvm.ApiService
-import com.hmju.core.model.goods.GoodsEntity
-import com.hmju.core.model.params.GoodsParameter
+import com.hmju.core.models.goods.GoodsEntity
+import com.hmju.core.models.params.GoodsParameter
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 

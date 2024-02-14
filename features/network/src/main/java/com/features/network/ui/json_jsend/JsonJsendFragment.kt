@@ -12,6 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.addTo
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -50,6 +51,7 @@ class JsonJsendFragment :
             getJSendUseCase()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
+                    Timber.d("Success $it")
                     setText(it)
                 }, {
                     setText(it)

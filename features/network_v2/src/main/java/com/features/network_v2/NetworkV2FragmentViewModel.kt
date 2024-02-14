@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.features.network_v2.model.JSendEntity
-import com.hmju.core.model.base.onError
-import com.hmju.core.model.base.onSuccess
-import com.hmju.core.model.params.GoodsParameter
+import com.hmju.core.models.base.onError
+import com.hmju.core.models.base.onSuccess
+import com.hmju.core.models.params.GoodsParameter
 import com.hmju.core.pref.PreferenceManager
 import com.hmju.core.ui.base.FragmentViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

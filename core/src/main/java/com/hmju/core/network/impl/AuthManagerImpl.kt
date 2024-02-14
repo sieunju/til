@@ -1,7 +1,7 @@
 package com.hmju.core.network.impl
 
 import com.hmju.core.BuildConfig
-import com.hmju.core.model.auth.AuthTokenEntity
+import com.hmju.core.models.auth.AuthTokenEntity
 import com.hmju.core.network.AuthManager
 import com.hmju.core.network.NetworkConfig
 import com.hmju.core.network.NetworkConfig.Header
@@ -49,10 +49,10 @@ internal class AuthManagerImpl @Inject constructor(
             .readTimeout(NetworkConfig.READ_TIME_OUT, TimeUnit.MILLISECONDS)
             .writeTimeout(NetworkConfig.WRITE_TIME_OUT, TimeUnit.MILLISECONDS)
             .apply {
-                if (BuildConfig.DEBUG) {
-                    addInterceptor(trackingInterceptor)
-                    addInterceptor(loggingInterceptor)
-                }
+                // if (BuildConfig.DEBUG) {
+                addInterceptor(trackingInterceptor)
+                addInterceptor(loggingInterceptor)
+                // }
             }
             .build()
     }

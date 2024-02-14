@@ -1,7 +1,7 @@
 package com.hmju.core.network.interceptor
 
 import com.hmju.core.login_manager.LoginManager
-import com.hmju.core.model.auth.AuthTokenEntity
+import com.hmju.core.models.auth.AuthTokenEntity
 import com.hmju.core.network.AuthManager
 import com.hmju.core.network.NetworkConfig
 import io.reactivex.rxjava3.core.Flowable

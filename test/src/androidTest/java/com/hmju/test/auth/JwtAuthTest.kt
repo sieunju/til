@@ -1,7 +1,7 @@
 package com.hmju.test.auth
 
 import android.util.Base64
-import com.hmju.core.model.auth.AuthTokenEntity
+import com.hmju.core.models.auth.AuthTokenEntity
 import com.hmju.core.network.NetworkConfig
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -17,7 +17,6 @@ import kotlinx.serialization.json.put
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
-import org.json.JSONObject
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

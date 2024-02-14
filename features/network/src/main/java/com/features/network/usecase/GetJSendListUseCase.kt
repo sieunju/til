@@ -1,7 +1,7 @@
 package com.features.network.usecase
 
 import com.features.network.ApiService
-import com.hmju.core.model.base.JSendList
+import com.hmju.core.models.base.JSendList
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 

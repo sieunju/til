@@ -6,7 +6,7 @@ import com.features.recyclerview.models.entity.GoodsEntity
 import com.features.recyclerview.models.GoodsOneUiModel
 import com.features.recyclerview.models.GoodsTwoUiModel
 import com.features.recyclerview.usecase.GetGoodsCoUseCase
-import com.hmju.core.model.params.GoodsParameter
+import com.hmju.core.models.params.GoodsParameter
 import com.hmju.core.ui.base.BaseUiModel
 import com.hmju.core.ui.base.FragmentViewModel
 import com.hmju.core.ui.livedata.ListLiveData

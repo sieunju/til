@@ -5,6 +5,7 @@ import androidx.lifecycle.lifecycleScope
 import com.features.base_mvvm.databinding.ARefactorBaseTestBinding
 import com.hmju.core.ui.base.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -43,6 +44,7 @@ class RefactorBaseTestActivity : BaseActivity<ARefactorBaseTestBinding, Refactor
         }
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // 백그라운드에서 계속해서 진행 그러다 맨 마지막 값 가져옴

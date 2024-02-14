@@ -2,8 +2,8 @@ package com.features.recyclerview.usecase
 
 import com.features.recyclerview.ApiService
 import com.features.recyclerview.models.entity.GoodsEntity
-import com.hmju.core.model.base.ApiResponse
-import com.hmju.core.model.params.GoodsParameter
+import com.hmju.core.models.base.ApiResponse
+import com.hmju.core.models.params.GoodsParameter
 import kotlinx.coroutines.delay
 import javax.inject.Inject
 

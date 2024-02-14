@@ -8,7 +8,7 @@ import com.hmju.core.ui.livedata.ListLiveData
 import com.hmju.core.ui.paging.PagingModel
 import com.features.recyclerview.usecase.GetGoodsUseCase
 
-import com.hmju.core.model.params.GoodsParameter
+import com.hmju.core.models.params.GoodsParameter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.addTo

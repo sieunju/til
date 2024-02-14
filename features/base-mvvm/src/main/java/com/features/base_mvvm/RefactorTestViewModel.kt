@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.features.base_mvvm.ui.mvvm_lifecycle.MvvmLifecycleTestActivity
-import com.hmju.core.model.test.SerializableEntity
+import com.features.base_mvvm.models.SerializableEntity
 import com.hmju.core.ui.base.ActivityResult
 import com.hmju.core.ui.base.ActivityViewModel
 import com.hmju.core.ui.base.IntentKey
@@ -56,8 +56,8 @@ class RefactorTestViewModel @Inject constructor(
                     Timber.d("[s] Cancel Result Data ==================================================")
                     val builder = StringBuilder()
                     data.keySet().forEach { key ->
-                        Timber.d("Key $key Value ${data.get(key)}")
-                        builder.append("Key $key Value ${data.get(key)}\n")
+                        Timber.d("Key $key Value ${data.getString(key)}")
+                        builder.append("Key $key Value ${data.getString(key)}\n")
                     }
                     _contents.value = builder.toString()
                     Timber.d("[e] Cancel Result Data ==================================================")
@@ -65,8 +65,9 @@ class RefactorTestViewModel @Inject constructor(
                     Timber.d("[s] Result Data ==================================================")
                     val builder = StringBuilder()
                     data.keySet().forEach { key ->
-                        Timber.d("Key $key Value ${data.get(key)}")
-                        builder.append("Key $key Value ${data.get(key)}\n")
+
+                        Timber.d("Key $key Value ${data.getString(key)}")
+                        builder.append("Key $key Value ${data.getString(key)}\n")
                     }
                     _contents.value = builder.toString()
                     Timber.d("[e] Result Data ==================================================")

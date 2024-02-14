@@ -1,6 +1,6 @@
 package com.hmju.core.network
 
-import com.hmju.core.model.auth.AuthTokenEntity
+import com.hmju.core.models.auth.AuthTokenEntity
 
 /**
  * Description : Token 갱신 및 발급 관련 매니저 클래스

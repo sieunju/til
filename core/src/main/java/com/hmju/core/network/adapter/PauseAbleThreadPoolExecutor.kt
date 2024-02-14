@@ -1,7 +1,7 @@
 package com.hmju.core.network.adapter
 
 import com.hmju.core.login_manager.LoginManager
-import com.hmju.core.model.auth.AuthTokenEntity
+import com.hmju.core.models.auth.AuthTokenEntity
 import com.hmju.core.network.AuthManager
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Single
@@ -124,7 +124,6 @@ internal class PauseAbleThreadPoolExecutor(
                 loginManager.setRefreshToken(entity.refreshToken)
             }
         } catch (ex: Exception) {
-            // error 대응 어떻게 할까?
             Timber.tag("Network_Test").d("handleTokenRefresh Error $ex")
         } finally {
             isPaused = false

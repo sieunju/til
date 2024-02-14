@@ -3,7 +3,7 @@ package com.features.recyclerview.ui.diffutil_v2
 import com.features.recyclerview.models.GoodsOneUiModel
 import com.features.recyclerview.models.GoodsTwoUiModel
 import com.features.recyclerview.usecase.GetGoodsUseCase
-import com.hmju.core.model.params.GoodsParameter
+import com.hmju.core.models.params.GoodsParameter
 import com.hmju.core.ui.base.BaseUiModel
 import com.hmju.core.ui.base.FragmentViewModel
 import com.hmju.core.ui.livedata.ListLiveData
@@ -11,6 +11,7 @@ import com.hmju.core.ui.paging.PagingModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.addTo
+import timber.log.Timber
 import javax.inject.Inject
 import kotlin.random.Random
 
@@ -27,7 +28,7 @@ class DiffUtil2ViewModel @Inject constructor(
 
     override fun onDirectViewCreated() {
         super.onDirectViewCreated()
-        onStart()
+        fetchGoods()
     }
 
     fun onStart() {
@@ -35,6 +36,7 @@ class DiffUtil2ViewModel @Inject constructor(
     }
 
     private fun fetchGoods() {
+        Timber.d("RequestParams $queryMap")
         getGoodsUseCase(queryMap)
             .doOnSubscribe { pagingModel.isLoading = true }
             .map { list ->

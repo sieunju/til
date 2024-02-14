@@ -2,8 +2,8 @@ package com.features.network.ui.error_handling
 
 import androidx.lifecycle.viewModelScope
 import com.features.network.ApiService
-import com.hmju.core.model.base.onError
-import com.hmju.core.model.base.onSuccess
+import com.hmju.core.models.base.onError
+import com.hmju.core.models.base.onSuccess
 import com.hmju.core.ui.base.FragmentViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

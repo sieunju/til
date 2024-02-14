@@ -1,13 +1,14 @@
 package com.features.recyclerview
 
-import com.hmju.core.model.base.ApiResponse
-import com.hmju.core.model.base.JSendList
-import com.hmju.core.model.base.JSendListWithMeta
-import com.hmju.core.model.base.JSendObj
-import com.hmju.core.model.body.LikeRequestBody
-import com.features.recyclerview.models.entity.LikeEntity
-import com.hmju.core.model.meta.CustomMetaEntity
 import com.features.recyclerview.models.entity.GoodsEntity
+import com.features.recyclerview.models.entity.LikeEntity
+import com.hmju.core.models.base.ApiResponse
+import com.hmju.core.models.base.JSendList
+import com.hmju.core.models.base.JSendListWithMeta
+import com.hmju.core.models.base.JSendObj
+import com.hmju.core.models.base.MetaEntity
+import com.hmju.core.models.body.LikeRequestBody
+import com.hmju.core.models.meta.CustomMetaEntity
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.*
 
@@ -20,7 +21,7 @@ interface ApiService {
     @GET("/api/v1/til/goods")
     fun fetchGoods(
         @QueryMap(encoded = true) params: Map<String, String>
-    ): Single<JSendListWithMeta<GoodsEntity, CustomMetaEntity>>
+    ): Single<JSendListWithMeta<GoodsEntity, MetaEntity>>
 
     @POST("/api/v1/til/goods/like")
     fun postLike(
