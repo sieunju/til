@@ -4,8 +4,10 @@ import com.hmju.core.login_manager.LoginManager
 import com.hmju.core.login_manager.di.LoginManagerModule
 import com.hmju.core.network.AuthManager
 import com.hmju.core.network.NetworkConfig
+import com.hmju.core.network.NetworkProvider
 import com.hmju.core.network.adapter.PauseAbleThreadPoolExecutor
 import com.hmju.core.network.impl.AuthManagerImpl
+import com.hmju.core.network.impl.NetworkProviderImpl
 import com.hmju.core.network.interceptor.HeaderInterceptor
 import com.hmju.core.network.interceptor.TokenAuthenticator
 import com.hmju.core.network.qualifiers.*
@@ -16,6 +18,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import hmju.http.tracking_interceptor.TrackingHttpInterceptor
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.Authenticator
 import okhttp3.Dispatcher
@@ -112,5 +115,15 @@ internal object RemoteModule {
             .addInterceptor(httpLoggingInterceptor)
             .addInterceptor(trackingInterceptor)
             .build()
+    }
+
+    @ExperimentalSerializationApi
+    @Singleton
+    @Provides
+    fun provideNetwork(
+        json: Json,
+        @ApiHttpClient httpClient: OkHttpClient
+    ): NetworkProvider {
+        return NetworkProviderImpl(json, httpClient)
     }
 }

@@ -9,15 +9,15 @@ plugins {
     kotlin("kapt")
 }
 
-val localProperties = Properties().apply {
+val properties = Properties().apply {
     load(FileInputStream(File(rootProject.rootDir, "local.properties")))
 }
 
 android {
     namespace = "com.hmju.core"
     defaultConfig {
-        buildConfigField("String","BASE_URL","\"${localProperties["BASE_URL"]}\"")
-        buildConfigField("String","AUTH_TYPE","\"${localProperties["AUTH_TYPE"]}\"")
+        buildConfigField("String", "BASE_URL", properties.getProperty("base_url"))
+        buildConfigField("String", "AUTH_TYPE", properties.getProperty("auth_type"))
     }
     buildFeatures {
         compose = true

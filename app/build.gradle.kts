@@ -26,12 +26,13 @@ android {
     }
 
     buildTypes {
-        getByName("debug") {
+
+        debug {
             applicationIdSuffix = ".dev"
             manifestPlaceholders["appName"] = "til_dev"
         }
 
-        getByName("release") {
+        release {
             isShrinkResources = true
             manifestPlaceholders["appName"] = "til"
         }
