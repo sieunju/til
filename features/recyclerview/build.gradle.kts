@@ -9,15 +9,6 @@ plugins {
 android {
     namespace = "com.features.recyclerview"
     dataBinding { enable = true }
-
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = true
-        }
-        getByName("debug") {
-            isMinifyEnabled = false
-        }
-    }
 }
 
 dependencies {

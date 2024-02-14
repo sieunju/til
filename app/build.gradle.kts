@@ -8,6 +8,13 @@ plugins {
 
 android {
     namespace = "com.hmju.til"
+
+    bundle {
+        language { enableSplit = true }
+        density { enableSplit = true }
+        abi { enableSplit = true }
+    }
+
     defaultConfig {
         applicationId = "com.hmju.til"
         versionCode = Apps.versionCode
@@ -18,9 +25,28 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    buildTypes {
+        getByName("debug") {
+            applicationIdSuffix = ".dev"
+            manifestPlaceholders["appName"] = "til_dev"
+        }
+
+        getByName("release") {
+            isShrinkResources = true
+            manifestPlaceholders["appName"] = "til"
+        }
+    }
+
     buildFeatures {
         dataBinding { enable = true }
     }
+}
+
+// Release .apk Build
+tasks.register("release") {
+    dependsOn(tasks["clean"])
+    dependsOn(tasks["assembleRelease"])
+    mustRunAfter(tasks["clean"])
 }
 
 dependencies {

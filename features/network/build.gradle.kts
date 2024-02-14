@@ -8,12 +8,7 @@ plugins {
 
 android {
     namespace = "com.features.network"
-    buildFeatures {
-        dataBinding = true
-    }
-    kapt {
-        correctErrorTypes = true
-    }
+    dataBinding { enable = true }
 }
 
 dependencies {

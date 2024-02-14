@@ -6,10 +6,8 @@ plugins {
 }
 
 android {
-    namespace = "com.feature.async_migrate"
-    buildFeatures {
-        dataBinding = true
-    }
+    namespace = "com.features.async_migrate"
+    dataBinding { enable = true }
 }
 
 dependencies {

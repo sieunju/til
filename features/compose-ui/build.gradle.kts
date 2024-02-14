@@ -7,10 +7,10 @@ plugins {
 }
 
 android {
-    namespace = "com.feature.compose_ui"
+    namespace = "com.features.compose_ui"
+    dataBinding { enable = true }
     buildFeatures {
         compose = true
-        dataBinding = true
     }
 
     composeOptions {
@@ -67,6 +67,7 @@ dependencies {
     implementation(Compose.activity)
     implementation(Glide.compose)
 
+    testImplementation(UnitTest.junit)
     androidTestImplementation(platform(Compose.base))
     debugImplementation(UnitTest.Compose.tooling)
     androidTestImplementation(UnitTest.Compose.junit)
