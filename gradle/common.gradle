@@ -4,6 +4,9 @@
 def hasLibraryPlugin = pluginManager.hasPlugin("com.android.library")
 def hasApplicationPlugin = pluginManager.hasPlugin("com.android.application")
 
+def properties = new Properties()
+properties.load(project.rootProject.file("local.properties").newDataInputStream())
+
 if (hasLibraryPlugin || hasApplicationPlugin) {
     android {
         compileSdk = Apps.compileSdkVersion
@@ -26,26 +29,29 @@ if (hasLibraryPlugin || hasApplicationPlugin) {
         }
 
         signingConfigs {
-            create("release") {
-                storeFile = file("../keystore/til.jks")
-                storePassword = "til1234qwer"
-                keyAlias = "til"
-                keyPassword = "til1234qwer"
+            release {
+                storeFile file(properties.getProperty("keystore.release.file_path"))
+                storePassword properties.getProperty("keystore.release.store_password")
+                keyAlias properties.getProperty("keystore.release.key_alias")
+                keyPassword properties.getProperty("keystore.release.key_password")
             }
+//            create("release") {
+//                storeFile = file(properties.getProperty("keystore.release.file_path"))
+//                storePassword = properties.getProperty("keystore.release.store_password")
+//                keyAlias = properties.getProperty("keystore.release.key_alias")
+//                keyPassword = properties.getProperty("keystore.release.key_password")
+//            }
         }
 
         buildTypes {
-            getByName("debug") {
+            debug {
                 minifyEnabled false
                 debuggable true
             }
-
-            getByName("release") {
-                signingConfig = signingConfigs.getByName("release")
+            release {
+                // signingConfig = signingConfigs.getByName("release")
+                signingConfig signingConfigs.release
                 minifyEnabled true
-                if (hasApplicationPlugin) {
-                    shrinkResources true
-                }
                 proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
             }
         }
