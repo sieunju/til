@@ -1,7 +1,7 @@
 package com.features.network_v2
 
-import com.features.network_v2.model.JSendEntity
-import com.features.network_v2.model.JwtTokenTestEntity
+import com.features.network_v2.models.entity.JSendEntity
+import com.features.network_v2.models.entity.JwtTokenTestEntity
 import com.hmju.core.models.base.ApiResponse
 import com.hmju.core.models.base.JSendListWithMeta
 import com.hmju.core.models.base.JSendObj
@@ -20,34 +20,34 @@ import retrofit2.http.QueryMap
  */
 internal interface ApiService {
 
-    @GET("/api/til/error/404")
+    @GET("/api/v1/til/error/404")
     suspend fun fetchError404(): ApiResponse<JSendObj<JSendEntity>>
 
-    @GET("/api/til/jsend")
+    @GET("/api/v1/til/jsend")
     fun fetchJSendRx(): Single<JSendObj<JSendEntity>>
 
-    @GET("/api/til/goods")
+    @GET("/api/v1/til/goods")
     fun fetchGoodsRx(
         @QueryMap(encoded = true) params: Map<String, String>,
     ): Single<JSendListWithMeta<GoodsEntity, CustomMetaEntity>>
 
-    @GET("/api/til/error/404")
+    @GET("/api/v1/til/error/404")
     fun fetchError404Rx(): Single<JSendObj<JSendEntity>>
 
-    @GET("/api/android")
+    @GET("/api/v1/memo/aos")
     fun fetchAndroid(): Single<ResponseBody>
 
-    @GET("/api/til/auth/jwt/test")
+    @GET("/api/v1/til/auth/jwt/test")
     fun fetchJwtTest(
         @Query("timeDelay") delay: Int = 0
     ): Single<JSendObj<JwtTokenTestEntity>>
 
-    @GET("/api/til/auth/jwt/test1")
+    @GET("/api/v1/til/auth/jwt/test1")
     fun fetchJwtTest1(
         @Query("timeDelay") delay: Int = 0
     ): Single<JSendObj<JwtTokenTestEntity>>
 
-    @GET("/api/til/auth/jwt/test2")
+    @GET("/api/v1/til/auth/jwt/test2")
     fun fetchJwtTest2(
         @Query("timeDelay") delay: Int = 0
     ): Single<JSendObj<JwtTokenTestEntity>>

@@ -3,7 +3,8 @@ package com.features.network_v2
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.features.network_v2.model.JSendEntity
+import com.features.network_v2.models.body.ErrorBody
+import com.features.network_v2.models.entity.JSendEntity
 import com.hmju.core.models.base.onError
 import com.hmju.core.models.base.onSuccess
 import com.hmju.core.models.params.GoodsParameter
@@ -15,7 +16,6 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.launch
-import kotlinx.serialization.Serializable
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -28,21 +28,8 @@ import kotlin.random.Random
  */
 @HiltViewModel
 internal class NetworkV2FragmentViewModel @Inject constructor(
-    private val apiService: ApiService,
-    private val prefManager: PreferenceManager
+    private val apiService: ApiService
 ) : FragmentViewModel() {
-
-    @Serializable
-    data class ErrorBody(
-        val status: Boolean = false,
-        val message: Message = Message(),
-    ) {
-        @Serializable
-        data class Message(
-            val name: String = "",
-            val contents: String = "",
-        )
-    }
 
     private val _progressText: MutableLiveData<String> by lazy { MutableLiveData() }
     val progressText: LiveData<String> get() = _progressText

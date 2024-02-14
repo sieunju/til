@@ -1,4 +1,4 @@
-package com.features.network_v2.model
+package com.features.network_v2.models.entity
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class JSendEntity(
     @SerialName("id")
-    val id: Long = 0
+    val id: String = ""
 )
