@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import com.features.compose_ui.ComposeUiActivity
 import com.features.compose_ui.MemoComposeUiActivity
-import com.feature.compose_ui_bridge.ComposeUiBridge
+import com.features.compose_ui_bridge.ComposeUiBridge
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 

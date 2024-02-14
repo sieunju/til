@@ -1,7 +1,7 @@
 package com.features.main
 
 import com.features.async_migrate_bridge.AsyncMigrateBridge
-import com.feature.compose_ui_bridge.ComposeUiBridge
+import com.features.compose_ui_bridge.ComposeUiBridge
 import com.features.base_mvvm_bridge.BaseMvvmBridge
 import com.features.network_bridge.NetworkBridge
 import com.features.recyclerview_bridge.RecyclerViewBridge

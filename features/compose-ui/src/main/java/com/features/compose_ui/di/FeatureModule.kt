@@ -1,7 +1,7 @@
 package com.features.compose_ui.di
 
 import com.features.compose_ui.impl.ComposeUiBridgeImpl
-import com.feature.compose_ui_bridge.ComposeUiBridge
+import com.features.compose_ui_bridge.ComposeUiBridge
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

@@ -1,4 +1,4 @@
-package com.feature.compose_ui_bridge
+package com.features.compose_ui_bridge
 
 /**
  * Description : Compose Ui Feature Interface
