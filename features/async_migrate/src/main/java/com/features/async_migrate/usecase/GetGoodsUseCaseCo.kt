@@ -1,12 +1,12 @@
 package com.features.async_migrate.usecase
 
 import com.features.async_migrate.ApiService
-import com.hmju.async_migrate.AsyncConverterUtils.toCoroutine
 import com.hmju.core.models.base.JSendListWithMeta
 import com.hmju.core.models.base.getOrDefault
 import com.hmju.core.models.error.JSendException
 import com.hmju.core.models.goods.GoodsEntity
 import com.hmju.core.models.params.GoodsParameter
+import com.hmju.legacy.async_migrate.toCoroutine
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import javax.inject.Inject

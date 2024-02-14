@@ -12,8 +12,8 @@ android {
 
 dependencies {
     implementation(project(":core"))
-    implementation(project(":async_migrate"))
     implementation(project(":features:async_migrate_bridge"))
+    implementation(project(":legacy"))
 
     /**
      * Android X
