@@ -11,6 +11,23 @@
 - ![kotlin 1.8.0](https://img.shields.io/badge/Kotlin/1.8.0-7F52FF?style=flat-square&logo=Kotlin&logoColor=white)
 - ![Hilt 2.45](https://img.shields.io/badge/Hilt-2.45-red.svg)
 
+## ✔ 사용법
+- local.properties 셋팅
+```properties
+base_url="https://til.qtzz.synology.me"
+auth_type="Bearer"
+keystore.release.file_path=../keystore/til.jks
+keystore.release.store_password=til1234qwer
+keystore.release.key_alias=til
+keystore.release.key_password=til1234qwer
+```
+
+## ✔ 규칙
+- 네트워크 통신시 Raw 단의 데이터 모델의 패키지 구조
+  - models.entity
+  - models.body
+  - models.meta
+
 ## ✔ 스펙
 - Multi Module
 - Dependency Inject

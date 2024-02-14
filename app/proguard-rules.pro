@@ -51,6 +51,9 @@
 -keep class com.features.*.models.body.** { *; }
 -keepclassmembers class com.features.*.models.body.** { *;}
 
+-keep class com.features.*.models.meta.** { *; }
+-keepclassmembers class com.features.*.models.meta.** { *;}
+
 # -keep,allowobfuscation,allowshrinking class com.features.*.models.entity.**
 # R8 full mode strips signatures from non-kept items.
 -keep,allowobfuscation,allowshrinking interface com.hmju.core.models.base.ApiResponse
