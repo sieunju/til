@@ -6,6 +6,7 @@ import com.hmju.core.ui.base.BaseUiModel
 import com.hmju.core.ui.base.BaseViewModel
 import com.hmju.core.ui.diffutil.BaseDiffUtilV2
 import com.hmju.core.ui.viewholders.BaseViewHolder
+import timber.log.Timber
 import kotlin.reflect.KClass
 import kotlin.reflect.full.primaryConstructor
 
@@ -18,6 +19,14 @@ class ItemListAdapterV2 : ListAdapter<BaseUiModel, BaseViewHolder<*>>(BaseDiffUt
 
     private val viewHolderTypeMap: MutableMap<Int, KClass<out BaseViewHolder<*>>> = mutableMapOf()
     private var viewModel: BaseViewModel? = null
+
+    /**
+     * Set ViewModel
+     * @param viewModel ViewModel
+     */
+    fun setViewModel(viewModel: BaseViewModel?) {
+        this.viewModel = viewModel
+    }
 
     /**
      * 데이터가 변경되었을때 이전 데이터들 비교하여 갱신 처리 함수
@@ -69,9 +78,11 @@ class ItemListAdapterV2 : ListAdapter<BaseUiModel, BaseViewHolder<*>>(BaseDiffUt
     private fun getViewHolderType(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
         val viewHolderType = viewHolderTypeMap[viewType]
             ?: throw NullPointerException("ViewHolderMap Not Found")
+        Timber.d("getViewHolderType $viewHolderType")
         val findConstructor = viewHolderType.primaryConstructor
             ?: throw IllegalArgumentException("Not Found PrimaryConstructor")
         return if (findConstructor.parameters.size == 1) {
+            Timber.d("getViewHolderType $viewHolderType")
             // Parent Type
             findConstructor.call(parent)
         } else {

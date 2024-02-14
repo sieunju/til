@@ -13,6 +13,5 @@ interface LoginManager {
     fun setRefreshToken(token: String)
     fun getRefreshToken(): String
     fun isLogin(): Boolean
-    fun rxIsLogin(): Single<Boolean>
     fun getTokenExpiredMs(): Long
 }

@@ -21,6 +21,7 @@ class DiffUtil2Fragment : BaseFragment<FDiffUtil2Binding, DiffUtil2ViewModel>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        adapter.setViewModel(viewModel)
         binding.rvContents.adapter = adapter
         with(viewModel) {
             dataList.observe(viewLifecycleOwner) { adapter.submitList(it) }

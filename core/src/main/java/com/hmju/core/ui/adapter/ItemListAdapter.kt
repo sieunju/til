@@ -23,6 +23,14 @@ class ItemListAdapter : RecyclerView.Adapter<BaseViewHolder<*>>() {
     private var viewModel: BaseViewModel? = null
 
     /**
+     * Set ViewModel
+     * @param viewModel ViewModel
+     */
+    fun setViewModel(viewModel: BaseViewModel?) {
+        this.viewModel = viewModel
+    }
+
+    /**
      * 데이터가 변경되었을때 이전 데이터들 비교하여 갱신 처리 함수
      * @param newList oldList + 새로운 데이터 리스트
      */

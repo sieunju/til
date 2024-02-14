@@ -4,14 +4,12 @@ import android.util.Base64
 import androidx.core.content.edit
 import com.hmju.core.BuildConfig
 import com.hmju.core.pref.PreferenceManager
-import io.reactivex.rxjava3.core.Single
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import kotlinx.serialization.json.long
-import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -56,7 +54,6 @@ class LoginManagerImpl @Inject constructor(
             putLong(PreferenceManager.KEY_TOKEN_EXPIRED_MS, expiredMs)
             putString(PreferenceManager.KEY_TOKEN, token)
         }
-        Timber.d("setAccessToken $token")
     }
 
     override fun getToken(): String {
@@ -69,7 +66,6 @@ class LoginManagerImpl @Inject constructor(
     override fun setRefreshToken(
         token: String
     ) {
-        Timber.d("setRefreshToken $token")
         prefManager.setValue(PreferenceManager.KEY_REFRESH_TOKEN, token)
     }
 
@@ -79,10 +75,6 @@ class LoginManagerImpl @Inject constructor(
 
     override fun isLogin(): Boolean {
         return getToken().isNotEmpty()
-    }
-
-    override fun rxIsLogin(): Single<Boolean> {
-        return Single.just(getToken().isNotEmpty())
     }
 
     override fun getTokenExpiredMs(): Long {

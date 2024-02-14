@@ -12,7 +12,6 @@ import com.hmju.core.ui.base.BaseActivity
 import com.hmju.core.ui.base.IntentKey
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.kotlin.addTo
-import io.reactivex.rxjava3.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -110,7 +109,7 @@ class MvvmLifecycleTestViewModel @Inject constructor(
     }
 
     fun movePermission() {
-        savedStateHandle.set(BaseActivity.RES_CODE, Activity.RESULT_OK)
+        setResultSaveData(BaseActivity.RES_CODE,Activity.RESULT_OK)
     }
 
     override fun onDirectCreatedToResumed() {
@@ -123,13 +122,6 @@ class MvvmLifecycleTestViewModel @Inject constructor(
 
     private fun testResumeOne() {
         Timber.d("resume One")
-        loginManager.rxIsLogin()
-            .subscribeOn(Schedulers.computation())
-            .subscribe({
-                Timber.d("Is Login $it")
-            }, {
-
-            }).addTo(compositeDisposable)
     }
 
     private fun testResumeTwo() {
