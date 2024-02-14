@@ -62,4 +62,4 @@ detekt/detekt.**
 appRelease/release_note.txt
 
 # keystore
-keystore/*
+# keystore/*
