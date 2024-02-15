@@ -1,9 +1,9 @@
 package com.features.async_migrate
 
+import com.features.async_migrate.models.entity.GoodsEntity
+import com.features.async_migrate.models.meta.CustomMetaEntity
 import com.hmju.core.models.base.ApiResponse
 import com.hmju.core.models.base.JSendListWithMeta
-import com.hmju.core.models.goods.GoodsEntity
-import com.hmju.core.models.meta.CustomMetaEntity
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
 import retrofit2.http.QueryMap

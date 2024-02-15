@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="item"
-            type="com.hmju.core.models.goods.GoodsEntity" />
+            name="model"
+            type="com.features.recyclerview.models.ui.GoodsModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -33,7 +33,7 @@
                     android:adjustViewBounds="true"
                     android:scaleType="centerCrop"
                     app:cornerSize="30dp"
-                    app:imgPath="@{item.imagePath}"
+                    app:imgPath="@{model.imagePath}"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:src="@tools:sample/backgrounds/scenic" />
 
@@ -44,7 +44,7 @@
                     android:elevation="6dp"
                     android:ellipsize="end"
                     android:maxLines="2"
-                    app:htmlText="@{item.message}" />
+                    app:htmlText="@{model.message}" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

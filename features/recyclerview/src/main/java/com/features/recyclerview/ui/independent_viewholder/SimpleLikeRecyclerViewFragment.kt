@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.features.recyclerview.BR
 import com.features.recyclerview.R
 import com.features.recyclerview.databinding.FSimpleLikeRecyclerviewBinding
-import com.features.recyclerview.models.entity.GoodsEntity
+import com.features.recyclerview.models.ui.GoodsModel
 import com.features.recyclerview.usecase.GetGoodsUseCase
-import com.hmju.core.models.params.GoodsParameter
+import com.hmju.core.models.params.PagingParams
 import com.hmju.core.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -36,13 +36,13 @@ class SimpleLikeRecyclerViewFragment :
     @Inject
     lateinit var getGoodsListUseCase: GetGoodsUseCase
 
-    private val oneTypeParams = GoodsParameter()
-    private val twoTypeParams = GoodsParameter()
+    private val oneTypeParams = PagingParams()
+    private val twoTypeParams = PagingParams()
 
     private val oneAdapter = Adapter(true)
     private val twoAdapter = Adapter(false)
-    private val oneList: MutableList<GoodsEntity> by lazy { mutableListOf() }
-    private val twoList: MutableList<GoodsEntity> by lazy { mutableListOf() }
+    private val oneList: MutableList<GoodsModel> by lazy { mutableListOf() }
+    private val twoList: MutableList<GoodsModel> by lazy { mutableListOf() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -93,8 +93,8 @@ class SimpleLikeRecyclerViewFragment :
 
         companion object {
             class SimpleLikeDiffUtil(
-                private val oldList: List<GoodsEntity>,
-                private val newList: List<GoodsEntity>
+                private val oldList: List<GoodsModel>,
+                private val newList: List<GoodsModel>
             ) : DiffUtil.Callback() {
                 override fun getOldListSize(): Int {
                     return oldList.size
@@ -117,9 +117,9 @@ class SimpleLikeRecyclerViewFragment :
             }
         }
 
-        private val dataList: MutableList<GoodsEntity> by lazy { mutableListOf() }
+        private val dataList: MutableList<GoodsModel> by lazy { mutableListOf() }
 
-        fun submitList(newList: List<GoodsEntity>?) {
+        fun submitList(newList: List<GoodsModel>?) {
             if (newList == null) return
 
             val diffResult = DiffUtil.calculateDiff(SimpleLikeDiffUtil(dataList, newList))
@@ -169,10 +169,6 @@ class SimpleLikeRecyclerViewFragment :
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             runCatching {
                 if (holder is BaseSimpleLikeViewHolder<*>) {
-                    holder.onBindView(dataList[position])
-                } else if (holder is SimpleLike3ViewHolder) {
-                    holder.onBindView(dataList[position])
-                } else if (holder is SimpleLike4ViewHolder) {
                     holder.onBindView(dataList[position])
                 }
             }

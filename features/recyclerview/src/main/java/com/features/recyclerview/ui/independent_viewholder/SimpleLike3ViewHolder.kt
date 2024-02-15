@@ -13,7 +13,7 @@ class SimpleLike3ViewHolder(
 ) {
 
     override fun onBindView(item: Any) {
-        binding.setVariable(BR.item, item)
+        binding.setVariable(BR.model, item)
     }
 
     override fun onRefreshLike() {

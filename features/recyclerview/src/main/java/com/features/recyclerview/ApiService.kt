@@ -2,13 +2,13 @@ package com.features.recyclerview
 
 import com.features.recyclerview.models.entity.GoodsEntity
 import com.features.recyclerview.models.entity.LikeEntity
+import com.features.recyclerview.models.meta.CustomMetaEntity
 import com.hmju.core.models.base.ApiResponse
 import com.hmju.core.models.base.JSendList
 import com.hmju.core.models.base.JSendListWithMeta
 import com.hmju.core.models.base.JSendObj
 import com.hmju.core.models.base.MetaEntity
 import com.hmju.core.models.body.LikeRequestBody
-import com.hmju.core.models.meta.CustomMetaEntity
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.*
 

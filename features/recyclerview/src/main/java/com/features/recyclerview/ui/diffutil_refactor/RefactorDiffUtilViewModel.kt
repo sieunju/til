@@ -2,11 +2,11 @@ package com.features.recyclerview.ui.diffutil_refactor
 
 import androidx.lifecycle.viewModelScope
 import com.features.recyclerview.ApiService
-import com.features.recyclerview.models.entity.GoodsEntity
 import com.features.recyclerview.models.GoodsOneUiModel
 import com.features.recyclerview.models.GoodsTwoUiModel
+import com.features.recyclerview.models.ui.GoodsModel
 import com.features.recyclerview.usecase.GetGoodsCoUseCase
-import com.hmju.core.models.params.GoodsParameter
+import com.hmju.core.models.params.PagingParams
 import com.hmju.core.ui.base.BaseUiModel
 import com.hmju.core.ui.base.FragmentViewModel
 import com.hmju.core.ui.livedata.ListLiveData
@@ -42,7 +42,7 @@ class RefactorDiffUtilViewModel @Inject constructor(
     val dataList: ListLiveData<BaseUiModel> get() = _dataList
 
     val pagingModel: PagingModel by lazy { PagingModel() }
-    private val queryMap: GoodsParameter by lazy { GoodsParameter() }
+    private val queryMap: PagingParams by lazy { PagingParams() }
 
     override fun onDirectViewCreated() {
         super.onDirectViewCreated()
@@ -121,7 +121,7 @@ class RefactorDiffUtilViewModel @Inject constructor(
         }
     }
 
-    private fun List<GoodsEntity>.toUiModel(): List<BaseUiModel> {
+    private fun List<GoodsModel>.toUiModel(): List<BaseUiModel> {
         val list = mutableListOf<BaseUiModel>()
         this.forEach {
             if (Random.nextBoolean()) {
@@ -159,9 +159,9 @@ class RefactorDiffUtilViewModel @Inject constructor(
      */
     fun onItemTheSame(oldItem: Any, newItem: Any): Boolean {
         return if (oldItem is GoodsOneUiModel && newItem is GoodsOneUiModel) {
-            oldItem.item.id == newItem.item.id
+            oldItem.model.id == newItem.model.id
         } else if (oldItem is GoodsTwoUiModel && newItem is GoodsTwoUiModel) {
-            oldItem.item.id == newItem.item.id
+            oldItem.model.id == newItem.model.id
         } else {
             false
         }
@@ -172,9 +172,9 @@ class RefactorDiffUtilViewModel @Inject constructor(
      */
     fun onContentsTheSame(oldItem: Any, newItem: Any): Boolean {
         return if (oldItem is GoodsOneUiModel && newItem is GoodsOneUiModel) {
-            oldItem.item == newItem.item
+            oldItem.model == newItem.model
         } else if (oldItem is GoodsTwoUiModel && newItem is GoodsTwoUiModel) {
-            oldItem.item == newItem.item
+            oldItem.model == newItem.model
         } else {
             false
         }

@@ -12,7 +12,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import com.features.recyclerview.entrypoint.SimpleLikeEntryPoint
-import com.features.recyclerview.models.entity.GoodsEntity
+import com.features.recyclerview.models.ui.GoodsModel
 import com.features.recyclerview.usecase.AddLikeUseCase
 import com.features.recyclerview.usecase.RemoveLikeUseCase
 import com.hmju.core.like_manager.LikeManager
@@ -23,7 +23,6 @@ import com.hmju.core.ui.viewholders.BaseViewHolder
 import dagger.hilt.EntryPoints
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.Disposable
-import timber.log.Timber
 
 /**
  * Description : Base Like ViewHolder Class
@@ -76,21 +75,18 @@ abstract class BaseSimpleLikeViewHolder<T : ViewDataBinding>(
         }
         likeChangeDisposable = RxBus.listen(SimpleLikeEvent::class.java)
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                onRefreshLike()
-            }, {
-                Timber.e("LikeChange Error $it")
-            })
+            .doOnNext { onRefreshLike() }
+            .subscribe()
     }
 
-    protected fun simpleLikeClick(view: View, item: GoodsEntity?) {
+    protected fun simpleLikeClick(view: View, item: GoodsModel?) {
         if (item == null) return
 
         view.isSelected = !view.isSelected
         requestLike(view.isSelected, item)
     }
 
-    protected fun simpleLikeChange(view: View, item: GoodsEntity?) {
+    protected fun simpleLikeChange(view: View, item: GoodsModel?) {
         if (item == null) return
 
         // 좋아요 표시를 해야 하는 아이템
@@ -109,7 +105,7 @@ abstract class BaseSimpleLikeViewHolder<T : ViewDataBinding>(
      * @param isAdd 추가 / 해제
      * @param item 좋아요 하는 상품 데이터
      */
-    private fun requestLike(isAdd: Boolean, item: GoodsEntity) {
+    private fun requestLike(isAdd: Boolean, item: GoodsModel) {
         if (likeRequestDisposable != null) {
             closeRequestDisposable()
         }
@@ -119,15 +115,14 @@ abstract class BaseSimpleLikeViewHolder<T : ViewDataBinding>(
 
         likeRequestDisposable = reqApi
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                if (isAdd) {
-                    Toast.makeText(itemView.context, "좋아요", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(itemView.context, "싫어요", Toast.LENGTH_SHORT).show()
-                }
-            }, {
-                Timber.e("Error $it")
-            })
+            .doOnSuccess {
+                Toast.makeText(
+                    itemView.context,
+                    if (isAdd) "좋아요" else "좋아요 취소",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            .subscribe()
     }
 
     /**
@@ -158,19 +153,4 @@ abstract class BaseSimpleLikeViewHolder<T : ViewDataBinding>(
             closeRequestDisposable()
         }
     }
-
-//    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-//    private fun onResume() {
-//        if (itemView.isAttachedToWindow) {
-//            onRefreshLike()
-//        }
-//
-//        initLikeChange()
-//    }
-//
-//    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-//    private fun onStop() {
-//        closeLikeChangeDisposable()
-//        closeRequestDisposable()
-//    }
 }

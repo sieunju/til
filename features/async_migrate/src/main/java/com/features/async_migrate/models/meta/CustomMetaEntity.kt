@@ -1,13 +1,8 @@
-package com.hmju.core.models.meta
+package com.features.async_migrate.models.meta
 
 import com.hmju.core.models.base.MetaEntity
 import kotlinx.serialization.Serializable
 
-/**
- * Description :
- *
- * Created by juhongmin on 2022/01/25
- */
 @Serializable
 data class CustomMetaEntity(
     val metaSize : Int = 0,

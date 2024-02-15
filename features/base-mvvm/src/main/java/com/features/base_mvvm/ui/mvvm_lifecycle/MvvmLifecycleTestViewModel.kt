@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.features.base_mvvm.usecase.GetGoodsUseCase
 import com.hmju.core.login_manager.LoginManager
-import com.hmju.core.models.params.GoodsParameter
+import com.hmju.core.models.params.PagingParams
 import com.hmju.core.ui.base.ActivityViewModel
 import com.hmju.core.ui.base.BaseActivity
 import com.hmju.core.ui.base.IntentKey
@@ -33,13 +33,10 @@ class MvvmLifecycleTestViewModel @Inject constructor(
 
     override fun onDirectCreate() {
         super.onDirectCreate()
-        val queryMap = GoodsParameter()
+        val queryMap = PagingParams()
         getGoodsUseCase(queryMap)
-            .subscribe({
-                println("List $it")
-            }, {
-
-            }).addTo(compositeDisposable)
+            .doOnSuccess { println("List $it") }
+            .subscribe().addTo(compositeDisposable)
     }
 
     override fun onIntent() {
@@ -47,50 +44,21 @@ class MvvmLifecycleTestViewModel @Inject constructor(
         Timber.d("[s] onCreate Intent Data ===============================================")
         val builder = StringBuilder()
         savedStateHandle.keys().forEach {
-            Timber.d("Key $it Value ${savedStateHandle.get<Any>(it)}")
-            builder.append("Key $it Value ${savedStateHandle.get<Any>(it)}\n")
+            Timber.d("Key $it Value ${getIntentData<Any>(it)}")
+            builder.append("Key $it Value ${getIntentData<Any>(it)}\n")
         }
         _contents.value = builder.toString()
         Timber.d("[s] onCreate Intent Data ===============================================")
     }
 
     fun onRandomToken() {
-        savedStateHandle.set("HiKey", "dddfefefeffe")
-        savedStateHandle.set("Hello....", System.currentTimeMillis())
-        savedStateHandle.set(IntentKey.TOKEN, "ChangeResult")
-    }
-
-    fun onClick1() {
-
-    }
-
-    fun onClick3() {
-//        movePage(
-//            MovePageEvent(
-//                target = MvvmLifecycleTest2Activity::class.java,
-//                bundle = Bundle().apply {
-//                    putString(IntentKey.TOKEN, loginManager.getToken())
-//                    putLong(IntentKey.NOW_TIME, System.currentTimeMillis())
-//                },
-//                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_REORDER_TO_FRONT,
-//                requestCode = RequestCode.MVVM_LIFECYCLE_2
-//            )
-//        )
+        setResultSaveData("HiKey", "dddfefefeffe")
+        setResultSaveData("Hello....", System.currentTimeMillis())
+        setResultSaveData(IntentKey.TOKEN, "ChangeResult")
     }
 
     fun movePage2Req222() {
         startMovePageEvent.value = null
-
-//        loginManager.setToken("Token ${System.currentTimeMillis()}_${Random.nextBytes(10000)}")
-//        RxActivityResultEvent.publish(
-//            ActivityResult(
-//                3001,
-//                RefactorBaseTestActivity::class,
-//                flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT,
-//                data = Bundle().apply {
-//                    putString(IntentKey.TOKEN, loginManager.getToken())
-//                }
-//            ))
     }
 
     override fun onActivityResult(reqCode: Int, resCode: Int, data: Bundle) {
@@ -109,7 +77,7 @@ class MvvmLifecycleTestViewModel @Inject constructor(
     }
 
     fun movePermission() {
-        setResultSaveData(BaseActivity.RES_CODE,Activity.RESULT_OK)
+        setResultSaveData(BaseActivity.RES_CODE, Activity.RESULT_OK)
     }
 
     override fun onDirectCreatedToResumed() {

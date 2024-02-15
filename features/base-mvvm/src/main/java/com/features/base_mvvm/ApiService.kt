@@ -1,8 +1,8 @@
 package com.features.base_mvvm
 
+import com.features.base_mvvm.models.entity.GoodsEntity
+import com.features.base_mvvm.models.meta.CustomMetaEntity
 import com.hmju.core.models.base.JSendListWithMeta
-import com.hmju.core.models.goods.GoodsEntity
-import com.hmju.core.models.meta.CustomMetaEntity
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
 import retrofit2.http.QueryMap
@@ -15,6 +15,6 @@ import retrofit2.http.QueryMap
 interface ApiService {
     @GET("/api/til/goods")
     fun fetchGoods(
-        @QueryMap(encoded = true) params: Map<String,String>
+        @QueryMap(encoded = true) params: Map<String, String>
     ): Single<JSendListWithMeta<GoodsEntity, CustomMetaEntity>>
 }

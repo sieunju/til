@@ -10,6 +10,7 @@ import com.features.recyclerview.BR
 import com.features.recyclerview.R
 import com.features.recyclerview.databinding.FCustomPagingBinding
 import com.features.recyclerview.models.entity.GoodsEntity
+import com.features.recyclerview.models.ui.GoodsModel
 import com.features.recyclerview.ui.independent_viewholder.BaseSimpleLikeViewHolder
 import com.features.recyclerview.ui.independent_viewholder.SimpleLike1ViewHolder
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,8 +45,8 @@ class CustomPagingFragment : BaseFragment<FCustomPagingBinding, CustomPagingView
 
         companion object {
             class CustomPagingDiffUtil(
-                private val oldList: List<GoodsEntity>,
-                private val newList: List<GoodsEntity>
+                private val oldList: List<GoodsModel>,
+                private val newList: List<GoodsModel>
             ) : DiffUtil.Callback() {
                 override fun getOldListSize(): Int {
                     return oldList.size
@@ -68,9 +69,9 @@ class CustomPagingFragment : BaseFragment<FCustomPagingBinding, CustomPagingView
             }
         }
 
-        private val dataList: MutableList<GoodsEntity> by lazy { mutableListOf() }
+        private val dataList: MutableList<GoodsModel> by lazy { mutableListOf() }
 
-        fun submitList(newList: List<GoodsEntity>?) {
+        fun submitList(newList: List<GoodsModel>?) {
             if (newList == null) return
 
             val diffResult = DiffUtil.calculateDiff(

@@ -1,9 +1,9 @@
 package com.features.recyclerview.usecase
 
 import com.features.recyclerview.ApiService
-import com.features.recyclerview.models.entity.GoodsEntity
-import com.hmju.core.models.base.ApiResponse
-import com.hmju.core.models.params.GoodsParameter
+import com.features.recyclerview.models.ui.GoodsModel
+import com.hmju.core.models.base.getOrNull
+import com.hmju.core.models.params.PagingParams
 import kotlinx.coroutines.delay
 import javax.inject.Inject
 
@@ -16,16 +16,13 @@ class GetGoodsCoUseCase @Inject constructor(
     private val apiService: ApiService
 ) {
     suspend operator fun invoke(
-        params: GoodsParameter,
+        params: PagingParams,
         delay: Long
-    ): List<GoodsEntity> {
-        val response = apiService.fetchGoodsCo(params.getQueryParameter())
+    ): List<GoodsModel> {
+        val response = apiService.fetchGoodsCo(
+            params.getQueryMap()
+        ).getOrNull()
         delay(delay)
-        // return response
-        return if (response is ApiResponse.Success) {
-            response.data.payload
-        } else {
-            emptyList()
-        }
+        return response?.payload?.map { GoodsModel(it) } ?: listOf()
     }
 }

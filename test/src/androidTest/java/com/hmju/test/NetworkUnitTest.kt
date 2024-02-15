@@ -1,7 +1,6 @@
 package com.hmju.test
 
 import com.features.recyclerview.usecase.GetGoodsUseCase
-import com.hmju.core.models.params.GoodsParameter
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before

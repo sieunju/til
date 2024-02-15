@@ -1,7 +1,7 @@
 package com.features.recyclerview.models
 
 import com.features.recyclerview.R
-import com.features.recyclerview.models.entity.GoodsEntity
+import com.features.recyclerview.models.ui.GoodsModel
 import com.features.recyclerview.ui.independent_viewholder.SimpleLike1ViewHolder
 import com.features.recyclerview.ui.independent_viewholder.SimpleLike2ViewHolder
 import com.hmju.core.ui.base.BaseUiModel
@@ -14,14 +14,14 @@ import kotlin.reflect.KClass
  * Created by juhongmin on 2022/02/16
  */
 data class GoodsOneUiModel(
-    val item: GoodsEntity
+    val model: GoodsModel
 ) : BaseUiModel(R.layout.vh_simple_like_recyclerview_1) {
 
     override fun getClassName() = "GoodsOneUiModel"
 
     override fun areItemsTheSame(diffItem: Any): Boolean {
         return if (diffItem is GoodsOneUiModel) {
-            item.id == diffItem.item.id
+            model.id == diffItem.model.id
         } else {
             false
         }
@@ -29,7 +29,7 @@ data class GoodsOneUiModel(
 
     override fun areContentsTheSame(diffItem: Any): Boolean {
         return if (diffItem is GoodsOneUiModel) {
-            item == diffItem.item
+            model == diffItem.model
         } else {
             false
         }
@@ -41,14 +41,14 @@ data class GoodsOneUiModel(
 }
 
 data class GoodsTwoUiModel(
-    val item: GoodsEntity
+    val model: GoodsModel
 ) : BaseUiModel(R.layout.vh_simple_like_recyclerview_2) {
 
     override fun getClassName() = "GoodsTwoUiModel"
 
     override fun areItemsTheSame(diffItem: Any): Boolean {
         return if (diffItem is GoodsTwoUiModel) {
-            item.id == diffItem.item.id
+            model.id == diffItem.model.id
         } else {
             false
         }
@@ -56,7 +56,7 @@ data class GoodsTwoUiModel(
 
     override fun areContentsTheSame(diffItem: Any): Boolean {
         return if (diffItem is GoodsTwoUiModel) {
-            item == diffItem.item
+            model == diffItem.model
         } else {
             false
         }

@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.features.base_mvvm.usecase.GetGoodsUseCase
 import com.hmju.core.login_manager.LoginManager
-import com.hmju.core.models.params.GoodsParameter
+import com.hmju.core.models.params.PagingParams
 import com.hmju.core.ui.base.ActivityResult
 import com.hmju.core.ui.base.FragmentViewModel
 import com.hmju.core.ui.base.IntentKey
@@ -25,7 +25,7 @@ class LifecycleViewModel @Inject constructor(
 
     private val _activityResult: MutableLiveData<String> by lazy { MutableLiveData() }
     val activityResult: LiveData<String> get() = _activityResult
-    private val queryMap: GoodsParameter by lazy { GoodsParameter() }
+    private val queryMap: PagingParams by lazy { PagingParams() }
 
     override fun onDirectViewCreated() {
         super.onDirectViewCreated()
@@ -58,12 +58,12 @@ class LifecycleViewModel @Inject constructor(
         when (reqCode) {
             200 -> {
                 _activityResult.value =
-                    "${200}_${data?.getString(IntentKey.TOKEN)}, ${data?.getLong(IntentKey.NOW_TIME)}"
+                    "${200}_${data.getString(IntentKey.TOKEN)}, ${data.getLong(IntentKey.NOW_TIME)}"
             }
 
             201 -> {
                 _activityResult.value =
-                    "${201}_${data?.getString(IntentKey.TOKEN)}, ${data?.getLong(IntentKey.NOW_TIME)}"
+                    "${201}_${data.getString(IntentKey.TOKEN)}, ${data.getLong(IntentKey.NOW_TIME)}"
             }
         }
     }

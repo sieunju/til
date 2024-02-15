@@ -2,14 +2,13 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("dagger.hilt.android.plugin")
+    id("kotlinx-serialization")
     kotlin("kapt")
 }
 
 android {
     namespace = "com.features.base_mvvm"
-    buildFeatures {
-        dataBinding = true
-    }
+    dataBinding { enable = true }
 }
 
 dependencies {
@@ -52,6 +51,11 @@ dependencies {
      * Network
      */
     implementation(Retrofit.base)
+
+    /**
+     * Kotlinx Serialization
+     */
+    implementation(KotlinX.serialization)
 
     /**
      * Unit Test

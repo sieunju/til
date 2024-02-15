@@ -22,19 +22,19 @@ class SimpleLike2ViewHolder(
 
     init {
         binding.imgLike.setOnClickListener {
-            simpleLikeClick(it, binding.item)
+            simpleLikeClick(it, binding.model)
         }
     }
 
     override fun onBindView(item: Any) {
         if (item is GoodsTwoUiModel) {
-            binding.setVariable(BR.item, item.item)
+            binding.setVariable(BR.model, item.model)
         } else {
-            binding.setVariable(BR.item, item)
+            binding.setVariable(BR.model, item)
         }
     }
 
     override fun onRefreshLike() {
-        simpleLikeChange(binding.imgLike, binding.item)
+        simpleLikeChange(binding.imgLike, binding.model)
     }
 }

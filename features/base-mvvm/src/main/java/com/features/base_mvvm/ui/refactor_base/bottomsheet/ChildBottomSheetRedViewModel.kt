@@ -3,7 +3,7 @@ package com.features.base_mvvm.ui.refactor_base.bottomsheet
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.features.base_mvvm.usecase.GetGoodsUseCase
-import com.hmju.core.models.params.GoodsParameter
+import com.hmju.core.models.params.PagingParams
 import com.hmju.core.ui.base.FragmentViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -29,12 +29,10 @@ class ChildBottomSheetRedViewModel @Inject constructor(
     }
 
     private fun startAddLike() {
-        val queryMap = GoodsParameter()
+        val queryMap = PagingParams()
         getGoodsUseCase(queryMap)
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                _longText.value = it.joinToString(",")
-            }, {
-            }).addTo(compositeDisposable)
+            .doOnSuccess { _longText.value = it.joinToString(",") }
+            .subscribe().addTo(compositeDisposable)
     }
 }

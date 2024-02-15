@@ -1,10 +1,11 @@
 package com.features.recyclerview.ui.independent_viewholder
 
 import android.view.ViewGroup
-import com.features.recyclerview.R
 import com.features.recyclerview.BR
+import com.features.recyclerview.R
 import com.features.recyclerview.databinding.VhSimpleLikeRecyclerview1Binding
 import com.features.recyclerview.models.GoodsOneUiModel
+import com.features.recyclerview.models.GoodsTwoUiModel
 
 
 /**
@@ -21,33 +22,19 @@ class SimpleLike1ViewHolder(
 
     init {
         binding.imgLike.setOnClickListener {
-            simpleLikeClick(it, binding.item)
-        }
-
-        itemView.setOnClickListener {
-//            RxActivityResultEvent.publish(
-//                ActivityResult(
-//                    3001,
-//                    MainActivity::class,
-//                    flags = Intent.FLAG_ACTIVITY_CLEAR_TOP,
-//                    data = bundleOf(
-//                        "illl" to "QQQ",
-//                        "111" to "erer"
-//                    )
-//                )
-//            )
+            simpleLikeClick(it, binding.model)
         }
     }
 
     override fun onBindView(item: Any) {
         if (item is GoodsOneUiModel) {
-            binding.setVariable(BR.item, item.item)
-        } else {
-            binding.setVariable(BR.item, item)
+            binding.setVariable(BR.model, item.model)
+        } else if (item is GoodsTwoUiModel) {
+            binding.setVariable(BR.model, item.model)
         }
     }
 
     override fun onRefreshLike() {
-        simpleLikeChange(binding.imgLike, binding.item)
+        simpleLikeChange(binding.imgLike, binding.model)
     }
 }

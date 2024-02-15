@@ -1,10 +1,10 @@
 package com.features.async_migrate.usecase
 
 import com.features.async_migrate.ApiService
+import com.features.async_migrate.models.entity.GoodsEntity
+import com.features.async_migrate.models.meta.CustomMetaEntity
 import com.hmju.core.models.base.JSendListWithMeta
-import com.hmju.core.models.goods.GoodsEntity
-import com.hmju.core.models.meta.CustomMetaEntity
-import com.hmju.core.models.params.GoodsParameter
+import com.hmju.core.models.params.PagingParams
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
@@ -17,8 +17,8 @@ class GetGoodsUseCaseRx @Inject constructor(
     private val apiService: ApiService
 ) {
     operator fun invoke(
-        params: GoodsParameter
+        params: PagingParams
     ): Single<JSendListWithMeta<GoodsEntity, CustomMetaEntity>> {
-        return apiService.fetchGoods(params.getQueryParameter())
+        return apiService.fetchGoods(params.getQueryMap())
     }
 }

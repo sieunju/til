@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.lifecycle.MutableLiveData
 import com.features.base_mvvm.usecase.GetGoodsUseCase
 import com.hmju.core.login_manager.LoginManager
-import com.hmju.core.models.params.GoodsParameter
+import com.hmju.core.models.params.PagingParams
 import com.hmju.core.ui.base.ActivityViewModel
 import com.hmju.core.ui.base.IntentKey
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -40,12 +40,8 @@ class MvvmLifecycleTest2ViewModel @Inject constructor(
     }
 
     fun changeToken() {
-        getGoodsUseCase(GoodsParameter())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-            }, {
-
-            }).addTo(compositeDisposable)
+        getGoodsUseCase(PagingParams())
+            .subscribe().addTo(compositeDisposable)
     }
 
     fun moveTest3Page() {

@@ -1,8 +1,8 @@
 package com.features.network
 
 import com.features.network.models.entity.JSendTestEntity
+import com.features.network.models.meta.CustomMetaEntity
 import com.hmju.core.models.base.*
-import com.hmju.core.models.meta.CustomMetaEntity
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
 import retrofit2.http.POST
