@@ -1,6 +1,7 @@
 package com.hmju.test
 
 import com.features.recyclerview.usecase.GetGoodsUseCase
+import com.hmju.core.models.params.PagingQueryParams
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
@@ -29,8 +30,8 @@ class NetworkUnitTest {
 
     @Test
     fun testNetworkStart() {
-        val result = getGoodsUseCase(GoodsParameter())
-            .flatMap { getGoodsUseCase(GoodsParameter()) }
+        val result = getGoodsUseCase(PagingQueryParams())
+            .flatMap { getGoodsUseCase(PagingQueryParams()) }
             .blockingGet()
         println("네트워크 TEST ${result.size}")
     }
