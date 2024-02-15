@@ -3,7 +3,7 @@ package com.features.recyclerview.ui.diffutil_v2
 import com.features.recyclerview.models.GoodsOneUiModel
 import com.features.recyclerview.models.GoodsTwoUiModel
 import com.features.recyclerview.usecase.GetGoodsUseCase
-import com.hmju.core.models.params.PagingParams
+import com.hmju.core.models.params.PagingQueryParams
 import com.hmju.core.ui.base.BaseUiModel
 import com.hmju.core.ui.base.FragmentViewModel
 import com.hmju.core.ui.livedata.ListLiveData
@@ -24,7 +24,7 @@ class DiffUtil2ViewModel @Inject constructor(
     val dataList: ListLiveData<BaseUiModel> get() = _dataList
 
     val pagingModel: PagingModel by lazy { PagingModel() }
-    private val queryMap: PagingParams by lazy { PagingParams() }
+    private val queryMap: PagingQueryParams by lazy { PagingQueryParams() }
 
     override fun onDirectViewCreated() {
         super.onDirectViewCreated()

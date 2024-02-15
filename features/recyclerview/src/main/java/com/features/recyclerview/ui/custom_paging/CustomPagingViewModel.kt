@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.features.recyclerview.models.ui.GoodsModel
 import com.features.recyclerview.usecase.GetGoodsUseCase
-import com.hmju.core.models.params.PagingParams
+import com.hmju.core.models.params.PagingQueryParams
 import com.hmju.core.ui.base.FragmentViewModel
 import com.hmju.core.ui.livedata.ListLiveData
 import com.hmju.core.ui.paging.PagingModel
@@ -28,7 +28,7 @@ class CustomPagingViewModel @Inject constructor(
     val dataList: ListLiveData<GoodsModel> get() = _dataList
 
     val pagingModel: PagingModel by lazy { PagingModel() }
-    private val queryMap: PagingParams by lazy { PagingParams() }
+    private val queryMap: PagingQueryParams by lazy { PagingQueryParams() }
 
     fun start() {
         getGoodsUseCase(queryMap)

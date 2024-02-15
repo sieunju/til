@@ -7,7 +7,7 @@ import com.features.network_v2.models.body.ErrorBody
 import com.features.network_v2.models.entity.JSendEntity
 import com.hmju.core.models.base.onError
 import com.hmju.core.models.base.onSuccess
-import com.hmju.core.models.params.PagingParams
+import com.hmju.core.models.params.PagingQueryParams
 import com.hmju.core.ui.base.FragmentViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.core.Flowable
@@ -74,11 +74,11 @@ internal class NetworkV2FragmentViewModel @Inject constructor(
             } else if (ranInt < 6) {
                 works.add(apiService.fetchJSendRx())
             } else {
-                PagingParams(
+                PagingQueryParams(
                     pageNo = Random.nextInt(5).plus(1),
                     pageSize = 100
                 )
-                val params = PagingParams(
+                val params = PagingQueryParams(
                     pageNo = Random.nextInt(5).plus(1),
                     pageSize = 100
                 )
@@ -143,7 +143,7 @@ internal class NetworkV2FragmentViewModel @Inject constructor(
     }
 
     private fun reqTest1(): Single<Int> {
-        val queryMap = PagingParams()
+        val queryMap = PagingQueryParams()
         queryMap.pageNo = 3
         queryMap.pageSize = 30
         return apiService.fetchJSendRx()
@@ -154,7 +154,7 @@ internal class NetworkV2FragmentViewModel @Inject constructor(
     }
 
     private fun reqTest2(): Single<Int> {
-        val queryMap = PagingParams()
+        val queryMap = PagingQueryParams()
         queryMap.pageNo = 3
         queryMap.pageSize = 30
         return Single.zip(
@@ -170,7 +170,7 @@ internal class NetworkV2FragmentViewModel @Inject constructor(
     }
 
     private fun reqTest3(): Single<Int> {
-        val queryMap = PagingParams()
+        val queryMap = PagingQueryParams()
         queryMap.pageNo = 3
         queryMap.pageSize = 30
         return Single.zip(

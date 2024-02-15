@@ -6,7 +6,7 @@ import com.features.compose_ui.models.entity.MemoEntity
 import com.features.compose_ui.models.MemoModel
 import com.hmju.core.models.base.JSendList
 import com.hmju.core.models.base.getOrDefault
-import com.hmju.core.models.params.PagingParams
+import com.hmju.core.models.params.PagingQueryParams
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import javax.inject.Inject
@@ -20,7 +20,7 @@ class GetMemoListUseCase @Inject constructor(
     private val apiService: ApiService
 ) {
     suspend operator fun invoke(
-        query: PagingParams,
+        query: PagingQueryParams,
         scope: CoroutineScope
     ): List<MemoModel> {
         val memoWork = scope.async { reqMemoList(query) }
@@ -28,13 +28,13 @@ class GetMemoListUseCase @Inject constructor(
         return getMemoModel(memoWork.await(), imageWork.await())
     }
 
-    private suspend fun reqMemoList(query: PagingParams): List<MemoEntity> {
+    private suspend fun reqMemoList(query: PagingQueryParams): List<MemoEntity> {
         return apiService.fetchMemo(query.getQueryMap())
             .getOrDefault(JSendList())
             .list
     }
 
-    private suspend fun reqImageList(query: PagingParams): List<FileEntity> {
+    private suspend fun reqImageList(query: PagingQueryParams): List<FileEntity> {
         return apiService.fetchUpload(query.getQueryMap())
             .getOrDefault(JSendList())
             .list

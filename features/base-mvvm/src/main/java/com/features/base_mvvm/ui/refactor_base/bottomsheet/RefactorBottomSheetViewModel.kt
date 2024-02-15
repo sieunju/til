@@ -3,7 +3,7 @@ package com.features.base_mvvm.ui.refactor_base.bottomsheet
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.features.base_mvvm.usecase.GetGoodsUseCase
-import com.hmju.core.models.params.PagingParams
+import com.hmju.core.models.params.PagingQueryParams
 import com.hmju.core.ui.base.BottomSheetViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -34,7 +34,7 @@ class RefactorBottomSheetViewModel @Inject constructor(
 
     override fun onDirectViewCreated() {
         super.onDirectViewCreated()
-        val queryMap = PagingParams()
+        val queryMap = PagingQueryParams()
         queryMap.pageNo = 2
         getGoodsUseCase(queryMap)
             .observeOn(AndroidSchedulers.mainThread())

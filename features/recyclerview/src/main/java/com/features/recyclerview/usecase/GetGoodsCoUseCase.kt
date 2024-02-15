@@ -3,7 +3,7 @@ package com.features.recyclerview.usecase
 import com.features.recyclerview.ApiService
 import com.features.recyclerview.models.ui.GoodsModel
 import com.hmju.core.models.base.getOrNull
-import com.hmju.core.models.params.PagingParams
+import com.hmju.core.models.params.PagingQueryParams
 import kotlinx.coroutines.delay
 import javax.inject.Inject
 
@@ -16,7 +16,7 @@ class GetGoodsCoUseCase @Inject constructor(
     private val apiService: ApiService
 ) {
     suspend operator fun invoke(
-        params: PagingParams,
+        params: PagingQueryParams,
         delay: Long
     ): List<GoodsModel> {
         val response = apiService.fetchGoodsCo(

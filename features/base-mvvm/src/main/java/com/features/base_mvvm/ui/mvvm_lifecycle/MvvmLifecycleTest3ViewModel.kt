@@ -2,7 +2,7 @@ package com.features.base_mvvm.ui.mvvm_lifecycle
 
 import com.features.base_mvvm.usecase.GetGoodsUseCase
 import com.hmju.core.login_manager.LoginManager
-import com.hmju.core.models.params.PagingParams
+import com.hmju.core.models.params.PagingQueryParams
 import com.hmju.core.ui.base.ActivityResult
 import com.hmju.core.ui.base.ActivityViewModel
 import com.hmju.core.ui.base.IntentKey
@@ -47,7 +47,7 @@ class MvvmLifecycleTest3ViewModel @Inject constructor(
 
 
     private fun start() {
-        val queryMap = PagingParams()
+        val queryMap = PagingQueryParams()
         getGoodsUseCase(queryMap)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSuccess { Timber.d("SUCC $it") }

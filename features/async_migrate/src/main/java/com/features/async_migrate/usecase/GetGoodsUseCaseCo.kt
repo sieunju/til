@@ -5,7 +5,7 @@ import com.features.async_migrate.models.ui.GoodsModel
 import com.hmju.core.models.base.JSendListWithMeta
 import com.hmju.core.models.base.getOrDefault
 import com.hmju.core.models.error.JSendException
-import com.hmju.core.models.params.PagingParams
+import com.hmju.core.models.params.PagingQueryParams
 import com.hmju.legacy.async_migrate.toCoroutine
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -19,7 +19,7 @@ import javax.inject.Inject
 class GetGoodsUseCaseCo @Inject constructor(
     private val apiService: ApiService
 ) {
-    suspend operator fun invoke(params: PagingParams): List<GoodsModel> {
+    suspend operator fun invoke(params: PagingQueryParams): List<GoodsModel> {
         return coroutineScope {
             val work1 = async { apiService.fetchCoGoods(params.getQueryMap()) }
             val work2 = try {

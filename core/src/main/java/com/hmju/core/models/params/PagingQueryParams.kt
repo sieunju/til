@@ -5,7 +5,7 @@ package com.hmju.core.models.params
  *
  * Created by juhongmin on 1/20/24
  */
-open class PagingParams(
+open class PagingQueryParams(
     open var pageNo: Int = 1,
     open var pageSize: Int = 26
 ) {

@@ -6,7 +6,7 @@ import com.features.async_migrate.usecase.GetGoodsUseCaseRx
 import com.hmju.core.models.base.getOrNull
 import com.hmju.core.models.base.onError
 import com.hmju.core.models.base.onSuccess
-import com.hmju.core.models.params.PagingParams
+import com.hmju.core.models.params.PagingQueryParams
 import com.hmju.core.ui.base.ActivityViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -32,7 +32,7 @@ class AsyncMigrateActivityViewModel @Inject constructor(
     }
 
     private fun start() {
-        val queryMap = PagingParams()
+        val queryMap = PagingQueryParams()
         viewModelScope.launch {
             val list = getGoodsUseCaseCo(queryMap)
             Timber.d("List ${list.size}")
@@ -41,7 +41,7 @@ class AsyncMigrateActivityViewModel @Inject constructor(
 
     private fun test() {
         viewModelScope.launch {
-            val params = PagingParams()
+            val params = PagingQueryParams()
             apiService.fetchCoGoods(params.getQueryMap())
                 .onSuccess {
                     Timber.d("Success $it")

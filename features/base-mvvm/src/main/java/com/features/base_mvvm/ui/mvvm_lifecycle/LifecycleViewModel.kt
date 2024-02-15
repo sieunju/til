@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.features.base_mvvm.usecase.GetGoodsUseCase
 import com.hmju.core.login_manager.LoginManager
-import com.hmju.core.models.params.PagingParams
+import com.hmju.core.models.params.PagingQueryParams
 import com.hmju.core.ui.base.ActivityResult
 import com.hmju.core.ui.base.FragmentViewModel
 import com.hmju.core.ui.base.IntentKey
@@ -25,7 +25,7 @@ class LifecycleViewModel @Inject constructor(
 
     private val _activityResult: MutableLiveData<String> by lazy { MutableLiveData() }
     val activityResult: LiveData<String> get() = _activityResult
-    private val queryMap: PagingParams by lazy { PagingParams() }
+    private val queryMap: PagingQueryParams by lazy { PagingQueryParams() }
 
     override fun onDirectViewCreated() {
         super.onDirectViewCreated()

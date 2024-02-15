@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.features.base_mvvm.usecase.GetGoodsUseCase
 import com.hmju.core.login_manager.LoginManager
-import com.hmju.core.models.params.PagingParams
+import com.hmju.core.models.params.PagingQueryParams
 import com.hmju.core.ui.base.ActivityViewModel
 import com.hmju.core.ui.base.BaseActivity
 import com.hmju.core.ui.base.IntentKey
@@ -33,7 +33,7 @@ class MvvmLifecycleTestViewModel @Inject constructor(
 
     override fun onDirectCreate() {
         super.onDirectCreate()
-        val queryMap = PagingParams()
+        val queryMap = PagingQueryParams()
         getGoodsUseCase(queryMap)
             .doOnSuccess { println("List $it") }
             .subscribe().addTo(compositeDisposable)

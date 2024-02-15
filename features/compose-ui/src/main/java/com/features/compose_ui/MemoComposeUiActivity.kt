@@ -31,7 +31,7 @@ import com.features.compose_ui.models.MemoModel
 import com.features.compose_ui.models.MemoUiModel
 import com.features.compose_ui.usecase.GetMemoListUseCase
 import com.hmju.core.compose.TilTheme
-import com.hmju.core.models.params.PagingParams
+import com.hmju.core.models.params.PagingQueryParams
 import com.hmju.core.ui.paging.PagingModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.FlowPreview
@@ -50,7 +50,7 @@ class MemoComposeUiActivity : AppCompatActivity() {
 
     @Inject
     lateinit var getUseCase: GetMemoListUseCase
-    private val params: PagingParams by lazy { PagingParams() }
+    private val params: PagingQueryParams by lazy { PagingQueryParams() }
     private val pagingModel: PagingModel by lazy { PagingModel() }
 
     override fun onCreate(savedInstanceState: Bundle?) {

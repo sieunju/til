@@ -11,7 +11,7 @@ import com.features.recyclerview.R
 import com.features.recyclerview.databinding.FSimpleLikeRecyclerviewBinding
 import com.features.recyclerview.models.ui.GoodsModel
 import com.features.recyclerview.usecase.GetGoodsUseCase
-import com.hmju.core.models.params.PagingParams
+import com.hmju.core.models.params.PagingQueryParams
 import com.hmju.core.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -36,8 +36,8 @@ class SimpleLikeRecyclerViewFragment :
     @Inject
     lateinit var getGoodsListUseCase: GetGoodsUseCase
 
-    private val oneTypeParams = PagingParams()
-    private val twoTypeParams = PagingParams()
+    private val oneTypeParams = PagingQueryParams()
+    private val twoTypeParams = PagingQueryParams()
 
     private val oneAdapter = Adapter(true)
     private val twoAdapter = Adapter(false)
