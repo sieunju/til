@@ -101,7 +101,7 @@ class MemoComposeUiActivity : AppCompatActivity() {
             )
         }
 
-
+        // DON'T
         val hasMore = remember {
             derivedStateOf {
                 val lastPos = state.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: 0

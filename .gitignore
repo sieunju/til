@@ -60,3 +60,5 @@ app/release/output.json
 
 detekt/detekt.**
 appRelease/release_note.txt
+
+.java-version

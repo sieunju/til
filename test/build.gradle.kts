@@ -40,6 +40,7 @@ dependencies {
     implementation(AndroidX.ktx)
     implementation(AndroidX.appCompat)
     implementation(AndroidX.material)
+    implementation(AndroidX.lifecycle)
     androidTestImplementation(AndroidX.lifecycle)
     androidTestImplementation(AndroidX.viewModel)
     androidTestImplementation(AndroidX.liveData)
@@ -65,6 +66,17 @@ dependencies {
     androidTestImplementation(Retrofit.rxjava)
     androidTestImplementation(Retrofit.kotlinx)
     androidTestImplementation(Retrofit.okhttpLogger)
+
+    /**
+     * Log
+     */
+    androidTestImplementation(Log.timber)
+
+    /**
+     * Rx, Coroutine
+     */
+    androidTestImplementation(Rx.java)
+    androidTestImplementation(UnitTest.coroutine)
 
     /**
      * Unit Test
