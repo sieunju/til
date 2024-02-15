@@ -31,8 +31,8 @@ class GetGoodsUseCaseCo @Inject constructor(
 
             val res1 = work1.await()
             val list = mutableListOf<GoodsModel>()
-            list.addAll(res1.getOrDefault(JSendListWithMeta()).payload.map { GoodsModel(it) })
-            list.addAll(work2.payload.map { GoodsModel(it) })
+            list.addAll(res1.getOrDefault(JSendListWithMeta()).list.map { GoodsModel(it) })
+            list.addAll(work2.list.map { GoodsModel(it) })
             list
         }
     }

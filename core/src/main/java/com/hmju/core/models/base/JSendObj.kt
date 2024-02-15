@@ -28,6 +28,6 @@ data class JSendObj<T : Any>(
 
     override val isValid: Boolean get() = depthData?.obj != null
 
-    val payload: T
+    val obj: T
         get() = depthData?.obj ?: throw NullPointerException("Data is Null")
 }

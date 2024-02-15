@@ -18,7 +18,7 @@ class RemoveLikeUseCase @Inject constructor(
 ) {
     operator fun invoke(id: Long): Single<LikeEntity> {
         return apiService.deleteLike(id)
-            .map { it.payload }
+            .map { it.obj }
             .map {
                 LikeManager.removeLike(id)
                 RxBus.publish(SimpleLikeEvent(false, id))

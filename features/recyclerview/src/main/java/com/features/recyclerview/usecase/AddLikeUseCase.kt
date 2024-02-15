@@ -17,7 +17,7 @@ class AddLikeUseCase @Inject constructor(
             .map {
                 LikeManager.addLike(body.id)
                 RxBus.publish(SimpleLikeEvent(true, body.id))
-                return@map it.payload
+                return@map it.obj
             }
     }
 }

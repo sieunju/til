@@ -11,7 +11,7 @@ class GetGoodsUseCase @Inject constructor(
 ) {
     operator fun invoke(params: PagingParams): Single<List<GoodsModel>> {
         return apiService.fetchGoods(params.getQueryMap())
-            .map { it.payload }
+            .map { it.list }
             .map { list -> list.map { GoodsModel(it) } }
     }
 }

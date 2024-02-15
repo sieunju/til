@@ -31,13 +31,13 @@ class GetMemoListUseCase @Inject constructor(
     private suspend fun reqMemoList(query: PagingParams): List<MemoEntity> {
         return apiService.fetchMemo(query.getQueryMap())
             .getOrDefault(JSendList())
-            .payload
+            .list
     }
 
     private suspend fun reqImageList(query: PagingParams): List<FileEntity> {
         return apiService.fetchUpload(query.getQueryMap())
             .getOrDefault(JSendList())
-            .payload
+            .list
             .filter { it.mimeType.startsWith("image") }
     }
 

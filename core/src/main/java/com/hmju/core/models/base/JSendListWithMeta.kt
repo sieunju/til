@@ -33,7 +33,7 @@ data class JSendListWithMeta<T : Any, M : MetaEntity>(
 
     override val isValid: Boolean get() = depthData != null
 
-    val payload: List<T>
+    val list: List<T>
         get() = depthData?.list ?: listOf()
     val meta: M?
         get() = depthData?.meta

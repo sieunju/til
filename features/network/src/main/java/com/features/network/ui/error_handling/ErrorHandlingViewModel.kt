@@ -30,7 +30,7 @@ class ErrorHandlingViewModel @Inject constructor(
         }
         val work2 = viewModelScope.async {
             apiService.fetchJSendListWithMeta()
-                .onSuccess { Timber.d("여깁니다 ${it.payload}") }
+                .onSuccess { Timber.d("여깁니다 ${it.list}") }
         }
         val work3 = viewModelScope.async(Dispatchers.IO) {
             apiService.fetchJSendWithMeta()

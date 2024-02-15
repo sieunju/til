@@ -23,6 +23,6 @@ class GetGoodsCoUseCase @Inject constructor(
             params.getQueryMap()
         ).getOrNull()
         delay(delay)
-        return response?.payload?.map { GoodsModel(it) } ?: listOf()
+        return response?.list?.map { GoodsModel(it) } ?: listOf()
     }
 }

@@ -9,7 +9,7 @@ class GetErrorTestUseCase @Inject constructor(
 ) {
     operator fun invoke(): Single<String> {
         return apiService.fetchErrorTestRx()
-            .map { it.payload }
+            .map { it.obj }
             .onErrorReturn { "" }
     }
 }

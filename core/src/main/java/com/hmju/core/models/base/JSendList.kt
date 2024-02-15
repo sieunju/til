@@ -29,6 +29,6 @@ data class JSendList<T : Any>(
 
     override val isValid: Boolean get() = depthData != null
 
-    val payload: List<T>
+    val list: List<T>
         get() = depthData?.list ?: listOf()
 }
