@@ -11,6 +11,7 @@ android {
     defaultConfig {
         testInstrumentationRunner = "com.hmju.test.HiltTestRunner"
     }
+    dataBinding { enable = true }
     testOptions {
         unitTests {
             isIncludeAndroidResources = true
@@ -33,6 +34,8 @@ dependencies {
     androidTestImplementation(project(":features:network_v2-bridge"))
     androidTestImplementation(project(":features:compose-ui"))
     androidTestImplementation(project(":features:compose-ui-bridge"))
+    // androidTestImplementation(project(":features:recyclerview_custom_paging"))
+    androidTestImplementation(project(":features:recyclerview_custom_paging_bridge"))
 
     /**
      * Android X

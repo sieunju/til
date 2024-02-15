@@ -13,7 +13,7 @@ import com.hmju.core.ui.paging.PagingModel
 object CustomPagingBindingAdapter {
 
     interface PagingListener {
-        fun loadPage()
+        fun callback()
     }
 
     @JvmStatic
@@ -37,7 +37,7 @@ object CustomPagingBindingAdapter {
                     }
                     val updatePosition = itemCount - pos / 2
                     if (pos >= updatePosition) {
-                        callback.loadPage()
+                        callback.callback()
                     }
                 }
             }

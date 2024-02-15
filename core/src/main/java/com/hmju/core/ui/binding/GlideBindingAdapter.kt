@@ -4,6 +4,7 @@ import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
 
@@ -22,20 +23,33 @@ object GlideBindingAdapter {
         DrawableTransitionOptions.withCrossFade(crossFadeFactory)
     }
 
+    /**
+     * 공통 이미지 로더 클래스
+     */
     @JvmStatic
-    @BindingAdapter("imgPath")
+    @BindingAdapter(
+        value = ["requestManager", "imgPath"],
+        requireAll = false
+    )
     fun setLoadImageUrl(
-        img: AppCompatImageView,
+        iv: AppCompatImageView,
+        requestManager: RequestManager? = null,
         url: String?
     ) {
         if (url.isNullOrEmpty()) {
-            img.visibility = View.INVISIBLE
+            iv.visibility = View.INVISIBLE
             return
         }
 
-        Glide.with(img.context)
-            .load(url)
-            .transition(crossFadeTransition)
-            .into(img)
+        if (requestManager != null) {
+            requestManager.load(url)
+                .transition(crossFadeTransition)
+                .into(iv)
+        } else {
+            Glide.with(iv.context)
+                .load(url)
+                .transition(crossFadeTransition)
+                .into(iv)
+        }
     }
 }
