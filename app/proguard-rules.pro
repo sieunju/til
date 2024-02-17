@@ -8,6 +8,7 @@
 #    public static int e(...);
 #}
 
+# [s] 난독화시 missing mappging 에 나온것들
 -dontwarn java.lang.invoke.StringConcatFactory
 
 -dontwarn org.bouncycastle.jsse.BCSSLParameters
@@ -19,6 +20,13 @@
 -dontwarn org.openjsse.javax.net.ssl.SSLParameters
 -dontwarn org.openjsse.javax.net.ssl.SSLSocket
 -dontwarn org.openjsse.net.ssl.OpenJSSE
+# [e] 난독화시 missing mappging 에 나온것들
+
+# [s] R8 Gson
+-keep class com.google.gson.reflect.TypeToken
+-keep class * extends com.google.gson.reflect.TypeToken
+-keep public class * implements java.lang.reflect.Type
+# [e] R8 Gson
 
 # [s] Rx, Coroutine
 -keep,allowobfuscation,allowshrinking class io.reactivex.rxjava3.core.Flowable
