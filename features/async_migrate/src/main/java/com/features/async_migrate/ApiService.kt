@@ -15,12 +15,12 @@ import retrofit2.http.QueryMap
  */
 interface ApiService {
 
-    @GET("/api/til/goods")
+    @GET("/api/v1/til/goods")
     fun fetchGoods(
         @QueryMap(encoded = true) params: Map<String, String>
     ): Single<JSendListWithMeta<GoodsEntity, CustomMetaEntity>>
 
-    @GET("/api/til/goods")
+    @GET("/api/v1/til/goods")
     suspend fun fetchCoGoods(
         @QueryMap(encoded = true) params: Map<String, String>
     ): ApiResponse<JSendListWithMeta<GoodsEntity, CustomMetaEntity>>
