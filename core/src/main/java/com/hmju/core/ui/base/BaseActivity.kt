@@ -183,6 +183,7 @@ abstract class BaseActivity<T : ViewDataBinding, VM : ActivityViewModel>(
             startActivity(intent)
             if (result.isValidateAni()) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                    // 어떤 이유에서인지 몰라도 애니메이션 안먹힘 onCreate 에서 호출해야 됨
                     overrideActivityTransition(
                         Activity.OVERRIDE_TRANSITION_OPEN,
                         result.enterAni,
