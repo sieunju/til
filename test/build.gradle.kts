@@ -36,6 +36,8 @@ dependencies {
     androidTestImplementation(project(":features:compose-ui-bridge"))
     androidTestImplementation(project(":features:recyclerview_custom_paging"))
     androidTestImplementation(project(":features:recyclerview_custom_paging_bridge"))
+    androidTestImplementation(project(":features:network_error_handling"))
+    androidTestImplementation(project(":features:network_error_handling_bridge"))
 
     /**
      * Android X
