@@ -1,6 +1,8 @@
 package com.hmju.core.ui.base
 
+import android.app.Activity
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.CallSuper
@@ -167,21 +169,29 @@ abstract class BaseActivity<T : ViewDataBinding, VM : ActivityViewModel>(
     private fun startActivityAndAnimation(result: ActivityResult) {
         val intent = getActivityResultIntent(result)
         if (result.requestCode != -1) {
-            val options: ActivityOptionsCompat? =
-                if (result.enterAni != -1 && result.exitAni != -1) {
-                    ActivityOptionsCompat.makeCustomAnimation(
-                        this,
+            val options: ActivityOptionsCompat? = if (result.isValidateAni()) {
+                ActivityOptionsCompat.makeCustomAnimation(
+                    this,
+                    result.enterAni,
+                    result.exitAni
+                )
+            } else {
+                null
+            }
+            activityResult.launch(intent, options)
+        } else {
+            startActivity(intent)
+            if (result.isValidateAni()) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                    overrideActivityTransition(
+                        Activity.OVERRIDE_TRANSITION_OPEN,
                         result.enterAni,
                         result.exitAni
                     )
                 } else {
-                    null
+                    @Suppress("DEPRECATION")
+                    overridePendingTransition(result.enterAni, result.exitAni)
                 }
-            activityResult.launch(intent, options)
-        } else {
-            startActivity(intent)
-            if (result.enterAni != -1 && result.exitAni != -1) {
-                overridePendingTransition(result.enterAni, result.exitAni)
             }
         }
     }

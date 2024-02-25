@@ -39,17 +39,17 @@ internal interface ApiService {
 
     @GET("/api/v1/til/auth/jwt/test")
     fun fetchJwtTest(
-        @Query("timeDelay") delay: Int = 0
+        @Query("time_delay") delay: Int = 0
     ): Single<JSendObj<JwtTokenTestEntity>>
 
     @GET("/api/v1/til/auth/jwt/test1")
     fun fetchJwtTest1(
-        @Query("timeDelay") delay: Int = 0
+        @Query("time_delay") delay: Int = 0
     ): Single<JSendObj<JwtTokenTestEntity>>
 
     @GET("/api/v1/til/auth/jwt/test2")
     fun fetchJwtTest2(
-        @Query("timeDelay") delay: Int = 0
+        @Query("time_delay") delay: Int = 0
     ): Single<JSendObj<JwtTokenTestEntity>>
 
 }
