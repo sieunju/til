@@ -69,6 +69,8 @@ dependencies {
     implementation(project(":features:compose-ui-bridge"))
     implementation(project(":features:recyclerview_custom_paging"))
     implementation(project(":features:recyclerview_custom_paging_bridge"))
+    implementation(project(":features:network_error_handling"))
+    implementation(project(":features:network_error_handling_bridge"))
 
     /**
      * Network

@@ -7,35 +7,20 @@ plugins {
 }
 
 android {
-    namespace = "com.features.network_v2"
+    namespace = "com.features.network_error_handling"
     dataBinding { enable = true }
-    kapt {
-        correctErrorTypes = true
-    }
 }
 
 dependencies {
     implementation(project(":core"))
-    implementation(project(":features:network_v2-bridge"))
+    implementation(project(":features:network_error_handling_bridge"))
 
     /**
      * Android X
      */
     implementation(AndroidX.appCompat)
-    implementation(AndroidX.constraintLayout)
-    implementation(AndroidX.activity)
-    implementation(AndroidX.material)
-    implementation(AndroidX.fragment)
-    implementation(AndroidX.recyclerView)
-    implementation(AndroidX.lifecycle)
     implementation(AndroidX.viewModel)
-    implementation(AndroidX.liveData)
-
-    /**
-     * Hilt
-     */
-    implementation(Hilt.android)
-    kapt(Hilt.compiler)
+    implementation(AndroidX.fragment)
 
     /**
      * Timber
@@ -49,10 +34,10 @@ dependencies {
     implementation(Co.android)
 
     /**
-     * Rx
+     * Hilt
      */
-    implementation(Rx.android)
-    implementation(Rx.kotlin)
+    implementation(Hilt.android)
+    kapt(Hilt.compiler)
 
     /**
      * Network

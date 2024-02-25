@@ -5,9 +5,9 @@ import android.view.View
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.fragment.app.Fragment
 import com.features.network.databinding.FNetworkBinding
-import com.features.network.ui.error_handling.ErrorHandlingFragment
 import com.features.network.ui.expired_token.RefreshTokenFragment
 import com.features.network.ui.json_jsend.JsonJsendFragment
+import com.features.network_error_handling_bridge.NetworkErrorHandlingBridge
 import com.features.network_v2_bridge.NetworkV2Bridge
 import com.google.android.material.button.MaterialButton
 import com.hmju.core.ui.base.BaseFragment
@@ -23,6 +23,9 @@ class NetworkFragment : BaseFragment<FNetworkBinding, FragmentViewModel>(R.layou
     @Inject
     lateinit var v2Bridge: NetworkV2Bridge
 
+    @Inject
+    lateinit var errorHandlingBridge: NetworkErrorHandlingBridge
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initButton()
@@ -37,7 +40,7 @@ class NetworkFragment : BaseFragment<FNetworkBinding, FragmentViewModel>(R.layou
                 moveToFragment(JsonJsendFragment())
             }
             addButton("네트워크 에러 헨들링 처리해보기") {
-                moveToFragment(ErrorHandlingFragment())
+                errorHandlingBridge.moveToPage(R.id.fragment, parentFragmentManager)
             }
             addButton("네트워크 V2 리펙토링") {
                 v2Bridge.moveToNetworkV2Page(parentFragmentManager, R.id.fragment)

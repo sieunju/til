@@ -15,6 +15,7 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":features:network-bridge"))
     implementation(project(":features:network_v2-bridge"))
+    implementation(project(":features:network_error_handling_bridge"))
 
     /**
      * Android X
