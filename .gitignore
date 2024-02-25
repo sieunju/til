@@ -63,3 +63,6 @@ appRelease/release_note.txt
 
 # keystore
 # keystore/*
+
+
+.java-version
