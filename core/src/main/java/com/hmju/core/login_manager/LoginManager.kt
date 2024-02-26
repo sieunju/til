@@ -1,7 +1,5 @@
 package com.hmju.core.login_manager
 
-import io.reactivex.rxjava3.core.Single
-
 /**
  * Description : 회원 로그인 매니저 관련 인터페이스
  *

@@ -4,7 +4,8 @@ plugins {
 }
 
 android {
-    namespace = "com.features.network_bridge"
+    namespace = "com.features.network_expired_token_bridge"
+
 }
 
 dependencies {

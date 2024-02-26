@@ -3,10 +3,9 @@ package com.features.network
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.LinearLayoutCompat
-import androidx.fragment.app.Fragment
 import com.features.network.databinding.FNetworkBinding
-import com.features.network.ui.expired_token.RefreshTokenFragment
 import com.features.network_error_handling_bridge.NetworkErrorHandlingBridge
+import com.features.network_expired_token_bridge.NetworkExpiredTokenBridge
 import com.features.network_jsend_format_bridge.NetworkJSendFormatBridge
 import com.features.network_v2_bridge.NetworkV2Bridge
 import com.google.android.material.button.MaterialButton
@@ -29,6 +28,9 @@ class NetworkFragment : BaseFragment<FNetworkBinding, FragmentViewModel>(R.layou
     @Inject
     lateinit var jsendFormatBridge: NetworkJSendFormatBridge
 
+    @Inject
+    lateinit var expiredTokenBridge: NetworkExpiredTokenBridge
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initButton()
@@ -37,7 +39,7 @@ class NetworkFragment : BaseFragment<FNetworkBinding, FragmentViewModel>(R.layou
     private fun initButton() {
         binding.llButtons.runCatching {
             addButton("토큰 만료시 재인증하는 방법") {
-                moveToFragment(RefreshTokenFragment())
+                expiredTokenBridge.moveToPage(R.id.fragment, parentFragmentManager)
             }
             addButton("JSON jsend 규칙으로 데이터 모델 구성해보기") {
                 jsendFormatBridge.moveToPage(R.id.fragment, parentFragmentManager)
@@ -56,13 +58,5 @@ class NetworkFragment : BaseFragment<FNetworkBinding, FragmentViewModel>(R.layou
             text = title
             setOnClickListener { callback() }
         })
-    }
-
-    private fun moveToFragment(fragment: Fragment) {
-        parentFragmentManager.beginTransaction().apply {
-            replace(R.id.fragment, fragment)
-            addToBackStack(null)
-            commit()
-        }
     }
 }
