@@ -6,8 +6,8 @@ import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.fragment.app.Fragment
 import com.features.network.databinding.FNetworkBinding
 import com.features.network.ui.expired_token.RefreshTokenFragment
-import com.features.network.ui.json_jsend.JsonJsendFragment
 import com.features.network_error_handling_bridge.NetworkErrorHandlingBridge
+import com.features.network_jsend_format_bridge.NetworkJSendFormatBridge
 import com.features.network_v2_bridge.NetworkV2Bridge
 import com.google.android.material.button.MaterialButton
 import com.hmju.core.ui.base.BaseFragment
@@ -26,6 +26,9 @@ class NetworkFragment : BaseFragment<FNetworkBinding, FragmentViewModel>(R.layou
     @Inject
     lateinit var errorHandlingBridge: NetworkErrorHandlingBridge
 
+    @Inject
+    lateinit var jsendFormatBridge: NetworkJSendFormatBridge
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initButton()
@@ -37,7 +40,7 @@ class NetworkFragment : BaseFragment<FNetworkBinding, FragmentViewModel>(R.layou
                 moveToFragment(RefreshTokenFragment())
             }
             addButton("JSON jsend 규칙으로 데이터 모델 구성해보기") {
-                moveToFragment(JsonJsendFragment())
+                jsendFormatBridge.moveToPage(R.id.fragment, parentFragmentManager)
             }
             addButton("네트워크 에러 헨들링 처리해보기") {
                 errorHandlingBridge.moveToPage(R.id.fragment, parentFragmentManager)

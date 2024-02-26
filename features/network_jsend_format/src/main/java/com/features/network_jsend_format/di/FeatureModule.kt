@@ -1,8 +1,8 @@
-package com.features.network_error_handling.di
+package com.features.network_jsend_format.di
 
-import com.features.network_error_handling.ApiService
-import com.features.network_error_handling.impl.NetworkErrorHandlingBridgeImpl
-import com.features.network_error_handling_bridge.NetworkErrorHandlingBridge
+import com.features.network_jsend_format.ApiService
+import com.features.network_jsend_format.impl.NetworkJSendFormatBridgeImpl
+import com.features.network_jsend_format_bridge.NetworkJSendFormatBridge
 import com.hmju.core.network.NetworkProvider
 import dagger.Module
 import dagger.Provides
@@ -13,12 +13,11 @@ import javax.inject.Singleton
 /**
  * Description :
  *
- * Created by juhongmin on 2/25/24
+ * Created by juhongmin on 2/26/24
  */
 @InstallIn(SingletonComponent::class)
 @Module
 internal object FeatureModule {
-
     @Singleton
     @Provides
     fun provideApiService(
@@ -29,7 +28,7 @@ internal object FeatureModule {
 
     @Singleton
     @Provides
-    fun provideBridge(): NetworkErrorHandlingBridge {
-        return NetworkErrorHandlingBridgeImpl()
+    fun provideBridge(): NetworkJSendFormatBridge {
+        return NetworkJSendFormatBridgeImpl()
     }
 }

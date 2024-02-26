@@ -71,6 +71,8 @@ dependencies {
     implementation(project(":features:recyclerview_custom_paging_bridge"))
     implementation(project(":features:network_error_handling"))
     implementation(project(":features:network_error_handling_bridge"))
+    implementation(project(":features:network_jsend_format"))
+    // implementation(project(":features:network_jsend_format_bridge"))
 
     /**
      * Network

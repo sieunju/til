@@ -38,6 +38,8 @@ dependencies {
     androidTestImplementation(project(":features:recyclerview_custom_paging_bridge"))
     androidTestImplementation(project(":features:network_error_handling"))
     androidTestImplementation(project(":features:network_error_handling_bridge"))
+    androidTestImplementation(project(":features:network_jsend_format"))
+    androidTestImplementation(project(":features:network_jsend_format_bridge"))
 
     /**
      * Android X

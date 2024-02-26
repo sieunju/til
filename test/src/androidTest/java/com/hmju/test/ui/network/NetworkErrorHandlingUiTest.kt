@@ -1,4 +1,4 @@
-package com.hmju.test.ui.network_error_handling
+package com.hmju.test.ui.network
 
 import androidx.test.core.app.launchActivity
 import com.features.network_error_handling_bridge.NetworkErrorHandlingBridge
