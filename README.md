@@ -73,8 +73,13 @@ keystore.release.key_password=til1234qwer
 
 
 ### DI Graph
+- install
+```shell
+brew install graphviz
+```
+
 ```Groovy
  ./gradlew projectDependencyGraph
 ```
-![projectGraph](https://raw.githubusercontent.com/sieunju/TIL/develop/assets/projectGraph.png)
+![projectGraph](https://raw.githubusercontent.com/sieunju/TIL/develop/assets/project_graph.png)
 

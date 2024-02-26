@@ -43,7 +43,7 @@ class NetworkFragment : BaseFragment<FNetworkBinding, FragmentViewModel>(R.layou
                 errorHandlingBridge.moveToPage(R.id.fragment, parentFragmentManager)
             }
             addButton("네트워크 V2 리펙토링") {
-                v2Bridge.moveToNetworkV2Page(parentFragmentManager, R.id.fragment)
+                v2Bridge.moveToPage(R.id.fragment, parentFragmentManager)
             }
         }
     }
