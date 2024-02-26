@@ -23,48 +23,13 @@ dependencies {
      * Android X
      */
     implementation(AndroidX.appCompat)
-    implementation(AndroidX.constraintLayout)
-    implementation(AndroidX.activity)
-    implementation(AndroidX.material)
     implementation(AndroidX.fragment)
-    implementation(AndroidX.recyclerView)
-    implementation(AndroidX.lifecycle)
-    implementation(AndroidX.viewModel)
-    implementation(AndroidX.liveData)
-
-    /**
-     * Timber
-     */
-    implementation(Log.timber)
 
     /**
      * Hilt
      */
     implementation(Hilt.android)
     kapt(Hilt.compiler)
-
-    /**
-     * Rx
-     */
-    implementation(Rx.java)
-    implementation(Rx.kotlin)
-    implementation(Rx.android)
-
-    /**
-     * Coroutines
-     */
-    implementation(Co.core)
-    implementation(Co.android)
-
-    /**
-     * Network
-     */
-    implementation(Retrofit.base)
-
-    /**
-     * Kotlinx Serialization
-     */
-    implementation(KotlinX.serialization)
 
     /**
      * Unit Test
