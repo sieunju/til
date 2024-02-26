@@ -2,7 +2,7 @@ plugins {
     id("com.android.library")
     id("dagger.hilt.android.plugin")
     id("kotlinx-serialization")
-    kotlin("android")
+    id("org.jetbrains.kotlin.android")
     kotlin("kapt")
 }
 
@@ -40,6 +40,8 @@ dependencies {
     androidTestImplementation(project(":features:network_error_handling_bridge"))
     androidTestImplementation(project(":features:network_jsend_format"))
     androidTestImplementation(project(":features:network_jsend_format_bridge"))
+    androidTestImplementation(project(":features:network_expired_token"))
+    androidTestImplementation(project(":features:network_expired_token_bridge"))
 
     /**
      * Android X
@@ -47,6 +49,8 @@ dependencies {
     implementation(AndroidX.ktx)
     implementation(AndroidX.appCompat)
     implementation(AndroidX.material)
+    implementation(AndroidX.activity)
+    implementation(AndroidX.fragment)
     androidTestImplementation(AndroidX.lifecycle)
     androidTestImplementation(AndroidX.viewModel)
     androidTestImplementation(AndroidX.liveData)
