@@ -6,6 +6,8 @@ import com.features.recyclerview.R
 import com.features.recyclerview.databinding.VhSimpleLikeRecyclerview1Binding
 import com.features.recyclerview.models.GoodsOneUiModel
 import com.features.recyclerview.models.GoodsTwoUiModel
+import com.hmju.core.ui.base.BaseViewModel
+import com.hmju.core.ui.viewholders.BaseSimpleLikeViewHolder
 
 
 /**
@@ -14,15 +16,18 @@ import com.features.recyclerview.models.GoodsTwoUiModel
  * Created by juhongmin on 2022/01/15
  */
 class SimpleLike1ViewHolder(
-    parent: ViewGroup
+    parent: ViewGroup,
+    viewModel: BaseViewModel? = null
 ) : BaseSimpleLikeViewHolder<VhSimpleLikeRecyclerview1Binding>(
     parent,
     R.layout.vh_simple_like_recyclerview_1
 ) {
 
     init {
+        bindRequestManager(BR.requestManager, viewModel)
         binding.imgLike.setOnClickListener {
-            simpleLikeClick(it, binding.model)
+            val model = binding.model ?: return@setOnClickListener
+            simpleLikeClick(it, model.id)
         }
     }
 
@@ -35,6 +40,7 @@ class SimpleLike1ViewHolder(
     }
 
     override fun onRefreshLike() {
-        simpleLikeChange(binding.imgLike, binding.model)
+        val model = binding.model ?: return
+        simpleLikeChange(binding.imgLike, model.id)
     }
 }

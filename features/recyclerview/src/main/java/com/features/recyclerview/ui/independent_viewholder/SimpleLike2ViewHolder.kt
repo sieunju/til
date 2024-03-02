@@ -1,11 +1,12 @@
 package com.features.recyclerview.ui.independent_viewholder
 
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModel
 import com.features.recyclerview.BR
 import com.features.recyclerview.R
 import com.features.recyclerview.databinding.VhSimpleLikeRecyclerview2Binding
 import com.features.recyclerview.models.GoodsTwoUiModel
+import com.hmju.core.ui.base.BaseViewModel
+import com.hmju.core.ui.viewholders.BaseSimpleLikeViewHolder
 
 /**
  * Description : 간단한 좋아요 아이템 샘플 1
@@ -14,15 +15,17 @@ import com.features.recyclerview.models.GoodsTwoUiModel
  */
 class SimpleLike2ViewHolder(
     parent: ViewGroup,
-    viewModel: ViewModel? = null
+    viewModel: BaseViewModel? = null
 ) : BaseSimpleLikeViewHolder<VhSimpleLikeRecyclerview2Binding>(
     parent,
     R.layout.vh_simple_like_recyclerview_2
 ) {
 
     init {
+        bindRequestManager(BR.requestManager, viewModel)
         binding.imgLike.setOnClickListener {
-            simpleLikeClick(it, binding.model)
+            val model = binding.model ?: return@setOnClickListener
+            simpleLikeClick(it, model.id)
         }
     }
 
@@ -35,6 +38,7 @@ class SimpleLike2ViewHolder(
     }
 
     override fun onRefreshLike() {
-        simpleLikeChange(binding.imgLike, binding.model)
+        val model = binding.model ?: return
+        simpleLikeChange(binding.imgLike, model.id)
     }
 }

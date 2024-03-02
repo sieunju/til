@@ -1,6 +1,8 @@
 package com.features.rv_simple_like.impl
 
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.commit
+import com.features.rv_simple_like.SimpleLikeFragment
 import com.features.rv_simple_like_bridge.RvSimpleLikeBridge
 
 /**
@@ -10,6 +12,9 @@ import com.features.rv_simple_like_bridge.RvSimpleLikeBridge
  */
 internal class RvSimpleLikeBridgeImpl : RvSimpleLikeBridge {
     override fun moveToPage(layoutId: Int, fm: FragmentManager) {
-
+        fm.commit {
+            replace(layoutId, SimpleLikeFragment())
+            addToBackStack("SimpleLikeFragment")
+        }
     }
 }

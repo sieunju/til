@@ -6,6 +6,10 @@
     <data>
 
         <variable
+            name="requestManager"
+            type="com.bumptech.glide.RequestManager" />
+
+        <variable
             name="model"
             type="com.features.rv_simple_like.models.ui.Simple1UiModel" />
     </data>
@@ -50,6 +54,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintTop_toTopOf="parent"
+                app:requestManager="@{requestManager}"
                 tools:src="@tools:sample/backgrounds/scenic" />
 
             <androidx.appcompat.widget.AppCompatImageView

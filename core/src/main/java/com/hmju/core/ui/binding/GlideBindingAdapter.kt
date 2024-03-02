@@ -3,7 +3,6 @@ package com.hmju.core.ui.binding
 import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.databinding.BindingAdapter
-import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
@@ -40,16 +39,10 @@ object GlideBindingAdapter {
             iv.visibility = View.INVISIBLE
             return
         }
+        if (requestManager == null) return
 
-        if (requestManager != null) {
-            requestManager.load(url)
-                .transition(crossFadeTransition)
-                .into(iv)
-        } else {
-            Glide.with(iv.context)
-                .load(url)
-                .transition(crossFadeTransition)
-                .into(iv)
-        }
+        requestManager.load(url)
+            .transition(crossFadeTransition)
+            .into(iv)
     }
 }

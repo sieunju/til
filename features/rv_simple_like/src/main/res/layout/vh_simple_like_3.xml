@@ -4,6 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <variable
+            name="requestManager"
+            type="com.bumptech.glide.RequestManager" />
+
         <variable
             name="model"
             type="com.features.rv_simple_like.models.ui.Simple3UiModel" />
@@ -34,6 +39,7 @@
                     app:cornerSize="30dp"
                     app:imgPath="@{model.imagePath}"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:requestManager="@{requestManager}"
                     tools:src="@tools:sample/backgrounds/scenic" />
 
                 <com.google.android.material.textview.MaterialTextView

@@ -8,8 +8,8 @@ import com.features.recyclerview.databinding.FRecyclerviewBinding
 import com.features.recyclerview.ui.diffutil_performance.DiffUtilPerformanceFragment
 import com.features.recyclerview.ui.diffutil_refactor.RefactorDiffUtilFragment
 import com.features.recyclerview.ui.diffutil_v2.DiffUtil2Fragment
-import com.features.recyclerview.ui.independent_viewholder.SimpleLikeRecyclerViewFragment
 import com.features.recyclerview_custom_paging_bridge.RecyclerViewCustomPagingBridge
+import com.features.rv_simple_like_bridge.RvSimpleLikeBridge
 import com.google.android.material.button.MaterialButton
 import com.hmju.core.ui.base.BaseFragment
 import com.hmju.core.ui.base.FragmentViewModel
@@ -27,6 +27,9 @@ class RecyclerViewFragment : BaseFragment<FRecyclerviewBinding, FragmentViewMode
     @Inject
     lateinit var customPagingBridge: RecyclerViewCustomPagingBridge
 
+    @Inject
+    lateinit var simpleLikeBridge: RvSimpleLikeBridge
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initButton()
@@ -34,7 +37,9 @@ class RecyclerViewFragment : BaseFragment<FRecyclerviewBinding, FragmentViewMode
 
     private fun initButton() {
         binding.llButtons.runCatching {
-            addButton("컨트롤러와 뷰홀더 간의 의존성 제거 해보기", SimpleLikeRecyclerViewFragment())
+            addButton("컨트롤러와 뷰홀더 간의 의존성 제거 해보기") {
+                simpleLikeBridge.moveToPage(R.id.fragment, parentFragmentManager)
+            }
             addButton("AAC 페이징 라이브러리 안쓰고 페이징 구현해보기") {
                 customPagingBridge.moveToPage(R.id.fragment, parentFragmentManager)
             }

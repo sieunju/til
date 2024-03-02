@@ -16,6 +16,7 @@ dependencies {
     implementation(project(":legacy"))
     implementation(project(":features:recyclerview-bridge"))
     implementation(project(":features:recyclerview_custom_paging_bridge"))
+    implementation(project(":features:rv_simple_like_bridge"))
 
     /**
      * Android X

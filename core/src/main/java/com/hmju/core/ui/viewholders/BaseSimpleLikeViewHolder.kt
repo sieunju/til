@@ -11,6 +11,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.findViewTreeLifecycleOwner
+import com.hmju.core.like_manager.LikeManager
 import com.hmju.core.models.body.LikeRequestBody
 import com.hmju.core.rxbus.RxBus
 import com.hmju.core.rxbus.SimpleLikeEvent
@@ -72,9 +73,24 @@ abstract class BaseSimpleLikeViewHolder<T : ViewDataBinding>(
         }
     }
 
-    protected fun simpleLikeClick(view: View, id: Long) {
+    protected fun simpleLikeClick(view: View, id: Long?) {
+        if (id == null) return
         view.isSelected = !view.isSelected
         requestLike(view.isSelected, id)
+    }
+
+    protected fun simpleLikeChange(view: View, id: Long?) {
+        if (id == null) return
+
+        // 좋아요 표시를 해야 하는 아이템
+        if (LikeManager.isLike(id)) {
+            if (!view.isSelected) {
+                binding.invalidateAll()
+            }
+        } else if (view.isSelected) {
+            // 좋아요 표시를 하면 안되는 아이템이 선택이 되어있다 -> 해제.
+            binding.invalidateAll()
+        }
     }
 
     private fun initLikeChange() {

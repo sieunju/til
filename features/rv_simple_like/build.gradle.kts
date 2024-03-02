@@ -59,6 +59,11 @@ dependencies {
     implementation(KotlinX.serialization)
 
     /**
+     * Glide
+     */
+    implementation(Glide.base)
+
+    /**
      * Unit Test
      */
     testImplementation(UnitTest.junit)

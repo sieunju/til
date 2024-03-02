@@ -2,6 +2,7 @@ package com.hmju.core.network
 
 import com.hmju.core.models.base.JSendObj
 import com.hmju.core.models.body.LikeRequestBody
+import com.hmju.core.models.entity.EmptyEntity
 import io.reactivex.rxjava3.core.Single
 import okhttp3.ResponseBody
 import retrofit2.http.Body
@@ -18,10 +19,10 @@ interface ApiService {
     @POST("/api/v1/til/goods/like")
     fun postLike(
         @Body body: LikeRequestBody
-    ): Single<JSendObj<ResponseBody>>
+    ): Single<JSendObj<EmptyEntity>>
 
     @DELETE("/api/v1/til/goods/like/{id}")
     fun deleteLike(
         @Path("id") id: Long
-    ): Single<JSendObj<ResponseBody>>
+    ): Single<JSendObj<EmptyEntity>>
 }

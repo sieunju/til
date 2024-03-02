@@ -6,6 +6,10 @@
     <data>
 
         <variable
+            name="requestManager"
+            type="com.bumptech.glide.RequestManager" />
+
+        <variable
             name="model"
             type="com.features.recyclerview.models.ui.GoodsModel" />
     </data>
@@ -34,6 +38,7 @@
                     android:scaleType="centerCrop"
                     app:imgPath="@{model.imagePath}"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:requestManager="@{requestManager}"
                     tools:src="@tools:sample/backgrounds/scenic" />
 
                 <com.google.android.material.textview.MaterialTextView

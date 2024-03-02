@@ -2,6 +2,7 @@ package com.hmju.core.ui.viewholders
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.core.view.doOnAttach
 import androidx.core.view.doOnDetach
@@ -57,7 +58,7 @@ abstract class BaseViewHolder<T : ViewDataBinding>(
      * @param variableId BR
      * @param viewModel ViewModel
      */
-    protected fun bindRequestManager(variableId: Int, viewModel: BaseViewModel?) {
+    protected fun bindRequestManager(@IdRes variableId: Int, viewModel: BaseViewModel?) {
         if (viewModel == null) return
         if (viewModel is FragmentViewModel) {
             binding.setVariable(variableId, viewModel.requestManager)

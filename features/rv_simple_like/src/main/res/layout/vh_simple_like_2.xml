@@ -6,6 +6,10 @@
     <data>
 
         <variable
+            name="requestManager"
+            type="com.bumptech.glide.RequestManager" />
+
+        <variable
             name="model"
             type="com.features.rv_simple_like.models.ui.Simple2UiModel" />
     </data>
@@ -38,6 +42,7 @@
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
             app:imgPath="@{model.imagePath}"
+            app:requestManager="@{requestManager}"
             tools:src="@tools:sample/backgrounds/scenic" />
 
         <androidx.appcompat.widget.AppCompatImageView
