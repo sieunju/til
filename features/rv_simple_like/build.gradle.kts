@@ -7,30 +7,56 @@ plugins {
 }
 
 android {
-    namespace = "com.features.network"
+    namespace = "com.features.rv_simple_like"
     dataBinding { enable = true }
 }
 
 dependencies {
     implementation(project(":core"))
-    implementation(project(":features:network-bridge"))
-    implementation(project(":features:network_v2-bridge"))
-    implementation(project(":features:network_error_handling_bridge"))
-    implementation(project(":features:network_jsend_format_bridge"))
-    implementation(project(":features:network_expired_token_bridge"))
+    implementation(project(":features:rv_simple_like_bridge"))
 
     /**
      * Android X
      */
     implementation(AndroidX.appCompat)
+    implementation(AndroidX.viewModel)
     implementation(AndroidX.fragment)
+    implementation(AndroidX.constraintLayout)
     implementation(AndroidX.material)
+    implementation(AndroidX.cardView)
+
+    /**
+     * Timber
+     */
+    implementation(Log.timber)
+
+    /**
+     * Coroutines
+     */
+    implementation(Co.core)
+    implementation(Co.android)
+
+    /**
+     * Rx
+     */
+    implementation(Rx.java)
+    implementation(Rx.android)
 
     /**
      * Hilt
      */
     implementation(Hilt.android)
     kapt(Hilt.compiler)
+
+    /**
+     * Network
+     */
+    implementation(Retrofit.base)
+
+    /**
+     * Kotlinx Serialization
+     */
+    implementation(KotlinX.serialization)
 
     /**
      * Unit Test

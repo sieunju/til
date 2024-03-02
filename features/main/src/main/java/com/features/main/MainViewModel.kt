@@ -28,7 +28,7 @@ class MainViewModel @Inject constructor(
     }
 
     fun moveToRecyclerViewPage() {
-        recyclerViewBridge.moveToRecyclerViewPage()
+        recyclerViewBridge.moveToPage()
     }
 
     fun moveToMvvmLifecyclePage() {

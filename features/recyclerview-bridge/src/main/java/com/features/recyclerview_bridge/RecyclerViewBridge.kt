@@ -6,5 +6,5 @@ package com.features.recyclerview_bridge
  * Created by juhongmin on 2022/07/23
  */
 interface RecyclerViewBridge {
-    fun moveToRecyclerViewPage()
+    fun moveToPage()
 }

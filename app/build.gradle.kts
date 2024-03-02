@@ -74,7 +74,9 @@ dependencies {
     implementation(project(":features:network_jsend_format"))
     implementation(project(":features:network_jsend_format_bridge"))
     implementation(project(":features:network_expired_token"))
-    implementation(project(":features:network_expired_token_bridge"))
+    implementation(project(":features:rv_simple_like"))
+    implementation(project(":features:rv_simple_like_bridge"))
+
 
     /**
      * Network

@@ -13,6 +13,7 @@ import com.features.recyclerview.models.ui.GoodsModel
 import com.features.recyclerview.usecase.GetGoodsUseCase
 import com.hmju.core.models.params.PagingQueryParams
 import com.hmju.core.ui.base.BaseFragment
+import com.hmju.core.ui.base.FragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -27,9 +28,11 @@ import javax.inject.Inject
  */
 @AndroidEntryPoint
 class SimpleLikeRecyclerViewFragment :
-    BaseFragment<FSimpleLikeRecyclerviewBinding, SimpleLikeFragmentViewModel>(R.layout.f_simple_like_recyclerview) {
+    BaseFragment<FSimpleLikeRecyclerviewBinding, FragmentViewModel>(
+        R.layout.f_simple_like_recyclerview
+    ) {
 
-    override val viewModel: SimpleLikeFragmentViewModel by initViewModel()
+    override val viewModel: FragmentViewModel by initViewModel()
     override val bindingVariable: Int = BR.vm
     private val compositeDisposable: CompositeDisposable by lazy { CompositeDisposable() }
 

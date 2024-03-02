@@ -16,7 +16,7 @@ internal class RecyclerViewBridgeImpl @Inject constructor(
     @ApplicationContext private val context: Context
 ) : RecyclerViewBridge {
 
-    override fun moveToRecyclerViewPage() {
+    override fun moveToPage() {
         Intent(context, RecyclerViewActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(this)
