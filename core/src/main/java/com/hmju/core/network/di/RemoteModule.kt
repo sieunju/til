@@ -2,7 +2,7 @@ package com.hmju.core.network.di
 
 import com.hmju.core.login_manager.LoginManager
 import com.hmju.core.login_manager.di.LoginManagerModule
-import com.hmju.core.network.ApiService
+import com.hmju.core.network.CommonApiService
 import com.hmju.core.network.AuthManager
 import com.hmju.core.network.NetworkConfig
 import com.hmju.core.network.NetworkProvider
@@ -131,7 +131,7 @@ internal object RemoteModule {
     @Provides
     fun provideApiService(
         provider: NetworkProvider
-    ): ApiService {
-        return provider.createApiService(ApiService::class.java)
+    ): CommonApiService {
+        return provider.createApiService(CommonApiService::class.java)
     }
 }

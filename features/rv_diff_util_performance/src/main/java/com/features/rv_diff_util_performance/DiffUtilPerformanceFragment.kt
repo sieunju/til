@@ -1,4 +1,4 @@
-package com.features.recyclerview.ui.diffutil_performance
+package com.features.rv_diff_util_performance
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -6,9 +6,7 @@ import android.view.View
 import android.widget.NumberPicker
 import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
-import com.features.recyclerview.BR
-import com.features.recyclerview.R
-import com.features.recyclerview.databinding.FPerformanceDiffUtilBinding
+import com.features.rv_diff_util_performance.databinding.FPerformanceDiffUtilBinding
 import com.hmju.core.ui.base.BaseFragment
 import com.hmju.core.ui.base.BaseUiModel
 import com.hmju.core.ui.base.FragmentViewModel
@@ -16,7 +14,116 @@ import com.hmju.core.ui.diffutil.BaseDiffUtil
 import com.hmju.legacy.recyclerview.diffutil.BetterDiffUtil
 import com.hmju.legacy.recyclerview.diffutil.IsDiffUtil
 import com.hmju.legacy.recyclerview.diffutil.IsLegacyDiffUtil
-import com.hmju.legacy.recyclerview.model.*
+import com.hmju.legacy.recyclerview.model.Model1
+import com.hmju.legacy.recyclerview.model.Model10
+import com.hmju.legacy.recyclerview.model.Model100
+import com.hmju.legacy.recyclerview.model.Model101
+import com.hmju.legacy.recyclerview.model.Model102
+import com.hmju.legacy.recyclerview.model.Model103
+import com.hmju.legacy.recyclerview.model.Model104
+import com.hmju.legacy.recyclerview.model.Model105
+import com.hmju.legacy.recyclerview.model.Model106
+import com.hmju.legacy.recyclerview.model.Model107
+import com.hmju.legacy.recyclerview.model.Model108
+import com.hmju.legacy.recyclerview.model.Model109
+import com.hmju.legacy.recyclerview.model.Model11
+import com.hmju.legacy.recyclerview.model.Model110
+import com.hmju.legacy.recyclerview.model.Model12
+import com.hmju.legacy.recyclerview.model.Model13
+import com.hmju.legacy.recyclerview.model.Model14
+import com.hmju.legacy.recyclerview.model.Model15
+import com.hmju.legacy.recyclerview.model.Model16
+import com.hmju.legacy.recyclerview.model.Model17
+import com.hmju.legacy.recyclerview.model.Model18
+import com.hmju.legacy.recyclerview.model.Model19
+import com.hmju.legacy.recyclerview.model.Model2
+import com.hmju.legacy.recyclerview.model.Model20
+import com.hmju.legacy.recyclerview.model.Model21
+import com.hmju.legacy.recyclerview.model.Model22
+import com.hmju.legacy.recyclerview.model.Model23
+import com.hmju.legacy.recyclerview.model.Model24
+import com.hmju.legacy.recyclerview.model.Model25
+import com.hmju.legacy.recyclerview.model.Model26
+import com.hmju.legacy.recyclerview.model.Model27
+import com.hmju.legacy.recyclerview.model.Model28
+import com.hmju.legacy.recyclerview.model.Model29
+import com.hmju.legacy.recyclerview.model.Model3
+import com.hmju.legacy.recyclerview.model.Model30
+import com.hmju.legacy.recyclerview.model.Model31
+import com.hmju.legacy.recyclerview.model.Model32
+import com.hmju.legacy.recyclerview.model.Model33
+import com.hmju.legacy.recyclerview.model.Model34
+import com.hmju.legacy.recyclerview.model.Model35
+import com.hmju.legacy.recyclerview.model.Model36
+import com.hmju.legacy.recyclerview.model.Model37
+import com.hmju.legacy.recyclerview.model.Model38
+import com.hmju.legacy.recyclerview.model.Model39
+import com.hmju.legacy.recyclerview.model.Model4
+import com.hmju.legacy.recyclerview.model.Model40
+import com.hmju.legacy.recyclerview.model.Model41
+import com.hmju.legacy.recyclerview.model.Model42
+import com.hmju.legacy.recyclerview.model.Model43
+import com.hmju.legacy.recyclerview.model.Model44
+import com.hmju.legacy.recyclerview.model.Model45
+import com.hmju.legacy.recyclerview.model.Model46
+import com.hmju.legacy.recyclerview.model.Model47
+import com.hmju.legacy.recyclerview.model.Model48
+import com.hmju.legacy.recyclerview.model.Model49
+import com.hmju.legacy.recyclerview.model.Model5
+import com.hmju.legacy.recyclerview.model.Model50
+import com.hmju.legacy.recyclerview.model.Model51
+import com.hmju.legacy.recyclerview.model.Model52
+import com.hmju.legacy.recyclerview.model.Model53
+import com.hmju.legacy.recyclerview.model.Model54
+import com.hmju.legacy.recyclerview.model.Model55
+import com.hmju.legacy.recyclerview.model.Model56
+import com.hmju.legacy.recyclerview.model.Model57
+import com.hmju.legacy.recyclerview.model.Model58
+import com.hmju.legacy.recyclerview.model.Model59
+import com.hmju.legacy.recyclerview.model.Model6
+import com.hmju.legacy.recyclerview.model.Model60
+import com.hmju.legacy.recyclerview.model.Model61
+import com.hmju.legacy.recyclerview.model.Model62
+import com.hmju.legacy.recyclerview.model.Model63
+import com.hmju.legacy.recyclerview.model.Model64
+import com.hmju.legacy.recyclerview.model.Model65
+import com.hmju.legacy.recyclerview.model.Model66
+import com.hmju.legacy.recyclerview.model.Model67
+import com.hmju.legacy.recyclerview.model.Model68
+import com.hmju.legacy.recyclerview.model.Model69
+import com.hmju.legacy.recyclerview.model.Model7
+import com.hmju.legacy.recyclerview.model.Model70
+import com.hmju.legacy.recyclerview.model.Model71
+import com.hmju.legacy.recyclerview.model.Model72
+import com.hmju.legacy.recyclerview.model.Model73
+import com.hmju.legacy.recyclerview.model.Model74
+import com.hmju.legacy.recyclerview.model.Model75
+import com.hmju.legacy.recyclerview.model.Model76
+import com.hmju.legacy.recyclerview.model.Model77
+import com.hmju.legacy.recyclerview.model.Model78
+import com.hmju.legacy.recyclerview.model.Model79
+import com.hmju.legacy.recyclerview.model.Model8
+import com.hmju.legacy.recyclerview.model.Model80
+import com.hmju.legacy.recyclerview.model.Model81
+import com.hmju.legacy.recyclerview.model.Model82
+import com.hmju.legacy.recyclerview.model.Model83
+import com.hmju.legacy.recyclerview.model.Model84
+import com.hmju.legacy.recyclerview.model.Model85
+import com.hmju.legacy.recyclerview.model.Model86
+import com.hmju.legacy.recyclerview.model.Model87
+import com.hmju.legacy.recyclerview.model.Model88
+import com.hmju.legacy.recyclerview.model.Model89
+import com.hmju.legacy.recyclerview.model.Model9
+import com.hmju.legacy.recyclerview.model.Model90
+import com.hmju.legacy.recyclerview.model.Model91
+import com.hmju.legacy.recyclerview.model.Model92
+import com.hmju.legacy.recyclerview.model.Model93
+import com.hmju.legacy.recyclerview.model.Model94
+import com.hmju.legacy.recyclerview.model.Model95
+import com.hmju.legacy.recyclerview.model.Model96
+import com.hmju.legacy.recyclerview.model.Model97
+import com.hmju.legacy.recyclerview.model.Model98
+import com.hmju.legacy.recyclerview.model.Model99
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Flowable
@@ -27,10 +134,9 @@ import kotlin.random.Random
 import kotlin.random.nextInt
 
 /**
- * Description : DiffUtil에 대해서 개선할 방향에 대해서 다시 생각해보니 너무 아니다 싶어서
- * 더 좋은 방안이 없는지..에 대한 고민을 한 TIL
+ * Description :
  *
- * Created by juhongmin on 2022/02/19
+ * Created by juhongmin on 3/8/24
  */
 @AndroidEntryPoint
 class DiffUtilPerformanceFragment : BaseFragment<FPerformanceDiffUtilBinding, FragmentViewModel>(

@@ -76,6 +76,8 @@ dependencies {
     implementation(project(":features:network_expired_token"))
     implementation(project(":features:rv_simple_like"))
     implementation(project(":features:rv_simple_like_bridge"))
+    implementation(project(":features:rv_diff_util_performance"))
+    implementation(project(":features:rv_diff_util_performance_bridge"))
 
 
     /**

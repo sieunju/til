@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.features.rv_simple_like_bridge"
+    namespace = "com.features.rv_diff_util_performance_bridge"
 }
 
 dependencies {

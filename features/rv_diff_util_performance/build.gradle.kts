@@ -1,67 +1,35 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    id("kotlinx-serialization")
     id("dagger.hilt.android.plugin")
+    id("kotlinx-serialization")
     kotlin("kapt")
 }
 
 android {
-    namespace = "com.features.recyclerview"
+    namespace = "com.features.rv_diff_util_performance"
     dataBinding { enable = true }
 }
 
 dependencies {
     implementation(project(":core"))
     implementation(project(":legacy"))
-    implementation(project(":features:recyclerview-bridge"))
-    implementation(project(":features:recyclerview_custom_paging_bridge"))
-    implementation(project(":features:rv_simple_like_bridge"))
     implementation(project(":features:rv_diff_util_performance_bridge"))
 
     /**
      * Android X
      */
     implementation(AndroidX.appCompat)
-    implementation(AndroidX.recyclerView)
-    implementation(AndroidX.constraintLayout)
+    implementation(AndroidX.viewModel)
     implementation(AndroidX.fragment)
-    implementation(AndroidX.activity)
-    implementation(AndroidX.cardView)
+    implementation(AndroidX.constraintLayout)
     implementation(AndroidX.material)
+    implementation(AndroidX.cardView)
 
     /**
      * Timber
      */
     implementation(Log.timber)
-
-    /**
-     * Hilt
-     */
-    implementation(Hilt.android)
-    kapt(Hilt.compiler)
-
-    /**
-     * Rx
-     */
-    implementation(Rx.java)
-    implementation(Rx.kotlin)
-    implementation(Rx.android)
-
-    /**
-     * Network
-     */
-    implementation(Retrofit.base)
-
-    /**
-     * Kotlin
-     */
-    implementation(Kotlin.reflect)
-
-    /**
-     * Glide
-     */
-    implementation(Glide.base)
 
     /**
      * Coroutines
@@ -70,9 +38,16 @@ dependencies {
     implementation(Co.android)
 
     /**
-     * Kotlinx Serialization
+     * Rx
      */
-    implementation(KotlinX.serialization)
+    implementation(Rx.java)
+    implementation(Rx.android)
+
+    /**
+     * Hilt
+     */
+    implementation(Hilt.android)
+    kapt(Hilt.compiler)
 
     /**
      * Unit Test
