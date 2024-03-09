@@ -66,3 +66,8 @@
 # R8 full mode strips signatures from non-kept items.
 -keep,allowobfuscation,allowshrinking interface com.hmju.core.models.base.ApiResponse
 # [s] Data Model
+
+# [s] Glide
+-keep public class * extends com.bumptech.glide.module.AppGlideModule
+-keep class com.bumptech.glide.GeneratedAppGlideModuleImpl
+# [e] Glide

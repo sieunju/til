@@ -26,6 +26,7 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:onLoadNextPage="@{()->vm.onLoadNextPage()}"
             app:pagingModel="@{vm.pagingModel}"
+            app:viewModel="@{vm}"
             tools:listitem="@layout/vh_rv_refactor_diff_util_1" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

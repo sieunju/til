@@ -117,6 +117,14 @@ dependencies {
     implementation(Rx.kotlin)
 
     /**
+     * Glide
+     */
+    implementation(Glide.base)
+    implementation(Glide.compiler)
+    implementation(Glide.okhttp)
+    kapt(Glide.compiler)
+
+    /**
      * Timber
      */
     implementation(Log.timber)
