@@ -1,13 +1,12 @@
-package com.features.recyclerview.ui.diffutil_refactor
+package com.features.rv_refactor_diff_util.ui
 
 import androidx.lifecycle.viewModelScope
-import com.features.recyclerview.ApiService
-import com.features.recyclerview.models.GoodsOneUiModel
-import com.features.recyclerview.models.GoodsTwoUiModel
-import com.features.recyclerview.models.ui.GoodsModel
-import com.features.recyclerview.usecase.GetGoodsCoUseCase
+import com.features.rv_refactor_diff_util.ApiService
+import com.features.rv_refactor_diff_util.models.ui.GoodsModel
+import com.features.rv_refactor_diff_util.models.ui.GoodsOneModel
+import com.features.rv_refactor_diff_util.models.ui.GoodsTwoModel
+import com.features.rv_refactor_diff_util.usecase.GetGoodsUseCase
 import com.hmju.core.models.params.PagingQueryParams
-import com.hmju.core.ui.base.BaseUiModel
 import com.hmju.core.ui.base.FragmentViewModel
 import com.hmju.core.ui.livedata.ListLiveData
 import com.hmju.core.ui.paging.PagingModel
@@ -32,14 +31,19 @@ import timber.log.Timber
 import javax.inject.Inject
 import kotlin.random.Random
 
+/**
+ * Description :
+ *
+ * Created by juhongmin on 3/9/24
+ */
 @HiltViewModel
 class RefactorDiffUtilViewModel @Inject constructor(
-    private val getGoodsCoUseCase: GetGoodsCoUseCase,
+    private val getGoodsCoUseCase: GetGoodsUseCase,
     private val apiService: ApiService
 ) : FragmentViewModel() {
 
-    private val _dataList: ListLiveData<BaseUiModel> by lazy { ListLiveData() }
-    val dataList: ListLiveData<BaseUiModel> get() = _dataList
+    private val _dataList: ListLiveData<Any> by lazy { ListLiveData() }
+    val dataList: ListLiveData<Any> get() = _dataList
 
     val pagingModel: PagingModel by lazy { PagingModel() }
     private val queryMap: PagingQueryParams by lazy { PagingQueryParams() }
@@ -83,7 +87,7 @@ class RefactorDiffUtilViewModel @Inject constructor(
         return viewModelScope.launch(Dispatchers.Main) {
             return@launch combine(
                 flowOf(getGoodsCoUseCase(queryMap, 300)),
-                flowOf(apiService.fetchCoJSendList())
+                flowOf(apiService.fetchJSendList())
             ) { list, jsend ->
                 Timber.d("코루틴 콤바인 ${list.size} $jsend")
                 return@combine list to jsend
@@ -121,13 +125,13 @@ class RefactorDiffUtilViewModel @Inject constructor(
         }
     }
 
-    private fun List<GoodsModel>.toUiModel(): List<BaseUiModel> {
-        val list = mutableListOf<BaseUiModel>()
+    private fun List<GoodsModel>.toUiModel(): List<Any> {
+        val list = mutableListOf<Any>()
         this.forEach {
             if (Random.nextBoolean()) {
-                list.add(GoodsOneUiModel(it))
+                list.add(GoodsOneModel(it))
             } else {
-                list.add(GoodsTwoUiModel(it))
+                list.add(GoodsTwoModel(it))
             }
         }
         return list
@@ -142,9 +146,9 @@ class RefactorDiffUtilViewModel @Inject constructor(
             val uiList = getGoodsCoUseCase(queryMap, 0)
                 .map {
                     if (Random.nextBoolean()) {
-                        GoodsOneUiModel(it)
+                        GoodsOneModel(it)
                     } else {
-                        GoodsTwoUiModel(it)
+                        GoodsTwoModel(it)
                     }
                 }
             _dataList.addAll(uiList)
@@ -158,10 +162,10 @@ class RefactorDiffUtilViewModel @Inject constructor(
      * 간단한 아이디 값정보만 비교처리하는 함수
      */
     fun onItemTheSame(oldItem: Any, newItem: Any): Boolean {
-        return if (oldItem is GoodsOneUiModel && newItem is GoodsOneUiModel) {
-            oldItem.model.id == newItem.model.id
-        } else if (oldItem is GoodsTwoUiModel && newItem is GoodsTwoUiModel) {
-            oldItem.model.id == newItem.model.id
+        return if (oldItem is GoodsOneModel && newItem is GoodsOneModel) {
+            oldItem.id == newItem.id
+        } else if (oldItem is GoodsTwoModel && newItem is GoodsTwoModel) {
+            oldItem.id == newItem.id
         } else {
             false
         }
@@ -171,20 +175,12 @@ class RefactorDiffUtilViewModel @Inject constructor(
      * 좀더 디테일 하게 비교처리하는 함수
      */
     fun onContentsTheSame(oldItem: Any, newItem: Any): Boolean {
-        return if (oldItem is GoodsOneUiModel && newItem is GoodsOneUiModel) {
-            oldItem.model == newItem.model
-        } else if (oldItem is GoodsTwoUiModel && newItem is GoodsTwoUiModel) {
-            oldItem.model == newItem.model
+        return if (oldItem is GoodsOneModel && newItem is GoodsOneModel) {
+            oldItem == newItem
+        } else if (oldItem is GoodsTwoModel && newItem is GoodsTwoModel) {
+            oldItem == newItem
         } else {
             false
-        }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        compositeDisposable.clear()
-        if (!compositeDisposable.isDisposed) {
-            compositeDisposable.dispose()
         }
     }
 }

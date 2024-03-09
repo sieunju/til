@@ -5,10 +5,10 @@ import android.view.View
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.fragment.app.Fragment
 import com.features.recyclerview.databinding.FRecyclerviewBinding
-import com.features.recyclerview.ui.diffutil_refactor.RefactorDiffUtilFragment
 import com.features.recyclerview.ui.diffutil_v2.DiffUtil2Fragment
 import com.features.recyclerview_custom_paging_bridge.RecyclerViewCustomPagingBridge
 import com.features.rv_diff_util_performance_bridge.RvDiffUtilPerformanceBridge
+import com.features.rv_refactor_diff_util_bridge.RvRefactorDiffUtilBridge
 import com.features.rv_simple_like_bridge.RvSimpleLikeBridge
 import com.google.android.material.button.MaterialButton
 import com.hmju.core.ui.base.BaseFragment
@@ -33,6 +33,9 @@ class RecyclerViewFragment : BaseFragment<FRecyclerviewBinding, FragmentViewMode
     @Inject
     lateinit var diffUtilPerformanceBridge: RvDiffUtilPerformanceBridge
 
+    @Inject
+    lateinit var rvRefactorDiffUtilBridge: RvRefactorDiffUtilBridge
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initButton()
@@ -49,7 +52,9 @@ class RecyclerViewFragment : BaseFragment<FRecyclerviewBinding, FragmentViewMode
             addButton("DiffUtil 퍼포먼스 테스트") {
                 diffUtilPerformanceBridge.moveToPage(R.id.fragment, parentFragmentManager)
             }
-            addButton("유지보수하기 쉽게 DiffUtil 사용해보기", RefactorDiffUtilFragment())
+            addButton("유지보수하기 쉽게 DiffUtil 사용해보기") {
+                rvRefactorDiffUtilBridge.moveToPage(R.id.fragment, parentFragmentManager)
+            }
             addButton("DiffUtil 고질적인 문제 처리해보기 v1", DiffUtil2Fragment())
         }
     }
