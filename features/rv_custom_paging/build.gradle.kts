@@ -7,19 +7,13 @@ plugins {
 }
 
 android {
-    namespace = "com.features.recyclerview"
+    namespace = "com.features.rv_custom_paging"
     dataBinding { enable = true }
 }
 
 dependencies {
     implementation(project(":core"))
-    implementation(project(":legacy"))
-    implementation(project(":features:recyclerview-bridge"))
     implementation(project(":features:rv_custom_paging_bridge"))
-    implementation(project(":features:rv_simple_like_bridge"))
-    implementation(project(":features:rv_diff_util_performance_bridge"))
-    implementation(project(":features:rv_refactor_diff_util_bridge"))
-    implementation(project(":features:rv_diff_util_2_bridge"))
 
     /**
      * Android X
@@ -33,9 +27,14 @@ dependencies {
     implementation(AndroidX.material)
 
     /**
-     * Timber
+     * Network
      */
-    implementation(Log.timber)
+    implementation(Retrofit.base)
+
+    /**
+     * Glide
+     */
+    implementation(Glide.base)
 
     /**
      * Hilt
@@ -44,26 +43,9 @@ dependencies {
     kapt(Hilt.compiler)
 
     /**
-     * Rx
+     * Timber
      */
-    implementation(Rx.java)
-    implementation(Rx.kotlin)
-    implementation(Rx.android)
-
-    /**
-     * Network
-     */
-    implementation(Retrofit.base)
-
-    /**
-     * Kotlin
-     */
-    implementation(Kotlin.reflect)
-
-    /**
-     * Glide
-     */
-    implementation(Glide.base)
+    implementation(Log.timber)
 
     /**
      * Coroutines

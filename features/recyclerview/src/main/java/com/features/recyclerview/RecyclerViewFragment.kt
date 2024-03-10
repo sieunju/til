@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.LinearLayoutCompat
 import com.features.recyclerview.databinding.FRecyclerviewBinding
-import com.features.recyclerview_custom_paging_bridge.RecyclerViewCustomPagingBridge
+import com.features.rv_custom_paging_bridge.RecyclerViewCustomPagingBridge
 import com.features.rv_diff_util_2_bridge.RvDiffUtil2Bridge
 import com.features.rv_diff_util_performance_bridge.RvDiffUtilPerformanceBridge
 import com.features.rv_refactor_diff_util_bridge.RvRefactorDiffUtilBridge

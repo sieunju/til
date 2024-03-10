@@ -1,7 +1,7 @@
 package com.hmju.test.ui.rv_custom_paging
 
 import androidx.test.core.app.launchActivity
-import com.features.recyclerview_custom_paging_bridge.RecyclerViewCustomPagingBridge
+import com.features.rv_custom_paging_bridge.RecyclerViewCustomPagingBridge
 import com.hmju.test.TestFragmentActivity
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
