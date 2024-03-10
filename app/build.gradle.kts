@@ -80,6 +80,8 @@ dependencies {
     implementation(project(":features:rv_diff_util_performance_bridge"))
     implementation(project(":features:rv_refactor_diff_util"))
     implementation(project(":features:rv_refactor_diff_util_bridge"))
+    implementation(project(":features:rv_diff_util_2"))
+    implementation(project(":features:rv_diff_util_2_bridge"))
 
     /**
      * Network
