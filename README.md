@@ -71,13 +71,18 @@ keystore.release.key_password=til1234qwer
     - [Rx에서 코루틴으로 점진적으로 전환 해보기](https://github.com/sieunju/TIL/wiki/Rx-%EC%97%90%EC%84%9C-Coroutine-%EC%9C%BC%EB%A1%9C-%EB%A7%88%EC%9D%B4%EA%B7%B8%EB%A0%88%EC%9D%B4%EC%85%98) 
 
 
+### Release (.apk)
+```shell
+./gradlew release
+```
+
 ### DI Graph
 - install
 ```shell
 brew install graphviz
 ```
 
-```Groovy
+```shell
  ./gradlew projectDependencyGraph
 ```
 ![projectGraph](https://raw.githubusercontent.com/sieunju/TIL/develop/assets/project_graph.png)

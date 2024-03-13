@@ -71,3 +71,7 @@
 -keep public class * extends com.bumptech.glide.module.AppGlideModule
 -keep class com.bumptech.glide.GeneratedAppGlideModuleImpl
 # [e] Glide
+
+# [s] ItemListAdapter 에서 자동으로 ViewHolder Constructor 하기위한 선언문
+-keep class * extends com.hmju.core.ui.viewholders.BaseViewHolder { <init>();*;}
+# [e] ItemListAdapter 에서 자동으로 ViewHolder Constructor 하기위한 선언문
