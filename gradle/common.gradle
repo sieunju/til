@@ -9,10 +9,10 @@ properties.load(project.rootProject.file("local.properties").newDataInputStream(
 
 if (hasLibraryPlugin || hasApplicationPlugin) {
     android {
-        compileSdk = Apps.compileSdkVersion
+        compileSdk = 34
         defaultConfig {
-            targetSdk = Apps.targetSdkVersion
-            minSdk = Apps.minSdkVersion
+            targetSdk = 34
+            minSdk = 26
             if (hasLibraryPlugin) {
                 consumerProguardFiles("consumer-rules.pro")
             }
@@ -20,12 +20,12 @@ if (hasLibraryPlugin || hasApplicationPlugin) {
         }
 
         compileOptions {
-            sourceCompatibility = Java.compile
-            targetCompatibility = Java.compile
+            sourceCompatibility = JavaVersion.VERSION_17
+            targetCompatibility = JavaVersion.VERSION_17
         }
 
         kotlinOptions {
-            jvmTarget = Java.jvmTarget
+            jvmTarget = "17"
         }
 
         signingConfigs {
