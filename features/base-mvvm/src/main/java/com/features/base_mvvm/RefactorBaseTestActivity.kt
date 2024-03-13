@@ -26,8 +26,9 @@ import timber.log.Timber
  * Created by juhongmin on 2022/03/19
  */
 @AndroidEntryPoint
-class RefactorBaseTestActivity : BaseActivity<ARefactorBaseTestBinding, RefactorTestViewModel>
-    (R.layout.a_refactor_base_test) {
+class RefactorBaseTestActivity : BaseActivity<ARefactorBaseTestBinding, RefactorTestViewModel>(
+    R.layout.a_refactor_base_test
+) {
 
     override val viewModel: RefactorTestViewModel by initViewModel()
     override val bindingVariable: Int = BR.vm
@@ -71,10 +72,7 @@ class RefactorBaseTestActivity : BaseActivity<ARefactorBaseTestBinding, Refactor
 
         // lifecycleScope.launchWhenResumed { flow.collectLatest { Timber.d("LaunchWhenResume $it") } }
 
-        flow
-            .catch {
-                Timber.d("ERROR $it")
-            }
+        flow.catch { Timber.d("ERROR $it") }
             .flatMapConcat { flowOf(it) }
             .onEach { Timber.d("JJJ $it") }
             .launchIn(lifecycleScope)

@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import com.features.base_mvvm.usecase.GetGoodsUseCase
 import com.hmju.core.login_manager.LoginManager
 import com.hmju.core.models.params.PagingQueryParams
+import com.hmju.core.ui.base.ActivityResult
 import com.hmju.core.ui.base.ActivityViewModel
 import com.hmju.core.ui.base.BaseActivity
 import com.hmju.core.ui.base.IntentKey
@@ -25,8 +26,6 @@ class MvvmLifecycleTestViewModel @Inject constructor(
     private val loginManager: LoginManager,
     private val getGoodsUseCase: GetGoodsUseCase
 ) : ActivityViewModel() {
-
-    val startMovePageEvent: MutableLiveData<Unit> by lazy { MutableLiveData() }
 
     private val _contents: MutableLiveData<String> by lazy { MutableLiveData() }
     val contents: LiveData<String> get() = _contents
@@ -55,14 +54,18 @@ class MvvmLifecycleTestViewModel @Inject constructor(
         setResultSaveData("HiKey", "dddfefefeffe")
         setResultSaveData("Hello....", System.currentTimeMillis())
         setResultSaveData(IntentKey.TOKEN, "ChangeResult")
+        onPageFinish()
     }
 
-    fun movePage2Req222() {
-        startMovePageEvent.value = null
+    fun moveToTestPage() {
+        ActivityResult.Builder(MvvmLifecycleTestActivity::class)
+            .setRequestCode(3001)
+            .movePage()
     }
 
     override fun onActivityResult(reqCode: Int, resCode: Int, data: Bundle) {
         super.onActivityResult(reqCode, resCode, data)
+        Timber.d("111111111111111111 ${reqCode}")
         when (reqCode) {
             3001 -> {
                 if (resCode == Activity.RESULT_OK) {
@@ -74,29 +77,5 @@ class MvvmLifecycleTestViewModel @Inject constructor(
                 }
             }
         }
-    }
-
-    fun movePermission() {
-        setResultSaveData(BaseActivity.RES_CODE, Activity.RESULT_OK)
-    }
-
-    override fun onDirectCreatedToResumed() {
-        super.onDirectCreatedToResumed()
-        testResumeOne()
-        testResumeTwo()
-        testOnStopped()
-    }
-
-
-    private fun testResumeOne() {
-        Timber.d("resume One")
-    }
-
-    private fun testResumeTwo() {
-        Timber.d("resume Two")
-    }
-
-    private fun testOnStopped() {
-        Timber.d("stopped ")
     }
 }

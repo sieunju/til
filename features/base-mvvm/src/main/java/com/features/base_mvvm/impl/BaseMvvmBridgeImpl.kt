@@ -13,8 +13,8 @@ import javax.inject.Inject
  *
  * Created by juhongmin on 2022/07/24
  */
-internal class BaseMvvmBridgeImpl @Inject constructor(
-    @ApplicationContext private val context: Context
+internal class BaseMvvmBridgeImpl (
+    private val context: Context
 ) : BaseMvvmBridge {
     override fun moveToBaseMvvm() {
         Intent(context, RefactorBaseTestActivity::class.java).apply {
