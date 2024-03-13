@@ -116,14 +116,15 @@ open class ActivityViewModel @Inject constructor() : BaseViewModel() {
      *
      */
     protected fun ActivityResult.Builder.movePage() {
+        val page = this.build()
         try {
             if (Looper.myLooper() == Looper.getMainLooper()) {
-                _startActivityPage.value = this.build()
+                _startActivityPage.value = page
             } else {
-                _startActivityPage.postValue(this.build())
+                _startActivityPage.postValue(page)
             }
         } catch (ex: Exception) {
-            _startActivityPage.postValue(this.build())
+            _startActivityPage.postValue(page)
         }
     }
 
