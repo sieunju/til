@@ -43,7 +43,7 @@ class RefactorTestViewModel @Inject constructor(
 
     fun onResult() {
         ActivityResult.Builder(MvvmLifecycleTestActivity::class)
-            .setRequestCode(300)
+            .setRequestCode(3000)
             .setBundle("Serializable", SerializableEntity("testTitle", System.currentTimeMillis()))
             .movePage()
     }
