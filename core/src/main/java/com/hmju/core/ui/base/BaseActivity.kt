@@ -54,6 +54,7 @@ abstract class BaseActivity<T : ViewDataBinding, VM : ActivityViewModel>(
             onDirectCreate()
             onIntent()
             startActivityPage.observe(this@BaseActivity) { startActivityAndAnimation(it) }
+            startFinishEvent.observe(this@BaseActivity) { finish() }
         }
     }
 

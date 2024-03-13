@@ -25,6 +25,8 @@ open class FragmentViewModel @Inject constructor() : BaseViewModel() {
 
     private val _startActivityPage: MutableLiveData<ActivityResult> by lazy { MutableLiveData() }
     val startActivityPage: LiveData<ActivityResult> get() = _startActivityPage
+    private val _startFinishEvent: MutableLiveData<Unit> by lazy { MutableLiveData() }
+    val startFinishEvent: LiveData<Unit> get() = _startFinishEvent
 
     // onCreateView -> onDestroyView
     private var _requestManager: RequestManager? = null
@@ -96,5 +98,17 @@ open class FragmentViewModel @Inject constructor() : BaseViewModel() {
         data: Bundle
     ) {
         Timber.d("FragmentResult ResultCode $resCode ReqCode $reqCode $data")
+    }
+
+    /**
+     * Activity Page Finish
+     * 공통 처리함수
+     */
+    fun onPageFinish() {
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            _startFinishEvent.value = Unit
+        } else {
+            _startFinishEvent.postValue(Unit)
+        }
     }
 }

@@ -74,6 +74,7 @@ abstract class BaseFragment<T : ViewDataBinding, VM : FragmentViewModel>(
             setLifecycle(Lifecycle.Event.ON_CREATE)
             onDirectViewCreated()
             startActivityPage.observe(viewLifecycleOwner) { startActivityAndAnimation(it) }
+            startFinishEvent.observe(viewLifecycleOwner) { requireActivity().finish() }
         }
     }
 
