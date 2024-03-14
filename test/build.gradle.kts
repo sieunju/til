@@ -42,6 +42,14 @@ dependencies {
     androidTestImplementation(project(":features:network_jsend_format_bridge"))
     androidTestImplementation(project(":features:network_expired_token"))
     androidTestImplementation(project(":features:network_expired_token_bridge"))
+    androidTestImplementation(project(":features:rv_simple_like"))
+    androidTestImplementation(project(":features:rv_simple_like_bridge"))
+    androidTestImplementation(project(":features:rv_diff_util_performance"))
+    androidTestImplementation(project(":features:rv_diff_util_performance_bridge"))
+    androidTestImplementation(project(":features:rv_refactor_diff_util"))
+    androidTestImplementation(project(":features:rv_refactor_diff_util_bridge"))
+    androidTestImplementation(project(":features:rv_diff_util_2"))
+    androidTestImplementation(project(":features:rv_diff_util_2_bridge"))
 
     /**
      * Android X
