@@ -13,12 +13,12 @@ import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 /**
- * Description :
+ * Description : [ChildBottomSheetBlueFragment]. [ChildBottomSheetRedFragment]
  *
  * Created by juhongmin on 2022/04/19
  */
 @AndroidEntryPoint
-class RefactorSharedBottomSheetDialog
+internal class RefactorSharedBottomSheetDialog
     : BaseSharedBottomSheetDialog<DRefactorBottomSheetBinding, RefactorBottomSheetViewModel>(
     R.layout.d_refactor_bottom_sheet
 ) {

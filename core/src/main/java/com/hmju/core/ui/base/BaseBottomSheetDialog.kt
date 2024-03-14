@@ -100,8 +100,17 @@ abstract class BaseBottomSheetDialog<T : ViewDataBinding, VM : BottomSheetViewMo
         Timber.d("${javaClass.simpleName} Dismiss")
     }
 
-    fun simpleShow(fm: FragmentManager) {
-        super.show(fm, javaClass.simpleName)
+    /**
+     * Tag 값은 리터널 상수로 처리해야 합니다.
+     * @param tag Tag
+     */
+    open fun simpleShow(fm: FragmentManager, tag: String) {
+        runCatching {
+            // 이미 보여지고 있는 Dialog 인경우 스킵
+            if (!isAdded) {
+                super.show(fm, tag)
+            }
+        }
     }
 
     /**

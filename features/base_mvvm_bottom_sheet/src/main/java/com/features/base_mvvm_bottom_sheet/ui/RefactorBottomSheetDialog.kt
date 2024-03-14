@@ -5,24 +5,23 @@ import android.view.View
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.features.base_mvvm_bottom_sheet.R
 import com.features.base_mvvm_bottom_sheet.BR
+import com.features.base_mvvm_bottom_sheet.R
 import com.features.base_mvvm_bottom_sheet.databinding.DRefactorBottomSheetBinding
-
 import com.hmju.core.ui.base.BaseBottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 /**
- * Description : ChildBottomSheetBlueFragment,
+ * Description : [ChildBottomSheetBlueFragment], [ChildBottomSheetRedFragment]
  *
  * Created by juhongmin on 2022/04/18
  */
 @AndroidEntryPoint
-class RefactorBottomSheetDialog
-    : BaseBottomSheetDialog<DRefactorBottomSheetBinding, RefactorBottomSheetViewModel>(
-    R.layout.d_refactor_bottom_sheet
-) {
+internal class RefactorBottomSheetDialog :
+    BaseBottomSheetDialog<DRefactorBottomSheetBinding, RefactorBottomSheetViewModel>(
+        R.layout.d_refactor_bottom_sheet
+    ) {
 
     override val bindingVariable = BR.vm
 

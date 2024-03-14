@@ -1,6 +1,5 @@
 package com.features.base_mvvm_bottom_sheet.di
 
-import android.content.Context
 import com.features.base_mvvm_bottom_sheet.impl.BaseMvvmBottomSheetBridgeImpl
 import com.features.base_mvvm_bottom_sheet.source.ApiService
 import com.features.base_mvvm_bottom_sheet_bridge.BaseMvvmBottomSheetBridge
@@ -8,7 +7,6 @@ import com.hmju.core.network.NetworkProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 
 /**
@@ -20,10 +18,8 @@ import dagger.hilt.components.SingletonComponent
 @Module
 internal object FeatureModule {
     @Provides
-    fun provideBridge(
-        @ApplicationContext context: Context
-    ): BaseMvvmBottomSheetBridge {
-        return BaseMvvmBottomSheetBridgeImpl(context)
+    fun provideBridge(): BaseMvvmBottomSheetBridge {
+        return BaseMvvmBottomSheetBridgeImpl()
     }
 
     @Provides
