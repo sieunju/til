@@ -50,6 +50,8 @@ dependencies {
     androidTestImplementation(project(":features:rv_refactor_diff_util_bridge"))
     androidTestImplementation(project(":features:rv_diff_util_2"))
     androidTestImplementation(project(":features:rv_diff_util_2_bridge"))
+    androidTestImplementation(project(":features:base_mvvm_bottom_sheet"))
+    androidTestImplementation(project(":features:base_mvvm_bottom_sheet_bridge"))
 
     /**
      * Android X

@@ -5,8 +5,6 @@ import android.content.Intent
 import com.features.base_mvvm.RefactorBaseTestActivity
 import com.features.base_mvvm_bridge.BaseMvvmBridge
 import com.hmju.core.ui.base.IntentKey
-import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Inject
 
 /**
  * Description : Base Mvvm Lifecycle 구현체 클래스

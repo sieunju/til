@@ -84,6 +84,8 @@ dependencies {
     implementation(project(":features:rv_diff_util_2_bridge"))
     implementation(project(":features:base_mvvm_lifecycle"))
     implementation(project(":features:base_mvvm_lifecycle_bridge"))
+    implementation(project(":features:base_mvvm_bottom_sheet"))
+    implementation(project(":features:base_mvvm_bottom_sheet_bridge"))
 
     /**
      * Network

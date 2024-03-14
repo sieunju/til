@@ -15,6 +15,7 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":features:base-mvvm-bridge"))
     implementation(project(":features:base_mvvm_lifecycle_bridge"))
+    implementation(project(":features:base_mvvm_bottom_sheet_bridge"))
 
     /**
      * Android X

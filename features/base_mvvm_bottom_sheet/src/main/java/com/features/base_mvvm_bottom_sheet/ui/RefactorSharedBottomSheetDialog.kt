@@ -26,7 +26,7 @@ internal class RefactorSharedBottomSheetDialog
     override val bindingVariable = BR.vm
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        viewModel = initBottomSheetViewModel()
+        viewModel = initViewModel()
         super.onCreate(savedInstanceState)
         setStyle(DialogFragment.STYLE_NORMAL, com.hmju.core.R.style.BottomSheetDialog)
     }

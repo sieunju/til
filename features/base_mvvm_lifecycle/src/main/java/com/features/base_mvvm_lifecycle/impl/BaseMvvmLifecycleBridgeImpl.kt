@@ -16,6 +16,7 @@ internal class BaseMvvmLifecycleBridgeImpl(
 ) : BaseMvvmLifecycleBridge {
     override fun moveToPage(model: SerializableEntity) {
         Intent(context, MvvmLifecycleTestActivity::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             putExtra("Serializable", model)
             context.startActivity(this)
         }

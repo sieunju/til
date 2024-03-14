@@ -12,6 +12,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
+import androidx.lifecycle.viewmodel.CreationExtras
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import timber.log.Timber
 
@@ -117,7 +118,13 @@ abstract class BaseSharedBottomSheetDialog<T : ViewDataBinding, VM : BottomSheet
     /**
      * SharedBottomSheet 전용 ViewModel onCreate 에서 실행 해야 한다
      */
-    protected inline fun <reified VM : BottomSheetViewModel> initBottomSheetViewModel(): VM {
-        return ViewModelProvider(viewModelStore, defaultViewModelProviderFactory).get()
+    protected inline fun <reified VM : BottomSheetViewModel> initViewModel(
+        noinline extrasProducer: (() -> CreationExtras)? = null
+    ): VM {
+        return ViewModelProvider(
+            viewModelStore,
+            defaultViewModelProviderFactory,
+            extrasProducer?.invoke() ?: this.defaultViewModelCreationExtras
+        ).get()
     }
 }

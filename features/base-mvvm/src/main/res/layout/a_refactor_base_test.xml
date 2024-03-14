@@ -33,11 +33,32 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="15dp"
             android:background="#2196F3"
             android:onClick="@{()->vm.moveToMVVMLifecycleFeature()}"
+            android:padding="15dp"
             android:text="Base MVVM Lifecycle Feature 이동합니다."
+            android:textColor="#FFF"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvBottomSheet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="#8E3939"
+            android:padding="15dp"
+            android:text="일반 바텀 시트"
+            android:textColor="#FFF" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvShareBottomSheet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="#C8964B"
+            android:padding="15dp"
+            android:text="공유 바텀 시트"
+            android:textColor="#FFF" />
 
 
     </androidx.appcompat.widget.LinearLayoutCompat>

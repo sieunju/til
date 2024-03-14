@@ -3,6 +3,7 @@ package com.features.base_mvvm
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import com.features.base_mvvm.databinding.ARefactorBaseTestBinding
+import com.features.base_mvvm_bottom_sheet_bridge.BaseMvvmBottomSheetBridge
 import com.hmju.core.ui.base.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -15,6 +16,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
+import javax.inject.Inject
 
 /**
  * Description : StartResult Test 용 액티비티
@@ -28,6 +30,9 @@ class RefactorBaseTestActivity : BaseActivity<ARefactorBaseTestBinding, Refactor
 
     override val viewModel: RefactorBaseTestViewModel by initViewModel()
     override val bindingVariable: Int = BR.vm
+
+    @Inject
+    lateinit var bottomSheetBridge: BaseMvvmBottomSheetBridge
 
     companion object {
         val flow: Flow<Int> = flow {
@@ -72,5 +77,12 @@ class RefactorBaseTestActivity : BaseActivity<ARefactorBaseTestBinding, Refactor
             .flatMapConcat { flowOf(it) }
             .onEach { Timber.d("JJJ $it") }
             .launchIn(lifecycleScope)
+
+        binding.tvBottomSheet.setOnClickListener {
+            bottomSheetBridge.showBottomSheet(supportFragmentManager)
+        }
+        binding.tvShareBottomSheet.setOnClickListener {
+            bottomSheetBridge.showShareBottomSheet(supportFragmentManager)
+        }
     }
 }
