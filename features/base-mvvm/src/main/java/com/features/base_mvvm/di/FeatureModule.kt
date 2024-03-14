@@ -1,16 +1,13 @@
 package com.features.base_mvvm.di
 
 import android.content.Context
-import com.features.base_mvvm.ApiService
 import com.features.base_mvvm.impl.BaseMvvmBridgeImpl
 import com.features.base_mvvm_bridge.BaseMvvmBridge
-import com.hmju.core.network.NetworkProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 
 /**
  * Description : 네트워크 통신 모듈
@@ -26,13 +23,5 @@ internal object FeatureModule {
         @ApplicationContext context: Context
     ): BaseMvvmBridge {
         return BaseMvvmBridgeImpl(context)
-    }
-
-    @Singleton
-    @Provides
-    fun provideApiService(
-        provider: NetworkProvider,
-    ): ApiService {
-        return provider.createApiService(ApiService::class.java)
     }
 }
