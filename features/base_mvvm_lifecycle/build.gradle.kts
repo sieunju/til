@@ -7,13 +7,12 @@ plugins {
 }
 
 android {
-    namespace = "com.features.base_mvvm"
+    namespace = "com.features.base_mvvm_lifecycle"
     dataBinding { enable = true }
 }
 
 dependencies {
     implementation(project(":core"))
-    implementation(project(":features:base-mvvm-bridge"))
     implementation(project(":features:base_mvvm_lifecycle_bridge"))
 
     /**
@@ -41,13 +40,6 @@ dependencies {
     kapt(Hilt.compiler)
 
     /**
-     * Rx
-     */
-    implementation(Rx.java)
-    implementation(Rx.kotlin)
-    implementation(Rx.android)
-
-    /**
      * Network
      */
     implementation(Retrofit.base)
@@ -64,4 +56,5 @@ dependencies {
     androidTestImplementation(UnitTest.junit)
     androidTestImplementation(UnitTest.androidJUnit)
     androidTestImplementation(UnitTest.Espresso.core)
+
 }

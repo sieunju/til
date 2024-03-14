@@ -17,13 +17,13 @@
             android:name="com.features.base_mvvm.RefactorBaseTestActivity"
             android:exported="false" />
         <activity
-            android:name="com.features.base_mvvm.ui.mvvm_lifecycle.MvvmLifecycleTest3Activity"
+            android:name="com.features.base_mvvm_lifecycle.ui.test_3.MvvmLifecycleTest3Activity"
             android:exported="false" />
         <activity
-            android:name="com.features.base_mvvm.ui.mvvm_lifecycle.MvvmLifecycleTestActivity"
+            android:name="com.features.base_mvvm_lifecycle.ui.test_1.MvvmLifecycleTestActivity"
             android:exported="false" />
         <activity
-            android:name="com.features.base_mvvm.ui.mvvm_lifecycle.MvvmLifecycleTest2Activity"
+            android:name="com.features.base_mvvm_lifecycle.ui.test_2.MvvmLifecycleTest2Activity"
             android:exported="false" />
     </application>
 

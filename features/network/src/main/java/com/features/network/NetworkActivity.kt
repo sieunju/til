@@ -32,6 +32,6 @@ class NetworkActivity :
             replace(R.id.fragment, NetworkFragment())
             addToBackStack(null)
         }
-        onBackPressedDispatcher.addCallback(onBackPressCallback)
+        onBackPressedDispatcher.addCallback(this, onBackPressCallback)
     }
 }

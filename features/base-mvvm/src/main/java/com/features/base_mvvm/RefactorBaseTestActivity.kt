@@ -9,15 +9,11 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.flatMap
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.onErrorReturn
 import timber.log.Timber
 
 /**
@@ -26,11 +22,11 @@ import timber.log.Timber
  * Created by juhongmin on 2022/03/19
  */
 @AndroidEntryPoint
-class RefactorBaseTestActivity : BaseActivity<ARefactorBaseTestBinding, RefactorTestViewModel>(
+class RefactorBaseTestActivity : BaseActivity<ARefactorBaseTestBinding, RefactorBaseTestViewModel>(
     R.layout.a_refactor_base_test
 ) {
 
-    override val viewModel: RefactorTestViewModel by initViewModel()
+    override val viewModel: RefactorBaseTestViewModel by initViewModel()
     override val bindingVariable: Int = BR.vm
 
     companion object {

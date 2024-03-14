@@ -1,19 +1,21 @@
-package com.features.recyclerview
+package com.features.base_mvvm_lifecycle.ui.test_3
 
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
-import androidx.fragment.app.commit
-import com.features.recyclerview.databinding.ActivityRecyclerViewBinding
-import com.hmju.core.ui.base.ActivityViewModel
+import androidx.activity.viewModels
+import com.features.base_mvvm_lifecycle.BR
+import com.features.base_mvvm_lifecycle.R
+import com.features.base_mvvm_lifecycle.databinding.AMvvmLifecycleTest3Binding
 import com.hmju.core.ui.base.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class RecyclerViewActivity : BaseActivity<ActivityRecyclerViewBinding, ActivityViewModel>(
-    R.layout.activity_recycler_view
-) {
+class MvvmLifecycleTest3Activity :
+    BaseActivity<AMvvmLifecycleTest3Binding, MvvmLifecycleTest3ViewModel>(
+        R.layout.a_mvvm_lifecycle_test3
+    ) {
 
-    override val viewModel: ActivityViewModel by initViewModel()
+    override val viewModel: MvvmLifecycleTest3ViewModel by viewModels()
     override val bindingVariable: Int = BR.vm
 
     private val onBackPressCallback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
@@ -28,9 +30,10 @@ class RecyclerViewActivity : BaseActivity<ActivityRecyclerViewBinding, ActivityV
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        supportFragmentManager.commit {
-            replace(R.id.fragment, RecyclerViewFragment())
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.container, MvvmLifecycleTest3Fragment())
             addToBackStack(null)
+            commit()
         }
         onBackPressedDispatcher.addCallback(this, onBackPressCallback)
     }

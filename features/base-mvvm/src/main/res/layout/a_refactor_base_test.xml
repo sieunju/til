@@ -6,7 +6,7 @@
 
         <variable
             name="vm"
-            type="com.features.base_mvvm.RefactorTestViewModel" />
+            type="com.features.base_mvvm.RefactorBaseTestViewModel" />
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -18,7 +18,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="RefactorTestViewModel" />
+            android:text="RefactorBaseTestViewModel" />
 
         <TextView
             android:layout_width="match_parent"
@@ -30,11 +30,13 @@
             android:layout_height="wrap_content"
             android:text="@{vm.title}" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="@{()->vm.onResult()}"
-            android:text="SET Result 처리를 합니다."
+            android:padding="15dp"
+            android:background="#2196F3"
+            android:onClick="@{()->vm.moveToMVVMLifecycleFeature()}"
+            android:text="Base MVVM Lifecycle Feature 이동합니다."
             app:layout_constraintTop_toTopOf="parent" />
 
 
