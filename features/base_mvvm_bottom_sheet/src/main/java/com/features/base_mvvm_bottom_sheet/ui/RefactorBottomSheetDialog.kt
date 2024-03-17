@@ -1,5 +1,6 @@
 package com.features.base_mvvm_bottom_sheet.ui
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.DialogFragment
@@ -8,6 +9,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.features.base_mvvm_bottom_sheet.BR
 import com.features.base_mvvm_bottom_sheet.R
 import com.features.base_mvvm_bottom_sheet.databinding.DRefactorBottomSheetBinding
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.hmju.core.ui.base.BaseBottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -31,11 +33,17 @@ internal class RefactorBottomSheetDialog :
         setStyle(DialogFragment.STYLE_NORMAL, com.hmju.core.R.style.BottomSheetDialog)
     }
 
+    override fun onShow(dialogInterface: DialogInterface) {
+        super.onShow(dialogInterface)
+        val behavior = setFullHeightBottomSheet(dialogInterface)
+        behavior?.state = BottomSheetBehavior.STATE_EXPANDED
+        behavior?.skipCollapsed = false
+        behavior?.isDraggable = true
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Timber.d("Dialog $viewModel")
         with(binding) {
-            vp.offscreenPageLimit = 2
             vp.isSaveEnabled = false
             val adapter = PagerAdapter(this@RefactorBottomSheetDialog)
             vp.adapter = adapter

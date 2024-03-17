@@ -1,5 +1,6 @@
 package com.features.base_mvvm_bottom_sheet.ui
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.DialogFragment
@@ -8,6 +9,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.features.base_mvvm_bottom_sheet.R
 import com.features.base_mvvm_bottom_sheet.BR
 import com.features.base_mvvm_bottom_sheet.databinding.DRefactorBottomSheetBinding
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.hmju.core.ui.base.BaseSharedBottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -29,6 +31,14 @@ internal class RefactorSharedBottomSheetDialog
         viewModel = initViewModel()
         super.onCreate(savedInstanceState)
         setStyle(DialogFragment.STYLE_NORMAL, com.hmju.core.R.style.BottomSheetDialog)
+    }
+
+    override fun onShow(dialogInterface: DialogInterface) {
+        super.onShow(dialogInterface)
+        val behavior = setFullHeightBottomSheet(dialogInterface)
+        behavior?.state = BottomSheetBehavior.STATE_EXPANDED
+        behavior?.skipCollapsed = false
+        behavior?.isDraggable = true
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
