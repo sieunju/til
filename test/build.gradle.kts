@@ -21,6 +21,7 @@ android {
 
 dependencies {
     androidTestImplementation(project(":core"))
+    androidTestImplementation(project(":legacy"))
     androidTestImplementation(project(":features:base-mvvm"))
     androidTestImplementation(project(":features:base-mvvm-bridge"))
     androidTestImplementation(project(":features:main"))
@@ -50,6 +51,8 @@ dependencies {
     androidTestImplementation(project(":features:rv_refactor_diff_util_bridge"))
     androidTestImplementation(project(":features:rv_diff_util_2"))
     androidTestImplementation(project(":features:rv_diff_util_2_bridge"))
+    androidTestImplementation(project(":features:base_mvvm_lifecycle"))
+    androidTestImplementation(project(":features:base_mvvm_lifecycle_bridge"))
     androidTestImplementation(project(":features:base_mvvm_bottom_sheet"))
     androidTestImplementation(project(":features:base_mvvm_bottom_sheet_bridge"))
 
