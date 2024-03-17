@@ -13,8 +13,8 @@ import javax.inject.Inject
  *
  * Created by juhongmin on 2023/07/23
  */
-internal class ComposeUiBridgeImpl @Inject constructor(
-    @ApplicationContext private val context: Context
+internal class ComposeUiBridgeImpl (
+    private val context: Context
 ) : ComposeUiBridge {
     override fun moveToPage() {
         Intent(context, ComposeUiActivity::class.java).apply {

@@ -20,7 +20,6 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class AsyncMigrateActivityViewModel @Inject constructor(
-    private val getGoodsUseCaseRx: GetGoodsUseCaseRx,
     private val getGoodsUseCaseCo: GetGoodsUseCaseCo,
     private val apiService: ApiService
 ) : ActivityViewModel() {

@@ -125,7 +125,7 @@ tasks.register('projectDependencyGraph') {
         if (p.exitValue() != 0) {
             throw new RuntimeException(p.errorStream.text)
         }
-        dot.delete()
+        // dot.delete()
 
         println("Project module dependency graph created at ${dot.absolutePath}.png")
     }

@@ -1,8 +1,8 @@
 package com.features.main
 
 import com.features.async_migrate_bridge.AsyncMigrateBridge
-import com.features.compose_ui_bridge.ComposeUiBridge
 import com.features.base_mvvm_bridge.BaseMvvmBridge
+import com.features.compose_ui_bridge.ComposeUiBridge
 import com.features.network_bridge.NetworkBridge
 import com.features.recyclerview_bridge.RecyclerViewBridge
 import com.hmju.core.ui.base.ActivityViewModel
@@ -16,7 +16,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val networkRequirements: NetworkBridge,
+    private val networkBridge: NetworkBridge,
     private val recyclerViewBridge: RecyclerViewBridge,
     private val mvvmRequirements: BaseMvvmBridge,
     private val asyncMigrateBridge: AsyncMigrateBridge,
@@ -24,7 +24,7 @@ class MainViewModel @Inject constructor(
 ) : ActivityViewModel() {
 
     fun moveToNetworkPage() {
-        networkRequirements.moveToNetworkPage()
+        networkBridge.moveToPage()
     }
 
     fun moveToRecyclerViewPage() {
@@ -32,11 +32,11 @@ class MainViewModel @Inject constructor(
     }
 
     fun moveToMvvmLifecyclePage() {
-        mvvmRequirements.moveToBaseMvvm()
+        mvvmRequirements.moveToPage()
     }
 
     fun moveToAsyncMigratePage() {
-        asyncMigrateBridge.moveToAsyncMigrate()
+        asyncMigrateBridge.moveToPage()
     }
 
     fun moveToComposeUiPage() {

@@ -1,23 +1,31 @@
 package com.features.async_migrate.di
 
+import android.content.Context
+import com.features.async_migrate.ApiService
 import com.features.async_migrate.impl.AsyncMigrateBridgeImpl
 import com.features.async_migrate_bridge.AsyncMigrateBridge
-import dagger.Binds
+import com.hmju.core.network.NetworkProvider
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 
-/**
- * Description :
- *
- * Created by juhongmin on 2023/05/01
- */
 @InstallIn(SingletonComponent::class)
 @Module
-internal abstract class FeatureModule {
+internal object FeatureModule {
 
-    @Singleton
-    @Binds
-    abstract fun bindAsyncMigrateBridge(impl: AsyncMigrateBridgeImpl): AsyncMigrateBridge
+    @Provides
+    fun provideBridge(
+        @ApplicationContext context: Context
+    ): AsyncMigrateBridge {
+        return AsyncMigrateBridgeImpl(context)
+    }
+
+    @Provides
+    fun provideApiService(
+        provider: NetworkProvider
+    ): ApiService {
+        return provider.createApiService(ApiService::class.java)
+    }
 }

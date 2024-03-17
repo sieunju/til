@@ -11,10 +11,11 @@ import com.hmju.core.ui.base.IntentKey
  *
  * Created by juhongmin on 2022/07/24
  */
-internal class BaseMvvmBridgeImpl (
+internal class BaseMvvmBridgeImpl(
     private val context: Context
 ) : BaseMvvmBridge {
-    override fun moveToBaseMvvm() {
+
+    override fun moveToPage() {
         Intent(context, RefactorBaseTestActivity::class.java).apply {
             putExtra(IntentKey.TOKEN, "randomToken")
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
