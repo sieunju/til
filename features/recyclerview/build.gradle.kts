@@ -1,20 +1,25 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("kotlinx-serialization")
     id("dagger.hilt.android.plugin")
     kotlin("kapt")
 }
 
 android {
     namespace = "com.features.recyclerview"
-    buildFeatures {
-        dataBinding = true
-    }
+    dataBinding { enable = true }
 }
 
 dependencies {
     implementation(project(":core"))
+    implementation(project(":legacy"))
     implementation(project(":features:recyclerview-bridge"))
+    implementation(project(":features:rv_custom_paging_bridge"))
+    implementation(project(":features:rv_simple_like_bridge"))
+    implementation(project(":features:rv_diff_util_performance_bridge"))
+    implementation(project(":features:rv_refactor_diff_util_bridge"))
+    implementation(project(":features:rv_diff_util_2_bridge"))
 
     /**
      * Android X
@@ -56,10 +61,20 @@ dependencies {
     implementation(Kotlin.reflect)
 
     /**
+     * Glide
+     */
+    implementation(Glide.base)
+
+    /**
      * Coroutines
      */
     implementation(Co.core)
     implementation(Co.android)
+
+    /**
+     * Kotlinx Serialization
+     */
+    implementation(KotlinX.serialization)
 
     /**
      * Unit Test

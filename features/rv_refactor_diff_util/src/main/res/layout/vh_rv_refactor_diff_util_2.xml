@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="requestManager"
+            type="com.bumptech.glide.RequestManager" />
+
+        <variable
+            name="model"
+            type="com.features.rv_refactor_diff_util.models.ui.GoodsTwoModel" />
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{model.title}"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:ellipsize="end"
+            android:maxLines="3"
+            app:htmlText="@{model.message}" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            app:imgPath="@{model.imagePath}"
+            app:requestManager="@{requestManager}"
+            tools:src="@tools:sample/backgrounds/scenic" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</layout>

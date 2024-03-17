@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
  *
  * Created by juhongmin on 2022/01/21
  */
-class ListLiveData<T> : MutableLiveData<MutableList<T>>() {
+class ListLiveData<T> : MutableLiveData<List<T>>() {
     private val temp: MutableList<T> by lazy { mutableListOf() }
 
     init {
@@ -53,8 +53,8 @@ class ListLiveData<T> : MutableLiveData<MutableList<T>>() {
         return value.contains(item)
     }
 
-    fun data(): MutableList<T> {
-        return temp
+    fun data(): List<T> {
+        return temp.toList()
     }
 
     fun indexOf(item: T): Int {

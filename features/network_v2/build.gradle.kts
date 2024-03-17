@@ -8,9 +8,7 @@ plugins {
 
 android {
     namespace = "com.features.network_v2"
-    buildFeatures {
-        dataBinding = true
-    }
+    dataBinding { enable = true }
     kapt {
         correctErrorTypes = true
     }

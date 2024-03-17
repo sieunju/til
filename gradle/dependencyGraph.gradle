@@ -2,7 +2,7 @@
 // from: https://github.com/JakeWharton/SdkSearch/blob/3351cad9bfacb0a364858e843774147143f58c7a/gradle/projectDependencyGraph.gradle
 tasks.register('projectDependencyGraph') {
     doLast {
-        def dotFileName = 'projectGraph'
+        def dotFileName = 'project_graph'
         def dot = new File("${rootProject.rootDir}/assets", dotFileName)
         dot.parentFile.mkdirs()
         dot.delete()
@@ -112,7 +112,7 @@ tasks.register('projectDependencyGraph') {
 
         dot << '\n  # Dependencies\n\n'
         dependencies.forEach { key, traits ->
-            dot << "  \"${key.first.path}\" -> \"${key.second.path}\""
+            dot << "  \"${key.getV1().path}\" -> \"${key.getV2().path}\""
             if (!traits.isEmpty()) {
                 dot << " [${traits.join(", ")}]"
             }
@@ -120,7 +120,6 @@ tasks.register('projectDependencyGraph') {
         }
 
         dot << '}\n'
-
         def p = "dot -Tpng -O ${dotFileName}".execute([], dot.parentFile)
         p.waitFor()
         if (p.exitValue() != 0) {

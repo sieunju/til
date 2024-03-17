@@ -1,38 +1,31 @@
 object Apps {
-    const val compileSdkVersion = 34
-    const val buildToolsVersion = "34"
-    const val minSdkVersion = 23
-    const val targetSdkVersion = 34
-    const val versionCode = 6
-    const val versionName = "0.0.6"
+    const val versionCode = 7
+    const val versionName = "0.0.7"
 }
 
 object Versions {
     const val retrofit = "2.9.0"
-    const val glide = "4.16.0"
-    const val lifecycle = "2.5.1"
+    const val lifecycle = "2.6.1"
     const val hilt = "2.45"
 }
 
 object AndroidX {
     const val ktx = "androidx.core:core-ktx:1.8.0"
-    const val appCompat = "androidx.appcompat:appcompat:1.5.1"
+    const val appCompat = "androidx.appcompat:appcompat:1.6.1"
     const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.1.4"
-    const val activity = "androidx.activity:activity-ktx:1.5.1"
-    const val fragment = "androidx.fragment:fragment-ktx:1.5.5"
+    const val activity = "androidx.activity:activity-ktx:1.6.1"
+    const val fragment = "androidx.fragment:fragment-ktx:1.6.2"
     const val material = "com.google.android.material:material:1.9.0"
-    const val multidex = "androidx.multidex:multidex:2.0.1"
     const val legacy = "androidx.legacy:legacy-support-v4:1.0.0"
     const val viewpager = "androidx.viewpager2:viewpager2:1.0.0"
     const val cardView = "androidx.cardview:cardview:1.0.0"
-    const val recyclerView = "androidx.recyclerview:recyclerview:1.2.0"
+    const val recyclerView = "androidx.recyclerview:recyclerview:1.3.2"
     const val lifecycle = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycle}"
     const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
     const val liveData = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifecycle}"
 }
 
 object Kotlin {
-    const val stdLib = "org.jetbrains.kotlin:kotlin-stdlib:1.8.10"
     const val reflect = "org.jetbrains.kotlin:kotlin-reflect:1.8.10"
 }
 
@@ -52,8 +45,8 @@ object Rx {
 }
 
 object Co {
-    const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
-    const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
+    const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3"
+    const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3"
 }
 
 object Retrofit {
@@ -85,7 +78,7 @@ object HttpTracking {
 }
 
 object Compose {
-    const val compile = "1.4.3"
+    const val compile = "1.4.8"
     const val base = "androidx.compose:compose-bom:2022.10.00"
     const val material = "androidx.compose.material3:material3"
     const val ui = "androidx.compose.ui:ui"
@@ -99,17 +92,17 @@ object Compose {
 
 object UnitTest {
     const val junit = "junit:junit:4.13.2"
-    const val rules = "androidx.test:rules:1.4.0"
+    const val rules = "androidx.test:rules:1.5.0"
     const val room = "androidx.room:room-testing:2.3.0"
-    const val core = "androidx.test:core-ktx:1.4.0"
+    const val core = "androidx.test:core-ktx:1.5.0"
     const val archCore = "androidx.arch.core:core-testing:2.1.0"
-    const val androidJUnit = "androidx.test.ext:junit-ktx:1.1.3"
-    const val runner = "androidx.test:runner:1.4.0"
+    const val androidJUnit = "androidx.test.ext:junit-ktx:1.1.5"
+    const val runner = "androidx.test:runner:1.5.2"
     const val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
 
     object Espresso {
-        const val core = "androidx.test.espresso:espresso-core:3.4.0"
-        const val intents = "androidx.test.espresso:espresso-intents:3.4.0"
+        const val core = "androidx.test.espresso:espresso-core:3.5.1"
+        const val intents = "androidx.test.espresso:espresso-intents:3.5.1"
     }
 
     object Hilt {

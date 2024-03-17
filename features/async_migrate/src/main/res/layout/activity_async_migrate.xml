@@ -6,7 +6,7 @@
     <data>
         <variable
             name="vm"
-            type="com.feature.async_migrate.AsyncMigrateActivityViewModel" />
+            type="com.features.async_migrate.AsyncMigrateActivityViewModel" />
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat

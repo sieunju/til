@@ -1,6 +1,6 @@
 package com.hmju.core.network.impl
 
-import com.hmju.core.network.NetworkConfig
+import com.hmju.core.BuildConfig
 import com.hmju.core.network.NetworkProvider
 import com.hmju.core.network.adapter.CoroutineErrorHandlingCallAdapter
 import com.hmju.core.network.adapter.RxErrorHandlingCallAdapter
@@ -26,7 +26,7 @@ internal class NetworkProviderImpl @Inject constructor(
 
     private val apiRetrofit: Retrofit by lazy {
         Retrofit.Builder()
-            .baseUrl(NetworkConfig.BASE_URL)
+            .baseUrl(BuildConfig.BASE_URL)
             .client(httpClient)
             .addCallAdapterFactory(RxErrorHandlingCallAdapter.create())
             .addCallAdapterFactory(CoroutineErrorHandlingCallAdapter.create())

@@ -1,7 +1,5 @@
 package com.hmju.core.login_manager
 
-import io.reactivex.rxjava3.core.Single
-
 /**
  * Description : 회원 로그인 매니저 관련 인터페이스
  *
@@ -10,7 +8,8 @@ import io.reactivex.rxjava3.core.Single
 interface LoginManager {
     fun setToken(token: String)
     fun getToken(): String
+    fun setRefreshToken(token: String)
+    fun getRefreshToken(): String
     fun isLogin(): Boolean
-    fun rxIsLogin(): Single<Boolean>
     fun getTokenExpiredMs(): Long
 }

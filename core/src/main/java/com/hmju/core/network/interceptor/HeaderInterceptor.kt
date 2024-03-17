@@ -1,7 +1,7 @@
 package com.hmju.core.network.interceptor
 
 import com.hmju.core.login_manager.LoginManager
-import com.hmju.core.network.NetworkConfig
+import com.hmju.core.network.NetworkConfig.Header
 import okhttp3.Interceptor
 import okhttp3.Response
 import timber.log.Timber
@@ -12,15 +12,15 @@ import java.util.concurrent.TimeUnit
  *
  * Created by juhongmin on 2022/01/12
  */
-class HeaderInterceptor(
+internal class HeaderInterceptor(
     private val loginManager: LoginManager
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val req = chain.request().newBuilder()
-            .header(NetworkConfig.HEADER_KEY_ACCEPT, NetworkConfig.HEADER_VAL_ACCEPT)
-            .header(NetworkConfig.HEADER_KEY_CONTENT, NetworkConfig.HEADER_VAL_CONTENT)
-            .header(NetworkConfig.HEADER_KEY_AUTHORIZATION, loginManager.getToken())
+            .header(Header.KEY_ACCEPT, Header.VAL_ACCEPT)
+            .header(Header.KEY_CONTENT, Header.VAL_CONTENT)
+            .header(Header.KEY_AUTH, loginManager.getToken())
             .build()
 
         val startNs = System.nanoTime()

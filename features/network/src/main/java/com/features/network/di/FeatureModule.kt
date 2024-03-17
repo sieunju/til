@@ -1,12 +1,13 @@
 package com.features.network.di
 
+import android.content.Context
 import com.features.network.impl.NetworkBridgeImpl
 import com.features.network_bridge.NetworkBridge
-import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 
 /**
  * Description : Network-UI Module
@@ -15,8 +16,11 @@ import javax.inject.Singleton
  */
 @InstallIn(SingletonComponent::class)
 @Module
-internal abstract class FeatureModule {
-    @Singleton
-    @Binds
-    abstract fun bindNetworkRequirements(requirements: NetworkBridgeImpl): NetworkBridge
+internal object FeatureModule {
+    @Provides
+    fun provideBridge(
+        @ApplicationContext context: Context
+    ): NetworkBridge {
+        return NetworkBridgeImpl(context)
+    }
 }

@@ -5,7 +5,7 @@
 
     <application>
         <activity
-            android:name=".AsyncMigrateActivity"
+            android:name="com.features.async_migrate.AsyncMigrateActivity"
             android:exported="false" />
     </application>
 

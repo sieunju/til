@@ -1,21 +1,12 @@
 package com.hmju.core.network.adapter
 
 import com.hmju.core.login_manager.LoginManager
-import com.hmju.core.network.NetworkConfig
+import com.hmju.core.models.auth.AuthTokenEntity
+import com.hmju.core.network.AuthManager
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.core.SingleTransformer
 import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.jsonObject
-import kotlinx.serialization.json.jsonPrimitive
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.RequestBody.Companion.toRequestBody
-import org.json.JSONObject
 import timber.log.Timber
 import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.ThreadPoolExecutor
@@ -30,9 +21,9 @@ import kotlin.math.pow
  *
  * Created by juhongmin on 11/25/23
  */
-class PauseAbleThreadPoolExecutor constructor(
+internal class PauseAbleThreadPoolExecutor(
     private val loginManager: LoginManager,
-    private val httpClient: OkHttpClient
+    private val authManager: AuthManager
 ) : ThreadPoolExecutor(
     4,
     Int.MAX_VALUE,
@@ -41,17 +32,6 @@ class PauseAbleThreadPoolExecutor constructor(
     LinkedBlockingQueue(),
     CallerRunsPolicy()
 ) {
-
-    private val json: Json by lazy {
-        Json {
-            isLenient = true // Json 큰따옴표 느슨하게 체크.
-            ignoreUnknownKeys = true // Field 값이 없는 경우 무시
-            coerceInputValues = true // "null" 이 들어간경우 default Argument 값으로 대체
-        }
-    }
-
-    // private val TIME_DELAY = 5000
-    private val TIME_DELAY = 0
 
     private var isPaused = false
     private val pauseLock = ReentrantLock()
@@ -134,10 +114,16 @@ class PauseAbleThreadPoolExecutor constructor(
     private fun handleTokenRefresh() {
         try {
             isPaused = true
-            val refreshToken = reqRetryRefreshToken().blockingGet()
-            loginManager.setToken(refreshToken)
+            if (authManager.isRefreshToken()) {
+                val entity = reqRetryRefreshToken().blockingGet()
+                loginManager.setToken(entity.token)
+                loginManager.setRefreshToken(entity.refreshToken)
+            } else {
+                val entity = authManager.createToken()
+                loginManager.setToken(entity.token)
+                loginManager.setRefreshToken(entity.refreshToken)
+            }
         } catch (ex: Exception) {
-            // error 대응 어떻게 할까?
             Timber.tag("Network_Test").d("handleTokenRefresh Error $ex")
         } finally {
             isPaused = false
@@ -149,49 +135,12 @@ class PauseAbleThreadPoolExecutor constructor(
     }
 
     /**
-     * Request API Refresh Token
-     *
-     * @return 재발급 받은 토큰 데이터 모델
-     */
-    @OptIn(ExperimentalSerializationApi::class)
-    private fun reqRefreshToken(): String {
-        val reqBody = JSONObject()
-        reqBody.put("email", "j.sieun@gmail.com")
-        reqBody.put("delay", TIME_DELAY)
-        reqBody.put("expiredTime", "10m")
-        val req = Request.Builder()
-            .url(NetworkConfig.BASE_URL.plus("/api/til/auth/refresh"))
-            .post(reqBody.toString().toRequestBody())
-            .build()
-
-        /**
-         * {
-         *   "status": true,
-         *   "data": {
-         *     "payload": {
-         *       "token": "JWT Token Example..."
-         *     }
-         *   }
-         * }
-         */
-        val res = httpClient.newCall(req).execute()
-        val resBody = json.decodeFromString<JsonObject>(res.body?.string()!!)
-        return resBody["data"]
-            ?.jsonObject
-            ?.get("payload")
-            ?.jsonObject
-            ?.get("token")
-            ?.jsonPrimitive
-            ?.content!!
-    }
-
-    /**
      * 토큰 갱신 API 실패시 재시도 하는 함수
      */
-    private fun reqRetryRefreshToken(): Single<String> {
+    private fun reqRetryRefreshToken(): Single<AuthTokenEntity> {
         return Single.create { emitter ->
             try {
-                val res = reqRefreshToken()
+                val res = authManager.refreshToken()
                 emitter.onSuccess(res)
             } catch (ex: Exception) {
                 emitter.onError(ex)

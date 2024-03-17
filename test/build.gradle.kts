@@ -2,7 +2,7 @@ plugins {
     id("com.android.library")
     id("dagger.hilt.android.plugin")
     id("kotlinx-serialization")
-    kotlin("android")
+    id("org.jetbrains.kotlin.android")
     kotlin("kapt")
 }
 
@@ -11,6 +11,7 @@ android {
     defaultConfig {
         testInstrumentationRunner = "com.hmju.test.HiltTestRunner"
     }
+    dataBinding { enable = true }
     testOptions {
         unitTests {
             isIncludeAndroidResources = true
@@ -20,6 +21,7 @@ android {
 
 dependencies {
     androidTestImplementation(project(":core"))
+    androidTestImplementation(project(":legacy"))
     androidTestImplementation(project(":features:base-mvvm"))
     androidTestImplementation(project(":features:base-mvvm-bridge"))
     androidTestImplementation(project(":features:main"))
@@ -33,6 +35,26 @@ dependencies {
     androidTestImplementation(project(":features:network_v2-bridge"))
     androidTestImplementation(project(":features:compose-ui"))
     androidTestImplementation(project(":features:compose-ui-bridge"))
+    androidTestImplementation(project(":features:rv_custom_paging"))
+    androidTestImplementation(project(":features:rv_custom_paging_bridge"))
+    androidTestImplementation(project(":features:network_error_handling"))
+    androidTestImplementation(project(":features:network_error_handling_bridge"))
+    androidTestImplementation(project(":features:network_jsend_format"))
+    androidTestImplementation(project(":features:network_jsend_format_bridge"))
+    androidTestImplementation(project(":features:network_expired_token"))
+    androidTestImplementation(project(":features:network_expired_token_bridge"))
+    androidTestImplementation(project(":features:rv_simple_like"))
+    androidTestImplementation(project(":features:rv_simple_like_bridge"))
+    androidTestImplementation(project(":features:rv_diff_util_performance"))
+    androidTestImplementation(project(":features:rv_diff_util_performance_bridge"))
+    androidTestImplementation(project(":features:rv_refactor_diff_util"))
+    androidTestImplementation(project(":features:rv_refactor_diff_util_bridge"))
+    androidTestImplementation(project(":features:rv_diff_util_2"))
+    androidTestImplementation(project(":features:rv_diff_util_2_bridge"))
+    androidTestImplementation(project(":features:base_mvvm_lifecycle"))
+    androidTestImplementation(project(":features:base_mvvm_lifecycle_bridge"))
+    androidTestImplementation(project(":features:base_mvvm_bottom_sheet"))
+    androidTestImplementation(project(":features:base_mvvm_bottom_sheet_bridge"))
 
     /**
      * Android X
@@ -40,6 +62,8 @@ dependencies {
     implementation(AndroidX.ktx)
     implementation(AndroidX.appCompat)
     implementation(AndroidX.material)
+    implementation(AndroidX.activity)
+    implementation(AndroidX.fragment)
     androidTestImplementation(AndroidX.lifecycle)
     androidTestImplementation(AndroidX.viewModel)
     androidTestImplementation(AndroidX.liveData)
