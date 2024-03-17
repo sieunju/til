@@ -1,4 +1,4 @@
-rootProject.name = "til"
+rootProject.name = "TIL"
 
 include(
     ":app",
