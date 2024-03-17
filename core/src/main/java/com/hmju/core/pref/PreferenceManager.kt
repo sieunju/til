@@ -15,7 +15,8 @@ interface PreferenceManager {
     fun <T> setValue(key: String, value: T)
 
     companion object {
-        const val KEY_TOKEN_EXPIRED_MS = "token_expired_ms"
-        const val KEY_TOKEN = "j_token"
+        const val KEY_TOKEN_EXPIRED_MS = "til_access_token_expired_at"
+        const val KEY_TOKEN = "til_access_token"
+        const val KEY_REFRESH_TOKEN = "til_refresh_token"
     }
 }

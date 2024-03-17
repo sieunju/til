@@ -1,14 +1,12 @@
 package com.features.main
 
-import com.feature.async_migrate_bridge.AsyncMigrateBridge
-import com.feature.compose_ui_bridge.ComposeUiBridge
+import com.features.async_migrate_bridge.AsyncMigrateBridge
 import com.features.base_mvvm_bridge.BaseMvvmBridge
+import com.features.compose_ui_bridge.ComposeUiBridge
 import com.features.network_bridge.NetworkBridge
 import com.features.recyclerview_bridge.RecyclerViewBridge
-import com.hmju.core.login_manager.LoginManager
 import com.hmju.core.ui.base.ActivityViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -18,37 +16,27 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val networkRequirements: NetworkBridge,
+    private val networkBridge: NetworkBridge,
     private val recyclerViewBridge: RecyclerViewBridge,
     private val mvvmRequirements: BaseMvvmBridge,
-    private val loginManager: LoginManager,
     private val asyncMigrateBridge: AsyncMigrateBridge,
     private val composeUiBridge: ComposeUiBridge
 ) : ActivityViewModel() {
 
-    override fun onIntent() {
-        super.onIntent()
-        Timber.d("[s] onCreate Intent Data ===============================================")
-        savedStateHandle.keys().forEach {
-            Timber.d("Key $it Value ${savedStateHandle.get<Any>(it)}")
-        }
-        Timber.d("[s] onCreate Intent Data ===============================================")
-    }
-
     fun moveToNetworkPage() {
-        networkRequirements.moveToNetworkPage()
+        networkBridge.moveToPage()
     }
 
     fun moveToRecyclerViewPage() {
-        recyclerViewBridge.moveToRecyclerViewPage()
+        recyclerViewBridge.moveToPage()
     }
 
     fun moveToMvvmLifecyclePage() {
-        mvvmRequirements.moveToBaseMvvm()
+        mvvmRequirements.moveToPage()
     }
 
     fun moveToAsyncMigratePage() {
-        asyncMigrateBridge.moveToAsyncMigrate()
+        asyncMigrateBridge.moveToPage()
     }
 
     fun moveToComposeUiPage() {

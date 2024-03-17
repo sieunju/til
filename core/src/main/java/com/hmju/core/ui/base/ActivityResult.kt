@@ -23,6 +23,10 @@ class ActivityResult private constructor(
     @AnimRes val enterAni: Int = -1,
     @AnimRes val exitAni: Int = -1
 ) {
+
+    fun isValidateAni() : Boolean {
+        return enterAni != -1 && exitAni != -1
+    }
     @Suppress("unused")
     class Builder(
         val targetActivity: KClass<out FragmentActivity>

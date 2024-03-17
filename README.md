@@ -3,13 +3,29 @@
 ## ✔ 프로젝트 구성
 - 멀티 모듈 방식 기본적인 buildSrc, data, domain, model, presentation 로 구성되어 있으며
 필요에 따라 모듈이 추가 될 수 있습니다.
-- [AS-IS API 문서](https://node.qtzz.synology.me/api-docs/#/TIL) 여기는 죽었어요 😭
-- [TO-BE API 문서](https://til.qtzz.synology.me/swagger-ui/index.html) 슬슬 여기로 이전될 예정입니다. 🐶
+- [API 문서](https://til.qtzz.synology.me/swagger-ui/index.html)
 
 ## ✔ 버전
-- ![min23](https://img.shields.io/badge/minSDK-23-blue.svg)  ![target33](https://img.shields.io/badge/targetSDK-34-red.svg)
-- ![kotlin 1.8.0](https://img.shields.io/badge/Kotlin/1.8.0-7F52FF?style=flat-square&logo=Kotlin&logoColor=white)
+- ![min23](https://img.shields.io/badge/minSDK-23-blue.svg)  ![target34](https://img.shields.io/badge/targetSDK-34-red.svg)
+- ![kotlin 1.8.22](https://img.shields.io/badge/Kotlin/1.8.22-7F52FF?style=flat-square&logo=Kotlin&logoColor=white)
 - ![Hilt 2.45](https://img.shields.io/badge/Hilt-2.45-red.svg)
+
+## ✔ 사용법
+- local.properties 셋팅
+```properties
+base_url="https://til.qtzz.synology.me"
+auth_type="Bearer"
+keystore.release.file_path=../keystore/til.jks
+keystore.release.store_password=til1234qwer
+keystore.release.key_alias=til
+keystore.release.key_password=til1234qwer
+```
+
+## ✔ 규칙
+- 네트워크 통신시 Raw 단의 데이터 모델의 패키지 구조
+  - models.entity
+  - models.body
+  - models.meta
 
 ## ✔ 스펙
 - Multi Module
@@ -55,9 +71,19 @@
     - [Rx에서 코루틴으로 점진적으로 전환 해보기](https://github.com/sieunju/TIL/wiki/Rx-%EC%97%90%EC%84%9C-Coroutine-%EC%9C%BC%EB%A1%9C-%EB%A7%88%EC%9D%B4%EA%B7%B8%EB%A0%88%EC%9D%B4%EC%85%98) 
 
 
+### Release (.apk)
+```shell
+./gradlew release
+```
+
 ### DI Graph
-```Groovy
+- install
+```shell
+brew install graphviz
+```
+
+```shell
  ./gradlew projectDependencyGraph
 ```
-![projectGraph](https://raw.githubusercontent.com/sieunju/TIL/develop/assets/projectGraph.png)
+![projectGraph](https://raw.githubusercontent.com/sieunju/TIL/develop/assets/project_graph.png)
 

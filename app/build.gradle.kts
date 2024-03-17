@@ -2,12 +2,19 @@ plugins {
     id("com.android.application")
     id("kotlinx-serialization")
     id("dagger.hilt.android.plugin")
-    kotlin("android")
+    id("org.jetbrains.kotlin.android")
     kotlin("kapt")
 }
 
 android {
     namespace = "com.hmju.til"
+
+    bundle {
+        language { enableSplit = true }
+        density { enableSplit = true }
+        abi { enableSplit = true }
+    }
+
     defaultConfig {
         applicationId = "com.hmju.til"
         versionCode = Apps.versionCode
@@ -19,36 +26,51 @@ android {
     }
 
     buildTypes {
-        getByName("debug") {
-            isMinifyEnabled = false
+
+        debug {
+            applicationIdSuffix = ".dev"
+            manifestPlaceholders["appName"] = "til_dev"
         }
 
-        getByName("release") {
-            isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+        release {
+            isShrinkResources = true
+            manifestPlaceholders["appName"] = "til"
         }
     }
+
     buildFeatures {
-        dataBinding = true
+        dataBinding { enable = true }
     }
+}
+
+// Release .apk Build
+tasks.register("release") {
+    dependsOn(tasks["clean"])
+    dependsOn(tasks["assembleRelease"])
+    mustRunAfter(tasks["clean"])
 }
 
 dependencies {
     implementation(project(":core"))
 
+    implementation(project(":legacy"))
     implementation(project(":features:main"))
-    implementation(project(":features:network-bridge"))
     implementation(project(":features:network"))
-    implementation(project(":features:recyclerview-bridge"))
     implementation(project(":features:recyclerview"))
-    implementation(project(":features:base-mvvm-bridge"))
     implementation(project(":features:base-mvvm"))
     implementation(project(":features:async_migrate"))
-    implementation(project(":features:async_migrate_bridge"))
     implementation(project(":features:network_v2"))
-    implementation(project(":features:network_v2-bridge"))
     implementation(project(":features:compose-ui"))
-    implementation(project(":features:compose-ui-bridge"))
+    implementation(project(":features:rv_custom_paging"))
+    implementation(project(":features:network_error_handling"))
+    implementation(project(":features:network_jsend_format"))
+    implementation(project(":features:network_expired_token"))
+    implementation(project(":features:rv_simple_like"))
+    implementation(project(":features:rv_diff_util_performance"))
+    implementation(project(":features:rv_refactor_diff_util"))
+    implementation(project(":features:rv_diff_util_2"))
+    implementation(project(":features:base_mvvm_lifecycle"))
+    implementation(project(":features:base_mvvm_bottom_sheet"))
 
     /**
      * Network
@@ -67,7 +89,6 @@ dependencies {
     implementation(AndroidX.activity)
     implementation(AndroidX.material)
     implementation(AndroidX.constraintLayout)
-    implementation(AndroidX.multidex)
 
     /**
      * Hilt
@@ -79,13 +100,20 @@ dependencies {
      * Kotlinx Serialization
      */
     implementation(KotlinX.serialization)
-    implementation(Kotlin.stdLib)
 
     /**
      * Rx
      */
     implementation(Rx.java)
     implementation(Rx.kotlin)
+
+    /**
+     * Glide
+     */
+    implementation(Glide.base)
+    implementation(Glide.compiler)
+    implementation(Glide.okhttp)
+    kapt(Glide.compiler)
 
     /**
      * Timber

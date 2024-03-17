@@ -2,20 +2,20 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("dagger.hilt.android.plugin")
+    id("kotlinx-serialization")
     kotlin("kapt")
 }
 
 android {
     namespace = "com.features.base_mvvm"
-    buildFeatures {
-        dataBinding = true
-    }
+    dataBinding { enable = true }
 }
 
 dependencies {
-
-    implementation(project(":features:base-mvvm-bridge"))
     implementation(project(":core"))
+    implementation(project(":features:base-mvvm-bridge"))
+    implementation(project(":features:base_mvvm_lifecycle_bridge"))
+    implementation(project(":features:base_mvvm_bottom_sheet_bridge"))
 
     /**
      * Android X
@@ -52,6 +52,11 @@ dependencies {
      * Network
      */
     implementation(Retrofit.base)
+
+    /**
+     * Kotlinx Serialization
+     */
+    implementation(KotlinX.serialization)
 
     /**
      * Unit Test

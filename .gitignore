@@ -56,9 +56,13 @@ captures/
 ehthumbs.db
 Thumbs.db
 
-app/release/output.json
+app/release/*
 
 detekt/detekt.**
 appRelease/release_note.txt
+
+# keystore
+# keystore/*
+
 
 .java-version

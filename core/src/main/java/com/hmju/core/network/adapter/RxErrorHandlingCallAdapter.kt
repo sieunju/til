@@ -1,7 +1,7 @@
 package com.hmju.core.network.adapter
 
-import com.hmju.core.model.base.*
-import com.hmju.core.model.error.JSendException
+import com.hmju.core.models.base.*
+import com.hmju.core.models.error.JSendException
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import retrofit2.Call

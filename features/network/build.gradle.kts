@@ -8,65 +8,29 @@ plugins {
 
 android {
     namespace = "com.features.network"
-    buildFeatures {
-        dataBinding = true
-    }
-    kapt {
-        correctErrorTypes = true
-    }
+    dataBinding { enable = true }
 }
 
 dependencies {
     implementation(project(":core"))
     implementation(project(":features:network-bridge"))
     implementation(project(":features:network_v2-bridge"))
+    implementation(project(":features:network_error_handling_bridge"))
+    implementation(project(":features:network_jsend_format_bridge"))
+    implementation(project(":features:network_expired_token_bridge"))
 
     /**
      * Android X
      */
     implementation(AndroidX.appCompat)
-    implementation(AndroidX.constraintLayout)
-    implementation(AndroidX.activity)
-    implementation(AndroidX.material)
     implementation(AndroidX.fragment)
-    implementation(AndroidX.recyclerView)
-    implementation(AndroidX.lifecycle)
-    implementation(AndroidX.viewModel)
-    implementation(AndroidX.liveData)
-
-    /**
-     * Timber
-     */
-    implementation(Log.timber)
+    implementation(AndroidX.material)
 
     /**
      * Hilt
      */
     implementation(Hilt.android)
     kapt(Hilt.compiler)
-
-    /**
-     * Rx
-     */
-    implementation(Rx.java)
-    implementation(Rx.kotlin)
-    implementation(Rx.android)
-
-    /**
-     * Coroutines
-     */
-    implementation(Co.core)
-    implementation(Co.android)
-
-    /**
-     * Network
-     */
-    implementation(Retrofit.base)
-
-    /**
-     * Kotlinx Serialization
-     */
-    implementation(KotlinX.serialization)
 
     /**
      * Unit Test

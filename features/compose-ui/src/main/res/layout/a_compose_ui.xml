@@ -6,7 +6,7 @@
 
         <variable
             name="vm"
-            type="com.feature.compose_ui.ComposeUiActivityViewModel" />
+            type="com.features.compose_ui.ComposeUiActivityViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

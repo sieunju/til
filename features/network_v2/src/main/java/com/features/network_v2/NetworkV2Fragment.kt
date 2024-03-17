@@ -13,7 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
  * Created by juhongmin on 11/22/23
  */
 @AndroidEntryPoint
-class NetworkV2Fragment : BaseFragment<
+internal class NetworkV2Fragment : BaseFragment<
         FNetworkV2Binding,
         NetworkV2FragmentViewModel>(
     R.layout.f_network_v2

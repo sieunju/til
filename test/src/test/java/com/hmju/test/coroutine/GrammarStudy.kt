@@ -1,13 +1,29 @@
 package com.hmju.test.coroutine
 
-import io.reactivex.rxjava3.core.Observable
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.TestCoroutineExceptionHandler
-import kotlinx.coroutines.test.TestCoroutineScope
-import kotlinx.coroutines.test.createTestCoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapConcat
+import kotlinx.coroutines.flow.flatMapMerge
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.merge
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.single
+import kotlinx.coroutines.flow.zip
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.withContext
 import org.junit.Test
 import kotlin.random.Random
 import kotlin.system.measureTimeMillis
@@ -329,27 +345,27 @@ class GrammarStudy {
         println("걸린 시간 $time")
     }
 
-    private fun handleFlowV1_to_v2(entity: Flow_Test) : Flow_Test2 {
+    private fun handleFlowV1_to_v2(entity: Flow_Test): Flow_Test2 {
         println("현재 쓰레드 ${Thread.currentThread()}")
-        val map = hashMapOf<String,Any>()
-        map.put("A_KEY",entity.a)
-        map.put("B_KEY",entity.b)
-        map.put("C_KEY",entity.c)
+        val map = hashMapOf<String, Any>()
+        map.put("A_KEY", entity.a)
+        map.put("B_KEY", entity.b)
+        map.put("C_KEY", entity.c)
         // throw NullPointerException("asdfasdfasdf")
         return Flow_Test2(map)
     }
 
     data class Flow_Test(
-        val a : String,
-        val b : Int,
-        val c : Double
+        val a: String,
+        val b: Int,
+        val c: Double
     )
 
     data class Flow_Test2(
-        val map: Map<String,Any>
+        val map: Map<String, Any>
     )
 
-     @OptIn(FlowPreview::class)
+    @OptIn(FlowPreview::class)
     @Test
     fun FLOW_콤바인() {
         val time = measureTimeMillis {
@@ -357,10 +373,10 @@ class GrammarStudy {
                 coroutineScope {
                     val work = flow { emit(coroutineString(500)) }
                     val work1 = flow { emit(coroutineInt(3000)) }
-                    val work2 = flow {emit(coroutineDouble(3500))}
-                    val result = combine(work,work1,work2){a,b,c ->
+                    val work2 = flow { emit(coroutineDouble(3500)) }
+                    val result = combine(work, work1, work2) { a, b, c ->
                         println("11111 쓰레드 ${Thread.currentThread()}")
-                        Flow_Test(a,b,c)
+                        Flow_Test(a, b, c)
                     }.flatMapConcat { flow { emit(handleFlowV1_to_v2(it)) } }
                         .map { it.toString() }
                         .flowOn(Dispatchers.IO)
@@ -383,7 +399,7 @@ class GrammarStudy {
                     val work2 = flow { emit(coroutineDouble(1)) }
                     val work3 = flow { emit(coroutineString(3)) }
                     val work4 = flow { emit(coroutineString(4)) }
-                    combine(work,work1,work2,work3,work4) {a,b,c,d,e ->
+                    combine(work, work1, work2, work3, work4) { a, b, c, d, e ->
                         return@combine "${a}${b}${c}${d}${e}"
                     }
                         .flowOn(Dispatchers.IO)

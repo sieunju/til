@@ -1,21 +1,20 @@
 plugins {
     id("com.android.library")
+    id("kotlinx-serialization")
     id("org.jetbrains.kotlin.android")
     id("dagger.hilt.android.plugin")
     kotlin("kapt")
 }
 
 android {
-    namespace = "com.feature.async_migrate"
-    buildFeatures {
-        dataBinding = true
-    }
+    namespace = "com.features.async_migrate"
+    dataBinding { enable = true }
 }
 
 dependencies {
     implementation(project(":core"))
-    implementation(project(":async_migrate"))
     implementation(project(":features:async_migrate_bridge"))
+    implementation(project(":legacy"))
 
     /**
      * Android X

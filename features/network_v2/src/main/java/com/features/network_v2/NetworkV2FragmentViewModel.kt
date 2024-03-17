@@ -3,11 +3,11 @@ package com.features.network_v2
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.features.network_v2.model.JSendEntity
-import com.hmju.core.model.base.onError
-import com.hmju.core.model.base.onSuccess
-import com.hmju.core.model.params.GoodsParameter
-import com.hmju.core.pref.PreferenceManager
+import com.features.network_v2.models.body.ErrorBody
+import com.features.network_v2.models.entity.JSendEntity
+import com.hmju.core.models.base.onError
+import com.hmju.core.models.base.onSuccess
+import com.hmju.core.models.params.PagingQueryParams
 import com.hmju.core.ui.base.FragmentViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.core.Flowable
@@ -15,7 +15,6 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.launch
-import kotlinx.serialization.Serializable
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -27,22 +26,9 @@ import kotlin.random.Random
  * Created by juhongmin on 11/22/23
  */
 @HiltViewModel
-class NetworkV2FragmentViewModel @Inject constructor(
-    private val apiService: ApiService,
-    private val prefManager: PreferenceManager
+internal class NetworkV2FragmentViewModel @Inject constructor(
+    private val apiService: ApiService
 ) : FragmentViewModel() {
-
-    @Serializable
-    data class ErrorBody(
-        val status: Boolean = false,
-        val message: Message = Message(),
-    ) {
-        @Serializable
-        data class Message(
-            val name: String = "",
-            val contents: String = "",
-        )
-    }
 
     private val _progressText: MutableLiveData<String> by lazy { MutableLiveData() }
     val progressText: LiveData<String> get() = _progressText
@@ -53,7 +39,10 @@ class NetworkV2FragmentViewModel @Inject constructor(
         viewModelScope.launch {
             apiService.fetchError404()
                 .onSuccess { Timber.d("SUCC $it") }
-                .onError { Timber.d("ERROR ${it.err.getBody<ErrorBody>()}") }
+                .onError {
+                    Timber.d("ERROR $it")
+                    Timber.d("ERROR ${it.err.getBody<ErrorBody>()}")
+                }
         }
     }
 
@@ -79,20 +68,21 @@ class NetworkV2FragmentViewModel @Inject constructor(
             val ranInt = Random.nextInt(10)
             if (ranInt < 3) {
                 works.add(apiService.fetchError404Rx()
-                    .map { it.payload }
+                    .map { it.obj }
                     .onErrorReturn { JSendEntity() }
                 )
             } else if (ranInt < 6) {
                 works.add(apiService.fetchJSendRx())
             } else {
-                works.add(
-                    apiService.fetchGoodsRx(
-                        GoodsParameter(
-                            pageNo = Random.nextInt(5).plus(1),
-                            pageSize = 100
-                        ).getQueryParameter()
-                    )
+                PagingQueryParams(
+                    pageNo = Random.nextInt(5).plus(1),
+                    pageSize = 100
                 )
+                val params = PagingQueryParams(
+                    pageNo = Random.nextInt(5).plus(1),
+                    pageSize = 100
+                )
+                works.add(apiService.fetchGoodsRx(params.getQueryMap()))
             }
         }
 
@@ -153,22 +143,22 @@ class NetworkV2FragmentViewModel @Inject constructor(
     }
 
     private fun reqTest1(): Single<Int> {
-        val queryMap = GoodsParameter()
+        val queryMap = PagingQueryParams()
         queryMap.pageNo = 3
         queryMap.pageSize = 30
         return apiService.fetchJSendRx()
-            .flatMap { apiService.fetchGoodsRx(queryMap.getQueryParameter()) }
+            .flatMap { apiService.fetchGoodsRx(queryMap.getQueryMap()) }
             .map { 1 }
             .onErrorReturn { 1 }
             .subscribeOn(Schedulers.io())
     }
 
     private fun reqTest2(): Single<Int> {
-        val queryMap = GoodsParameter()
+        val queryMap = PagingQueryParams()
         queryMap.pageNo = 3
         queryMap.pageSize = 30
         return Single.zip(
-            apiService.fetchGoodsRx(queryMap.getQueryParameter())
+            apiService.fetchGoodsRx(queryMap.getQueryMap())
                 .subscribeOn(Schedulers.io()),
             apiService.fetchJSendRx()
                 .subscribeOn(Schedulers.io()),
@@ -180,7 +170,7 @@ class NetworkV2FragmentViewModel @Inject constructor(
     }
 
     private fun reqTest3(): Single<Int> {
-        val queryMap = GoodsParameter()
+        val queryMap = PagingQueryParams()
         queryMap.pageNo = 3
         queryMap.pageSize = 30
         return Single.zip(

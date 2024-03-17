@@ -1,5 +1,6 @@
 package com.hmju.core.ui.base
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,12 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
+import androidx.core.view.updateLayoutParams
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
 import androidx.lifecycle.viewmodel.CreationExtras
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import timber.log.Timber
 
@@ -31,12 +35,6 @@ abstract class BaseBottomSheetDialog<T : ViewDataBinding, VM : BottomSheetViewMo
     val binding: T get() = _binding!!
 
     private var isInit = false
-
-    @CallSuper
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel.runCatching { onDirectCreate() }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -72,6 +70,8 @@ abstract class BaseBottomSheetDialog<T : ViewDataBinding, VM : BottomSheetViewMo
         dialog?.setOnDismissListener {
             dismiss()
         }
+
+        dialog?.setOnShowListener { onShow(it) }
     }
 
     @CallSuper
@@ -106,8 +106,24 @@ abstract class BaseBottomSheetDialog<T : ViewDataBinding, VM : BottomSheetViewMo
         Timber.d("${javaClass.simpleName} Dismiss")
     }
 
-    fun simpleShow(fm: FragmentManager) {
-        super.show(fm, javaClass.simpleName)
+    /**
+     * BottomSheet Show 상태시 호출되는 함수
+     */
+    @CallSuper
+    open fun onShow(dialogInterface: DialogInterface) {
+    }
+
+    /**
+     * Tag 값은 리터널 상수로 처리해야 합니다.
+     * @param tag Tag
+     */
+    open fun simpleShow(fm: FragmentManager, tag: String) {
+        runCatching {
+            // 이미 보여지고 있는 Dialog 인경우 스킵
+            if (!isAdded) {
+                super.show(fm, tag)
+            }
+        }
     }
 
     /**
@@ -121,5 +137,27 @@ abstract class BaseBottomSheetDialog<T : ViewDataBinding, VM : BottomSheetViewMo
             defaultViewModelProviderFactory,
             extrasProducer?.invoke() ?: this.defaultViewModelCreationExtras
         ).get()
+    }
+
+    /**
+     * BottomSheet 전체 화면 처리하는 함수
+     *
+     * [setFullHeightBottomSheet] 함수를 사용하면 됩니다.
+     */
+    protected fun setFullHeightBottomSheet(
+        dialogInterface: DialogInterface
+    ): BottomSheetBehavior<View>? {
+        return try {
+            val bottomSheet = dialogInterface as BottomSheetDialog
+            val view = bottomSheet.findViewById<View>(
+                com.google.android.material.R.id.design_bottom_sheet
+            ) as View
+            view.updateLayoutParams<ViewGroup.LayoutParams> {
+                height = ViewGroup.LayoutParams.MATCH_PARENT
+            }
+            BottomSheetBehavior.from(view)
+        } catch (ex: Exception) {
+            null
+        }
     }
 }

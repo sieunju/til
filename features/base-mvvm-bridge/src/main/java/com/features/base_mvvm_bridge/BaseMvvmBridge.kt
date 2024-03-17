@@ -6,5 +6,5 @@ package com.features.base_mvvm_bridge
  * Created by juhongmin on 2022/07/24
  */
 interface BaseMvvmBridge {
-    fun moveToBaseMvvm()
+    fun moveToPage()
 }
