@@ -10,6 +10,7 @@ import com.hmju.core.models.base.JSendObj
 import io.reactivex.rxjava3.core.Single
 import okhttp3.ResponseBody
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 import retrofit2.http.QueryMap
 
@@ -37,19 +38,34 @@ internal interface ApiService {
     @GET("/api/v1/memo/aos")
     fun fetchAndroid(): Single<ResponseBody>
 
-    @GET("/api/v1/til/auth/jwt/test")
+    @GET("/api/v1/til/auth/jwt/test/{delay}")
     fun fetchJwtTest(
-        @Query("time_delay") delay: Int = 0
+        @Path("delay") delay: Int = 0
     ): Single<JSendObj<JwtTokenTestEntity>>
 
-    @GET("/api/v1/til/auth/jwt/test1")
+    @GET("/api/v1/til/auth/jwt/test1/{delay}")
     fun fetchJwtTest1(
-        @Query("time_delay") delay: Int = 0
+        @Path("delay") delay: Int = 0
     ): Single<JSendObj<JwtTokenTestEntity>>
 
-    @GET("/api/v1/til/auth/jwt/test2")
+    @GET("/api/v1/til/auth/jwt/test2/{delay}")
     fun fetchJwtTest2(
-        @Query("time_delay") delay: Int = 0
+        @Path("delay") delay: Int = 0
     ): Single<JSendObj<JwtTokenTestEntity>>
+
+    @GET("/api/v1/til/auth/jwt/test/{delay}")
+    suspend fun fetchJwtTestCo(
+        @Path("delay") delay: Int = 0
+    ): ApiResponse<JSendObj<JwtTokenTestEntity>>
+
+    @GET("/api/v1/til/auth/jwt/test1/{delay}")
+    suspend fun fetchJwtTest1Co(
+        @Path("delay") delay: Int = 0
+    ): ApiResponse<JSendObj<JwtTokenTestEntity>>
+
+    @GET("/api/v1/til/auth/jwt/test2/{delay}")
+    suspend fun fetchJwtTest2Co(
+        @Path("delay") delay: Int = 0
+    ): ApiResponse<JSendObj<JwtTokenTestEntity>>
 
 }
