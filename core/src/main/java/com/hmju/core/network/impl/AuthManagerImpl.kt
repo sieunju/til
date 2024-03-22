@@ -3,7 +3,6 @@ package com.hmju.core.network.impl
 import com.hmju.core.BuildConfig
 import com.hmju.core.models.auth.AuthTokenEntity
 import com.hmju.core.network.AuthManager
-import com.hmju.core.network.NetworkConfig
 import com.hmju.core.network.NetworkConfig.Header
 import com.hmju.core.pref.PreferenceManager
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -45,9 +44,7 @@ internal class AuthManagerImpl @Inject constructor(
     private val client: OkHttpClient by lazy {
         OkHttpClient.Builder()
             .retryOnConnectionFailure(true)
-            .connectTimeout(NetworkConfig.CONNECT_TIME_OUT, TimeUnit.MILLISECONDS)
-            .readTimeout(NetworkConfig.READ_TIME_OUT, TimeUnit.MILLISECONDS)
-            .writeTimeout(NetworkConfig.WRITE_TIME_OUT, TimeUnit.MILLISECONDS)
+            .callTimeout(3, TimeUnit.SECONDS)
             .apply {
                 // if (BuildConfig.DEBUG) {
                 addInterceptor(trackingInterceptor)
