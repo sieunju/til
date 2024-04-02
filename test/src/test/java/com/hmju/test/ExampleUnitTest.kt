@@ -2,6 +2,7 @@ package com.hmju.test
 
 import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName
+import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
@@ -33,7 +34,7 @@ class ExampleUnitTest {
     @Serializable
     data class ResponseV2(
         @SerialName("time")
-        val time: Instant
+        val time: Instant = Clock.System.now()
     ) {
         fun getDate(): Date {
             return Date(time.toEpochMilliseconds())
@@ -46,15 +47,14 @@ class ExampleUnitTest {
     }
 
     private fun getGsonTime(): Long {
-        val gson = GsonBuilder()
-            .setDateFormat("yyyy-MM-dd HH:mm:ss")
-            .create()
         val str = """
             {
                 "time": "2024-04-02T12:14:52.395Z"
-           }
+            }
         """.trimIndent()
-
+        val gson = GsonBuilder()
+            .setDateFormat("yyyy-MM-dd HH:mm:ss")
+            .create()
         val res = gson.fromJson(str, Response::class.java)
         val sdf = SimpleDateFormat("yyyy년 MM월 dd일 HH:mm:ss", Locale.getDefault())
         println("Gson ${sdf.format(res.date)}")
@@ -66,7 +66,7 @@ class ExampleUnitTest {
         val str = """
             {
                 "time": "2024-04-02T12:14:52.395Z"
-           }
+            }
         """.trimIndent()
         val json = Json {
             isLenient = true // Json 큰따옴표 느슨하게 체크.
