@@ -89,6 +89,8 @@ dependencies {
     androidTestImplementation(Retrofit.rxjava)
     androidTestImplementation(Retrofit.kotlinx)
     androidTestImplementation(Retrofit.okhttpLogger)
+    testImplementation("com.google.code.gson:gson:2.10.1")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-datetime:0.5.0")
 
     /**
      * Unit Test
