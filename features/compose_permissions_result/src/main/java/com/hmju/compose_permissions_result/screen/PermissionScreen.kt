@@ -66,7 +66,7 @@ fun PermissionScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp)
-                .background(TilTheme.color.blue)
+                .background(TilTheme.color.purple)
                 .clickable {
                     launcher.launch(permissions)
                 }
