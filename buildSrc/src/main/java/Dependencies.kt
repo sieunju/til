@@ -36,6 +36,7 @@ object Javax {
 object Hilt {
     const val android = "com.google.dagger:hilt-android:${Versions.hilt}"
     const val compiler = "com.google.dagger:hilt-compiler:${Versions.hilt}"
+    const val compose = "androidx.hilt:hilt-navigation-compose:1.0.0"
 }
 
 object Rx {
@@ -60,7 +61,6 @@ object Retrofit {
 object Glide {
     const val base = "com.github.bumptech.glide:glide:4.16.0"
     const val okhttp = "com.github.bumptech.glide:okhttp3-integration:4.16.0"
-    // const val compiler = "com.github.bumptech.glide:compiler:4.15.1"
     const val compiler = "com.github.bumptech.glide:ksp:4.16.0"
     const val compose = "com.github.bumptech.glide:compose:1.0.0-beta01"
 }

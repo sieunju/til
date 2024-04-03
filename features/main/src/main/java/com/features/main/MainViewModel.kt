@@ -5,6 +5,7 @@ import com.features.base_mvvm_bridge.BaseMvvmBridge
 import com.features.compose_ui_bridge.ComposeUiBridge
 import com.features.network_bridge.NetworkBridge
 import com.features.recyclerview_bridge.RecyclerViewBridge
+import com.hmju.compose_permissions_result_bridge.ComposePermissionsResultBridge
 import com.hmju.core.ui.base.ActivityViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -20,7 +21,8 @@ class MainViewModel @Inject constructor(
     private val recyclerViewBridge: RecyclerViewBridge,
     private val mvvmRequirements: BaseMvvmBridge,
     private val asyncMigrateBridge: AsyncMigrateBridge,
-    private val composeUiBridge: ComposeUiBridge
+    private val composeUiBridge: ComposeUiBridge,
+    private val composePermissionsResultBridge: ComposePermissionsResultBridge
 ) : ActivityViewModel() {
 
     fun moveToNetworkPage() {
@@ -45,5 +47,9 @@ class MainViewModel @Inject constructor(
 
     fun moveToMemoComposePage() {
         composeUiBridge.moveToMemoPage()
+    }
+
+    fun moveToPermissionsResultPage() {
+        composePermissionsResultBridge.moveToPage()
     }
 }

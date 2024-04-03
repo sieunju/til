@@ -19,6 +19,7 @@ dependencies {
     implementation(project(":features:base-mvvm-bridge"))
     implementation(project(":features:async_migrate_bridge"))
     implementation(project(":features:compose-ui-bridge"))
+    implementation(project(":features:compose_permissions_result_bridge"))
 
     /**
      * Android X
