@@ -14,6 +14,9 @@ import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
@@ -102,7 +105,8 @@ internal class NetworkV2FragmentViewModel @Inject constructor(
         Flowable.interval(0, 333L, TimeUnit.MILLISECONDS)
             .takeUntil { System.currentTimeMillis() >= endTimeMs }
             .doOnNext {
-                startJwtRequest(it).subscribe().addTo(compositeDisposable)
+                startJwtRequestCo(it)
+                // startJwtRequest(it).subscribe().addTo(compositeDisposable)
             }
             // .flatMap { startJwtRequest(it).toFlowable() }
             .doOnNext {
@@ -131,6 +135,18 @@ internal class NetworkV2FragmentViewModel @Inject constructor(
         }.doOnSuccess {
             val tookMs = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startNs)
             Timber.d("작업 완료 ${tookMs}ms")
+        }
+    }
+
+    private fun startJwtRequestCo(percent: Long) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val startNs = System.nanoTime()
+            val work1 = async { apiService.fetchJwtTestCo(300) }
+            val work2 = async { apiService.fetchJwtTest1Co(1000) }
+            val work3 = async { apiService.fetchJwtTest2Co(200) }
+            awaitAll(work1, work2, work3)
+            val tookMs = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startNs)
+            Timber.d("작업 완료 ${tookMs}ms ${Thread.currentThread()}")
         }
     }
 

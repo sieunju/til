@@ -78,9 +78,6 @@ class LoginManagerImpl @Inject constructor(
     }
 
     override fun getTokenExpiredMs(): Long {
-        if (expiredMs == 0L) {
-            expiredMs = prefManager.getLong(PreferenceManager.KEY_TOKEN_EXPIRED_MS)
-        }
-        return expiredMs
+         return prefManager.getLong(PreferenceManager.KEY_TOKEN_EXPIRED_MS)
     }
 }
