@@ -26,7 +26,7 @@ object AndroidX {
 }
 
 object Kotlin {
-    const val reflect = "org.jetbrains.kotlin:kotlin-reflect:1.8.10"
+    const val reflect = "org.jetbrains.kotlin:kotlin-reflect:1.8.22"
 }
 
 object Javax {
@@ -53,14 +53,15 @@ object Retrofit {
     const val base = "com.squareup.retrofit2:retrofit:2.9.0"
     const val rxjava = "com.squareup.retrofit2:adapter-rxjava3:2.9.0"
     const val kotlinx = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
-    const val okhttp = "com.squareup.okhttp3:okhttp:4.9.1"
-    const val okhttpLogger = "com.squareup.okhttp3:logging-interceptor:4.9.1"
+    const val okhttp = "com.squareup.okhttp3:okhttp:4.12.0"
+    const val okhttpLogger = "com.squareup.okhttp3:logging-interceptor:4.12.0"
 }
 
 object Glide {
-    const val base = "com.github.bumptech.glide:glide:4.11.0"
-    const val okhttp = "com.github.bumptech.glide:okhttp3-integration:4.11.0"
-    const val compiler = "com.github.bumptech.glide:compiler:4.11.0"
+    const val base = "com.github.bumptech.glide:glide:4.16.0"
+    const val okhttp = "com.github.bumptech.glide:okhttp3-integration:4.16.0"
+    // const val compiler = "com.github.bumptech.glide:compiler:4.15.1"
+    const val compiler = "com.github.bumptech.glide:ksp:4.16.0"
     const val compose = "com.github.bumptech.glide:compose:1.0.0-beta01"
 }
 
