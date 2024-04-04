@@ -89,6 +89,7 @@ object Compose {
     const val tracing = "androidx.compose.runtime:runtime-tracing:1.0.0-beta01"
     const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1"
     const val constraint = "androidx.constraintlayout:constraintlayout-compose:1.0.1"
+    const val runtime = "androidx.compose.runtime:runtime"
 }
 
 object UnitTest {
