@@ -9,14 +9,15 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import com.hmju.core.compose.ComposeLifecycleState.Companion.from
 
-/**
- * Description :
- *
- * Created by juhongmin on 4/5/24
- */
 
+/**
+ * Compose 전용 Lifecycle Update 처리하는 함수
+ * @param lifecycleOwner Android LifecycleOwner
+ */
 @Composable
-fun rememberLifecycleUpdatedState(lifecycleOwner: LifecycleOwner): MutableState<ComposeLifecycleState> {
+fun rememberLifecycleUpdatedState(
+    lifecycleOwner: LifecycleOwner
+): MutableState<ComposeLifecycleState> {
     val currentState = remember(lifecycleOwner) { mutableStateOf(ComposeLifecycleState.UN_KNOWN) }
     DisposableEffect(Unit) {
         val observer = LifecycleEventObserver { _, event ->

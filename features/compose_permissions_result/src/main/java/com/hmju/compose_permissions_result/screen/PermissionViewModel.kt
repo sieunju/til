@@ -1,5 +1,6 @@
 package com.hmju.compose_permissions_result.screen
 
+import android.Manifest
 import androidx.lifecycle.ViewModel
 import com.hmju.core.permission.PermissionProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,5 +25,13 @@ class PermissionViewModel @Inject constructor(
 
     fun moveToSetting() {
         provider.moveToSetting()
+    }
+
+    fun getPermissionList() : Array<String> {
+        return arrayOf(
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.CAMERA
+        )
     }
 }

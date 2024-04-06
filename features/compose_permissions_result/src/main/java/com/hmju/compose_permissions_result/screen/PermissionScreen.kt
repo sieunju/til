@@ -1,10 +1,8 @@
 package com.hmju.compose_permissions_result.screen
 
-import android.Manifest
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,16 +18,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.hmju.core.compose.ComposeLifecycleState
@@ -41,18 +34,13 @@ import com.hmju.core.compose.rememberLifecycleUpdatedState
  *
  * Created by juhongmin on 4/3/24
  */
-@Preview
+// @Preview
 @Composable
 fun PermissionScreen(
     viewModel: PermissionViewModel = hiltViewModel<PermissionViewModel>()
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
     val lifecycleState = rememberLifecycleUpdatedState(lifecycleOwner)
-    val permissions = arrayOf(
-        Manifest.permission.ACCESS_COARSE_LOCATION,
-        Manifest.permission.ACCESS_FINE_LOCATION,
-        Manifest.permission.CAMERA
-    )
     val launcher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { result ->
@@ -96,30 +84,12 @@ fun PermissionScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .background(TilTheme.color.purple)
-                            .wrapContentHeight()
-                            .clickable { launcher.launch(permissions) },
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = "권한 버튼 클릭",
-                            style = TilTheme.text.h3,
-                            color = TilTheme.color.white,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier
-                                .wrapContentSize()
-                                .padding(top = 50.dp, bottom = 50.dp)
-                        )
-                    }
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(TilTheme.color.purple)
                             .wrapContentHeight(),
                         contentAlignment = Alignment.Center
                     ) {
                         val state = lifecycleState.value
                         val msg = if (state == ComposeLifecycleState.ON_RESUME) {
-                            if (viewModel.isAllGrated(permissions.toList())) {
+                            if (viewModel.isAllGrated(viewModel.getPermissionList().toList())) {
                                 "모든 권한 허용"
                             } else {
                                 "모든 권한 거부된 상태 입니다."
@@ -140,5 +110,8 @@ fun PermissionScreen(
                 }
             }
         }
+    }
+    LaunchedEffect(Unit) {
+        launcher.launch(viewModel.getPermissionList())
     }
 }
