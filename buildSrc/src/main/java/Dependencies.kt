@@ -90,6 +90,7 @@ object Compose {
     const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1"
     const val constraint = "androidx.constraintlayout:constraintlayout-compose:1.0.1"
     const val runtime = "androidx.compose.runtime:runtime"
+    const val navigation = "androidx.navigation:navigation-compose:2.7.7"
 }
 
 object UnitTest {
