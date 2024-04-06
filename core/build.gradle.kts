@@ -105,6 +105,7 @@ dependencies {
     implementation(Compose.material)
     implementation(Compose.preview)
     implementation(Compose.ui)
+    implementation(Compose.runtime)
 
     /**
      * Unit Test

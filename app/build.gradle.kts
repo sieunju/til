@@ -71,6 +71,7 @@ dependencies {
     implementation(project(":features:rv_diff_util_2"))
     implementation(project(":features:base_mvvm_lifecycle"))
     implementation(project(":features:base_mvvm_bottom_sheet"))
+    implementation(project(":features:compose_permissions_result"))
 
     /**
      * Network
