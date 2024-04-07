@@ -54,5 +54,6 @@ dependencies {
     implementation(Compose.tracing)
     implementation(Compose.activity)
     implementation(Compose.navigation)
+    implementation(Compose.navigationViewModel)
     implementation(Glide.compose)
 }

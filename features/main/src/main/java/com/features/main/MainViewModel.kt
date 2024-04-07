@@ -2,6 +2,7 @@ package com.features.main
 
 import com.features.async_migrate_bridge.AsyncMigrateBridge
 import com.features.base_mvvm_bridge.BaseMvvmBridge
+import com.features.compose_navigation_bridge.ComposeNavigationBridge
 import com.features.compose_ui_bridge.ComposeUiBridge
 import com.features.network_bridge.NetworkBridge
 import com.features.recyclerview_bridge.RecyclerViewBridge
@@ -22,7 +23,8 @@ class MainViewModel @Inject constructor(
     private val mvvmRequirements: BaseMvvmBridge,
     private val asyncMigrateBridge: AsyncMigrateBridge,
     private val composeUiBridge: ComposeUiBridge,
-    private val composePermissionsResultBridge: ComposePermissionsResultBridge
+    private val composePermissionsResultBridge: ComposePermissionsResultBridge,
+    private val composeNavigationBridge: ComposeNavigationBridge
 ) : ActivityViewModel() {
 
     fun moveToNetworkPage() {
@@ -51,5 +53,9 @@ class MainViewModel @Inject constructor(
 
     fun moveToPermissionsResultPage() {
         composePermissionsResultBridge.moveToPage()
+    }
+
+    fun moveToComposeNavigationPage() {
+        composeNavigationBridge.moveToPage()
     }
 }

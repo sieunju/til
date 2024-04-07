@@ -20,6 +20,7 @@ dependencies {
     implementation(project(":features:async_migrate_bridge"))
     implementation(project(":features:compose-ui-bridge"))
     implementation(project(":features:compose_permissions_result_bridge"))
+    implementation(project(":features:compose_navigation_bridge"))
 
     /**
      * Android X
