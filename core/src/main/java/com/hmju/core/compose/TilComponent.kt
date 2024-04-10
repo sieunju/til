@@ -1,5 +1,6 @@
 package com.hmju.core.compose
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
@@ -19,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -39,14 +41,16 @@ object TilComponent {
         keyboardOptions : KeyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
         nextAction: FocusDirection = FocusDirection.Exit,
         maxLines : Int = 1,
-        focusBg: Modifier = Modifier,
-        unFocusBg: Modifier = Modifier
+        focusBg: Modifier,
+        unFocusBg: Modifier
     ) {
         var isFocused by remember { mutableStateOf(false) }
         val focusManager = LocalFocusManager.current
+        val modifier = if (isFocused) focusBg else unFocusBg
         Box(
             modifier = Modifier
                 .onFocusChanged { isFocused = it.isFocused }
+                .then(modifier)
         ) {
             TextField(
                 value = text.value,
@@ -71,11 +75,11 @@ object TilComponent {
                 )
             )
 
-            if (isFocused) {
-                Box(modifier = focusBg.fillMaxWidth())
-            } else {
-                Box(modifier = unFocusBg)
-            }
+//            if (isFocused) {
+//                Box(modifier = focusBg)
+//            } else {
+//                Box(modifier = unFocusBg)
+//            }
         }
     }
 }

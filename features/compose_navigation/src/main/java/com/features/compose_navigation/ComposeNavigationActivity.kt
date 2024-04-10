@@ -42,6 +42,7 @@ internal class ComposeNavigationActivity : AppCompatActivity() {
     private fun InitNavigation(
         navController: NavHostController = rememberNavController()
     ) {
+        // TODO 좀더 나은 방법 없을까 고민 해봐야할듯?
         NavHost(navController, Screens.LOGIN.destination) {
             composable(Screens.LOGIN.destination) {
                 LoginScreen(navController)
