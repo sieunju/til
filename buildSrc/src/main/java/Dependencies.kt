@@ -6,7 +6,7 @@ object Apps {
 object Versions {
     const val retrofit = "2.9.0"
     const val lifecycle = "2.6.1"
-    const val hilt = "2.45"
+    const val hilt = "2.48"
 }
 
 object AndroidX {
