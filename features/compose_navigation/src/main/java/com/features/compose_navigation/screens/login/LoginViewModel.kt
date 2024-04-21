@@ -3,8 +3,10 @@ package com.features.compose_navigation.screens.login
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -18,15 +20,21 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
 
 ) : ViewModel() {
+
     val id: MutableStateFlow<String> by lazy { MutableStateFlow("") }
     val password: MutableStateFlow<String> by lazy { MutableStateFlow("") }
 
+    @OptIn(FlowPreview::class)
     fun start() {
         Timber.d("Start Thread ${Thread.currentThread()}")
         viewModelScope.launch {
-            id.collectLatest {
-                Timber.d("입력한 ID값 $it")
-            }
+            id.debounce(200L)
+                .collectLatest { Timber.d("ID $it") }
+        }
+        viewModelScope.launch {
+            password
+                .debounce(200L)
+                .collectLatest { Timber.d("PW $it") }
         }
     }
 }
