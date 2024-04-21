@@ -2,10 +2,13 @@ package com.features.compose_navigation.screens.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hmju.core.ui.stateIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -23,18 +26,20 @@ class LoginViewModel @Inject constructor(
 
     val id: MutableStateFlow<String> by lazy { MutableStateFlow("") }
     val password: MutableStateFlow<String> by lazy { MutableStateFlow("") }
+    val loginEnable: StateFlow<Boolean> = id.combine(password) { id, pw ->
+        isValidateId(id) && isValidatePw(pw)
+    }.stateIn(false, viewModelScope)
 
-    @OptIn(FlowPreview::class)
+
     fun start() {
-        Timber.d("Start Thread ${Thread.currentThread()}")
-        viewModelScope.launch {
-            id.debounce(200L)
-                .collectLatest { Timber.d("ID $it") }
-        }
-        viewModelScope.launch {
-            password
-                .debounce(200L)
-                .collectLatest { Timber.d("PW $it") }
-        }
+
+    }
+
+    private fun isValidateId(id: String): Boolean {
+        return id.length > 4
+    }
+
+    private fun isValidatePw(pw: String): Boolean {
+        return pw.length > 8
     }
 }
