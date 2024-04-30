@@ -53,6 +53,7 @@ dependencies {
     implementation(Glide.base)
     implementation(Glide.compiler)
     implementation(Glide.okhttp)
+    implementation(Glide.compose)
     kapt(Glide.compiler)
 
     /**
