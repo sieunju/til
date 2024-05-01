@@ -1,7 +1,7 @@
 package com.features.compose_navigation.screens.login
 
+import android.app.Activity
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
@@ -31,6 +32,7 @@ import androidx.navigation.compose.rememberNavController
 import com.hmju.core.compose.TilComponent
 import com.hmju.core.compose.TilTheme
 import com.hmju.core.compose.addFocusCleaner
+import com.hmju.core.compose.backPressed
 import com.hmju.core.compose.collectAsMutableState
 
 /**
@@ -48,7 +50,7 @@ fun LoginScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(start = 16.dp, end = 16.dp),
-        backClick = { navigator.popBackStack() }
+        backClick = { navigator.backPressed() }
     ) {
         TilComponent.ImageLoader(
             imageUrl = "https://til.qtzz.synology.me/resources/img/20240423/1713882085205.png",

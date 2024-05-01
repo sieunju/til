@@ -20,9 +20,9 @@ class SignUpViewModel @Inject constructor(
 
 ) : ViewModel() {
 
-    val id: MutableStateFlow<String> by lazy { MutableStateFlow("") }
-    val password: MutableStateFlow<String> by lazy { MutableStateFlow("") }
-    val passwordConfirm: MutableStateFlow<String> by lazy { MutableStateFlow("") }
+    val id: MutableStateFlow<String> by lazy { MutableStateFlow("qewrt") }
+    val password: MutableStateFlow<String> by lazy { MutableStateFlow("123456789") }
+    val passwordConfirm: MutableStateFlow<String> by lazy { MutableStateFlow("123456789") }
     val isSignUpEnable: StateFlow<Boolean>
         get() = combine(id, password, passwordConfirm) { id, pw, pwConfig ->
             isValidateId(id) && isValidatePw(pw) && pw == pwConfig

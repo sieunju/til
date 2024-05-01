@@ -1,5 +1,6 @@
 package com.features.compose_navigation.screens.login
 
+import android.app.Activity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -19,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -26,6 +28,7 @@ import androidx.navigation.NavHostController
 import com.features.compose_navigation.Screens
 import com.hmju.core.compose.TilComponent
 import com.hmju.core.compose.TilTheme
+import com.hmju.core.compose.backPressed
 import com.hmju.core.compose.collectAsMutableState
 
 /**
@@ -39,7 +42,6 @@ fun SignUpScreen(
     navigator: NavHostController,
     viewModel: SignUpViewModel = hiltViewModel()
 ) {
-
     val id = viewModel.id.collectAsMutableState()
     val pw = viewModel.password.collectAsMutableState()
     val pwConfirm = viewModel.passwordConfirm.collectAsMutableState()
@@ -51,7 +53,7 @@ fun SignUpScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(start = 16.dp, end = 16.dp),
-        backClick = { navigator.popBackStack() },
+        backClick = { navigator.backPressed() },
         scrollState = scrollState
     ) {
         TilComponent.ImageLoader(
@@ -103,7 +105,11 @@ fun SignUpScreen(
                             .plus("user_id=${id.value}")
                             .plus("&")
                             .plus("user_pw=${pw.value}")
-                    )
+                    ) {
+                        popUpTo(Screens.SIGNUP.destination) {
+                            inclusive = true
+                        }
+                    }
                 },
             contentAlignment = Alignment.Center
         ) {

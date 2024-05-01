@@ -9,8 +9,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
+import androidx.navigation.NavHostController
 import com.hmju.core.compose.ComposeLifecycleState.Companion.from
 
 
@@ -53,5 +55,12 @@ fun Modifier.addFocusCleaner(
             doOnClear()
             focusManager.clearFocus()
         })
+    }
+}
+
+fun NavHostController.backPressed() {
+    if (!popBackStack()) {
+        val activity = this.context as? FragmentActivity
+        activity?.finish()
     }
 }
