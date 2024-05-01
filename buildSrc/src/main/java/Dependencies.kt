@@ -59,10 +59,21 @@ object Retrofit {
 }
 
 object Glide {
-    const val base = "com.github.bumptech.glide:glide:4.16.0"
-    const val okhttp = "com.github.bumptech.glide:okhttp3-integration:4.16.0"
-    const val compiler = "com.github.bumptech.glide:ksp:4.16.0"
+    const val base = "com.github.bumptech.glide:glide:4.13.2"
+    const val okhttp = "com.github.bumptech.glide:okhttp3-integration:4.13.2"
+    const val compiler = "com.github.bumptech.glide:compiler:4.13.2"
+    const val annotations = "com.github.bumptech.glide:annotations:4.13.2"
     const val compose = "com.github.bumptech.glide:compose:1.0.0-beta01"
+//    const val base = "com.github.bumptech.glide:glide:4.16.0"
+//    const val okhttp = "com.github.bumptech.glide:okhttp3-integration:4.16.0"
+//    const val compiler = "com.github.bumptech.glide:ksp:4.16.0"
+//    const val annotations = "com.github.bumptech.glide:annotations:4.16.0"
+//    const val compose = "com.github.bumptech.glide:compose:1.0.0-beta01"
+//    const val base = "com.github.bumptech.glide:glide:5.0.0-rc01"
+//    const val okhttp = "com.github.bumptech.glide:okhttp3-integration:5.0.0-rc01"
+//    const val compiler = "com.github.bumptech.glide:ksp:5.0.0-rc01"
+//    const val annotations = "com.github.bumptech.glide:annotations:5.0.0-rc01"
+//    const val compose = "com.github.bumptech.glide:compose:1.0.0-beta01"
 }
 
 object KotlinX {
