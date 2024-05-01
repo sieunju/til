@@ -2,7 +2,9 @@ package com.hmju.core.compose
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,8 +18,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -41,14 +46,11 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.bumptech.glide.integration.compose.placeholder
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
 import com.hmju.core.R
 
 /**
@@ -58,6 +60,7 @@ import com.hmju.core.R
  */
 object TilComponent {
 
+    @SuppressLint("ModifierParameter")
     @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
     @Composable
     fun EditText(
@@ -67,12 +70,16 @@ object TilComponent {
         keyboardOptions: KeyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
         nextAction: FocusDirection = FocusDirection.Exit,
         maxLines: Int = 1,
-        focusBg: Modifier,
-        unFocusBg: Modifier
+        focusModifier: Modifier = Modifier
+            .fillMaxWidth()
+            .border(2.dp, TilTheme.color.black, shape = RoundedCornerShape(15.dp)),
+        unFocusModifier: Modifier = Modifier
+            .fillMaxWidth()
+            .border(2.dp, TilTheme.color.gray3, shape = RoundedCornerShape(15.dp))
     ) {
         var isFocused by remember { mutableStateOf(false) }
         val focusManager = LocalFocusManager.current
-        val modifier = if (isFocused) focusBg else unFocusBg
+        val modifier = if (isFocused) focusModifier else unFocusModifier
         Box(
             modifier = Modifier
                 .onFocusChanged { isFocused = it.isFocused }
@@ -109,15 +116,21 @@ object TilComponent {
         }
     }
 
+    @SuppressLint("ModifierParameter")
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun HeaderAndContents(
         title: String,
         backClick: () -> Unit,
-        modifier: Modifier = Modifier,
+        modifier: Modifier = Modifier
+            .fillMaxSize(),
         contentAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
+        scrollState: ScrollState? = null,
         content: @Composable ColumnScope.() -> Unit
     ) {
+
+        val verticalScrollState = scrollState ?: rememberScrollState()
+
         Scaffold(
             modifier = Modifier
                 .fillMaxSize(),
@@ -161,13 +174,12 @@ object TilComponent {
                             .background(TilTheme.color.gray4)
                     )
                 }
-
-
             }
-        ) {
+        ) { paddings ->
             Column(
                 modifier = modifier
-                    .padding(it),
+                    .padding(paddings)
+                    .verticalScroll(verticalScrollState),
                 horizontalAlignment = contentAlignment
             ) { content() }
         }
@@ -191,16 +203,5 @@ object TilComponent {
         ) { requestBuilder ->
             requestBuilder.diskCacheStrategy(DiskCacheStrategy.NONE)
         }
-    }
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun HeaderAndContentsExample() {
-    TilComponent.HeaderAndContents(
-        "헤더입니다",
-        backClick = {}
-    ) {
-
     }
 }
