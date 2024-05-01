@@ -1,5 +1,6 @@
 package com.hmju.core.compose
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -35,6 +36,7 @@ import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.ColorPainter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
@@ -43,8 +45,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
-import com.bumptech.glide.integration.compose.Placeholder
 import com.bumptech.glide.integration.compose.placeholder
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
 import com.hmju.core.R
@@ -172,22 +174,22 @@ object TilComponent {
     }
 
     @OptIn(ExperimentalGlideComposeApi::class)
+    @SuppressLint("ModifierParameter")
     @Composable
     fun ImageLoader(
         imageUrl: String,
-        modifier: Modifier = Modifier
+        contentScale: ContentScale = ContentScale.Crop,
+        modifier: Modifier = Modifier,
     ) {
         GlideImage(
             model = imageUrl,
             contentDescription = null,
             modifier = modifier,
-            loading = placeholder(ColorPainter(TilTheme.color.gray2)),
-            failure = null
+            loading = placeholder(ColorPainter(TilTheme.color.gray3Light)),
+            failure = placeholder(R.drawable.ic_error),
+            contentScale = contentScale
         ) { requestBuilder ->
-            requestBuilder.transition(
-                DrawableTransitionOptions()
-                    .crossFade(DrawableCrossFadeFactory.Builder(200))
-            )
+            requestBuilder.diskCacheStrategy(DiskCacheStrategy.NONE)
         }
     }
 }
