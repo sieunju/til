@@ -15,7 +15,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -24,10 +23,10 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.features.compose_navigation.Screens
 import com.hmju.core.compose.TilComponent
 import com.hmju.core.compose.TilTheme
 import com.hmju.core.compose.collectAsMutableState
-import timber.log.Timber
 
 /**
  * Description : 회원 가입
@@ -65,7 +64,7 @@ fun SignUpScreen(
         TilComponent.EditText(
             text = id,
             labelText = "아이디",
-            placeHolderText = "가입하고자 하는 아이디 입력해주세요.",
+            placeHolderText = "아이디 입력",
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
             nextAction = FocusDirection.Next
         )
@@ -73,7 +72,7 @@ fun SignUpScreen(
         TilComponent.EditText(
             text = pw,
             labelText = "비밀번호",
-            placeHolderText = "가입하고자 하는 비밀번호 입력해주세요.",
+            placeHolderText = "비밀번호 입력",
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
             nextAction = FocusDirection.Next
         )
@@ -81,7 +80,7 @@ fun SignUpScreen(
         TilComponent.EditText(
             text = pwConfirm,
             labelText = "비밀번호 확인",
-            placeHolderText = "가입하고자 하는 비밀번호 재입력해주세요.",
+            placeHolderText = "비밀번호 재 입력",
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)
         )
         Spacer(Modifier.height(50.dp))
@@ -98,7 +97,13 @@ fun SignUpScreen(
                     }
                 )
                 .clickable(isSignUpEnable.value) {
-                    Timber.d("회원 가입 클릭!")
+                    navigator.navigate(
+                        Screens.LOGIN.destination
+                            .plus("?")
+                            .plus("user_id=${id.value}")
+                            .plus("&")
+                            .plus("user_pw=${pw.value}")
+                    )
                 },
             contentAlignment = Alignment.Center
         ) {

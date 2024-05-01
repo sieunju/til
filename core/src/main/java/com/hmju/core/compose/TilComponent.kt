@@ -88,7 +88,7 @@ object TilComponent {
             TextField(
                 value = text.value,
                 onValueChange = { text.value = it },
-                textStyle = TilTheme.text.h3,
+                textStyle = TilTheme.text.h4,
                 label = {
                     if (isFocused || text.value.isNotEmpty()) {
                         Text(text = labelText, color = TilTheme.color.black)

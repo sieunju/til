@@ -8,12 +8,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.features.compose_navigation.screens.login.LoginScreen
+import com.features.compose_navigation.screens.login.SignUpScreen
 import com.hmju.core.compose.TilTheme
+import com.hmju.core.compose.addFocusCleaner
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -29,7 +31,9 @@ internal class ComposeNavigationActivity : AppCompatActivity() {
         setContent {
             MaterialTheme {
                 Surface(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .addFocusCleaner(LocalFocusManager.current),
                     color = TilTheme.color.white
                 ) {
                     InitNavigation()
@@ -42,9 +46,11 @@ internal class ComposeNavigationActivity : AppCompatActivity() {
     private fun InitNavigation(
         navController: NavHostController = rememberNavController()
     ) {
-        // TODO 좀더 나은 방법 없을까 고민 해봐야할듯?
-        NavHost(navController, Screens.LOGIN.destination) {
-            composable(Screens.LOGIN.destination) {
+        NavHost(navController, Screens.SIGNUP.destination) {
+            Screens.SIGNUP.getNavGraph(this) {
+                SignUpScreen(navController)
+            }
+            Screens.LOGIN.getNavGraph(this) {
                 LoginScreen(navController)
             }
         }
