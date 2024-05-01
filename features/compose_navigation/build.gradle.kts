@@ -55,5 +55,4 @@ dependencies {
     implementation(Compose.activity)
     implementation(Compose.navigation)
     implementation(Compose.navigationViewModel)
-    implementation(Glide.compose)
 }

@@ -42,7 +42,6 @@ dependencies {
     implementation(Compose.constraint)
     implementation(Compose.tracing)
     implementation(Compose.activity)
-    implementation(Glide.compose)
     // implementation("com.google.accompanist:accompanist-permissions:0.23.1")
 
     /**

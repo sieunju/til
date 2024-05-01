@@ -65,7 +65,6 @@ dependencies {
     implementation(Compose.constraint)
     implementation(Compose.tracing)
     implementation(Compose.activity)
-    implementation(Glide.compose)
 
     testImplementation(UnitTest.junit)
     androidTestImplementation(platform(Compose.base))

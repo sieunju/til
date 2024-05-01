@@ -1,6 +1,5 @@
 package com.features.compose_ui.models
 
-import android.graphics.drawable.GradientDrawable
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -21,16 +20,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
-import com.bumptech.glide.integration.compose.GlideImage
-import com.bumptech.glide.integration.compose.placeholder
-import com.hmju.core.compose.TilTheme
 import com.hmju.core.R
+import com.hmju.core.compose.TilComponent
+import com.hmju.core.compose.TilTheme
 
 /**
  * Description : Compose Memo UiModel
@@ -210,7 +206,6 @@ sealed interface MemoUiModel {
             return "ImageAndInfo"
         }
 
-        @OptIn(ExperimentalGlideComposeApi::class)
         @Composable
         override fun GetUi() {
             Row(
@@ -219,21 +214,12 @@ sealed interface MemoUiModel {
                     .wrapContentHeight()
                     .padding(bottom = 15.dp)
             ) {
-                GlideImage(
-                    model = imageUrl,
-                    contentDescription = null,
+                TilComponent.ImageLoader(
+                    imageUrl = imageUrl,
                     modifier = Modifier
                         .width(100.dp)
                         .height(100.dp)
-                        .clip(RoundedCornerShape(5.dp)),
-                    contentScale = ContentScale.Crop,
-                    loading = placeholder(
-                        GradientDrawable(
-                            GradientDrawable.Orientation.BL_TR,
-                            intArrayOf(R.color.gray3, R.color.gray3)
-                        )
-                    ),
-                    failure = placeholder(R.drawable.ic_error)
+                        .clip(RoundedCornerShape(5.dp))
                 )
 
                 Column(
@@ -276,24 +262,14 @@ sealed interface MemoUiModel {
             return "ImageThumb"
         }
 
-        @ExperimentalGlideComposeApi
         @Composable
         override fun GetUi() {
-            GlideImage(
-                model = imageUrl,
-                contentDescription = null,
+            TilComponent.ImageLoader(
+                imageUrl = imageUrl,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(300.dp)
-                    .border(1.dp, TilTheme.color.gray3),
-                contentScale = ContentScale.Crop,
-                loading = placeholder(
-                    GradientDrawable(
-                        GradientDrawable.Orientation.BL_TR,
-                        intArrayOf(R.color.gray3, R.color.gray3)
-                    )
-                ),
-                failure = placeholder(R.drawable.ic_error)
+                    .border(1.dp, TilTheme.color.gray3)
             )
         }
     }
