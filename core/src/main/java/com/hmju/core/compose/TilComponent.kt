@@ -7,6 +7,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
@@ -116,10 +117,78 @@ object TilComponent {
         }
     }
 
+    @Composable
+    private fun HeaderBackButton(
+        title: String,
+        backClick: () -> Unit,
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentSize()
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Box(
+                    modifier = Modifier
+                        .width(50.dp)
+                        .fillMaxHeight()
+                        .clickable { backClick() },
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painter = painterResource(R.drawable.ic_arrow_left),
+                        contentDescription = null
+                    )
+                }
+                Text(
+                    text = title,
+                    style = TilTheme.text.h4_B,
+                    modifier = Modifier.weight(1F),
+                    textAlign = TextAlign.Center
+                )
+                Spacer(Modifier.width(50.dp))
+            }
+
+            Spacer(
+                Modifier
+                    .fillMaxWidth()
+                    .height(1.dp)
+                    .background(TilTheme.color.gray4)
+            )
+        }
+    }
+
     @SuppressLint("ModifierParameter")
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    fun HeaderAndContents(
+    fun HeaderAndContentsBox(
+        title: String,
+        backClick: () -> Unit,
+        modifier: Modifier = Modifier
+            .fillMaxSize(),
+        content: @Composable BoxScope.() -> Unit
+    ) {
+        Scaffold(
+            modifier = Modifier
+                .fillMaxSize(),
+            topBar = { HeaderBackButton(title, backClick) }
+        ) { paddings ->
+            Box(
+                modifier = modifier
+                    .padding(paddings)
+            ) { content() }
+        }
+    }
+
+    @SuppressLint("ModifierParameter")
+    @OptIn(ExperimentalMaterial3Api::class)
+    @Composable
+    fun HeaderAndContentsColumn(
         title: String,
         backClick: () -> Unit,
         modifier: Modifier = Modifier
@@ -134,47 +203,7 @@ object TilComponent {
         Scaffold(
             modifier = Modifier
                 .fillMaxSize(),
-            topBar = {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentSize()
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(50.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .width(50.dp)
-                                .fillMaxHeight()
-                                .clickable { backClick() },
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Image(
-                                painter = painterResource(R.drawable.ic_arrow_left),
-                                contentDescription = null
-                            )
-                        }
-                        Text(
-                            text = title,
-                            style = TilTheme.text.h4_B,
-                            modifier = Modifier.weight(1F),
-                            textAlign = TextAlign.Center
-                        )
-                        Spacer(Modifier.width(50.dp))
-                    }
-
-                    Spacer(
-                        Modifier
-                            .fillMaxWidth()
-                            .height(1.dp)
-                            .background(TilTheme.color.gray4)
-                    )
-                }
-            }
+            topBar = { HeaderBackButton(title, backClick) }
         ) { paddings ->
             Column(
                 modifier = modifier

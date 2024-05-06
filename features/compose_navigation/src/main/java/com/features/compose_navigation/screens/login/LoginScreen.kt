@@ -1,6 +1,5 @@
 package com.features.compose_navigation.screens.login
 
-import android.app.Activity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -22,13 +21,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusDirection
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.features.compose_navigation.Screens
 import com.hmju.core.compose.TilComponent
 import com.hmju.core.compose.TilTheme
 import com.hmju.core.compose.addFocusCleaner
@@ -45,7 +44,7 @@ fun LoginScreen(
     navigator: NavHostController,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
-    TilComponent.HeaderAndContents(
+    TilComponent.HeaderAndContentsColumn(
         title = "로그인",
         modifier = Modifier
             .fillMaxSize()
@@ -89,7 +88,11 @@ fun LoginScreen(
                     }
                 )
                 .clickable(enabled = isEnable.value) {
-
+                    navigator.navigate(
+                        Screens.MEMO.destination
+                            .plus("?")
+                            .plus("user_id=${id.value}")
+                    )
                 },
             contentAlignment = Alignment.Center
         ) {

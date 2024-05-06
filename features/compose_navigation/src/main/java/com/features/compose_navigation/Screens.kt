@@ -5,8 +5,6 @@ import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
 import androidx.compose.runtime.Composable
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
@@ -39,7 +37,16 @@ enum class Screens(
             }
         )
     ),
-    SIGNUP("signup");
+    SIGNUP("signup"),
+    MEMO(
+        destination = "memo",
+        queryParams = "user_id={id}",
+        arguments = listOf(
+            navArgument("id") {
+                type = NavType.StringType
+            }
+        )
+    );
 
     fun getNavGraph(
         builder: NavGraphBuilder,

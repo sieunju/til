@@ -14,6 +14,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.features.compose_navigation.screens.login.LoginScreen
 import com.features.compose_navigation.screens.login.SignUpScreen
+import com.features.compose_navigation.screens.memo.MemoScreen
 import com.hmju.core.compose.TilTheme
 import com.hmju.core.compose.addFocusCleaner
 import dagger.hilt.android.AndroidEntryPoint
@@ -52,6 +53,9 @@ internal class ComposeNavigationActivity : AppCompatActivity() {
             }
             Screens.LOGIN.getNavGraph(this) {
                 LoginScreen(navController)
+            }
+            Screens.MEMO.getNavGraph(this) {
+                MemoScreen(navController)
             }
         }
     }

@@ -1,7 +1,5 @@
 package com.features.compose_navigation.screens.login
 
-import android.app.Activity
-import android.app.DatePickerDialog
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -21,7 +19,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusDirection
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -49,7 +46,7 @@ fun SignUpScreen(
     val isSignUpEnable = viewModel.isSignUpEnable.collectAsState()
     val scrollState = rememberScrollState()
 
-    TilComponent.HeaderAndContents(
+    TilComponent.HeaderAndContentsColumn(
         title = "회원 가입",
         modifier = Modifier
             .fillMaxSize()
