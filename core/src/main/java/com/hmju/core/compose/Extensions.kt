@@ -12,6 +12,8 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.SavedStateHandle
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.hmju.core.compose.ComposeLifecycleState.Companion.from
 
@@ -63,4 +65,23 @@ fun NavHostController.backPressed() {
         val activity = this.context as? FragmentActivity
         activity?.finish()
     }
+}
+
+inline fun <reified T> NavController.getBundleData(key: String): T? {
+    val savedStateHandle = currentBackStackEntry?.savedStateHandle ?: return null
+    return savedStateHandle.get<T>(key)
+}
+
+inline fun NavController.putBundle(
+    predicate: SavedStateHandle.() -> Unit
+) {
+    val savedStateHandle = currentBackStackEntry?.savedStateHandle ?: return
+    predicate.invoke(savedStateHandle)
+}
+
+inline fun NavController.prevPutBundle(
+    predicate: SavedStateHandle.() -> Unit
+) {
+    val savedStateHandle = previousBackStackEntry?.savedStateHandle ?: return
+    predicate.invoke(savedStateHandle)
 }

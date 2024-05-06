@@ -55,8 +55,9 @@ fun LoginScreen(
         TilComponent.ImageLoader(
             imageUrl = "https://til.qtzz.synology.me/resources/img/20240423/1713882085205.png",
             modifier = Modifier
-                .size(300.dp, 300.dp)
-                .padding(top = 30.dp, bottom = 30.dp)
+                .size(150.dp, 150.dp)
+                .padding(30.dp)
+                .clip(RoundedCornerShape(150.dp))
         )
         val id = viewModel.id.collectAsMutableState()
         val pw = viewModel.password.collectAsMutableState()
@@ -88,7 +89,7 @@ fun LoginScreen(
                     }
                 )
                 .clickable(enabled = isEnable.value) {
-                    // 회원 가입 완료 화면 이동
+
                 },
             contentAlignment = Alignment.Center
         ) {

@@ -1,6 +1,7 @@
 package com.features.compose_navigation.screens.login
 
 import android.app.Activity
+import android.app.DatePickerDialog
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -59,7 +60,7 @@ fun SignUpScreen(
         TilComponent.ImageLoader(
             imageUrl = "https://til.qtzz.synology.me/resources/img/20240423/1713882085205.png",
             modifier = Modifier
-                .size(300.dp, 300.dp)
+                .size(150.dp, 150.dp)
                 .padding(30.dp)
                 .clip(RoundedCornerShape(150.dp))
         )
@@ -106,9 +107,9 @@ fun SignUpScreen(
                             .plus("&")
                             .plus("user_pw=${pw.value}")
                     ) {
-                        popUpTo(Screens.SIGNUP.destination) {
-                            inclusive = true
-                        }
+//                        popUpTo(Screens.SIGNUP.destination) {
+//                            inclusive = true
+//                        }
                     }
                 },
             contentAlignment = Alignment.Center
