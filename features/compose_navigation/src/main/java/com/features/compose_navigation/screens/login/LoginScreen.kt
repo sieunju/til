@@ -52,7 +52,7 @@ fun LoginScreen(
         backClick = { navigator.backPressed() }
     ) {
         TilComponent.ImageLoader(
-            imageUrl = "https://til.qtzz.synology.me/resources/img/20240423/1713882085205.png",
+            imageUrl = "https://til.qtzz.synology.me/resources/img/20240507/1715084116936.png",
             modifier = Modifier
                 .size(150.dp, 150.dp)
                 .padding(30.dp)
