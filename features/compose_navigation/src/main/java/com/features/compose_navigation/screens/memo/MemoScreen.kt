@@ -2,6 +2,7 @@ package com.features.compose_navigation.screens.memo
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,6 +19,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -47,6 +49,7 @@ fun MemoScreen(
     ) {
         LazyColumn(
             modifier = Modifier
+                .background(Color.White)
                 .fillMaxSize(),
             state = listState,
         ) {
@@ -55,11 +58,12 @@ fun MemoScreen(
                 contentType = "HeaderType"
             ) {
                 Column(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth()
+                        .background(Color.White),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     TilComponent.ImageLoader(
-                        imageUrl = "https://til.qtzz.synology.me/resources/img/20240423/1713882085205.png",
+                        imageUrl = "https://til.qtzz.synology.me/resources/img/20240507/1715084116936.png",
                         modifier = Modifier
                             .size(150.dp, 150.dp)
                             .padding(30.dp)
@@ -67,7 +71,7 @@ fun MemoScreen(
                     )
                     Text(
                         text = headerTitle.value,
-                        style = TilTheme.text.h2_M,
+                        style = TilTheme.text.h4_M,
                         textAlign = TextAlign.Center
                     )
                 }

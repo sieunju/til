@@ -76,12 +76,8 @@ class MemoViewModel @Inject constructor(
     private fun reqMemoList() {
         getMemoUseCase()
             .onStart { }
-            .onEach {
-                Timber.d("List ${Thread.currentThread()} ${it.size}")
-            }
-            .catch {
-                Timber.d("ERROR $it")
-            }
+            .onEach { _dataList.addAll(it) }
+            .catch { Timber.d("ERROR $it") }
             .launchIn(viewModelScope)
     }
 
