@@ -61,19 +61,19 @@ enum class Screens(
             enterTransition = {
                 slideIntoContainer(
                     AnimatedContentTransitionScope.SlideDirection.Left,
-                    tween(200)
+                    tween(400)
                 )
             },
             exitTransition = {
-                fadeOut(tween(200))
+                fadeOut(tween(400))
             },
             popEnterTransition = {
-                fadeIn(tween(200))
+                fadeIn(tween(400))
             },
             popExitTransition = {
                 slideOutOfContainer(
                     AnimatedContentTransitionScope.SlideDirection.Right,
-                    tween(200)
+                    tween(400)
                 )
             }
         )
