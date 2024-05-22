@@ -62,7 +62,7 @@ class MemoViewModel @Inject constructor(
     }
 
     private fun handleRandomTitle() {
-        val originId = savedStateHandle.get<String>("id") ?: return
+        val originId = savedStateHandle.get<String>("user_id") ?: return
         val sdf = SimpleDateFormat("mm분 ss초", Locale.getDefault())
 
         viewModelScope.launch {

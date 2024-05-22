@@ -18,7 +18,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    val savedStateHandle: SavedStateHandle
+    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     val id: MutableStateFlow<String> by lazy { MutableStateFlow("") }
@@ -30,8 +30,8 @@ class LoginViewModel @Inject constructor(
 
     fun start() {
         viewModelScope.launch {
-            savedStateHandle.get<String>("id")?.let { id.emit(it) }
-            savedStateHandle.get<String>("pw")?.let { password.emit(it) }
+            savedStateHandle.get<String>("user_id")?.let { id.emit(it) }
+            savedStateHandle.get<String>("user_pw")?.let { password.emit(it) }
         }
     }
 

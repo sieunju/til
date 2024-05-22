@@ -88,11 +88,10 @@ fun LoginScreen(
                     }
                 )
                 .clickable(enabled = isEnable.value) {
-                    navigator.navigate(
-                        Screens.MEMO.destination
-                            .plus("?")
-                            .plus("user_id=${id.value}")
+                    val route = Screens.MEMO.getNavigation(
+                        mapOf("user_id" to id.value)
                     )
+                    navigator.navigate(route)
                 },
             contentAlignment = Alignment.Center
         ) {

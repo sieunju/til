@@ -20,29 +20,26 @@ import androidx.navigation.navArgument
  */
 enum class Screens(
     val destination: String,
-    val queryParams: String? = null,
-    val arguments: List<NamedNavArgument> = listOf()
+    val arguments: List<NamedNavArgument> = listOf() // type == StringType 만 가능
 ) {
+    SIGNUP("signup"),
     LOGIN(
         destination = "login",
-        queryParams = "user_id={id}&user_pw={pw}",
         arguments = listOf(
-            navArgument("id") {
+            navArgument("user_id") {
                 type = NavType.StringType
                 nullable = true
             },
-            navArgument("pw") {
+            navArgument("user_pw") {
                 type = NavType.StringType
                 nullable = true
             }
         )
     ),
-    SIGNUP("signup"),
     MEMO(
         destination = "memo",
-        queryParams = "user_id={id}",
         arguments = listOf(
-            navArgument("id") {
+            navArgument("user_id") {
                 type = NavType.StringType
             }
         )
@@ -53,8 +50,9 @@ enum class Screens(
         content: @Composable AnimatedContentScope.(NavBackStackEntry) -> Unit
     ) {
         val route = StringBuilder(destination)
-        if (!queryParams.isNullOrEmpty()) {
-            route.append("?").append(queryParams)
+        if (arguments.isNotEmpty()) {
+            route.append("?")
+            route.append(arguments.joinToString("&") { "${it.name}={${it.name}}" })
         }
         return builder.composable(
             route = route.toString(),
@@ -79,5 +77,27 @@ enum class Screens(
                 )
             }
         )
+    }
+
+    /**
+     * 화면에 정의된 Argument 스펙 기준으로 파라미터 셋팅해서 URL 형식으로 전달하는 함수
+     * @param argumentsMap 다음 화면에 전달할 파라미터 데이터
+     */
+    fun getNavigation(
+        argumentsMap: Map<String, Any?> = mapOf()
+    ): String {
+        val route = StringBuilder(destination)
+        if (arguments.isNotEmpty()) {
+            route.append("?")
+            route.append(arguments.mapNotNull {
+                val value = argumentsMap[it.name]
+                if (value != null) {
+                    "${it.name}=$value"
+                } else {
+                    null
+                }
+            }.joinToString("&"))
+        }
+        return route.toString()
     }
 }

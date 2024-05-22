@@ -97,13 +97,13 @@ fun SignUpScreen(
                     }
                 )
                 .clickable(isSignUpEnable.value) {
-                    navigator.navigate(
-                        Screens.LOGIN.destination
-                            .plus("?")
-                            .plus("user_id=${id.value}")
-                            .plus("&")
-                            .plus("user_pw=${pw.value}")
-                    ) {
+                    val route = Screens.LOGIN.getNavigation(
+                        mapOf(
+                            "user_id" to id.value,
+                            "user_pw" to pw.value
+                        )
+                    )
+                    navigator.navigate(route) {
 //                        popUpTo(Screens.SIGNUP.destination) {
 //                            inclusive = true
 //                        }
