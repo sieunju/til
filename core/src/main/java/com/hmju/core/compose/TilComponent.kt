@@ -126,6 +126,7 @@ object TilComponent {
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentSize()
+                .background(TilTheme.color.white)
         ) {
             Row(
                 modifier = Modifier
