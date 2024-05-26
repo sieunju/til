@@ -74,6 +74,7 @@ class MemoViewModel @Inject constructor(
     }
 
     private fun reqMemoList() {
+        // _dataList.add(MemoUiModel.Empty)
         getMemoUseCase()
             .onStart { }
             .onEach { _dataList.addAll(it) }

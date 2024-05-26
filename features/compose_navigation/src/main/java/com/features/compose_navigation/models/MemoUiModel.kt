@@ -4,11 +4,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -28,6 +28,7 @@ import com.hmju.core.compose.TilTheme
  * Created by juhongmin on 5/6/24
  */
 sealed interface MemoUiModel {
+
     fun getType(): String
 
     @Composable
@@ -81,7 +82,8 @@ sealed interface MemoUiModel {
                         text = title,
                         style = TilTheme.text.h3_B,
                         textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier
+                            .fillMaxWidth()
                             .padding(vertical = 10.dp, horizontal = 15.dp)
                     )
 
@@ -89,11 +91,28 @@ sealed interface MemoUiModel {
                         text = contents,
                         style = TilTheme.text.h4_M,
                         textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier
+                            .fillMaxWidth()
                             .padding(vertical = 10.dp, horizontal = 15.dp)
                     )
                 }
             }
+        }
+    }
+
+    object Empty : MemoUiModel {
+        override fun getType(): String {
+            return "Empty"
+        }
+
+        @Composable
+        override fun GetUi(clickEvent: (MemoClickEvent) -> Unit) {
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp)
+                    .background(TilTheme.color.gray3)
+            )
         }
     }
 }

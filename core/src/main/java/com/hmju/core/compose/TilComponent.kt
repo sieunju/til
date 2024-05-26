@@ -118,7 +118,7 @@ object TilComponent {
     }
 
     @Composable
-    private fun HeaderBackButton(
+    fun HeaderBackButton(
         title: String,
         backClick: () -> Unit,
     ) {
