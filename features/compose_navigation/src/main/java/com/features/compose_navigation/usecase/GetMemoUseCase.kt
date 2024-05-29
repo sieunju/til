@@ -2,6 +2,8 @@ package com.features.compose_navigation.usecase
 
 import com.features.compose_navigation.ApiService
 import com.features.compose_navigation.models.MemoUiModel
+import com.hmju.core.models.base.JSendList
+import com.hmju.core.models.base.getOrDefault
 import com.hmju.core.models.params.PagingQueryParams
 import com.hmju.core.network.NetworkExtensions.zip
 import kotlinx.coroutines.flow.Flow
@@ -23,7 +25,7 @@ class GetMemoUseCase @Inject constructor(
                 { apiService.fetchMemo(queryMap.getQueryMap()) },
                 { apiService.fetchUpload(queryMap.getQueryMap()) }
             ) { memoRes, fileRes ->
-                val fileList = fileRes.list
+                val fileList = fileRes.list.filter { it.mimeType.startsWith("image") }
                 memoRes.list.mapIndexed { idx, entity ->
                     MemoUiModel.Item(entity, fileList.getOrNull(idx))
                 }

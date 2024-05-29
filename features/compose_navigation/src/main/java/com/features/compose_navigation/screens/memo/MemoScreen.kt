@@ -2,9 +2,9 @@ package com.features.compose_navigation.screens.memo
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -16,15 +16,23 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.NestedScrollSource
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -33,6 +41,8 @@ import androidx.navigation.NavHostController
 import com.hmju.core.compose.TilComponent
 import com.hmju.core.compose.TilTheme
 import com.hmju.core.compose.backPressed
+import timber.log.Timber
+import kotlin.math.roundToInt
 
 /**
  * Description : 메모 화면
@@ -48,46 +58,46 @@ fun MemoScreen(
     val scrollState = rememberLazyListState()
     val headerTitle = viewModel.userId.collectAsState()
     val uiList = viewModel.dataList.collectAsState()
-    val appbarScrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    val density = LocalDensity.current
 
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(text = "메모")
-//                    Column {
-//                        TilComponent.HeaderBackButton(
-//                            title = "메모",
-//                            backClick = { navigator.backPressed() }
-//                        )
-//                        TilComponent.ImageLoader(
-//                            imageUrl = "https://til.qtzz.synology.me/resources/img/20240507/1715084116936.png",
-//                            modifier = Modifier
-//                                .size(150.dp, 150.dp)
-//                                .padding(30.dp)
-//                                .clip(RoundedCornerShape(150.dp))
-//                        )
-//                        Text(
-//                            text = headerTitle.value,
-//                            modifier = Modifier
-//                                .fillMaxWidth()
-//                                .height(60.dp)
-//                                .background(TilTheme.color.blue),
-//                            color = TilTheme.color.white,
-//                            textAlign = TextAlign.Center
-//                        )
-//                    }
-                },
-                scrollBehavior = appbarScrollBehavior
-            )
-        },
-        // contentWindowInsets = WindowInsets(0, 0, 0, 0)
+    // 헤더에서 스크롤
+    var appBarHeight = remember { 0.dp } // 전체 헤더 높이값
+    val collapseHeight = 60.dp // 접혔을때 높이값
+    var expandHeightPx = 0F
+    var appbarOffsetHeightPx by remember { mutableFloatStateOf(0f) }
+
+    val nestedScrollConnection = remember {
+        object : NestedScrollConnection {
+
+            override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
+                appbarOffsetHeightPx += available.y
+                // Timber.d("onPreScroll ${available.y} $appbarOffsetHeightPx")
+                return Offset.Zero
+            }
+
+            override fun onPostScroll(
+                consumed: Offset,
+                available: Offset,
+                source: NestedScrollSource
+            ): Offset {
+                appbarOffsetHeightPx -= available.y
+                return Offset.Zero
+            }
+        }
+    }
+
+    TilComponent.HeaderAndContentsBox(
+        title = "메모",
+        backClick = { navigator.backPressed() },
+        modifier = Modifier
+            .fillMaxWidth()
+            .nestedScroll(nestedScrollConnection)
     ) {
         LazyColumn(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(it)
+                .fillMaxSize(),
+            state = scrollState,
+            contentPadding = PaddingValues(top = appBarHeight.plus(30.dp))
         ) {
             itemsIndexed(
                 items = uiList.value,
@@ -96,80 +106,55 @@ fun MemoScreen(
                 itemContent = { _, item -> item.GetUi { viewModel.setClickEvent(it) } }
             )
         }
-    }
 
-//    TilComponent.HeaderAndContentsBox(
-//        title = "메모",
-//        backClick = { navigator.backPressed() }
-//    ) {
-//        LazyColumn(
-//            modifier = Modifier
-//                .fillMaxSize(),
-//            state = scrollState,
-//            contentPadding = PaddingValues(top = maxHeaderContentHeight)
-//        ) {
-////            item(
-////                key = -1,
-////                contentType = { "HeaderEmpty" },
-////                content = {
-////                    Spacer(
-////                        modifier = Modifier
-////                            .height(maxHeaderContentHeight)
-////                            .background(TilTheme.color.gray3)
-////                    )
-////                }
-////            )
-//            itemsIndexed(
-//                items = uiList.value,
-//                key = { idx, _ -> idx },
-//                contentType = { _, item -> item.getType() },
-//                itemContent = { _, item -> item.GetUi { viewModel.setClickEvent(it) } }
-//            )
-//        }
-//
-//        Column(
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .background(TilTheme.color.white)
-//                .height(maxHeaderContentHeight)
-//                .offset { IntOffset(x = 0, y = -toolbarOffsetY.toInt()) }
-////                .then(
-////                    Modifier.graphicsLayer {
-////                        val firstIndex = scrollState.firstVisibleItemIndex
-////                        val scrollOffset = scrollState.firstVisibleItemScrollOffset.toFloat()
-////                        Timber.d("ScrollOffset ${firstIndex} / ${scrollOffset}")
-////                        // 0 .. 390
-////                        if (firstIndex == 0) {
-////                            if (scrollOffset >= maxOffset.minus(minOffset)) {
-////                                translationY = -maxOffset.minus(minOffset)
-////                            } else {
-////                                translationY = -scrollOffset
-////                            }
-////                            // alpha = 1 - (scrollOffset / maxOffset).coerceIn(0.5F, 1F)
-////                        } else {
-////                            translationY = -maxOffset.minus(minOffset)
-////                        }
-////                    }
-////                )
-//        ) {
-//            TilComponent.ImageLoader(
-//                imageUrl = "https://til.qtzz.synology.me/resources/img/20240507/1715084116936.png",
-//                modifier = Modifier
-//                    .size(150.dp, 150.dp)
-//                    .padding(30.dp)
-//                    .clip(RoundedCornerShape(150.dp))
-//            )
-//            Text(
-//                text = headerTitle.value,
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .height(60.dp)
-//                    .background(TilTheme.color.blue),
-//                color = TilTheme.color.white,
-//                textAlign = TextAlign.Center
-//            )
-//        }
-//    }
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .onGloballyPositioned { coordinates ->
+                    if (appBarHeight == 0.dp) {
+                        appBarHeight = with(density) { coordinates.size.height.toDp() }
+                        expandHeightPx = with(density) {
+                            appBarHeight
+                                .minus(collapseHeight)
+                                .roundToPx()
+                                .toFloat()
+                        }
+                    }
+                }
+                .offset {
+                    IntOffset(
+                        x = 0,
+                        y = appbarOffsetHeightPx
+                            .coerceIn(-expandHeightPx, 0f)
+                            .roundToInt()
+                    )
+                }
+                .background(TilTheme.color.defBgColor)
+        ) {
+            TilComponent.ImageLoader(
+                imageUrl = "https://til.qtzz.synology.me/resources/img/20240507/1715084116936.png",
+                modifier = Modifier
+                    .padding(30.dp)
+                    .size(150.dp, 150.dp)
+                    .clip(RoundedCornerShape(150.dp))
+            )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(collapseHeight)
+                    .background(TilTheme.color.defBgColor),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = headerTitle.value,
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    color = TilTheme.color.black,
+                    textAlign = TextAlign.Center
+                )
+            }
+        }
+    }
 
     LaunchedEffect(Unit) {
         viewModel.start()
