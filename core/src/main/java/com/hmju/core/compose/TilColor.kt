@@ -22,7 +22,8 @@ class TilColor internal constructor(
     val gray3: Color,
     val gray3Light: Color,
     val gray4: Color,
-    val gray5: Color
+    val gray5: Color,
+    val defBgColor: Color
 ) {
     constructor() : this(
         white = Color(255, 255, 255),
@@ -36,6 +37,7 @@ class TilColor internal constructor(
         gray3 = Color(204, 204, 204),
         gray3Light = Color(229, 229, 229),
         gray4 = Color(240, 240, 240),
-        gray5 = Color(247, 247, 247)
+        gray5 = Color(247, 247, 247),
+        defBgColor = Color(245,243,244)
     )
 }

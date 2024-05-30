@@ -6,8 +6,11 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -49,40 +52,46 @@ class ComposeUiActivity :
     @Preview
     @Composable
     fun TestMessageCard() {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(15.dp)
-                .background(Color.Gray)
-        ) {
-            Text(
-                text = "Hello H0",
-                style = TilTheme.text.h0,
-                modifier = Modifier.clickable {
-                    val intent = Intent(this@ComposeUiActivity, GeneralComposeActivity::class.java)
-                    this@ComposeUiActivity.startActivity(intent)
+        MaterialTheme {
+            Surface(
+                modifier = Modifier.fillMaxSize(),
+                color = MaterialTheme.colorScheme.background
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(15.dp)
+                ) {
+                    Text(
+                        text = "Hello H0",
+                        style = TilTheme.text.h0,
+                        modifier = Modifier.clickable {
+                            val intent = Intent(this@ComposeUiActivity, GeneralComposeActivity::class.java)
+                            this@ComposeUiActivity.startActivity(intent)
+                        }
+                    )
+                    Text(
+                        text = "Hello H1",
+                        style = TilTheme.text.h1
+                    )
+                    Text(
+                        text = "Hello H2",
+                        style = TilTheme.text.h2
+                    )
+                    Text(
+                        text = "Hello H3",
+                        style = TilTheme.text.h3
+                    )
+                    Text(
+                        text = "Hello h4",
+                        style = TilTheme.text.h4
+                    )
+                    Text(
+                        text = "Hello h5",
+                        style = TilTheme.text.h5
+                    )
                 }
-            )
-            Text(
-                text = "Hello H1",
-                style = TilTheme.text.h1
-            )
-            Text(
-                text = "Hello H2",
-                style = TilTheme.text.h2
-            )
-            Text(
-                text = "Hello H3",
-                style = TilTheme.text.h3
-            )
-            Text(
-                text = "Hello h4",
-                style = TilTheme.text.h4
-            )
-            Text(
-                text = "Hello h5",
-                style = TilTheme.text.h5
-            )
+            }
         }
     }
 }

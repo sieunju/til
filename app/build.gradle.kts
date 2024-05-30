@@ -71,6 +71,8 @@ dependencies {
     implementation(project(":features:rv_diff_util_2"))
     implementation(project(":features:base_mvvm_lifecycle"))
     implementation(project(":features:base_mvvm_bottom_sheet"))
+    implementation(project(":features:compose_permissions_result"))
+    implementation(project(":features:compose_navigation"))
 
     /**
      * Network
@@ -106,14 +108,6 @@ dependencies {
      */
     implementation(Rx.java)
     implementation(Rx.kotlin)
-
-    /**
-     * Glide
-     */
-    implementation(Glide.base)
-    implementation(Glide.compiler)
-    implementation(Glide.okhttp)
-    kapt(Glide.compiler)
 
     /**
      * Timber

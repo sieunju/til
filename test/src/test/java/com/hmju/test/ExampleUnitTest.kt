@@ -78,4 +78,9 @@ class ExampleUnitTest {
         println("Kotlinx ${sdf.format(res.getDate())}")
         return res.getDate().time
     }
+
+    @Test
+    fun calculateTest(){
+        // var offset = Math.min(1F,1- )
+    }
 }

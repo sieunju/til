@@ -63,6 +63,21 @@
             android:onClick="@{()->vm.moveToMemoComposePage()}"
             android:text="Compose UI 메모 리스트 페이지" />
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:onClick="@{()->vm.moveToPermissionsResultPage()}"
+            android:text="Compose Permissions" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:onClick="@{()->vm.moveToComposeNavigationPage()}"
+            android:text="Compose Navigation" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
