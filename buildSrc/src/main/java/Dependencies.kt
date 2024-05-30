@@ -6,7 +6,7 @@ object Apps {
 object Versions {
     const val retrofit = "2.9.0"
     const val lifecycle = "2.6.1"
-    const val hilt = "2.45"
+    const val hilt = "2.48"
 }
 
 object AndroidX {
@@ -59,10 +59,21 @@ object Retrofit {
 }
 
 object Glide {
-    const val base = "com.github.bumptech.glide:glide:4.16.0"
-    const val okhttp = "com.github.bumptech.glide:okhttp3-integration:4.16.0"
-    const val compiler = "com.github.bumptech.glide:ksp:4.16.0"
+    const val base = "com.github.bumptech.glide:glide:4.13.2"
+    const val okhttp = "com.github.bumptech.glide:okhttp3-integration:4.13.2"
+    const val compiler = "com.github.bumptech.glide:compiler:4.13.2"
+    const val annotations = "com.github.bumptech.glide:annotations:4.13.2"
     const val compose = "com.github.bumptech.glide:compose:1.0.0-beta01"
+//    const val base = "com.github.bumptech.glide:glide:4.16.0"
+//    const val okhttp = "com.github.bumptech.glide:okhttp3-integration:4.16.0"
+//    const val compiler = "com.github.bumptech.glide:ksp:4.16.0"
+//    const val annotations = "com.github.bumptech.glide:annotations:4.16.0"
+//    const val compose = "com.github.bumptech.glide:compose:1.0.0-beta01"
+//    const val base = "com.github.bumptech.glide:glide:5.0.0-rc01"
+//    const val okhttp = "com.github.bumptech.glide:okhttp3-integration:5.0.0-rc01"
+//    const val compiler = "com.github.bumptech.glide:ksp:5.0.0-rc01"
+//    const val annotations = "com.github.bumptech.glide:annotations:5.0.0-rc01"
+//    const val compose = "com.github.bumptech.glide:compose:1.0.0-beta01"
 }
 
 object KotlinX {
@@ -90,6 +101,8 @@ object Compose {
     const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1"
     const val constraint = "androidx.constraintlayout:constraintlayout-compose:1.0.1"
     const val runtime = "androidx.compose.runtime:runtime"
+    const val navigation = "androidx.navigation:navigation-compose:2.7.7"
+    const val navigationViewModel = "androidx.hilt:hilt-navigation-compose:1.0.0"
 }
 
 object UnitTest {

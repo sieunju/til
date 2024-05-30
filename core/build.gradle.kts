@@ -53,6 +53,8 @@ dependencies {
     implementation(Glide.base)
     implementation(Glide.compiler)
     implementation(Glide.okhttp)
+    implementation(Glide.annotations)
+    implementation(Glide.compose)
     kapt(Glide.compiler)
 
     /**
@@ -106,6 +108,7 @@ dependencies {
     implementation(Compose.preview)
     implementation(Compose.ui)
     implementation(Compose.runtime)
+    implementation(Compose.navigation)
 
     /**
      * Unit Test
