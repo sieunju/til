@@ -19,6 +19,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.features.compose_navigation.models.entity.FileEntity
 import com.features.compose_navigation.models.entity.MemoEntity
+import com.hmju.core.compose.BaseListClickEvent
+import com.hmju.core.compose.BaseUiModel
 import com.hmju.core.compose.TilComponent
 import com.hmju.core.compose.TilTheme
 
@@ -27,12 +29,7 @@ import com.hmju.core.compose.TilTheme
  *
  * Created by juhongmin on 5/6/24
  */
-sealed interface MemoUiModel {
-
-    fun getType(): String
-
-    @Composable
-    fun GetUi(clickEvent: (MemoClickEvent) -> Unit)
+sealed interface MemoUiModel : BaseUiModel {
 
     data class Item(
         val id: Int,
@@ -56,7 +53,7 @@ sealed interface MemoUiModel {
         }
 
         @Composable
-        override fun GetUi(clickEvent: (MemoClickEvent) -> Unit) {
+        override fun GetUi(clickEvent: (BaseListClickEvent) -> Unit) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -106,7 +103,7 @@ sealed interface MemoUiModel {
         }
 
         @Composable
-        override fun GetUi(clickEvent: (MemoClickEvent) -> Unit) {
+        override fun GetUi(clickEvent: (BaseListClickEvent) -> Unit) {
             Spacer(
                 modifier = Modifier
                     .fillMaxWidth()
