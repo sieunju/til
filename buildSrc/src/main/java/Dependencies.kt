@@ -1,3 +1,6 @@
+import org.gradle.api.artifacts.dsl.DependencyHandler
+import org.gradle.kotlin.dsl.DependencyHandlerScope
+
 object Apps {
     const val versionCode = 7
     const val versionName = "0.0.7"
@@ -105,6 +108,16 @@ object Compose {
     const val navigationViewModel = "androidx.hilt:hilt-navigation-compose:1.0.0"
 }
 
+object Firebase {
+    const val bom = "com.google.firebase:firebase-bom:33.1.0"
+    const val analytics = "com.google.firebase:firebase-analytics"
+    const val crash = "com.google.firebase:firebase-crashlytics-ktx"
+    operator fun invoke(scope: DependencyHandlerScope) {
+        scope.add("implementation", scope.platform(bom))
+        scope.implementation(analytics, crash)
+    }
+}
+
 object UnitTest {
     const val junit = "junit:junit:4.13.2"
     const val rules = "androidx.test:rules:1.5.0"
@@ -129,5 +142,45 @@ object UnitTest {
         const val tooling = "androidx.compose.ui:ui-tooling"
         const val junit = "androidx.compose.ui:ui-test-junit4"
         const val manifest = "androidx.compose.ui:ui-test-manifest"
+    }
+}
+
+private fun DependencyHandler.kapt(
+    vararg list: String
+) {
+    list.forEach { dependency ->
+        add("kapt", dependency)
+    }
+}
+
+private fun DependencyHandler.implementation(
+    vararg list: String
+) {
+    list.forEach { dependency ->
+        add("implementation", dependency)
+    }
+}
+
+private fun DependencyHandler.debugImplementation(
+    vararg list: String
+) {
+    list.forEach { dependency ->
+        add("debugImplementation", dependency)
+    }
+}
+
+private fun DependencyHandler.androidTestImplementation(
+    vararg list: String
+) {
+    list.forEach { dependency ->
+        add("androidTestImplementation", dependency)
+    }
+}
+
+private fun DependencyHandler.testImplementation(
+    vararg list: String
+) {
+    list.forEach { dependency ->
+        add("testImplementation", dependency)
     }
 }
