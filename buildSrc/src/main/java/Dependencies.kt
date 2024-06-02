@@ -94,7 +94,7 @@ object HttpTracking {
 
 object Compose {
     const val compile = "1.4.8"
-    const val base = "androidx.compose:compose-bom:2022.10.00"
+    const val base = "androidx.compose:compose-bom:2024.02.02"
     const val material = "androidx.compose.material3:material3"
     const val ui = "androidx.compose.ui:ui"
     const val preview = "androidx.compose.ui:ui-tooling-preview"
