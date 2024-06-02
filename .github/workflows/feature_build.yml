@@ -7,10 +7,10 @@ on:
       target:
         type: choice
         required: true
-        description: 'staging or release'
-        default: 'staging'
+        description: 'debug or release'
+        default: 'debug'
         options:
-          - 'staging'
+          - 'debug'
           - 'release'
       release_note:
         type: string
