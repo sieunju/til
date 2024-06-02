@@ -69,7 +69,8 @@ keystore.release.key_password=til1234qwer
     - [앱 모듈화 v2](https://github.com/sieunju/TIL/wiki/%EC%95%B1-%EB%AA%A8%EB%93%88%ED%99%94-v2)
 - Migrate
     - [Rx에서 코루틴으로 점진적으로 전환 해보기](https://github.com/sieunju/TIL/wiki/Rx-%EC%97%90%EC%84%9C-Coroutine-%EC%9C%BC%EB%A1%9C-%EB%A7%88%EC%9D%B4%EA%B7%B8%EB%A0%88%EC%9D%B4%EC%85%98) 
-
+- Compose
+    - [Compose Navigation 첫 도전](https://github.com/sieunju/til/wiki/%EC%BB%B4%ED%8F%AC%EC%A6%88%E2%80%90Navigation-%ED%99%9C%EC%9A%A9%ED%95%B4%EB%B3%B4%EA%B8%B0)
 
 ### Release (.apk)
 ```shell
