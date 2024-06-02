@@ -55,6 +55,8 @@ dependencies {
     androidTestImplementation(project(":features:base_mvvm_lifecycle_bridge"))
     androidTestImplementation(project(":features:base_mvvm_bottom_sheet"))
     androidTestImplementation(project(":features:base_mvvm_bottom_sheet_bridge"))
+    androidTestImplementation(project(":features:compose_permissions_result"))
+    androidTestImplementation(project(":features:compose_permissions_result_bridge"))
     androidTestImplementation(project(":features:compose_navigation"))
     androidTestImplementation(project(":features:compose_navigation_bridge"))
 
