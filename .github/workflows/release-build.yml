@@ -1,4 +1,4 @@
-name: Libraray Generate Release
+name: Library Generate Release
 
 on:
   push:
