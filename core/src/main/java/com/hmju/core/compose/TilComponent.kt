@@ -62,7 +62,7 @@ import com.hmju.core.R
 object TilComponent {
 
     @SuppressLint("ModifierParameter")
-    @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
+    @OptIn(ExperimentalComposeUiApi::class)
     @Composable
     fun EditText(
         text: MutableState<String>,
@@ -102,8 +102,11 @@ object TilComponent {
                 keyboardActions = KeyboardActions { focusManager.moveFocus(nextAction) },
                 singleLine = maxLines <= 1,
                 maxLines = maxLines,
-                colors = TextFieldDefaults.textFieldColors(
-                    containerColor = Color.Transparent,
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = Color.Transparent,
+                    disabledContainerColor = Color.Transparent,
+                    unfocusedContainerColor = Color.Transparent,
+                    errorContainerColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent
                 )
@@ -165,7 +168,6 @@ object TilComponent {
     }
 
     @SuppressLint("ModifierParameter")
-    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun HeaderAndContentsBox(
         title: String,

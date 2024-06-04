@@ -3,6 +3,8 @@ plugins {
     id("kotlinx-serialization")
     id("dagger.hilt.android.plugin")
     id("org.jetbrains.kotlin.android")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
     kotlin("kapt")
 }
 
@@ -118,6 +120,11 @@ dependencies {
      * HttpTracking
      */
     implementation(HttpTracking.ui)
+
+    /**
+     * Firebase SDK
+     */
+    Firebase(this)
 
     androidTestImplementation(UnitTest.runner)
     androidTestImplementation(UnitTest.junit)
