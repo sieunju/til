@@ -21,6 +21,12 @@ keystore.release.key_alias=til
 keystore.release.key_password=til1234qwer
 ```
 
+## ✔ Build
+### Release (.apk)
+```shell
+./gradlew release
+```
+
 ## ✔ 규칙
 - 네트워크 통신시 Raw 단의 데이터 모델의 패키지 구조
   - models.entity
@@ -87,6 +93,3 @@ brew install graphviz
  ./gradlew projectDependencyGraph
 ```
 ![projectGraph](https://raw.githubusercontent.com/sieunju/TIL/develop/assets/project_graph.png)
-
-test
-

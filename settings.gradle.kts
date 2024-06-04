@@ -1,5 +1,13 @@
 rootProject.name = "til"
 
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
 include(
     ":app",
     ":core"

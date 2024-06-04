@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.features.compose_navigation.models.MemoClickEvent
 import com.features.compose_navigation.models.MemoUiModel
 import com.features.compose_navigation.usecase.GetMemoUseCase
+import com.hmju.core.compose.BaseListClickEvent
 import com.hmju.core.compose.MutableStateFlowList
 import com.hmju.core.ui.observer
 import com.hmju.core.ui.stateIn
@@ -82,7 +83,8 @@ class MemoViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
-    fun setClickEvent(newEvent: MemoClickEvent) {
+    fun setClickEvent(newEvent: BaseListClickEvent) {
+        if (newEvent !is MemoClickEvent) return
         _clickEvent.value = newEvent
     }
 }

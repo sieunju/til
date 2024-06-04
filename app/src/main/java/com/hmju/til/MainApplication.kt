@@ -1,6 +1,7 @@
 package com.hmju.til
 
 import android.app.Application
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.HiltAndroidApp
 import hmju.http.tracking.HttpTracking
 import io.reactivex.rxjava3.exceptions.UndeliverableException
@@ -10,7 +11,9 @@ import java.io.IOException
 import java.net.SocketException
 
 @HiltAndroidApp
-open class MainApplication : Application() {
+class MainApplication : Application() {
+
+    private val firebaseCrashlytics : FirebaseCrashlytics by lazy { FirebaseCrashlytics.getInstance() }
 
     override fun onCreate() {
         super.onCreate()
@@ -75,8 +78,16 @@ open class MainApplication : Application() {
                     str.append(":")
                     str.append(element.methodName.substringAfterLast("."))
                 } catch (ex: Exception) {
+                    // ignore
                 }
                 return str.toString()
+            }
+
+            override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
+                super.log(priority, tag, message, t)
+                if (t != null) {
+                    firebaseCrashlytics.recordException(t)
+                }
             }
         })
 //        }
