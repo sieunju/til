@@ -1,38 +1,61 @@
-# This file contains the fastlane.tools configuration
-# You can find the documentation at https://docs.fastlane.tools
-#
-# For a list of all available actions, check out
-#
-#     https://docs.fastlane.tools/actions
-#
-# For a list of all available plugins, check out
-#
-#     https://docs.fastlane.tools/plugins/available-plugins
-#
-
-# Uncomment the line if you want fastlane to automatically update itself
-# update_fastlane
-
 default_platform(:android)
 
 platform :android do
-  desc "Runs all the tests"
-  lane :test do
-    gradle(task: "test")
+  desc "Deploy Firebase App Distribution"
+  lane :firebaseDeploy do |options|
+    build_type = options[:build_type]
+    release_message = (options[:release_message] ? options[:release_message] : "no message")
+    token = options[:token]
+    app_id = options[:app_id]
+
+    # Argument Validation Check
+    if build_type.nil? || app_id.nil? || token.nil?
+        abort("No required values.")
+    end
+
+    # Firebase Release Version Get
+    latest_release = firebase_app_distribution_get_latest_release(
+        app: app_id,
+        firebase_cli_token: token
+    )
+
+    version_code = latest_release[:buildVersion].to_i + 1
+    # version_code = 1
+
+    # Set VersionCode
+    android_set_version_code(
+        version_code: version_code,
+        gradle_file: "./app/build.gradle.kts"
+    )
+
+
+    if build_type == 'release'
+        build_type = 'Release'
+    elsif build_type == 'develop'
+        build_type = 'Debug'
+    else
+        build_type = 'Debug'
+    end
+
+    gradle(
+        task: "assemble",
+        build_type: build_type,
+        print_command: true,
+        print_command_output: true
+    )
+
+    # aab_path = lane_context[SharedValues::GRADLE_AAB_OUTPUT_PATH]
+    # apk_path = lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH]
+
+    # android_artifact_path 설정 안해도 알아서 찾아서 Upload 하는듯..
+    firebase_app_distribution(
+        app: app_id,
+        groups: "all",
+        firebase_cli_token: token,
+        release_notes: release_message,
+        android_artifact_type: "APK"
+    )
   end
 
-  desc "Submit a new Beta Build to Crashlytics Beta"
-  lane :beta do
-    gradle(task: "clean assembleRelease")
-    crashlytics
-  
-    # sh "your_script.sh"
-    # You can also use other beta testing services here
-  end
-
-  desc "Deploy a new version to the Google Play"
-  lane :deploy do
-    gradle(task: "clean assembleRelease")
-    upload_to_play_store
-  end
+# platform android
 end
