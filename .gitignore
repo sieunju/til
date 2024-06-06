@@ -64,5 +64,6 @@ appRelease/release_note.txt
 # keystore
 # keystore/*
 
-
 .java-version
+# fastlane specific
+**/fastlane/report.xml
