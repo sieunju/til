@@ -1,0 +1,21 @@
+name: firebase_deploy
+on:
+  workflow_dispatch:
+    inputs: 
+      target:
+        type: choice
+        required: true
+        description: 'debug or release'
+        default: 'release'
+        options:
+          - 'debug'
+          - 'release'
+      release_note:
+        type: string
+        required: false
+        description: 'Firebase Release Note'
+
+
+        
+        
+      
