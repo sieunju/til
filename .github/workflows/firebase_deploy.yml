@@ -48,8 +48,8 @@ jobs:
             echo "keystore.release.store_password=${{ secrets.KEYSTORE_RELEASE_PW }}" >> local.properties
             echo "keystore.release.key_alias=${{ secrets.KEYSTORE_RELEASE_ALIAS }}" >> local.properties
             echo "keystore.release.key_password=${{ secrets.KEYSTORE_RELEASE_KEY_PW }}" >> local.properties
-            echo "base_url=${{ secrets.BASE_URL }}" >> local.properties
-            echo "auth_type=${{ secrets.AUTH_TYPE }}" >> local.properties
+            echo "base_url=\"${{ secrets.BASE_URL }}\"" >> local.properties
+            echo "auth_type=\"${{ secrets.AUTH_TYPE }}\"" >> local.properties
 
         - name: SetUp Ruby
           uses: ruby/setup-ruby@v1
