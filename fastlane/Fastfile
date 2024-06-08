@@ -53,7 +53,8 @@ platform :android do
         groups: "all",
         firebase_cli_token: token,
         release_notes: release_message,
-        android_artifact_type: "APK"
+        android_artifact_type: "APK",
+        debug: true
     )
   end
 
