@@ -1,8 +1,8 @@
 name: firebase_deploy
 on:
   workflow_dispatch:
-    inputs: 
-      target:
+    inputs:
+      build_type:
         type: choice
         required: true
         description: 'debug or release'
