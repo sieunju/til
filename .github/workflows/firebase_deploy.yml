@@ -26,6 +26,7 @@ jobs:
               echo "::set-output name=val::${{ secrets.FIREBASE_RELEASE_APP_ID }}"
             else
               echo "::set-output name=val::${{ secrets.FIREBASE_DEV_APP_ID }}"
+            fi
 
 #        - name: Set Up Node
 #          uses: actions/setup-node@v3
