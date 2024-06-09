@@ -32,11 +32,13 @@ android {
         debug {
             applicationIdSuffix = ".dev"
             manifestPlaceholders["appName"] = "til_dev"
+            manifestPlaceholders["appIcon"] = "@mipmap/ic_launcher_dev"
         }
 
         release {
             isShrinkResources = true
             manifestPlaceholders["appName"] = "til"
+            manifestPlaceholders["appIcon"] = "@mipmap/ic_launcher"
         }
     }
 
