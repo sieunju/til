@@ -34,7 +34,7 @@ jobs:
       # ./gradlew build -x :test:build (테스트 모듈을 제외한 모든 빌드 동작해서 시간이 오래걸림)
       - name: Android Build
         run: |
-          ./gradlew assembleReleas
+          ./gradlew assembleRelease
 
       # Fail Message
       # const log = fs.readFileSync('build/reports/tests/test/index.html', 'utf8');
