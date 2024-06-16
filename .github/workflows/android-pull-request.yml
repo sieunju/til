@@ -31,18 +31,20 @@ jobs:
           echo "auth_type=\"${{ secrets.AUTH_TYPE }}\"" >> local.properties
 
       # test module 제외한 나머지 빌드
+      # ./gradlew build -x :test:build (테스트 모듈을 제외한 모든 빌드 동작해서 시간이 오래걸림)
       - name: Android Build
         run: |
-          ./gradlew build -x :test:build
+          ./gradlew assembleReleas
 
       # Fail Message
+      # const log = fs.readFileSync('build/reports/tests/test/index.html', 'utf8');
       - name: Post build error messages as PR comment
         if: failure()
         uses: actions/github-script@v3
         with:
           script: |
             const fs = require('fs');
-            const log = fs.readFileSync('build/reports/tests/test/index.html', 'utf8');
+            const log = 'build Error!!'
             github.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
