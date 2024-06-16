@@ -29,18 +29,26 @@ jobs:
           echo "keystore.release.key_password=${{ secrets.KEYSTORE_RELEASE_KEY_PW }}" >> local.properties
           echo "base_url=\"${{ secrets.BASE_URL }}\"" >> local.properties
           echo "auth_type=\"${{ secrets.AUTH_TYPE }}\"" >> local.properties
-          
-      - name: Review Dog
-        uses: reviewdog/action-setup@v1
-        with:
-          reviewdog_version: latest
-          github_token: ${{ secrets.github_token }}
-          builder-cache: true
 
       # test module 제외한 나머지 빌드
       - name: Android Build
         run: |
           ./gradlew build -x :test:build
+
+      # Fail Message
+      - name: Post build error messages as PR comment
+        if: failure()
+        uses: actions/github-script@v3
+        with:
+          script: |
+            const fs = require('fs');
+            const log = fs.readFileSync('build/reports/tests/test/index.html', 'utf8');
+            github.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `Build failed with the following errors:\n\n${log}`
+            });
 
 #      - name: ktlint
 #        uses: ScaCap/action-ktlint@master
