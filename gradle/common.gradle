@@ -49,8 +49,8 @@ if (hasLibraryPlugin || hasApplicationPlugin) {
             }
         }
 
-        lint {
-            baseline = file("lint-baseline.xml")
-        }
+//        lint {
+//            baseline = file("lint-baseline.xml")
+//        }
     }
 }

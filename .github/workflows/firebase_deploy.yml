@@ -71,16 +71,17 @@ jobs:
           uses: 8398a7/action-slack@v3
           with:
             status: custom
+            fields: workflow,job,commit,repo,ref,author,took
             custom_payload: |
               {
-                text: "Custom Field Check",
+                text: "Firebase AppDistribution",
                 attachments: [{
-                  "author_name": "8398a7@action-slack", // json
                   fallback: 'fallback',
-                  color: 'good',
-                  title: 'CI Result',
-                  text: 'Succeeded',
-                  fields: [{
+                  color: '${{ job.status }}' === 'success' ? 'good' : '${{ job.status }}' === 'failure' ? 'danger' : 'warning',
+                  title: 'Build Type',
+                  text: '${{ inputs.build_type }}',
+                  fields: [
+                  {
                     title: 'lower case',
                     value: 'LOWER CASE CHECK'.toLowerCase(),
                     short: true
@@ -94,8 +95,6 @@ jobs:
                     title: 'long title1',
                     value: 'long value1',
                     short: false
-                  }],
-                  actions: [{
                   }]
                 }]
               }
