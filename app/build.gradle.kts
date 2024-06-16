@@ -48,11 +48,11 @@ android {
 }
 
 // Release .apk Build
-tasks.register("release") {
-    dependsOn(tasks["clean"])
-    dependsOn(tasks["assembleRelease"])
-    mustRunAfter(tasks["clean"])
-}
+//tasks.register("release") {
+//    dependsOn(tasks["clean"])
+//    dependsOn(tasks["assembleRelease"])
+//    mustRunAfter(tasks["clean"])
+//}
 
 dependencies {
     implementation(project(":core"))

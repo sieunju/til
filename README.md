@@ -6,9 +6,9 @@
 - [API 문서](https://til.qtzz.synology.me/swagger-ui/index.html)
 
 ## ✔ 버전
-- ![min23](https://img.shields.io/badge/minSDK-23-blue.svg)  ![target34](https://img.shields.io/badge/targetSDK-34-red.svg)
+- ![min26](https://img.shields.io/badge/minSDK-26-blue.svg)  ![target34](https://img.shields.io/badge/targetSDK-34-red.svg)
 - ![kotlin 1.8.22](https://img.shields.io/badge/Kotlin/1.8.22-7F52FF?style=flat-square&logo=Kotlin&logoColor=white)
-- ![Hilt 2.45](https://img.shields.io/badge/Hilt-2.45-red.svg)
+- ![Hilt 2.48](https://img.shields.io/badge/Hilt-2.48-red.svg)
 
 ## ✔ 사용법
 - local.properties 셋팅
