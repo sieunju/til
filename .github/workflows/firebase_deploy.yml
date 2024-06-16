@@ -56,18 +56,54 @@ jobs:
           with:
               ruby-version: '3.0'
               bundler-cache: true
-        - name: SetUp Fastlane
-          uses: maierj/fastlane-action@v3.1.0
+#        - name: SetUp Fastlane
+#          uses: maierj/fastlane-action@v3.1.0
+#          with:
+#              lane: 'firebaseDeploy'
+#              options: |
+#                {
+#                  "build_type": "${{ inputs.build_type }}",
+#                  "release_message": "${{ inputs.release_note }}",
+#                  "token": "${{ secrets.FIREBASE_TOKEN }}",
+#                  "app_id": "${{ steps.appId.outputs.val }}"
+#                }
+        - name: action-slack
+          uses: 8398a7/action-slack@v3
           with:
-              lane: 'firebaseDeploy'
-              options: |
-                {
-                  "build_type": "${{ inputs.build_type }}",
-                  "release_message": "${{ inputs.release_note }}",
-                  "token": "${{ secrets.FIREBASE_TOKEN }}",
-                  "app_id": "${{ steps.appId.outputs.val }}"
-                }
-
+            status: ${{ job.status }}
+            custom_payload: |
+              {
+                text: "Custom Field Check",
+                attachments: [{
+                  "author_name": "8398a7@action-slack", // json
+                  fallback: 'fallback',
+                  color: 'good',
+                  title: 'CI Result',
+                  text: 'Succeeded',
+                  fields: [{
+                    title: 'lower case',
+                    value: 'LOWER CASE CHECK'.toLowerCase(),
+                    short: true
+                  },
+                  {
+                    title: 'reverse',
+                    value: 'gnirts esrever'.split('').reverse().join(''),
+                    short: true
+                  },
+                  {
+                    title: 'long title1',
+                    value: 'long value1',
+                    short: false
+                  }],
+                  actions: [{
+                  }]
+                }]
+              }
+            mention: here
+            if_mention: failure,cancelled
+          env:
+            SLACK_WEBHOOK_URL: ${{ secrets.SLACK_AOS_DEPLOY_WEBHOOK_URL }} # required
+          if: always()
 
         
         
