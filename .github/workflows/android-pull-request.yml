@@ -1,4 +1,4 @@
-name: Android Pull Request ktlint
+name: Android Pull Request
 
 on: pull_request
 
