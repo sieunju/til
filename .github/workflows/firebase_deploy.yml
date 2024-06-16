@@ -70,8 +70,7 @@ jobs:
         - name: action-slack
           uses: 8398a7/action-slack@v3
           with:
-            status: ${{ job.status }}
-            fields: workflow,job,commit,repo,ref,author,took
+            status: custom
             custom_payload: |
               {
                 text: "Custom Field Check",
@@ -100,8 +99,6 @@ jobs:
                   }]
                 }]
               }
-            mention: here
-            if_mention: failure,cancelled
           env:
             SLACK_WEBHOOK_URL: ${{ secrets.SLACK_AOS_DEPLOY_WEBHOOK_URL }} # required
           if: always()
