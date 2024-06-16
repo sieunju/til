@@ -3,7 +3,7 @@ name: Android Pull Request
 on: pull_request
 
 jobs:
-  build:
+  checks:
     runs-on: ubuntu-latest
     # android 디렉토리 없앰으로 인한 주석 처리
     # env:
@@ -27,6 +27,8 @@ jobs:
           echo "keystore.release.store_password=${{ secrets.KEYSTORE_RELEASE_PW }}" >> local.properties
           echo "keystore.release.key_alias=${{ secrets.KEYSTORE_RELEASE_ALIAS }}" >> local.properties
           echo "keystore.release.key_password=${{ secrets.KEYSTORE_RELEASE_KEY_PW }}" >> local.properties
+          echo "base_url=\"${{ secrets.BASE_URL }}\"" >> local.properties
+          echo "auth_type=\"${{ secrets.AUTH_TYPE }}\"" >> local.properties
           
       - name: Review Dog
         uses: reviewdog/action-setup@v1
