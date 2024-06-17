@@ -82,26 +82,26 @@ jobs:
             fields: workflow,job,commit,repo,ref,author,took
             custom_payload: |
               {
-                text: "Firebase AppDistribution",
+                text: ":firebase_icon: ${{ job.status }}",
                 attachments: [{
                   fallback: 'fallback',
                   color: '${{ job.status }}' === 'success' ? 'good' : '${{ job.status }}' === 'failure' ? 'danger' : 'warning',
-                  title: 'Build Type',
-                  text: '${{ inputs.build_type }}',
+                  title: '${{ steps.appIcon.outputs.val }}',
+                  text: '-',
                   fields: [
                   {
-                    title: '${{ steps.appIcon.outputs.val }}',
-                    value: 'TIL',
+                    title: 'BuildType',
+                    value: '${{ inputs.build_type }}',
                     short: true
                   },
                   {
-                    title: 'reverse',
-                    value: 'gnirts esrever'.split('').reverse().join(''),
+                    title: 'Version',
+                    value: '1.0.0 (1)',
                     short: true
                   },
                   {
-                    title: 'long title1',
-                    value: 'long value1',
+                    title: 'ReleaseNote',
+                    value: '${{ inputs.release_note }}',
                     short: false
                   }]
                 }]
