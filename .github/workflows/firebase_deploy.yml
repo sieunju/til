@@ -71,9 +71,9 @@ jobs:
           id: appIcon
           run: |
             if [ "${{ inputs.build_type }}" == "release" ]; then
-              echo "::set-output name=val::${{ :til_icon:  }}"
+              echo "::set-output name=val::${{ ':til_icon:'  }}"
             else
-              echo "::set-output name=val::${{ :til_dev_icon: }}"
+              echo "::set-output name=val::${{ ':til_dev_icon:' }}"
             fi
         - name: action-slack
           uses: 8398a7/action-slack@v3
