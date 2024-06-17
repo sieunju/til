@@ -56,17 +56,17 @@ jobs:
           with:
               ruby-version: '3.0'
               bundler-cache: true
-#        - name: SetUp Fastlane
-#          uses: maierj/fastlane-action@v3.1.0
-#          with:
-#              lane: 'firebaseDeploy'
-#              options: |
-#                {
-#                  "build_type": "${{ inputs.build_type }}",
-#                  "release_message": "${{ inputs.release_note }}",
-#                  "token": "${{ secrets.FIREBASE_TOKEN }}",
-#                  "app_id": "${{ steps.appId.outputs.val }}"
-#                }
+        - name: SetUp Fastlane
+          uses: maierj/fastlane-action@v3.1.0
+          with:
+              lane: 'firebaseDeploy'
+              options: |
+                {
+                  "build_type": "${{ inputs.build_type }}",
+                  "release_message": "${{ inputs.release_note }}",
+                  "token": "${{ secrets.FIREBASE_TOKEN }}",
+                  "app_id": "${{ steps.appId.outputs.val }}"
+                }
         - name: SetUp App Icon
           id: appIcon
           run: |
@@ -112,7 +112,3 @@ jobs:
           env:
             SLACK_WEBHOOK_URL: ${{ secrets.SLACK_AOS_DEPLOY_WEBHOOK_URL }}
           if: always()
-
-        
-        
-      
