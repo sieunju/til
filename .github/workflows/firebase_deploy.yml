@@ -86,16 +86,15 @@ jobs:
             status: custom
             custom_payload: |
               {
-                text: '${{ steps.appIcon.outputs.val }}',
+                text: '[TIL] App deployment has been completed',
                 attachments: [{
-                  
                   color: '${{ job.status }}' === 'success' ? 'good' : '${{ job.status }}' === 'failure' ? 'danger' : 'warning',
                   title: 'BuildStatus',
                   text: '${{ job.status }}',
                   fields: [
                   {
                     title: 'BuildType',
-                    value: '${{ inputs.build_type }}',
+                    value: '{{ steps.appIcon.outputs.val }}${{ inputs.build_type }}',
                     short: true
                   },
                   {
