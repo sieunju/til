@@ -79,12 +79,11 @@ jobs:
           uses: 8398a7/action-slack@v3
           with:
             status: custom
-            fields: workflow,job,commit,repo,ref,author,took
             custom_payload: |
               {
                 text: '${{ steps.appIcon.outputs.val }}',
                 attachments: [{
-                  fallback: 'fallback',
+                  
                   color: '${{ job.status }}' === 'success' ? 'good' : '${{ job.status }}' === 'failure' ? 'danger' : 'warning',
                   title: 'BuildStatus',
                   text: '${{ job.status }}',
