@@ -94,7 +94,7 @@ jobs:
                   fields: [
                   {
                     title: 'BuildType',
-                    value: '{{ steps.appIcon.outputs.val }}${{ inputs.build_type }}',
+                    value: '${{ steps.appIcon.outputs.val }}${{ inputs.build_type }}',
                     short: true
                   },
                   {
