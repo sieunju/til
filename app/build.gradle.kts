@@ -47,6 +47,13 @@ android {
     }
 }
 
+
+tasks.register("printVersion") {
+    doLast {
+        println("${android.defaultConfig.versionName} (${android.defaultConfig.versionCode})")
+    }
+}
+
 // Release .apk Build
 //tasks.register("release") {
 //    dependsOn(tasks["clean"])

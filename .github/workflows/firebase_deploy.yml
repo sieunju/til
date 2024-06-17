@@ -75,6 +75,11 @@ jobs:
             else
               echo "::set-output name=val::${{ ':til_dev_icon:' }}"
             fi
+        - name: Get App Version
+          id: versionInfo
+          run: |
+            echo "::set-output name=val:$(./gradlew -q printVersion)"
+
         - name: action-slack
           uses: 8398a7/action-slack@v3
           with:
@@ -95,7 +100,7 @@ jobs:
                   },
                   {
                     title: 'Version',
-                    value: '1.0.0 (1)',
+                    value: '${{ steps.versionInfo.outputs.val }}',
                     short: true
                   },
                   {
