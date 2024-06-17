@@ -67,6 +67,14 @@ jobs:
 #                  "token": "${{ secrets.FIREBASE_TOKEN }}",
 #                  "app_id": "${{ steps.appId.outputs.val }}"
 #                }
+        - name: SetUp App Icon
+          id: appIcon
+          run: |
+            if [ "${{ inputs.build_type }}" == "release" ]; then
+              echo "::set-output name=val::${{ :til_icon:  }}"
+            else
+              echo "::set-output name=val::${{ :til_dev_icon: }}"
+            fi
         - name: action-slack
           uses: 8398a7/action-slack@v3
           with:
@@ -79,11 +87,11 @@ jobs:
                   fallback: 'fallback',
                   color: '${{ job.status }}' === 'success' ? 'good' : '${{ job.status }}' === 'failure' ? 'danger' : 'warning',
                   title: 'Build Type',
-                  text: '${{ inputs.build_type }}',
+                  text: '${{ inputs.build_type }} ',
                   fields: [
                   {
-                    title: 'lower case',
-                    value: 'LOWER CASE CHECK'.toLowerCase(),
+                    title: '${{ steps.appIcon.outputs.val }}',
+                    value: 'TIL',
                     short: true
                   },
                   {
@@ -99,7 +107,7 @@ jobs:
                 }]
               }
           env:
-            SLACK_WEBHOOK_URL: ${{ secrets.SLACK_AOS_DEPLOY_WEBHOOK_URL }} # required
+            SLACK_WEBHOOK_URL: ${{ secrets.SLACK_AOS_DEPLOY_WEBHOOK_URL }}
           if: always()
 
         
