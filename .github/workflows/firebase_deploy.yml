@@ -82,12 +82,12 @@ jobs:
             fields: workflow,job,commit,repo,ref,author,took
             custom_payload: |
               {
-                text: ":firebase_icon: ${{ job.status }}",
+                text: ":firebase_icon:",
                 attachments: [{
                   fallback: 'fallback',
                   color: '${{ job.status }}' === 'success' ? 'good' : '${{ job.status }}' === 'failure' ? 'danger' : 'warning',
                   title: '${{ steps.appIcon.outputs.val }}',
-                  text: '-',
+                  text: '${{ job.status }}',
                   fields: [
                   {
                     title: 'BuildType',
