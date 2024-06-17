@@ -78,7 +78,7 @@ jobs:
         - name: Get App Version
           id: versionInfo
           run: |
-            echo "::set-output name=val:${{ $(./gradlew -q printVersion) }}"
+            echo "::set-output name=val::$(./gradlew -q printVersion)"
 
         - name: action-slack
           uses: 8398a7/action-slack@v3
