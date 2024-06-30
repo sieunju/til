@@ -11,15 +11,24 @@ jobs:
     # env:
     #   working-directory: ./android
 
-    steps:
-      - uses: actions/checkout@v3
-
-      # JDK 설정
-      - name: set up JDK 17
+    steps:        
+      - name: SetUp JDK 17
         uses: actions/setup-java@v3
         with:
           java-version: '17'
           distribution: 'adopt'
+          bundler-cache: true
+      - name: Git Checkout
+        uses: actions/checkout@v4
+
+      - name: SetUp properties
+        run: |
+          echo "keystore.release.file_path=${{ secrets.KEYSTORE_RELEASE_FILE_PATH }}" > local.properties
+          echo "keystore.release.store_password=${{ secrets.KEYSTORE_RELEASE_PW }}" >> local.properties
+          echo "keystore.release.key_alias=${{ secrets.KEYSTORE_RELEASE_ALIAS }}" >> local.properties
+          echo "keystore.release.key_password=${{ secrets.KEYSTORE_RELEASE_KEY_PW }}" >> local.properties
+          echo "base_url=\"${{ secrets.BASE_URL }}\"" >> local.properties
+          echo "auth_type=\"${{ secrets.AUTH_TYPE }}\"" >> local.properties
           
      # 최근에 커밋한 내용으로 릴리즈 노트 작성
       - name: Generate Release Note
