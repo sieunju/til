@@ -48,6 +48,22 @@ class ItemListAdapterV2 : ListAdapter<BaseUiModel, BaseViewHolder<*>>(BaseDiffUt
         }
     }
 
+    /**
+     * PayLoad 방식의 BindViewHolder
+     */
+    override fun onBindViewHolder(
+        holder: BaseViewHolder<*>,
+        pos: Int,
+        payloads: MutableList<Any>
+    ) {
+        if (payloads.isEmpty()) {
+            this.onBindViewHolder(holder, pos)
+        } else if (payloads[0] is List<*>) {
+            @Suppress("UNCHECKED_CAST")
+            holder.onPayloadBindView(payloads[0] as List<Any>)
+        }
+    }
+
     override fun getItemViewType(pos: Int): Int {
         return if (currentList.size > pos) {
             getItem(pos).layoutId
