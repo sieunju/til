@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.hmju.core.ui.base.FragmentViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvResponse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:minLines="3"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvResponse">
+
+            <Button
+                android:id="@+id/jsend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="JSEND Default" />
+
+            <Button
+                android:id="@+id/jsendMeta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="JSEND With Meta" />
+
+            <Button
+                android:id="@+id/jsendList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="JSEND List" />
+
+
+            <Button
+                android:id="@+id/jsendListMeta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="JSEND List With Meta" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
