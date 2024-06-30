@@ -3,7 +3,7 @@ import org.gradle.kotlin.dsl.DependencyHandlerScope
 
 object Apps {
     const val versionCode = 7
-    const val versionName = "0.0.7"
+    const val versionName = "0.0.8"
 }
 
 object Versions {

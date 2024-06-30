@@ -58,7 +58,7 @@ fun getReleaseNote() {
         parentFile.mkdir()
         val buildDate = "Build Date ${
             SimpleDateFormat(
-                "yyyy년 MM월 dd일 E요일 HH:mm:ss",
+                "yyyy. MM. dd E요일 HH:mm:ss",
                 Locale.KOREAN
             ).format(Date())
         }"
