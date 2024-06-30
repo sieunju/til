@@ -56,6 +56,22 @@ class ItemListAdapter : RecyclerView.Adapter<BaseViewHolder<*>>() {
         }
     }
 
+    /**
+     * PayLoad 방식의 BindViewHolder
+     */
+    override fun onBindViewHolder(
+        holder: BaseViewHolder<*>,
+        pos: Int,
+        payloads: MutableList<Any>
+    ) {
+        if (payloads.isEmpty()) {
+            this.onBindViewHolder(holder, pos)
+        } else if (payloads[0] is List<*>) {
+            @Suppress("UNCHECKED_CAST")
+            holder.onPayloadBindView(payloads[0] as List<Any>)
+        }
+    }
+
     override fun getItemCount(): Int {
         return dataList.size
     }
