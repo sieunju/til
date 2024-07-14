@@ -89,13 +89,13 @@ jobs:
 #      echo "code=$(grep versionCode buildSrc/src/main/java/Dependencies.kt | awk '{print $5}')" >> "$GITHUB_OUTPUT"
 #      echo "name=$(grep versionName buildSrc/src/main/java/Dependencies.kt | awk '{print $5}')" >> "$GITHUB_OUTPUT"
 #      echo "title=$(sed -n -e '1,1p' appRelease/release_note.txt)" >> "$GITHUB_OUTPUT"
+      # RELEASE_BODY="${RELEASE_BODY//'%'/'%25'}"
+      # RELEASE_BODY="${RELEASE_BODY//$'\r'/'%0D'}"
       - name: Message Parser
         id: message_parser
         run: |
-          RELEASE_BODY="${{ needs.generate_release_note.outputs.msg }}"
-          RELEASE_BODY="${RELEASE_BODY//'%'/'%25'}"
-          RELEASE_BODY="${RELEASE_BODY//$'\n'/'%0A'}"
-          RELEASE_BODY="${RELEASE_BODY//$'\r'/'%0D'}"
+          RELEASE_BODY=${{ needs.generate_release_note.outputs.msg }}
+          RELEASE_BODY="${RELEASE_BODY//$'\n'/'<br>'}"
           echo "val=${RELEASE_BODY}" >> "$GITHUB_OUTPUT"
       - name: Generate Tag
         id: tag
