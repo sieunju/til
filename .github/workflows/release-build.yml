@@ -8,8 +8,7 @@ jobs:
   generate_release_note:
     runs-on: ubuntu-latest
     outputs:
-      releaseNote: ${{ steps.releaseNote.outputs.val }}
-      releaseNoteHtml: ${{ steps.releaseNote.outputs.html }}
+      msg: ${{ steps.releaseNote.outputs.val }}
     steps:
       - uses: actions/setup-java@v4
         with:
@@ -35,10 +34,6 @@ jobs:
           RELEASE_BODY="${RELEASE_BODY//$'\n'/'\n'}"
           RELEASE_BODY="${RELEASE_BODY//$'\r'/'\r'}"
           echo "val=${RELEASE_BODY}" >> "$GITHUB_OUTPUT"
-          RELEASE_BODY="${RELEASE_BODY//'%'/'%25'}"
-          RELEASE_BODY="${RELEASE_BODY//$'\n'/'<br>'}"
-          RELEASE_BODY="${RELEASE_BODY//$'\r'/'%0D'}"
-          echo "html=${RELEASE_BODY}" >> "$GITHUB_OUTPUT"
 
   deploy_firebase:
     runs-on: ubuntu-latest
@@ -75,7 +70,7 @@ jobs:
           options: |
             {
               "build_type": "release",
-              "release_message": "${{ needs.generate_release_note.outputs.releaseNote }}",
+              "release_message": "${{ needs.generate_release_note.outputs.msg }}",
               "token": "${{ secrets.FIREBASE_TOKEN }}",
               "app_id": "${{ secrets.FIREBASE_RELEASE_APP_ID }}"
             }
@@ -94,6 +89,14 @@ jobs:
 #      echo "code=$(grep versionCode buildSrc/src/main/java/Dependencies.kt | awk '{print $5}')" >> "$GITHUB_OUTPUT"
 #      echo "name=$(grep versionName buildSrc/src/main/java/Dependencies.kt | awk '{print $5}')" >> "$GITHUB_OUTPUT"
 #      echo "title=$(sed -n -e '1,1p' appRelease/release_note.txt)" >> "$GITHUB_OUTPUT"
+      - name: Message Parser
+        id: message_parser
+        run: |
+          RELEASE_BODY="${{ needs.generate_release_note.outputs.msg }}"
+          RELEASE_BODY="${RELEASE_BODY//'%'/'%25'}"
+          RELEASE_BODY="${RELEASE_BODY//$'\n'/'%0A'}"
+          RELEASE_BODY="${RELEASE_BODY//$'\r'/'%0D'}"
+          echo "val=${RELEASE_BODY}" >> "$GITHUB_OUTPUT"
       - name: Generate Tag
         id: tag
         run: |
@@ -109,7 +112,7 @@ jobs:
           name: ${{ needs.deploy_firebase.outputs.versionName }} (${{ needs.deploy_firebase.outputs.versionCode }})
           body: |
             ## Changes
-            ${{ needs.generate_release_note.outputs.releaseNoteHtml }}
+            ${{ steps.message_parser.outputs.val }}
 
   slack_notify:
     runs-on: ubuntu-latest
@@ -137,7 +140,7 @@ jobs:
                 },
                 {
                   title: 'Message',
-                  value: '${{ needs.generate_release_note.outputs.releaseNoteHtml }}',
+                  value: '${{ needs.generate_release_note.outputs.msg }}',
                   short: false
                 }]
               }]
