@@ -47,19 +47,17 @@ android {
     }
 }
 
-
-tasks.register("printVersion") {
-    doLast {
-        println("${android.defaultConfig.versionName} (${android.defaultConfig.versionCode})")
+tasks.register("getVersionCode") {
+    doFirst {
+        println("${android.defaultConfig.versionCode}")
     }
 }
 
-// Release .apk Build
-//tasks.register("release") {
-//    dependsOn(tasks["clean"])
-//    dependsOn(tasks["assembleRelease"])
-//    mustRunAfter(tasks["clean"])
-//}
+tasks.register("getVersionName") {
+    doFirst {
+        println("${android.defaultConfig.versionName}")
+    }
+}
 
 dependencies {
     implementation(project(":core"))

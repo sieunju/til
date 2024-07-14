@@ -69,7 +69,8 @@ jobs:
         - name: Get App Version
           id: versionInfo
           run: |
-            echo "val=$(./gradlew -q printVersion)" >> "$GITHUB_OUTPUT"
+            echo "code=$(./gradlew -q getVersionCode)" >> "$GITHUB_OUTPUT"
+            echo "name=$(./gradlew -q getVersionName)" >> "$GITHUB_OUTPUT"
 
         - name: action-slack
           uses: 8398a7/action-slack@v3
@@ -88,7 +89,7 @@ jobs:
                   },
                   {
                     title: 'Version',
-                    value: '${{ steps.versionInfo.outputs.val }}',
+                    value: '${{ needs.deploy_firebase.outputs.versionName }} (${{ needs.deploy_firebase.outputs.versionCode }})',
                     short: true
                   },
                   {
