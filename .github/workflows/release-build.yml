@@ -31,12 +31,12 @@ jobs:
         run: |
           ./gradlew generateReleaseNote
           NORMAL=$(sed -n '2,$p' appRelease/release_note.txt | less)
-          NORMAL="${RELEASE_BODY//'%'/'%'}"
-          NORMAL="${RELEASE_BODY//$'\n'/'\n'}"
-          NORMAL="${RELEASE_BODY//$'\r'/'\r'}"
-          echo "val=${NORMAL}" >> "$GITHUB_OUTPUT"
+          NORMAL="${NORMAL//'%'/'%'}"
+          NORMAL="${NORMAL//$'\n'/'\n'}"
+          NORMAL="${NORMAL//$'\r'/'\r'}"
           HTML=$(sed -n '2,$p' appRelease/release_note.txt | less)
           HTML="${HTML//$'\n'/'<br>'}"
+          echo "val=${NORMAL}" >> "$GITHUB_OUTPUT"
           echo "html=${HTML}" >> "$GITHUB_OUTPUT"
   deploy_firebase:
     runs-on: ubuntu-latest
