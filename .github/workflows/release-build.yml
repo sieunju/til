@@ -32,9 +32,9 @@ jobs:
         run: |
           ./gradlew generateReleaseNote
           RELEASE_BODY=$(sed -n '2,$p' appRelease/release_note.txt | less)
-          RELEASE_BODY="${RELEASE_BODY//'%'/'%25'}"
-          RELEASE_BODY="${RELEASE_BODY//$'\n'/'%0A'}"
-          RELEASE_BODY="${RELEASE_BODY//$'\r'/'%0D'}"
+#          RELEASE_BODY="${RELEASE_BODY//'%'/'%25'}"
+#          RELEASE_BODY="${RELEASE_BODY//$'\n'/'%0A'}"
+#          RELEASE_BODY="${RELEASE_BODY//$'\r'/'%0D'}"
           echo "val=${RELEASE_BODY}" >> "$GITHUB_OUTPUT"
 
       - name: SetUp Ruby
@@ -116,6 +116,6 @@ jobs:
                 }]
               }]
             }
-            env:
-            SLACK_WEBHOOK_URL: ${{ secrets.SLACK_AOS_DEPLOY_WEBHOOK_URL }}
-            if: always()
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_AOS_DEPLOY_WEBHOOK_URL }}
+        if: always()
