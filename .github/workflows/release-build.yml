@@ -11,6 +11,7 @@ jobs:
       versionCode: ${{ steps.versionInfo.outputs.code }}
       versionName: ${{ steps.versionInfo.outputs.name }}
       releaseNote: ${{ steps.releaseNote.outputs.val }}
+      releaseNoteHtml: ${{ steps.releaseNote.outputs.html }}
     steps:
       - uses: actions/setup-java@v4
         with:
@@ -36,6 +37,10 @@ jobs:
           RELEASE_BODY="${RELEASE_BODY//$'\n'/'\n'}"
           RELEASE_BODY="${RELEASE_BODY//$'\r'/'\r'}"
           echo "val=${RELEASE_BODY}" >> "$GITHUB_OUTPUT"
+          RELEASE_BODY="${RELEASE_BODY//'%'/'%25'}"
+          RELEASE_BODY="${RELEASE_BODY//$'\n'/'%0A'}"
+          RELEASE_BODY="${RELEASE_BODY//$'\r'/'%0D'}"
+          echo "html=${RELEASE_BODY}" >> "$GITHUB_OUTPUT"
       - name: SetUp Ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -49,7 +54,7 @@ jobs:
           options: |
             {
               "build_type": "release",
-              "release_message": "${{ steps.releaseNote.outputs.val }}",
+              "release_message": "${{ steps.releaseNote.outputs.html }}",
               "token": "${{ secrets.FIREBASE_TOKEN }}",
               "app_id": "${{ secrets.FIREBASE_RELEASE_APP_ID }}"
             }
@@ -87,7 +92,7 @@ jobs:
           name: ${{ needs.deploy_firebase.outputs.versionName }} (${{ needs.deploy_firebase.outputs.versionCode }})
           body: |
             ## Changes
-            ${{ needs.deploy_firebase.outputs.releaseNote }}
+            ${{ needs.deploy_firebase.outputs.releaseNoteHtml }}
 
   slack_notify:
     runs-on: ubuntu-latest
