@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       msg: ${{ steps.releaseNote.outputs.val }}
+      html: ${{ steps.releaseNote.outputs.html }}
     steps:
       - uses: actions/setup-java@v4
         with:
@@ -29,12 +30,14 @@ jobs:
         id: releaseNote
         run: |
           ./gradlew generateReleaseNote
-          RELEASE_BODY=$(sed -n '2,$p' appRelease/release_note.txt | less)
-          RELEASE_BODY="${RELEASE_BODY//'%'/'%'}"
-          RELEASE_BODY="${RELEASE_BODY//$'\n'/'\n'}"
-          RELEASE_BODY="${RELEASE_BODY//$'\r'/'\r'}"
-          echo "val=${RELEASE_BODY}" >> "$GITHUB_OUTPUT"
-
+          NORMAL=$(sed -n '2,$p' appRelease/release_note.txt | less)
+          NORMAL="${RELEASE_BODY//'%'/'%'}"
+          NORMAL="${RELEASE_BODY//$'\n'/'\n'}"
+          NORMAL="${RELEASE_BODY//$'\r'/'\r'}"
+          echo "val=${NORMAL}" >> "$GITHUB_OUTPUT"
+          HTML=$(sed -n '2,$p' appRelease/release_note.txt | less)
+          HTML="${HTML//$'\n'/'<br>'}"
+          echo "html=${HTML}" >> "$GITHUB_OUTPUT"
   deploy_firebase:
     runs-on: ubuntu-latest
     needs: generate_release_note
@@ -86,17 +89,12 @@ jobs:
 
     steps:
 
-#      echo "code=$(grep versionCode buildSrc/src/main/java/Dependencies.kt | awk '{print $5}')" >> "$GITHUB_OUTPUT"
-#      echo "name=$(grep versionName buildSrc/src/main/java/Dependencies.kt | awk '{print $5}')" >> "$GITHUB_OUTPUT"
-#      echo "title=$(sed -n -e '1,1p' appRelease/release_note.txt)" >> "$GITHUB_OUTPUT"
+      # echo "code=$(grep versionCode buildSrc/src/main/java/Dependencies.kt | awk '{print $5}')" >> "$GITHUB_OUTPUT"
+      # echo "name=$(grep versionName buildSrc/src/main/java/Dependencies.kt | awk '{print $5}')" >> "$GITHUB_OUTPUT"
+      # echo "title=$(sed -n -e '1,1p' appRelease/release_note.txt)" >> "$GITHUB_OUTPUT"
       # RELEASE_BODY="${RELEASE_BODY//'%'/'%25'}"
       # RELEASE_BODY="${RELEASE_BODY//$'\r'/'%0D'}"
-      - name: Message Parser
-        id: message_parser
-        run: |
-          RELEASE_BODY="${{ needs.generate_release_note.outputs.msg }}"
-          RELEASE_BODY="${RELEASE_BODY//$'\n'/'<br>'}"
-          echo "val=${RELEASE_BODY}" >> "$GITHUB_OUTPUT"
+
       - name: Generate Tag
         id: tag
         run: |
@@ -112,7 +110,7 @@ jobs:
           name: ${{ needs.deploy_firebase.outputs.versionName }} (${{ needs.deploy_firebase.outputs.versionCode }})
           body: |
             ## Changes
-            ${{ steps.message_parser.outputs.val }}
+            ${{ needs.generate_release_note.outputs.html }}
 
   slack_notify:
     runs-on: ubuntu-latest
