@@ -33,10 +33,6 @@ jobs:
           ./gradlew generateReleaseNote
           RELEASE_BODY=$(sed -n '2,$p' appRelease/release_note.txt | less)
           echo "val=${RELEASE_BODY}" >> "$GITHUB_OUTPUT"
-
-      #          RELEASE_BODY="${RELEASE_BODY//'%'/'%25'}"
-      #          RELEASE_BODY="${RELEASE_BODY//$'\n'/'%0A'}"
-      #          RELEASE_BODY="${RELEASE_BODY//$'\r'/'%0D'}"
       - name: SetUp Ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -66,6 +62,10 @@ jobs:
 
     steps:
 
+
+#          RELEASE_BODY="${RELEASE_BODY//'%'/'%25'}"
+#          RELEASE_BODY="${RELEASE_BODY//$'\n'/'%0A'}"
+#          RELEASE_BODY="${RELEASE_BODY//$'\r'/'%0D'}"
 #      echo "code=$(grep versionCode buildSrc/src/main/java/Dependencies.kt | awk '{print $5}')" >> "$GITHUB_OUTPUT"
 #      echo "name=$(grep versionName buildSrc/src/main/java/Dependencies.kt | awk '{print $5}')" >> "$GITHUB_OUTPUT"
 #      echo "title=$(sed -n -e '1,1p' appRelease/release_note.txt)" >> "$GITHUB_OUTPUT"
