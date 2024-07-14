@@ -36,7 +36,7 @@ jobs:
           RELEASE_BODY="${RELEASE_BODY//$'\r'/'\r'}"
           echo "val=${RELEASE_BODY}" >> "$GITHUB_OUTPUT"
           RELEASE_BODY="${RELEASE_BODY//'%'/'%25'}"
-          RELEASE_BODY="${RELEASE_BODY//$'\n'/'%0A'}"
+          RELEASE_BODY="${RELEASE_BODY//$'\n'/'<br>'}"
           RELEASE_BODY="${RELEASE_BODY//$'\r'/'%0D'}"
           echo "html=${RELEASE_BODY}" >> "$GITHUB_OUTPUT"
 
@@ -68,7 +68,7 @@ jobs:
           ruby-version: '3.0'
           bundler-cache: true
 
-      - name: SetUp Fastlane
+      - name: Execute Fastlane
         uses: maierj/fastlane-action@v3.1.0
         with:
           lane: 'firebaseDeploy'
@@ -113,7 +113,8 @@ jobs:
 
   slack_notify:
     runs-on: ubuntu-latest
-    needs: deploy_firebase
+    needs: [deploy_firebase, generate_release_note]
+
     steps:
       - uses: 8398a7/action-slack@v3
         with:
