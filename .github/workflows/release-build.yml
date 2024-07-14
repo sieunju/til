@@ -94,7 +94,7 @@ jobs:
       - name: Message Parser
         id: message_parser
         run: |
-          RELEASE_BODY=${{ needs.generate_release_note.outputs.msg }}
+          RELEASE_BODY="${{ needs.generate_release_note.outputs.msg }}"
           RELEASE_BODY="${RELEASE_BODY//$'\n'/'<br>'}"
           echo "val=${RELEASE_BODY}" >> "$GITHUB_OUTPUT"
       - name: Generate Tag
