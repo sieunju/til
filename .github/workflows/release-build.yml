@@ -6,7 +6,7 @@ on:
 
 jobs:
   deploy_firebase:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     outputs:
       versionCode: ${{ steps.versionInfo.outputs.code }}
       versionName: ${{ steps.versionInfo.outputs.name }}
@@ -47,7 +47,7 @@ jobs:
           ruby-version: '3.0'
           bundler-cache: true
 
-      - name: SetUp Fastlane
+      - name: Build & Deploy
         uses: maierj/fastlane-action@v3.1.0
         with:
           lane: 'firebaseDeploy'
