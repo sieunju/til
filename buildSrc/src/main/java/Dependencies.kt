@@ -2,7 +2,7 @@ import org.gradle.api.artifacts.dsl.DependencyHandler
 import org.gradle.kotlin.dsl.DependencyHandlerScope
 
 object Apps {
-    const val versionCode = 8
+    const val versionCode = 1
     const val versionName = "0.0.8"
 }
 
@@ -109,7 +109,7 @@ object Compose {
 }
 
 object Firebase {
-    const val bom = "com.google.firebase:firebase-bom:33.1.0"
+    const val bom = "com.google.firebase:firebase-bom:33.6.0"
     const val analytics = "com.google.firebase:firebase-analytics"
     const val crash = "com.google.firebase:firebase-crashlytics-ktx"
     operator fun invoke(scope: DependencyHandlerScope) {
