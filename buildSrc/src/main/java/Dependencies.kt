@@ -6,12 +6,6 @@ object Apps {
     const val versionName = "0.0.8"
 }
 
-object Versions {
-    const val retrofit = "2.9.0"
-    const val lifecycle = "2.6.1"
-    const val hilt = "2.48"
-}
-
 object AndroidX {
     const val ktx = "androidx.core:core-ktx:1.8.0"
     const val appCompat = "androidx.appcompat:appcompat:1.6.1"
@@ -23,22 +17,18 @@ object AndroidX {
     const val viewpager = "androidx.viewpager2:viewpager2:1.0.0"
     const val cardView = "androidx.cardview:cardview:1.0.0"
     const val recyclerView = "androidx.recyclerview:recyclerview:1.3.2"
-    const val lifecycle = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycle}"
-    const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
-    const val liveData = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifecycle}"
+    const val lifecycle = "androidx.lifecycle:lifecycle-runtime-ktx:2.6.2"
+    const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2"
+    const val liveData = "androidx.lifecycle:lifecycle-livedata-ktx:2.6.2"
 }
 
 object Kotlin {
     const val reflect = "org.jetbrains.kotlin:kotlin-reflect:1.8.22"
 }
 
-object Javax {
-    const val inject = "javax.inject:javax.inject:1"
-}
-
 object Hilt {
-    const val android = "com.google.dagger:hilt-android:${Versions.hilt}"
-    const val compiler = "com.google.dagger:hilt-compiler:${Versions.hilt}"
+    const val android = "com.google.dagger:hilt-android:2.51"
+    const val compiler = "com.google.dagger:hilt-compiler:2.51"
     const val compose = "androidx.hilt:hilt-navigation-compose:1.0.0"
 }
 
@@ -54,7 +44,7 @@ object Co {
 }
 
 object Retrofit {
-    const val base = "com.squareup.retrofit2:retrofit:2.9.0"
+    const val base = "com.squareup.retrofit2:retrofit:2.11.0"
     const val rxjava = "com.squareup.retrofit2:adapter-rxjava3:2.9.0"
     const val kotlinx = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
     const val okhttp = "com.squareup.okhttp3:okhttp:4.12.0"
@@ -94,7 +84,7 @@ object HttpTracking {
 
 object Compose {
     const val compile = "1.4.8"
-    const val base = "androidx.compose:compose-bom:2024.02.02"
+    const val base = "androidx.compose:compose-bom:2024.09.03"
     const val material = "androidx.compose.material3:material3"
     const val ui = "androidx.compose.ui:ui"
     const val preview = "androidx.compose.ui:ui-tooling-preview"
@@ -134,8 +124,8 @@ object UnitTest {
     }
 
     object Hilt {
-        const val base = "com.google.dagger:hilt-android-testing:${Versions.hilt}"
-        const val compiler = "com.google.dagger:hilt-android-compiler:${Versions.hilt}"
+        const val base = "com.google.dagger:hilt-android-testing:2.51"
+        const val compiler = "com.google.dagger:hilt-android-compiler:2.51"
     }
 
     object Compose {
