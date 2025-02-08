@@ -88,8 +88,8 @@ object Log {
 }
 
 object HttpTracking {
-    const val interceptor = "com.github.sieunju.httptracking:interceptor:1.3.2"
-    const val ui = "com.github.sieunju.httptracking:ui:1.3.2"
+    const val interceptor = "com.github.sieunju.httptracking:interceptor:1.3.6"
+    const val ui = "com.github.sieunju.httptracking:ui:1.3.6"
 }
 
 object Compose {
