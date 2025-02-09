@@ -15,9 +15,12 @@ val properties = Properties().apply {
 
 android {
     namespace = "com.hmju.core"
+    compileSdk = Apps.targetSdk
     defaultConfig {
+        minSdk = Apps.minSdk
         buildConfigField("String", "BASE_URL", properties.getProperty("base_url"))
         buildConfigField("String", "AUTH_TYPE", properties.getProperty("auth_type"))
+        consumerProguardFiles("consumer-rules.pro")
     }
     buildFeatures {
         compose = true
@@ -29,6 +32,13 @@ android {
     }
     composeOptions {
         kotlinCompilerExtensionVersion = Compose.compile
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = "17"
     }
 }
 

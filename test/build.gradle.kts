@@ -10,6 +10,18 @@ android {
     namespace = "com.hmju.test"
     defaultConfig {
         testInstrumentationRunner = "com.hmju.test.HiltTestRunner"
+        consumerProguardFiles("consumer-rules.pro")
+    }
+    compileSdk = Apps.targetSdk
+    defaultConfig {
+        minSdk = Apps.minSdk
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = "17"
     }
     dataBinding { enable = true }
     testOptions {

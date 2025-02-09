@@ -8,6 +8,18 @@ plugins {
 
 android {
     namespace = "com.hmju.legacy"
+    compileSdk = Apps.targetSdk
+    defaultConfig {
+        minSdk = Apps.minSdk
+        consumerProguardFiles("consumer-rules.pro")
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = "17"
+    }
     buildFeatures {
         dataBinding { enable = true }
     }

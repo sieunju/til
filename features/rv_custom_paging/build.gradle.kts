@@ -8,6 +8,18 @@ plugins {
 
 android {
     namespace = "com.features.rv_custom_paging"
+    compileSdk = Apps.targetSdk
+    defaultConfig {
+        minSdk = Apps.minSdk
+        consumerProguardFiles("consumer-rules.pro")
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = "17"
+    }
     dataBinding { enable = true }
 }
 

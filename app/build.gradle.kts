@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("kotlinx-serialization")
@@ -8,16 +11,17 @@ plugins {
     kotlin("kapt")
 }
 
+val properties = Properties().apply {
+    load(FileInputStream(File(rootProject.rootDir, "local.properties")))
+}
+
 android {
     namespace = "com.hmju.til"
-
-    bundle {
-        language { enableSplit = true }
-        density { enableSplit = true }
-        abi { enableSplit = true }
-    }
+    compileSdk = Apps.targetSdk
 
     defaultConfig {
+        minSdk = Apps.minSdk
+        targetSdk = Apps.targetSdk
         applicationId = "com.hmju.til"
         versionCode = Apps.versionCode
         versionName = Apps.versionName
@@ -27,9 +31,26 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    bundle {
+        language { enableSplit = true }
+        density { enableSplit = true }
+        abi { enableSplit = true }
+    }
+
+    signingConfigs {
+        create("release") {
+            storeFile = file(properties.getProperty("keystore.release.file_path"))
+            storePassword = properties.getProperty("keystore.release.store_password")
+            keyAlias = properties.getProperty("keystore.release.key_alias")
+            keyPassword = properties.getProperty("keystore.release.key_password")
+        }
+    }
+
     buildTypes {
 
         debug {
+            isDebuggable = true
+            isMinifyEnabled = false
             applicationIdSuffix = ".dev"
             manifestPlaceholders["appName"] = "til_dev"
             manifestPlaceholders["appIcon"] = "@mipmap/ic_launcher_dev"
@@ -37,13 +58,23 @@ android {
 
         release {
             isShrinkResources = true
+            isMinifyEnabled = true
+            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
             manifestPlaceholders["appName"] = "til"
             manifestPlaceholders["appIcon"] = "@mipmap/ic_launcher"
+            signingConfig = signingConfigs["release"]
         }
     }
 
     buildFeatures {
         dataBinding { enable = true }
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = "17"
     }
 }
 
