@@ -15,7 +15,6 @@ object AndroidX {
     const val activity = "androidx.activity:activity-ktx:1.6.1"
     const val fragment = "androidx.fragment:fragment-ktx:1.6.2"
     const val material = "com.google.android.material:material:1.9.0"
-    const val legacy = "androidx.legacy:legacy-support-v4:1.0.0"
     const val viewpager = "androidx.viewpager2:viewpager2:1.0.0"
     const val cardView = "androidx.cardview:cardview:1.0.0"
     const val recyclerView = "androidx.recyclerview:recyclerview:1.3.2"

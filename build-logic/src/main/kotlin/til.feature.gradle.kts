@@ -2,8 +2,8 @@ import com.hmju.til.configCoroutineAndroid
 import com.hmju.til.configHiltAndroid
 
 plugins {
-    id("til.android.library")
-    id("til.android.compose")
+    id("til.library")
+    id("til.compose")
 }
 
 android {
