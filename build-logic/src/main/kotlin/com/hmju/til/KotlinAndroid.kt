@@ -54,6 +54,7 @@ internal fun Project.configKotlinAndroid() {
         val libs = extensions.libs
         dependencies {
             add("implementation", libs.findLibrary("timber").get())
+            add("implementation", libs.findLibrary("kotlinx.json").get())
         }
     }
 

@@ -1,86 +1,18 @@
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
-    id("dagger.hilt.android.plugin")
-    id("kotlinx-serialization")
-    kotlin("kapt")
+    id("til.library")
+    id("til.androidx")
+    id("kotlin-kapt") // DataBinding 대응
 }
 
 android {
     namespace = "com.features.network_v2"
-    compileSdk = Apps.targetSdk
-    defaultConfig {
-        minSdk = Apps.minSdk
-        consumerProguardFiles("consumer-rules.pro")
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
-    dataBinding { enable = true }
-    kapt {
-        correctErrorTypes = true
-    }
 }
 
 dependencies {
-    implementation(project(":core"))
-    implementation(project(":features:network_v2-bridge"))
+    implementation(projects.core)
+    implementation(projects.features.networkV2Bridge)
 
-    /**
-     * Android X
-     */
-    implementation(AndroidX.appCompat)
-    implementation(AndroidX.constraintLayout)
-    implementation(AndroidX.activity)
-    implementation(AndroidX.material)
-    implementation(AndroidX.fragment)
-    implementation(AndroidX.recyclerView)
-    implementation(AndroidX.lifecycle)
-    implementation(AndroidX.viewModel)
-    implementation(AndroidX.liveData)
-
-    /**
-     * Hilt
-     */
-    implementation(Hilt.android)
-    kapt(Hilt.compiler)
-
-    /**
-     * Timber
-     */
-    implementation(Log.timber)
-
-    /**
-     * Coroutines
-     */
-    implementation(Co.core)
-    implementation(Co.android)
-
-    /**
-     * Rx
-     */
-    implementation(Rx.android)
-    implementation(Rx.kotlin)
-
-    /**
-     * Network
-     */
-    implementation(Retrofit.base)
-
-    /**
-     * Kotlinx Serialization
-     */
-    implementation(KotlinX.serialization)
-
-    /**
-     * Unit Test
-     */
-    testImplementation(UnitTest.junit)
-    androidTestImplementation(UnitTest.junit)
-    androidTestImplementation(UnitTest.androidJUnit)
-    androidTestImplementation(UnitTest.Espresso.core)
+    implementation(libs.rx.kotlin)
+    implementation(libs.rx.android)
+    implementation(libs.retrofit)
 }

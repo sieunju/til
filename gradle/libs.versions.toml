@@ -12,9 +12,12 @@ coroutine = "1.9.0"
 okhttp = "4.12.0"
 retrofit = "2.11.0"
 glide-compose = "1.0.0-beta01"
+glide = "4.13.2"
 rx-java = "3.1.2"
 rx-android = "3.0.0"
 rx-kotlin = "3.0.1"
+retrofit-rxjava = "2.9.0"
+retrofit-kotlinx = "0.8.0"
 
 ## Kotlin
 # https://github.com/JetBrains/kotlin
@@ -51,6 +54,7 @@ baselineprofile = "1.2.4"
 
 ktx = "1.8.0"
 constraintlayout = "2.2.0"
+constraintlayout-compose = "1.0.1"
 activity = "1.6.1"
 fragment = "1.6.2"
 material = "1.9.0"
@@ -116,17 +120,15 @@ androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview"
 androidx-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
 androidx-lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 androidx-lifecycle-livedata = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycle" }
-
+androidx-lifecycle-runtimeCompose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidxLifecycle" }
+androidx-lifecycle-viewModelCompose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "androidxLifecycle" }
+androidx-compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "composeNavigation" }
+androidx-compose-navigation-test = { group = "androidx.navigation", name = "navigation-testing", version.ref = "composeNavigation" }
 androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidxTestRunner" }
-
-# ReactiveX
-rx-java = { group = "io.reactivex.rxjava3", name = "rxjava", version.ref = "rx-java" }
-rx-kotlin = { group = "io.reactivex.rxjava3", name = "rxkotlin", version.ref = "rx-kotlin" }
-rx-android = { group = "io.reactivex.rxjava3", name = "rxandroid", version.ref = "rx-android" }
+androidx-constraintlayout-compose = {group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "constraintlayout-compose"}
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
-androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-test-ext = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "androidxTestExt" }
 androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidxEspresso" }
 
@@ -135,6 +137,7 @@ google-services = { module = "com.google.gms:google-services", version.ref = "go
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
 firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging" }
+firebase-crash = { group = "com.google.firebase", name = "firebase-crashlytics-ktx" }
 crashlytics-gradle = { group = "com.google.firebase", name = "firebase-crashlytics-gradle", version.ref = "crashlyticsPlugin" }
 
 # compose
@@ -145,8 +148,6 @@ compose-ui-test = { group = "androidx.compose.ui", name = "ui-test-junit4", vers
 compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 compose-ui-testManifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
-compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "composeNavigation" }
-compose-navigation-test = { group = "androidx.navigation", name = "navigation-testing", version.ref = "composeNavigation" }
 
 # hilt
 hilt-core = { group = "com.google.dagger", name = "hilt-core", version.ref = "hilt" }
@@ -163,6 +164,8 @@ okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhtt
 okhttp-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-json = { group = "com.squareup.retrofit2", name = "converter-kotlinx-serialization", version.ref = "retrofit" }
+retrofit-rxjava = { group = "com.squareup.retrofit2", name = "adapter-rxjava3", version.ref = "retrofit-rxjava" }
+retrofit-kotlinx = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofit-kotlinx" }
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
 httptracking-ui = { group = "com.github.sieunju.httptracking", name = "ui", version.ref = "httptracking" }
 httptracking-interceptor = { group = "com.github.sieunju.httptracking", name = "interceptor", version.ref = "httptracking" }
@@ -170,6 +173,14 @@ kotlinx-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-
 kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinxDatetime" }
 kotlinx-immutable = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinxImmutable" }
 glide-compose = { group = "com.github.bumptech.glide", name = "compose", version.ref = "glide-compose" }
+glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
+glide-okhttp3 = { group = "com.github.bumptech.glide", name = "okhttp3-integration", version.ref = "glide" }
+glide-compiler = { group = "com.github.bumptech.glide", name = "compiler", version.ref = "glide" }
+glide-annotations = { group = "com.github.bumptech.glide", name = "annotations", version.ref = "glide" }
+rx-java = { group = "io.reactivex.rxjava3", name = "rxjava", version.ref = "rx-java" }
+rx-kotlin = { group = "io.reactivex.rxjava3", name = "rxkotlin", version.ref = "rx-kotlin" }
+rx-android = { group = "io.reactivex.rxjava3", name = "rxandroid", version.ref = "rx-android" }
+
 kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlin" }
 
 [plugins]

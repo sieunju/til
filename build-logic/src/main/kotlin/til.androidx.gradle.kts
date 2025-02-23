@@ -1,8 +1,11 @@
 import com.hmju.til.libs
-import org.gradle.kotlin.dsl.dependencies
 
 plugins {
     id("com.android.library")
+}
+
+android {
+    dataBinding { enable = true }
 }
 
 dependencies {

@@ -6,9 +6,12 @@ plugins {
     id("kotlinx-serialization")
     id("dagger.hilt.android.plugin")
     id("org.jetbrains.kotlin.android")
+    id("com.google.devtools.ksp")
+    // kotlin("kapt")
+    // id("til.application")
+    id("kotlin-kapt")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
-    kotlin("kapt")
 }
 
 val properties = Properties().apply {
@@ -17,16 +20,14 @@ val properties = Properties().apply {
 
 android {
     namespace = "com.hmju.til"
-    compileSdk = Apps.targetSdk
-
+    compileSdk = 34
     defaultConfig {
-        minSdk = Apps.minSdk
-        targetSdk = Apps.targetSdk
+        minSdk = 28
+        targetSdk = 34
         applicationId = "com.hmju.til"
-        versionCode = Apps.versionCode
-        versionName = Apps.versionName
+        versionCode = 1
+        versionName = "1.0.0"
         setProperty("archivesBaseName", "til_${versionCode}_${versionName}")
-        multiDexEnabled = true
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -91,83 +92,59 @@ tasks.register("getVersionName") {
 }
 
 dependencies {
-    implementation(project(":core"))
+    implementation(projects.core)
+    implementation(projects.legacy)
+    implementation(projects.features.main)
+    implementation(projects.features.network)
+    implementation(projects.features.recyclerview)
+    implementation(projects.features.baseMvvm)
+    implementation(projects.features.asyncMigrate)
+    implementation(projects.features.networkV2)
+    implementation(projects.features.composeUi)
+    implementation(projects.features.rvCustomPaging)
+    implementation(projects.features.networkErrorHandling)
+    implementation(projects.features.networkJsendFormat)
+    implementation(projects.features.networkExpiredToken)
+    implementation(projects.features.rvSimpleLike)
+    implementation(projects.features.rvDiffUtilPerformance)
+    implementation(projects.features.rvRefactorDiffUtil)
+    implementation(projects.features.rvDiffUtil2)
+    implementation(projects.features.baseMvvmLifecycle)
+    implementation(projects.features.baseMvvmBottomSheet)
+    implementation(projects.features.composePermissionsResult)
+    implementation(projects.features.composeNavigation)
 
-    implementation(project(":legacy"))
-    implementation(project(":features:main"))
-    implementation(project(":features:network"))
-    implementation(project(":features:recyclerview"))
-    implementation(project(":features:base-mvvm"))
-    implementation(project(":features:async_migrate"))
-    implementation(project(":features:network_v2"))
-    implementation(project(":features:compose-ui"))
-    implementation(project(":features:rv_custom_paging"))
-    implementation(project(":features:network_error_handling"))
-    implementation(project(":features:network_jsend_format"))
-    implementation(project(":features:network_expired_token"))
-    implementation(project(":features:rv_simple_like"))
-    implementation(project(":features:rv_diff_util_performance"))
-    implementation(project(":features:rv_refactor_diff_util"))
-    implementation(project(":features:rv_diff_util_2"))
-    implementation(project(":features:base_mvvm_lifecycle"))
-    implementation(project(":features:base_mvvm_bottom_sheet"))
-    implementation(project(":features:compose_permissions_result"))
-    implementation(project(":features:compose_navigation"))
+    implementation(libs.retrofit)
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.interceptor)
+    implementation(libs.retrofit.rxjava)
+    implementation(libs.retrofit.kotlinx)
 
-    /**
-     * Network
-     */
-    implementation(Retrofit.base)
-    implementation(Retrofit.okhttp)
-    implementation(Retrofit.okhttpLogger)
-    implementation(Retrofit.rxjava)
-    implementation(Retrofit.kotlinx)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.activity)
+    implementation(libs.android.material)
+    implementation(libs.androidx.constraintlayout)
 
-    /**
-     * Android X
-     */
-    implementation(AndroidX.ktx)
-    implementation(AndroidX.appCompat)
-    implementation(AndroidX.activity)
-    implementation(AndroidX.material)
-    implementation(AndroidX.constraintLayout)
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
 
-    /**
-     * Hilt
-     */
-    implementation(Hilt.android)
-    kapt(Hilt.compiler)
+    implementation(libs.kotlinx.json)
 
-    /**
-     * Kotlinx Serialization
-     */
-    implementation(KotlinX.serialization)
+    implementation(libs.rx.java)
+    implementation(libs.rx.kotlin)
 
-    /**
-     * Rx
-     */
-    implementation(Rx.java)
-    implementation(Rx.kotlin)
+    implementation(libs.timber)
+    implementation(libs.httptracking.ui)
 
-    /**
-     * Timber
-     */
-    implementation(Log.timber)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.crash)
 
-    /**
-     * HttpTracking
-     */
-    implementation(HttpTracking.ui)
-
-    /**
-     * Firebase SDK
-     */
-    Firebase(this)
-
-    androidTestImplementation(UnitTest.runner)
-    androidTestImplementation(UnitTest.junit)
-    testImplementation(UnitTest.junit)
-    testImplementation(UnitTest.androidJUnit)
-
-    androidTestImplementation(project(":test"))
+    androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation(libs.junit)
+    testImplementation(libs.junit)
+    testImplementation(libs.androidx.test.ext)
+    kspAndroidTest(libs.hilt.compiler)
+    androidTestImplementation(projects.test)
 }

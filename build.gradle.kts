@@ -102,3 +102,12 @@ apply {
     // ./gradlew projectDependencyGraph
     from("gradle/dependencyGraph.gradle")
 }
+
+// build.gradle.kts에 임시로 추가
+afterEvaluate {
+    println("Available libraries in version catalog:")
+    extensions.getByType<VersionCatalogsExtension>()
+        .named("libs")
+        .libraryAliases
+        .forEach { println(it) }
+}
