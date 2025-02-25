@@ -1,6 +1,7 @@
 import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 plugins {
     alias(libs.plugins.android.application) apply false
@@ -27,22 +28,7 @@ buildscript {
         classpath(libs.google.services)
         classpath(libs.crashlytics.gradle)
     }
-//    dependencies {
-//        classpath("com.android.tools.build:gradle:8.2.2")
-//        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.22")
-//        classpath("org.jetbrains.kotlin:kotlin-serialization:1.8.22")
-//        classpath("com.google.dagger:hilt-android-gradle-plugin:2.48")
-//    }
 }
-
-//allprojects {
-//    repositories {
-//        google()
-//        mavenCentral()
-//        maven { url = uri("https://jitpack.io") }
-//        maven { url = uri("https://maven.google.com") }
-//    }
-//}
 
 tasks.register("clean", Delete::class) {
     delete(rootProject.layout.buildDirectory)
@@ -101,13 +87,4 @@ fun getReleaseNote() {
 apply {
     // ./gradlew projectDependencyGraph
     from("gradle/dependencyGraph.gradle")
-}
-
-// build.gradle.kts에 임시로 추가
-afterEvaluate {
-    println("Available libraries in version catalog:")
-    extensions.getByType<VersionCatalogsExtension>()
-        .named("libs")
-        .libraryAliases
-        .forEach { println(it) }
 }

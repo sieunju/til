@@ -7,8 +7,6 @@ plugins {
     id("dagger.hilt.android.plugin")
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
-    // kotlin("kapt")
-    // id("til.application")
     id("kotlin-kapt")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")

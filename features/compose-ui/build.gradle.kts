@@ -12,5 +12,4 @@ dependencies {
     implementation(projects.features.composeUiBridge)
 
     implementation(libs.retrofit)
-    implementation(libs.androidx.constraintlayout.compose)
 }
