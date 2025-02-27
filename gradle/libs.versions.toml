@@ -1,4 +1,5 @@
 [versions]
+appVersion = "0.0.8"
 ## Android gradle plugin
 agp = "8.6.1"
 coreKtx = "1.13.1"
@@ -19,6 +20,11 @@ rx-android = "3.0.0"
 rx-kotlin = "3.0.1"
 retrofit-rxjava = "2.9.0"
 retrofit-kotlinx = "0.8.0"
+room = "2.3.0"
+androidxTestCore = "1.6.1"
+androidxArchCore = "2.2.0"
+androidxTestJunit = "1.1.5"
+androidxTestRules = "1.6.1"
 
 ## Kotlin
 # https://github.com/JetBrains/kotlin
@@ -131,8 +137,12 @@ junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-test-ext = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "androidxTestExt" }
 androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidxEspresso" }
+androidx-test-rules = { module = "androidx.test:rules", version.ref = "androidxTestRules" }
+androidx-room-testing = { module = "androidx.room:room-testing", version.ref = "room" }
+androidx-test-core-ktx = { module = "androidx.test:core-ktx", version.ref = "androidxTestCore" }
+androidx-arch-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "androidxArchCore" }
 
-# firebase
+# firebasecore-ktx"
 google-services = { module = "com.google.gms:google-services", version.ref = "googleServices" }
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
@@ -180,7 +190,6 @@ glide-annotations = { group = "com.github.bumptech.glide", name = "annotations",
 rx-java = { group = "io.reactivex.rxjava3", name = "rxjava", version.ref = "rx-java" }
 rx-kotlin = { group = "io.reactivex.rxjava3", name = "rxkotlin", version.ref = "rx-kotlin" }
 rx-android = { group = "io.reactivex.rxjava3", name = "rxandroid", version.ref = "rx-android" }
-
 kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlin" }
 
 [plugins]

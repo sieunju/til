@@ -6,6 +6,9 @@ plugins {
 
 android {
     namespace = "com.hmju.test"
+    defaultConfig {
+        testInstrumentationRunner = "com.hmju.test.HiltTestRunner"
+    }
     testOptions {
         unitTests {
             isIncludeAndroidResources = true
@@ -59,15 +62,21 @@ dependencies {
     androidTestImplementation(libs.androidx.lifecycle.livedata)
 
     implementation(libs.hilt.android)
+    implementation(libs.hilt.android.testing)
     ksp(libs.hilt.compiler)
     androidTestImplementation(libs.hilt.android)
     kspAndroidTest(libs.hilt.compiler)
+    androidTestImplementation(libs.hilt.android.testing)
 
     androidTestImplementation(libs.retrofit)
     androidTestImplementation(libs.okhttp)
     androidTestImplementation(libs.retrofit.rxjava)
     androidTestImplementation(libs.retrofit.kotlinx)
     androidTestImplementation(libs.okhttp.interceptor)
+    androidTestImplementation(libs.coroutine.test)
     testImplementation(libs.gson)
     testImplementation(libs.kotlinx.datetime)
+    testImplementation(libs.rx.java)
+    testImplementation(libs.rx.kotlin)
+    testImplementation(libs.coroutine.test)
 }

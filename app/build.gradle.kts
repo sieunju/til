@@ -24,7 +24,7 @@ android {
         targetSdk = 34
         applicationId = "com.hmju.til"
         versionCode = 1
-        versionName = "1.0.0"
+        versionName = libs.versions.appVersion.get()
         setProperty("archivesBaseName", "til_${versionCode}_${versionName}")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

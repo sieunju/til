@@ -63,7 +63,7 @@ fun getReleaseNote() {
             ).format(Date())
         }"
 
-        val version = "Version Name: ${Apps.versionName}"
+        val version = "Version Name: ${libs.versions.appVersion.get()}"
         val branch = "Branch: ${getCommand("git rev-parse --abbrev-ref HEAD")}"
         val msg = "Message: ${getCommand("git rev-list --format=%B --max-count=1 HEAD")}"
         val author = "Author: ${getCommand("git log -1 --pretty=format:%an")}"
