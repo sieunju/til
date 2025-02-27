@@ -1,9 +1,7 @@
 plugins {
-    id("com.android.library")
-    id("dagger.hilt.android.plugin")
-    id("kotlinx-serialization")
-    id("org.jetbrains.kotlin.android")
-    kotlin("kapt")
+    id("til.library")
+    id("til.androidx")
+    id("kotlin-kapt") // DataBinding 대응
 }
 
 android {
@@ -11,7 +9,6 @@ android {
     defaultConfig {
         testInstrumentationRunner = "com.hmju.test.HiltTestRunner"
     }
-    dataBinding { enable = true }
     testOptions {
         unitTests {
             isIncludeAndroidResources = true
@@ -20,94 +17,66 @@ android {
 }
 
 dependencies {
-    androidTestImplementation(project(":core"))
-    androidTestImplementation(project(":legacy"))
-    androidTestImplementation(project(":features:base-mvvm"))
-    androidTestImplementation(project(":features:base-mvvm-bridge"))
-    androidTestImplementation(project(":features:main"))
-    androidTestImplementation(project(":features:network"))
-    androidTestImplementation(project(":features:network-bridge"))
-    androidTestImplementation(project(":features:recyclerview"))
-    androidTestImplementation(project(":features:recyclerview-bridge"))
-    androidTestImplementation(project(":features:async_migrate"))
-    androidTestImplementation(project(":features:async_migrate_bridge"))
-    androidTestImplementation(project(":features:network_v2"))
-    androidTestImplementation(project(":features:network_v2-bridge"))
-    androidTestImplementation(project(":features:compose-ui"))
-    androidTestImplementation(project(":features:compose-ui-bridge"))
-    androidTestImplementation(project(":features:rv_custom_paging"))
-    androidTestImplementation(project(":features:rv_custom_paging_bridge"))
-    androidTestImplementation(project(":features:network_error_handling"))
-    androidTestImplementation(project(":features:network_error_handling_bridge"))
-    androidTestImplementation(project(":features:network_jsend_format"))
-    androidTestImplementation(project(":features:network_jsend_format_bridge"))
-    androidTestImplementation(project(":features:network_expired_token"))
-    androidTestImplementation(project(":features:network_expired_token_bridge"))
-    androidTestImplementation(project(":features:rv_simple_like"))
-    androidTestImplementation(project(":features:rv_simple_like_bridge"))
-    androidTestImplementation(project(":features:rv_diff_util_performance"))
-    androidTestImplementation(project(":features:rv_diff_util_performance_bridge"))
-    androidTestImplementation(project(":features:rv_refactor_diff_util"))
-    androidTestImplementation(project(":features:rv_refactor_diff_util_bridge"))
-    androidTestImplementation(project(":features:rv_diff_util_2"))
-    androidTestImplementation(project(":features:rv_diff_util_2_bridge"))
-    androidTestImplementation(project(":features:base_mvvm_lifecycle"))
-    androidTestImplementation(project(":features:base_mvvm_lifecycle_bridge"))
-    androidTestImplementation(project(":features:base_mvvm_bottom_sheet"))
-    androidTestImplementation(project(":features:base_mvvm_bottom_sheet_bridge"))
-    androidTestImplementation(project(":features:compose_permissions_result"))
-    androidTestImplementation(project(":features:compose_permissions_result_bridge"))
-    androidTestImplementation(project(":features:compose_navigation"))
-    androidTestImplementation(project(":features:compose_navigation_bridge"))
+    androidTestImplementation(projects.core)
+    androidTestImplementation(projects.legacy)
+    androidTestImplementation(projects.features.baseMvvm)
+    androidTestImplementation(projects.features.baseMvvmBridge)
+    androidTestImplementation(projects.features.main)
+    androidTestImplementation(projects.features.network)
+    androidTestImplementation(projects.features.networkBridge)
+    androidTestImplementation(projects.features.recyclerview)
+    androidTestImplementation(projects.features.recyclerviewBridge)
+    androidTestImplementation(projects.features.asyncMigrate)
+    androidTestImplementation(projects.features.asyncMigrateBridge)
+    androidTestImplementation(projects.features.networkV2)
+    androidTestImplementation(projects.features.networkV2Bridge)
+    androidTestImplementation(projects.features.composeUi)
+    androidTestImplementation(projects.features.composeUiBridge)
+    androidTestImplementation(projects.features.rvCustomPaging)
+    androidTestImplementation(projects.features.rvCustomPagingBridge)
+    androidTestImplementation(projects.features.networkErrorHandling)
+    androidTestImplementation(projects.features.networkErrorHandlingBridge)
+    androidTestImplementation(projects.features.networkJsendFormat)
+    androidTestImplementation(projects.features.networkJsendFormatBridge)
+    androidTestImplementation(projects.features.networkExpiredToken)
+    androidTestImplementation(projects.features.networkExpiredTokenBridge)
+    androidTestImplementation(projects.features.rvSimpleLike)
+    androidTestImplementation(projects.features.rvSimpleLikeBridge)
+    androidTestImplementation(projects.features.rvDiffUtilPerformance)
+    androidTestImplementation(projects.features.rvDiffUtilPerformanceBridge)
+    androidTestImplementation(projects.features.rvRefactorDiffUtil)
+    androidTestImplementation(projects.features.rvRefactorDiffUtilBridge)
+    androidTestImplementation(projects.features.rvDiffUtil2)
+    androidTestImplementation(projects.features.rvDiffUtil2Bridge)
+    androidTestImplementation(projects.features.baseMvvmLifecycle)
+    androidTestImplementation(projects.features.baseMvvmLifecycleBridge)
+    androidTestImplementation(projects.features.baseMvvmBottomSheet)
+    androidTestImplementation(projects.features.baseMvvmBottomSheetBridge)
+    androidTestImplementation(projects.features.composePermissionsResult)
+    androidTestImplementation(projects.features.composePermissionsResultBridge)
+    androidTestImplementation(projects.features.composeNavigation)
+    androidTestImplementation(projects.features.composeNavigationBridge)
 
-    /**
-     * Android X
-     */
-    implementation(AndroidX.ktx)
-    implementation(AndroidX.appCompat)
-    implementation(AndroidX.material)
-    implementation(AndroidX.activity)
-    implementation(AndroidX.fragment)
-    androidTestImplementation(AndroidX.lifecycle)
-    androidTestImplementation(AndroidX.viewModel)
-    androidTestImplementation(AndroidX.liveData)
+    androidTestImplementation(libs.androidx.lifecycle.runtime)
+    androidTestImplementation(libs.androidx.lifecycle.viewmodel)
+    androidTestImplementation(libs.androidx.lifecycle.livedata)
 
-    /**
-     * Kotlinx Serialization
-     */
-    implementation(KotlinX.serialization)
+    implementation(libs.hilt.android)
+    implementation(libs.hilt.android.testing)
+    ksp(libs.hilt.compiler)
+    androidTestImplementation(libs.hilt.android)
+    kspAndroidTest(libs.hilt.compiler)
+    androidTestImplementation(libs.hilt.android.testing)
 
-    /**
-     * Hilt
-     */
-    implementation(Hilt.android)
-    kapt(Hilt.compiler)
-    androidTestImplementation(UnitTest.Hilt.base)
-    kaptAndroidTest(UnitTest.Hilt.compiler)
-
-    /**
-     * Network
-     */
-    androidTestImplementation(Retrofit.base)
-    androidTestImplementation(Retrofit.okhttp)
-    androidTestImplementation(Retrofit.rxjava)
-    androidTestImplementation(Retrofit.kotlinx)
-    androidTestImplementation(Retrofit.okhttpLogger)
-    testImplementation("com.google.code.gson:gson:2.10.1")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-datetime:0.5.0")
-
-    /**
-     * Unit Test
-     */
-    testImplementation(UnitTest.archCore)
-    testImplementation(UnitTest.junit)
-    testImplementation(UnitTest.coroutine)
-    androidTestImplementation(UnitTest.coroutine)
-    testImplementation(Rx.java)
-    testImplementation(Rx.kotlin)
-    androidTestImplementation(UnitTest.junit)
-    androidTestImplementation(UnitTest.core)
-    androidTestImplementation(UnitTest.androidJUnit)
-    androidTestImplementation(UnitTest.rules)
-    androidTestImplementation(UnitTest.Espresso.core)
+    androidTestImplementation(libs.retrofit)
+    androidTestImplementation(libs.okhttp)
+    androidTestImplementation(libs.retrofit.rxjava)
+    androidTestImplementation(libs.retrofit.kotlinx)
+    androidTestImplementation(libs.okhttp.interceptor)
+    androidTestImplementation(libs.coroutine.test)
+    testImplementation(libs.gson)
+    testImplementation(libs.kotlinx.datetime)
+    testImplementation(libs.rx.java)
+    testImplementation(libs.rx.kotlin)
+    testImplementation(libs.coroutine.test)
 }

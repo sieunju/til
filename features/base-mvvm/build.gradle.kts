@@ -1,68 +1,21 @@
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
-    id("dagger.hilt.android.plugin")
-    id("kotlinx-serialization")
-    kotlin("kapt")
+    id("til.library")
+    id("til.androidx")
+    id("kotlin-kapt") // DataBinding 대응
 }
 
 android {
     namespace = "com.features.base_mvvm"
-    dataBinding { enable = true }
 }
 
 dependencies {
-    implementation(project(":core"))
-    implementation(project(":features:base-mvvm-bridge"))
-    implementation(project(":features:base_mvvm_lifecycle_bridge"))
-    implementation(project(":features:base_mvvm_bottom_sheet_bridge"))
+    implementation(projects.core)
+    implementation(projects.features.baseMvvmBridge)
+    implementation(projects.features.baseMvvmLifecycleBridge)
+    implementation(projects.features.baseMvvmBottomSheetBridge)
 
-    /**
-     * Android X
-     */
-    implementation(AndroidX.appCompat)
-    implementation(AndroidX.constraintLayout)
-    implementation(AndroidX.activity)
-    implementation(AndroidX.material)
-    implementation(AndroidX.fragment)
-    implementation(AndroidX.recyclerView)
-    implementation(AndroidX.lifecycle)
-    implementation(AndroidX.viewModel)
-    implementation(AndroidX.liveData)
-
-    /**
-     * Timber
-     */
-    implementation(Log.timber)
-
-    /**
-     * Hilt
-     */
-    implementation(Hilt.android)
-    kapt(Hilt.compiler)
-
-    /**
-     * Rx
-     */
-    implementation(Rx.java)
-    implementation(Rx.kotlin)
-    implementation(Rx.android)
-
-    /**
-     * Network
-     */
-    implementation(Retrofit.base)
-
-    /**
-     * Kotlinx Serialization
-     */
-    implementation(KotlinX.serialization)
-
-    /**
-     * Unit Test
-     */
-    testImplementation(UnitTest.junit)
-    androidTestImplementation(UnitTest.junit)
-    androidTestImplementation(UnitTest.androidJUnit)
-    androidTestImplementation(UnitTest.Espresso.core)
+    implementation(libs.rx.java)
+    implementation(libs.rx.kotlin)
+    implementation(libs.rx.android)
+    implementation(libs.retrofit)
 }
