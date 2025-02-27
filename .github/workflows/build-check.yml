@@ -1,9 +1,14 @@
-name: Android Pull Request
+name: Build Check
 
-on: pull_request
+on:
+  pull_request:
+    branches:
+      - master
+      - develop
+      - preview
 
 jobs:
-  checks:
+  build-check:
     runs-on: macos-latest
     # android 디렉토리 없앰으로 인한 주석 처리
     # env:
