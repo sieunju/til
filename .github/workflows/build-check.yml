@@ -1,5 +1,12 @@
 name: Build Check
 
+on:
+  pull_request:
+    branches:
+      - master
+      - develop
+      - preview
+
 jobs:
   checks:
     runs-on: macos-latest
