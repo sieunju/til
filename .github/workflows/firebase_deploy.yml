@@ -16,8 +16,8 @@ on:
         description: 'Firebase Release Note'
 
 jobs:
-    deploy_firebase:
-      runs-on: ubuntu-latest
+    deploy:
+      runs-on: macos-latest
       steps:
         - name: SetUp Environment
           id: appInfo
@@ -54,7 +54,7 @@ jobs:
               ruby-version: '3.0'
               bundler-cache: true
 
-        - name: SetUp Fastlane
+        - name: Build & Deploy
           uses: maierj/fastlane-action@v3.1.0
           with:
               lane: 'firebaseDeploy'

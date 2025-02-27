@@ -1,6 +1,4 @@
-name: Android Pull Request
-
-on: pull_request
+name: Build Check
 
 jobs:
   checks:
