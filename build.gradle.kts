@@ -1,10 +1,20 @@
 import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 plugins {
-    id("com.google.gms.google-services") version "4.4.2" apply false
-    id("com.google.firebase.crashlytics") version "3.0.1" apply false
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.google.services) apply false
+    alias(libs.plugins.crashlytics) apply false
+    alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.hilt) apply false
+    alias(libs.plugins.compose.compiler) apply false
+    alias(libs.plugins.kotlin.jvm) apply false
+    alias(libs.plugins.kotlin.serialization) apply false
+    alias(libs.plugins.ksp) apply false
+    alias(libs.plugins.android.test) apply false
 }
 
 buildscript {
@@ -13,25 +23,15 @@ buildscript {
         mavenCentral()
         gradlePluginPortal()
     }
-    dependencies {
-        classpath("com.android.tools.build:gradle:8.2.2")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.22")
-        classpath("org.jetbrains.kotlin:kotlin-serialization:1.8.22")
-        classpath("com.google.dagger:hilt-android-gradle-plugin:2.48")
-    }
-}
 
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-        maven { url = uri("https://jitpack.io") }
-        maven { url = uri("https://maven.google.com") }
+    dependencies {
+        classpath(libs.google.services)
+        classpath(libs.crashlytics.gradle)
     }
 }
 
 tasks.register("clean", Delete::class) {
-    delete(rootProject.buildDir)
+    delete(rootProject.layout.buildDirectory)
 }
 
 tasks.register("generateReleaseNote") {
@@ -63,7 +63,7 @@ fun getReleaseNote() {
             ).format(Date())
         }"
 
-        val version = "Version Name: ${Apps.versionName}"
+        val version = "Version Name: ${libs.versions.appVersion.get()}"
         val branch = "Branch: ${getCommand("git rev-parse --abbrev-ref HEAD")}"
         val msg = "Message: ${getCommand("git rev-list --format=%B --max-count=1 HEAD")}"
         val author = "Author: ${getCommand("git log -1 --pretty=format:%an")}"
@@ -81,12 +81,6 @@ fun getReleaseNote() {
         println(branch)
         println(msg)
         println(author)
-    }
-}
-
-subprojects {
-    afterEvaluate {
-        project.apply("$rootDir/gradle/common.gradle")
     }
 }
 

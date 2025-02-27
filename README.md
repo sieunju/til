@@ -80,7 +80,7 @@ keystore.release.key_password=til1234qwer
 
 ### Release (.apk)
 ```shell
-./gradlew release
+./gradlew assembleRelease
 ```
 
 ### DI Graph

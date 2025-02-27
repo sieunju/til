@@ -13,7 +13,7 @@ import java.net.SocketException
 @HiltAndroidApp
 class MainApplication : Application() {
 
-    private val firebaseCrashlytics : FirebaseCrashlytics by lazy { FirebaseCrashlytics.getInstance() }
+    private val firebaseCrashlytics: FirebaseCrashlytics by lazy { FirebaseCrashlytics.getInstance() }
 
     override fun onCreate() {
         super.onCreate()

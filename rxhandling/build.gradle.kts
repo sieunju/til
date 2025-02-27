@@ -1,8 +1,7 @@
 plugins {
-    id("com.android.library")
-    id("kotlinx-serialization")
-    kotlin("android")
-    kotlin("kapt")
+    id("til.library")
+    id("til.androidx")
+    id("kotlin-kapt") // DataBinding 대응
 }
 
 android {
@@ -10,36 +9,11 @@ android {
 }
 
 dependencies {
-
-    /**
-     * Kotlinx Serialization
-     */
-    implementation(KotlinX.serialization)
-
-    /**
-     * Network
-     */
-    implementation(Retrofit.base)
-    implementation(Retrofit.okhttp)
-    implementation(Retrofit.rxjava)
-    implementation(Retrofit.kotlinx)
-
-    /**
-     * Rx
-     */
-    implementation(Rx.java)
-    implementation(Rx.kotlin)
-
-    implementation(Log.timber)
-
-    /**
-     * Unit Test
-     */
-    testImplementation(UnitTest.junit)
-    androidTestImplementation(UnitTest.junit)
-    androidTestImplementation(UnitTest.androidJUnit)
-    testImplementation(UnitTest.androidJUnit)
-    androidTestImplementation(UnitTest.rules)
-    androidTestImplementation(UnitTest.runner)
+    implementation(libs.retrofit)
+    implementation(libs.okhttp)
+    implementation(libs.retrofit.rxjava)
+    implementation(libs.retrofit.kotlinx)
+    implementation(libs.rx.java)
+    implementation(libs.rx.kotlin)
     implementation(kotlin("reflect"))
 }

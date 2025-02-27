@@ -1,95 +1,45 @@
 {
   "project_info": {
-    "project_number": "141409314841",
-    "project_id": "deeplink-bot",
-    "storage_bucket": "deeplink-bot.appspot.com"
+    "project_number": "639158460343",
+    "project_id": "dev-ju",
+    "storage_bucket": "dev-ju.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:141409314841:android:663c4deeb166529b222288",
+        "mobilesdk_app_id": "1:639158460343:android:3e403b89cbb75cb88b1232",
         "android_client_info": {
           "package_name": "com.hmju.deeplink"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "109863805463337127813",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyB7Oy6F8RWPu3V77CarA8vpWYqgPunc1DM"
+          "current_key": "AIzaSyAuZtLEcI22JBVpxsJxaDYYYwDvEq-jaic"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "109863805463337127813",
-              "client_type": 3
-            }
-          ]
-        }
-      },
-      "admob_app_id": "ca-app-pub-9243279437711836~7811462636"
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:141409314841:android:f7f16cee17465e88222288",
-        "android_client_info": {
-          "package_name": "com.hmju.til"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "109863805463337127813",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyB7Oy6F8RWPu3V77CarA8vpWYqgPunc1DM"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "109863805463337127813",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:141409314841:android:098ee938a99f4aa9222288",
+        "mobilesdk_app_id": "1:639158460343:android:7040ec8a18332e118b1232",
         "android_client_info": {
-          "package_name": "com.hmju.til.dev"
+          "package_name": "com.hmju.til"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "109863805463337127813",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyB7Oy6F8RWPu3V77CarA8vpWYqgPunc1DM"
+          "current_key": "AIzaSyAuZtLEcI22JBVpxsJxaDYYYwDvEq-jaic"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "109863805463337127813",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }
