@@ -6,14 +6,14 @@
 - [API 문서](https://til.qtzz.synology.me/swagger-ui/index.html)
 
 ## ✔ 버전
-- ![min26](https://img.shields.io/badge/minSDK-26-blue.svg)  ![target34](https://img.shields.io/badge/targetSDK-34-red.svg)
-- ![kotlin 1.8.22](https://img.shields.io/badge/Kotlin/1.8.22-7F52FF?style=flat-square&logo=Kotlin&logoColor=white)
+- ![min28](https://img.shields.io/badge/minSDK-28-blue.svg)  ![target34](https://img.shields.io/badge/targetSDK-34-red.svg)
+- ![kotlin 2.0.0](https://img.shields.io/badge/Kotlin/2.0.0-7F52FF?style=flat-square&logo=Kotlin&logoColor=white)
 - ![Hilt 2.48](https://img.shields.io/badge/Hilt-2.48-red.svg)
 
 ## ✔ 사용법
 - local.properties 셋팅
 ```properties
-base_url="https://til.qtzz.synology.me"
+base_url="https://api.com"
 auth_type="Bearer"
 keystore.release.file_path=../keystore/til.jks
 keystore.release.store_password=til1234qwer
