@@ -13,7 +13,7 @@
 ## ✔ 사용법
 - local.properties 셋팅
 ```properties
-base_url="https://til.qtzz.synology.me"
+base_url="https://api.com"
 auth_type="Bearer"
 keystore.release.file_path=../keystore/til.jks
 keystore.release.store_password=til1234qwer
