@@ -34,7 +34,7 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.okhttp)
     implementation(libs.retrofit.rxjava)
-    implementation(libs.retrofit.kotlinx)
+    implementation(libs.retrofit.json)
     implementation(libs.httptracking.interceptor)
     implementation(libs.okhttp.interceptor)
 

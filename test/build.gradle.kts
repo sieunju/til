@@ -71,7 +71,7 @@ dependencies {
     androidTestImplementation(libs.retrofit)
     androidTestImplementation(libs.okhttp)
     androidTestImplementation(libs.retrofit.rxjava)
-    androidTestImplementation(libs.retrofit.kotlinx)
+    androidTestImplementation(libs.retrofit.json)
     androidTestImplementation(libs.okhttp.interceptor)
     androidTestImplementation(libs.coroutine.test)
     testImplementation(libs.gson)
