@@ -77,18 +77,6 @@ android {
     }
 }
 
-tasks.register("getVersionCode") {
-    doFirst {
-        println("${android.defaultConfig.versionCode}")
-    }
-}
-
-tasks.register("getVersionName") {
-    doFirst {
-        println("${android.defaultConfig.versionName}")
-    }
-}
-
 dependencies {
     implementation(projects.core)
     implementation(projects.legacy)
@@ -116,7 +104,6 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.okhttp.interceptor)
     implementation(libs.retrofit.rxjava)
-    implementation(libs.retrofit.kotlinx)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

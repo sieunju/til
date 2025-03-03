@@ -12,7 +12,7 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.okhttp)
     implementation(libs.retrofit.rxjava)
-    implementation(libs.retrofit.kotlinx)
+    implementation(libs.retrofit.json)
     implementation(libs.rx.java)
     implementation(libs.rx.kotlin)
     implementation(kotlin("reflect"))
