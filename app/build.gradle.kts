@@ -18,10 +18,10 @@ val properties = Properties().apply {
 
 android {
     namespace = "com.hmju.til"
-    compileSdk = 34
+    compileSdk = 35
     defaultConfig {
         minSdk = 28
-        targetSdk = 34
+        targetSdk = 35
         applicationId = "com.hmju.til"
         versionCode = 1
         versionName = libs.versions.appVersion.get()
