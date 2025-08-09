@@ -5,7 +5,6 @@ import androidx.core.content.edit
 import com.hmju.core.BuildConfig
 import com.hmju.core.pref.PreferenceManager
 import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonPrimitive
@@ -78,6 +77,6 @@ class LoginManagerImpl @Inject constructor(
     }
 
     override fun getTokenExpiredMs(): Long {
-         return prefManager.getLong(PreferenceManager.KEY_TOKEN_EXPIRED_MS)
+        return prefManager.getLong(PreferenceManager.KEY_TOKEN_EXPIRED_MS)
     }
 }
