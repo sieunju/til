@@ -18,10 +18,10 @@ val properties = Properties().apply {
 
 android {
     namespace = "com.hmju.til"
-    compileSdk = 34
+    compileSdk = 35
     defaultConfig {
         minSdk = 28
-        targetSdk = 34
+        targetSdk = 35
         applicationId = "com.hmju.til"
         versionCode = 1
         versionName = libs.versions.appVersion.get()
@@ -77,18 +77,6 @@ android {
     }
 }
 
-tasks.register("getVersionCode") {
-    doFirst {
-        println("${android.defaultConfig.versionCode}")
-    }
-}
-
-tasks.register("getVersionName") {
-    doFirst {
-        println("${android.defaultConfig.versionName}")
-    }
-}
-
 dependencies {
     implementation(projects.core)
     implementation(projects.legacy)
@@ -116,7 +104,6 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.okhttp.interceptor)
     implementation(libs.retrofit.rxjava)
-    implementation(libs.retrofit.kotlinx)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

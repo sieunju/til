@@ -8,8 +8,7 @@ jobs:
   deploy_firebase:
     runs-on: macos-latest
     outputs:
-      versionCode: ${{ steps.versionInfo.outputs.code }}
-      versionName: ${{ steps.versionInfo.outputs.name }}
+      appVersion: ${{ steps.versionInfo.outputs.appVersion }}
       releaseNote: ${{ steps.releaseNote.outputs.val }}
       releaseNoteHtml: ${{ steps.releaseNote.outputs.html }}
     steps:
@@ -61,11 +60,10 @@ jobs:
       - name: Generate Version
         id: versionInfo
         run: |
-          echo "code=$(./gradlew -q getVersionCode)" >> "$GITHUB_OUTPUT"
-          echo "name=$(./gradlew -q getVersionName)" >> "$GITHUB_OUTPUT"
+          echo "appVersion=$(./gradlew -q getAppVersion)" >> "$GITHUB_OUTPUT"
 
-  gnerate_release:
-    runs-on: ubuntu-latest
+  generate_release:
+    runs-on: macos-latest
     needs: deploy_firebase
 
     steps:
@@ -89,7 +87,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag: ${{ steps.tag.outputs.val }}
-          name: ${{ needs.deploy_firebase.outputs.versionName }} (${{ needs.deploy_firebase.outputs.versionCode }})
+          name: ${{ needs.deploy_firebase.outputs.appVersion }}
           body: |
             ## Changes
             ${{ needs.deploy_firebase.outputs.releaseNoteHtml }}
@@ -114,7 +112,7 @@ jobs:
                 },
                 {
                   title: 'Version',
-                  value: '${{ needs.deploy_firebase.outputs.versionName }} (${{ needs.deploy_firebase.outputs.versionCode }})',
+                  value: '${{ needs.deploy_firebase.outputs.appVersion }}',
                   short: true
                 },
                 {

@@ -5,12 +5,12 @@ import com.hmju.core.network.NetworkProvider
 import com.hmju.core.network.adapter.CoroutineErrorHandlingCallAdapter
 import com.hmju.core.network.adapter.RxErrorHandlingCallAdapter
 import com.hmju.core.network.qualifiers.ApiHttpClient
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
+import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import javax.inject.Inject
 
 /**

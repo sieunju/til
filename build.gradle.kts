@@ -38,6 +38,25 @@ tasks.register("generateReleaseNote") {
     getReleaseNote()
 }
 
+// ./gradlew getAppVersion -PtargetModule=app
+tasks.register("getAppVersion") {
+    doLast {
+        val targetService = project.properties["targetModule"] as? String ?: "app"
+        val moduleMap = mapOf(
+            "app" to "app"
+        )
+        val targetModule = moduleMap[targetService]
+            ?: throw IllegalArgumentException("Invalid service name: $targetService")
+        val targetProject = project(":$targetModule")
+        val android = targetProject.extensions.getByName(
+            "android"
+        ) as com.android.build.gradle.BaseExtension
+        val versionName = android.defaultConfig.versionName
+        val versionCode = android.defaultConfig.versionCode
+        println("$versionName (${versionCode})")
+    }
+}
+
 fun getCommand(command: String): String {
     val os = ByteArrayOutputStream()
     exec {
