@@ -47,4 +47,10 @@ dependencies {
     implementation(libs.androidx.compose.navigation)
     implementation(libs.androidx.lifecycle.viewModelCompose)
     implementation(libs.androidx.lifecycle.runtimeCompose)
+
+    implementation(libs.room.runtime)
+    implementation(libs.room.rx)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
+
 }
