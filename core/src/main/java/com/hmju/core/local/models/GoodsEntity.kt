@@ -16,6 +16,8 @@ data class GoodsEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = Column.ID)
     var id: Long = 0L,
+    @ColumnInfo(name = Column.GOODS_ID)
+    val goodsId: Long,
     @ColumnInfo(name = Column.USER_ID)
     val userId: String,
     @ColumnInfo(name = Column.TITLE)
@@ -33,6 +35,7 @@ data class GoodsEntity(
 
         object Column {
             const val ID = "ID"
+            const val GOODS_ID = "GOODS_ID"
             const val USER_ID = "USER_ID"
             const val TITLE = "TITLE"
             const val MSG = "MSG"
