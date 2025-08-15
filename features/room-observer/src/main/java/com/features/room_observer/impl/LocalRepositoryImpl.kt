@@ -8,6 +8,7 @@ import com.hmju.core.pref.PreferenceManager
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Single
 import kotlinx.datetime.toKotlinLocalDateTime
+import timber.log.Timber
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -47,8 +48,9 @@ internal class LocalRepositoryImpl @Inject constructor(
 	override fun updateAll(list: List<Goods>): Single<List<Int>> {
 		return Single.create { emitter ->
 			try {
-				val resultList = list.map { dao.update(it.id, it.toEntity()) }
-				emitter.onSuccess(resultList)
+				val resultList = list.map { it.toEntity() }
+				dao.updateAll(resultList)
+				emitter.onSuccess(listOf())
 			} catch (ex: Exception) {
 				emitter.onError(ex)
 			}

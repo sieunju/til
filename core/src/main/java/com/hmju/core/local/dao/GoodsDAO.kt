@@ -41,12 +41,15 @@ abstract class GoodsDAO {
 	abstract fun update(entity: GoodsEntity): Single<Int>
 
 	@Transaction
-	open fun update(goodsId: Long, entity: GoodsEntity): Int {
+	open fun updateAll(list: List<GoodsEntity>): List<Int> {
 		return try {
-			val findEntity = findByGoodsIdWithUserId(goodsId, entity.userId)
-				.blockingGet()
-			val updateEntity = entity.copy(id = findEntity.id)
-			update(updateEntity).blockingGet()
+			list.map {
+				val findEntity = findByGoodsIdWithUserId(
+					goodsId = it.goodsId,
+					userId = it.userId
+				).blockingGet()
+				update(it.copy(id = findEntity.id)).blockingGet()
+			}
 		} catch (ex: Exception) {
 			throw ex
 		}

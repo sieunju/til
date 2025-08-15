@@ -21,13 +21,8 @@ internal class GoodsRepositoryImpl @Inject constructor(
 ) : GoodsRepository {
 
 	private fun getMember(): Single<AccountBusEvent.Member> {
-		return RxBus.behavior(AccountBusEvent::class.java)
-			.filter { it is AccountBusEvent.Member }
-			.cast(AccountBusEvent.Member::class.java)
-			.replay(1)
-			.autoConnect()
-			.take(1)
-			.singleOrError()
+		return RxBus.behavior(AccountBusEvent.Member::class.java)
+			.firstOrError()
 			.subscribeOn(Schedulers.io())
 	}
 
