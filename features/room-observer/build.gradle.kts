@@ -19,5 +19,5 @@ dependencies {
     implementation(libs.rx.java)
     implementation(libs.rx.kotlin)
     implementation(libs.rx.android)
-    implementation(projects.features.composeUiBridge)
+    implementation(libs.kotlinx.datetime)
 }
