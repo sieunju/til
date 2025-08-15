@@ -1,13 +1,8 @@
-package com.hmju.core.network.models
+package com.features.room_observer.models
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-/**
- * Description : TO-BE Goods API DTO
- *
- * Created by juhongmin on 2025. 8. 14.
- */
 @Serializable
 data class GoodsDTO(
     val id: Long = 0,
