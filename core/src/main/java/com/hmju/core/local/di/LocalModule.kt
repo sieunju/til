@@ -22,39 +22,37 @@ import javax.inject.Singleton
 @Module
 internal object LocalModule {
 
-    @Provides
-    @Singleton
-    fun provideAppDataBase(
-        @ApplicationContext context: Context
-    ): AppDataBase {
-        return Room.databaseBuilder(
-            context, AppDataBase::class.java,
-            "til-database"
-        ).fallbackToDestructiveMigration()
-            .setQueryExecutor(Executors.newSingleThreadExecutor())
-            .setQueryCallback({ sqlQuery, bindArgs ->
-                val startTime = System.currentTimeMillis()
-                val queryHash = sqlQuery.hashCode().toString()
-                Timber.d("=====Query Start====")
-                Timber.d("SQL: $sqlQuery")
-                Timber.d("Bind Args ${bindArgs.joinToString { formatArg(it) }}")
-                Timber.d("Query Hash ${queryHash}")
-                Timber.d("Start Time ${startTime}")
-                Timber.d("======Query End=====")
-            }, Executors.newSingleThreadExecutor())
-            .build()
-    }
+	@Provides
+	@Singleton
+	fun provideAppDataBase(
+		@ApplicationContext context: Context
+	): AppDataBase {
+		return Room.databaseBuilder(
+			context, AppDataBase::class.java,
+			"til-database"
+		).fallbackToDestructiveMigration()
+			.setQueryExecutor(Executors.newSingleThreadExecutor())
+			.setQueryCallback({ sqlQuery, bindArgs ->
+				val queryHash = sqlQuery.hashCode().toString()
+				Timber.tag("RoomLOG").d("=====Query Start====")
+				Timber.tag("RoomLOG").d("SQL: $sqlQuery")
+				Timber.tag("RoomLOG").d("Bind Args ${bindArgs.joinToString { formatArg(it) }}")
+				Timber.tag("RoomLOG").d("Query Hash $queryHash")
+				Timber.tag("RoomLOG").d("======Query End=====")
+			}, Executors.newSingleThreadExecutor())
+			.build()
+	}
 
-    private fun formatArg(arg: Any?): String = when (arg) {
-        is String -> "'$arg'"
-        is Long -> "${arg}L"
-        is Int -> arg.toString()
-        is Boolean -> arg.toString()
-        null -> "NULL"
-        else -> arg.toString()
-    }
+	private fun formatArg(arg: Any?): String = when (arg) {
+		is String -> "'$arg'"
+		is Long -> "${arg}L"
+		is Int -> arg.toString()
+		is Boolean -> arg.toString()
+		null -> "NULL"
+		else -> arg.toString()
+	}
 
-    @Provides
-    @Singleton
-    fun provideGoodsDao(dataBase: AppDataBase): GoodsDAO = dataBase.goodsDao()
+	@Provides
+	@Singleton
+	fun provideGoodsDao(dataBase: AppDataBase): GoodsDAO = dataBase.goodsDao()
 }

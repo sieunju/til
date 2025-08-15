@@ -2,6 +2,7 @@ package com.features.room_observer.screens
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.features.room_observer.models.ActionIntent
 import com.features.room_observer.models.RoomObserverParams
 import com.features.room_observer.models.State
 import com.features.room_observer.usecase.RoomObserverUseCase
@@ -31,11 +32,16 @@ class RoomObserverViewModel @Inject constructor(
 		useCase(params)
 			.subscribeOn(Schedulers.io())
 			.observeOn(AndroidSchedulers.mainThread())
+			.filter { it !is State.Skip }
 			.doOnNext {
 				Timber.d("State ${it}")
 				_state.value = it
 			}
 			.subscribe()
 			.addTo(compositeDisposable)
+	}
+
+	fun onAction(action: ActionIntent) {
+		params.sendAction(action)
 	}
 }

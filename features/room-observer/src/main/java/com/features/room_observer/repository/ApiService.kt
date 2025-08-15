@@ -1,4 +1,4 @@
-package com.features.room_observer
+package com.features.room_observer.repository
 
 import com.features.room_observer.models.GoodsDTO
 import com.hmju.core.models.base.JSendList

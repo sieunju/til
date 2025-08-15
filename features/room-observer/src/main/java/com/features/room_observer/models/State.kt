@@ -8,6 +8,8 @@ package com.features.room_observer.models
 sealed interface State {
 	data object Skip : State
 
+	data object LogOut : State
+
 	data object Loading : State
 
 	data object Empty : State
