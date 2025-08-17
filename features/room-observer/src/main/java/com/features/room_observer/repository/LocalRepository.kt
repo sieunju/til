@@ -14,5 +14,5 @@ interface LocalRepository {
 	fun replaceAll(list: List<Goods>): Single<List<Long>>
 	fun updateAll(list: List<Goods>): Single<List<Int>>
 	fun isContentsA(): Single<Boolean>
-	fun saveContentsType(isContentsA: Boolean): Single<Boolean>
+	fun saveContentsType(isContentsA: Boolean)
 }

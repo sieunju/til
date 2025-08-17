@@ -14,14 +14,13 @@ sealed interface State {
 
 	data object Empty : State
 
-	data class ContentsA(
+	data class AContents(
 		val list: List<Goods>,
-		val hasMore: Boolean
+		val hasMore: Boolean,
+		
 	) : State
 
-	data class ContentsB(
+	data class BContents(
 		val list: List<Goods>
 	) : State
-
-	data object Hidden : State
 }

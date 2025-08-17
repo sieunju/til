@@ -68,11 +68,9 @@ internal class LocalRepositoryImpl @Inject constructor(
 		}
 	}
 
-	override fun saveContentsType(isContentsA: Boolean): Single<Boolean> {
-		return Single.create {
-			prefManager.setValue(KEY_CONTENTS, if (isContentsA) "Y" else "N")
-			it.onSuccess(true)
-		}
+
+	override fun saveContentsType(isContentsA: Boolean) {
+		prefManager.setValue(KEY_CONTENTS, if (isContentsA) "Y" else "N")
 	}
 
 	private fun Goods.toEntity(): GoodsEntity {

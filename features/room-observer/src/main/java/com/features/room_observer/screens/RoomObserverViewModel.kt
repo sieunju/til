@@ -2,9 +2,11 @@ package com.features.room_observer.screens
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
 import com.features.room_observer.models.ActionIntent
 import com.features.room_observer.models.RoomObserverParams
 import com.features.room_observer.models.State
+import com.features.room_observer.models.UiState
 import com.features.room_observer.usecase.RoomObserverUseCase
 import com.hmju.core.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,7 +28,8 @@ class RoomObserverViewModel @Inject constructor(
 
 	private val params: RoomObserverParams by lazy { RoomObserverParams() }
 	private val _state: MutableLiveData<State> by lazy { MutableLiveData() }
-	val state: LiveData<State> get() = _state
+	val uiState: LiveData<UiState> = _state
+		.map { UiState.from(it) }
 
 	init {
 		useCase(params)
@@ -34,7 +37,7 @@ class RoomObserverViewModel @Inject constructor(
 			.observeOn(AndroidSchedulers.mainThread())
 			.filter { it !is State.Skip }
 			.doOnNext {
-				Timber.d("State ${it}")
+				Timber.d("Update State ${it}")
 				_state.value = it
 			}
 			.subscribe()

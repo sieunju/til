@@ -15,6 +15,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata)
     implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.androidx.lifecycle.viewmodel)
+    implementation(libs.compose.livedata)
     implementation(libs.retrofit)
     implementation(libs.rx.java)
     implementation(libs.rx.kotlin)

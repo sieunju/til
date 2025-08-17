@@ -52,6 +52,7 @@ internal class GoodsRepositoryImpl @Inject constructor(
 	}
 
 	override fun fetchIsContentsA(): Single<Boolean> {
-		return Single.just(Random.nextBoolean())
+		// return Single.just(Random.nextBoolean())
+		return Single.just(true)
 	}
 }

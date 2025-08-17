@@ -13,6 +13,7 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.random.Random
 
@@ -96,12 +97,12 @@ class RoomObserverUseCase @Inject constructor(
 		if (state.isContentsA) {
 			val takeList = state.list
 				.take(params.getContentsSize(state.action))
-			return State.ContentsA(
+			return State.AContents(
 				list = takeList,
 				hasMore = takeList.size < state.list.size
 			)
 		} else {
-			return State.ContentsB(
+			return State.BContents(
 				list = state.list.take(3)
 			)
 		}
@@ -129,6 +130,7 @@ class RoomObserverUseCase @Inject constructor(
 			) { list, maxCount, isContentsA ->
 				return@zip WorkState.RemoteState(list, maxCount, isContentsA, action)
 			}.doOnSuccess { bgGoodsUpdate(it) }
+				.doOnSuccess { localRepository.saveContentsType(it.isContentsA) }
 				.cast(WorkState::class.java)
 				.toFlowable()
 		} else {
@@ -138,7 +140,7 @@ class RoomObserverUseCase @Inject constructor(
 
 	private fun fetchGoods(): Single<List<Goods>> {
 		return Single.zip(
-			goodsRepository.fetch(1),
+			goodsRepository.fetch(1).delay(3000,TimeUnit.MILLISECONDS),
 			goodsRepository.fetch(2)
 		) { goods1, goods2 ->
 			goods1 + goods2
@@ -182,6 +184,8 @@ class RoomObserverUseCase @Inject constructor(
 						}
 					}
 				}
-		}.flatMap { localRepository.updateAll(it).toFlowable() }.subscribe()
+		}
+			.map { list -> list.map { it.copy(title = it.title.plus("Update")) } }
+			.flatMap { localRepository.updateAll(it).toFlowable() }.subscribe()
 	}
 }
