@@ -34,9 +34,12 @@ internal object LocalModule {
 			.setQueryExecutor(Executors.newSingleThreadExecutor())
 			.setQueryCallback({ sqlQuery, bindArgs ->
 				val queryHash = sqlQuery.hashCode().toString()
-				Timber.tag("RoomLOG").d("=====Query Start====")
+				Timber.tag("RoomLOG").d("=====Query Start==== ${Thread.currentThread()}")
 				Timber.tag("RoomLOG").d("SQL: $sqlQuery")
-				Timber.tag("RoomLOG").d("Bind Args ${bindArgs.joinToString { formatArg(it) }}")
+				val args = bindArgs.filterNotNull()
+				if (args.isNotEmpty()) {
+					Timber.tag("RoomLOG").d("Bind Args ${args.joinToString { formatArg(it) }}")
+				}
 				Timber.tag("RoomLOG").d("Query Hash $queryHash")
 				Timber.tag("RoomLOG").d("======Query End=====")
 			}, Executors.newSingleThreadExecutor())

@@ -5,10 +5,11 @@ import com.features.room_observer.repository.LocalRepository
 import com.hmju.core.local.dao.GoodsDAO
 import com.hmju.core.local.models.GoodsEntity
 import com.hmju.core.pref.PreferenceManager
+import com.hmju.core.util.RxUtil
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.datetime.toKotlinLocalDateTime
-import timber.log.Timber
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -30,6 +31,7 @@ internal class LocalRepositoryImpl @Inject constructor(
 		return dao.findAllByUserIdFlowable(userId)
 			.map { list -> list.map { Goods(it) } }
 			.onErrorReturn { listOf() }
+			.compose(RxUtil.flowableMergeIo())
 	}
 
 	override fun replaceAll(
@@ -42,11 +44,11 @@ internal class LocalRepositoryImpl @Inject constructor(
 			} catch (ex: Exception) {
 				emitter.onError(ex)
 			}
-		}
+		}.compose(RxUtil.singleMergeIo())
 	}
 
 	override fun updateAll(list: List<Goods>): Single<List<Int>> {
-		return Single.create { emitter ->
+		return Single.create<List<Int>> { emitter ->
 			try {
 				val resultList = list.map { it.toEntity() }
 				dao.updateAll(resultList)
@@ -54,10 +56,10 @@ internal class LocalRepositoryImpl @Inject constructor(
 			} catch (ex: Exception) {
 				emitter.onError(ex)
 			}
-		}
+		}.compose(RxUtil.singleMergeIo())
 	}
 
-	override fun isContentsA(): Single<Boolean> {
+	override fun isContentsARx(): Single<Boolean> {
 		return Single.create {
 			val value = prefManager.getString(KEY_CONTENTS)
 			if (value == "Y") {
@@ -65,9 +67,13 @@ internal class LocalRepositoryImpl @Inject constructor(
 			} else {
 				it.onSuccess(false)
 			}
-		}
+		}.compose(RxUtil.singleMergeIo())
 	}
 
+	override fun isContentsA(): Boolean {
+		val value = prefManager.getString(KEY_CONTENTS)
+		return value == "Y"
+	}
 
 	override fun saveContentsType(isContentsA: Boolean) {
 		prefManager.setValue(KEY_CONTENTS, if (isContentsA) "Y" else "N")

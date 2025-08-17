@@ -70,22 +70,27 @@ class MainApplication : Application() {
 
 			override fun createStackElementTag(element: StackTraceElement): String {
 				val str = StringBuilder("JTimber")
-				try {
-					str.append(
-						element.className
-							.substringAfterLast(".")
-							.substringBefore("$")
-					)
-					str.append(":")
-					str.append(element.methodName.substringAfterLast("."))
-				} catch (ex: Exception) {
-					// ignore
-				}
+//				try {
+//					str.append(
+//						element.className
+//							.substringAfterLast(".")
+//							.substringBefore("$")
+//					)
+//					str.append(":")
+//					str.append(element.methodName.substringAfterLast("."))
+//				} catch (ex: Exception) {
+//					// ignore
+//				}
 				return str.toString()
 			}
 
 			override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
-				super.log(priority, tag, message, t)
+				val newTag = if (tag.isNullOrEmpty()) {
+					"JTimber"
+				} else {
+					tag
+				}
+				super.log(priority, newTag, message, t)
 				if (t != null) {
 					firebaseCrashlytics.recordException(t)
 				}

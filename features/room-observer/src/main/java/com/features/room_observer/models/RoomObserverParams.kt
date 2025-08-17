@@ -4,6 +4,7 @@ import io.reactivex.rxjava3.core.BackpressureStrategy
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 import io.reactivex.rxjava3.subjects.Subject
+import timber.log.Timber
 
 /**
  * Description : RoomObserver 에 대한 파라미터
@@ -11,7 +12,7 @@ import io.reactivex.rxjava3.subjects.Subject
  * Created by juhongmin on 2025. 8. 15.
  */
 data class RoomObserverParams(
-	var pageNo: Int = 1,
+	var pageNo: Int = 0,
 	private val actionBehavior: Subject<ActionIntent> = BehaviorSubject.createDefault(ActionIntent.INIT)
 ) {
 
@@ -20,14 +21,19 @@ data class RoomObserverParams(
 	}
 
 	fun sendAction(action: ActionIntent) {
+		Timber.d("SendAction ${action}")
 		actionBehavior.onNext(action)
 		if (action == ActionIntent.LOAD_MORE) {
 			pageNo++
 		} else if (action == ActionIntent.INIT ||
 			action == ActionIntent.FORCE_REFRESH
 		) {
-			pageNo = 1
+			pageNo = 0
 		}
+	}
+
+	fun reset() {
+		pageNo = 0
 	}
 
 	fun getContentsSize(action: ActionIntent): Int {

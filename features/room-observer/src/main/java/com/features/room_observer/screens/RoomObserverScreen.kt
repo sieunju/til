@@ -1,6 +1,5 @@
 package com.features.room_observer.screens
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -20,6 +19,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -65,12 +65,13 @@ fun RoomObserverScreen(
 				modifier = Modifier
 					.fillMaxWidth()
 					.padding(horizontal = 5.dp),
-				verticalAlignment = Alignment.CenterVertically
+				verticalAlignment = Alignment.CenterVertically,
+				horizontalArrangement = Arrangement.spacedBy(5.dp)
 			) {
 				TilComponent.EditText(
 					text = userId,
-					labelText = "UserId",
-					placeHolderText = "Input UserId",
+					labelText = "Id",
+					placeHolderText = "Input Id...",
 					keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
 					focusModifier = Modifier
 						.weight(1f)
@@ -79,10 +80,12 @@ fun RoomObserverScreen(
 						.weight(1f)
 						.border(2.dp, TilTheme.color.gray3, shape = RoundedCornerShape(15.dp))
 				)
-				Button(onClick = {
-					if (userId.value.isEmpty()) return@Button
-					RxBus.publish(AccountBusEvent.Member(userId.value))
-				}) {
+				Button(
+					onClick = {
+						if (userId.value.isEmpty()) return@Button
+						RxBus.publish(AccountBusEvent.Member(userId.value))
+					}, shape = RoundedCornerShape(6.dp)
+				) {
 					Text(
 						text = "로그인",
 						style = TilTheme.text.h4,
@@ -140,6 +143,10 @@ fun RoomObserverScreen(
 			}
 		}
 	}
+
+	LaunchedEffect(Unit) {
+		userId.value = "qtzz"
+	}
 }
 
 @Composable
@@ -153,13 +160,16 @@ private fun LoadingScreen(state: UiState.Loading) {
 
 @Composable
 private fun EmptyScreen(state: UiState.Empty) {
-	Column {
+	Column(
+		modifier = Modifier.fillMaxWidth(),
+		horizontalAlignment = Alignment.CenterHorizontally
+	) {
 		TilComponent.ImageLoader(
 			imageUrl = "https://til.qtzz.synology.me/resources/img/20240507/1715084116936.png",
 			modifier = Modifier
 				.size(150.dp, 150.dp)
 				.padding(30.dp)
-				.clip(RoundedCornerShape(150.dp))
+				.clip(RoundedCornerShape(16.dp))
 		)
 		Text(
 			text = "Empty View",

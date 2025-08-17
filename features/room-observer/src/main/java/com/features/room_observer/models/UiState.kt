@@ -13,7 +13,7 @@ sealed interface UiState {
 		val uiList: List<BaseUiModel>
 	) : UiState {
 		constructor() : this(
-			(0L..3L).map { LoadingUiModel(it) }
+			(0L..2L).map { LoadingUiModel(it) }
 		)
 	}
 
@@ -39,7 +39,7 @@ sealed interface UiState {
 	companion object {
 		fun from(state: State): UiState {
 			return when (state) {
-				is State.LogOut -> Loading()
+				is State.LogOut -> Unknown
 				is State.Loading -> Loading()
 				is State.Empty -> Empty
 				is State.AContents -> AContents(state)

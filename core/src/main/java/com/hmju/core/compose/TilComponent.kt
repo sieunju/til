@@ -55,10 +55,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.bumptech.glide.integration.compose.placeholder
@@ -83,33 +85,40 @@ object TilComponent {
 		keyboardOptions: KeyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
 		nextAction: FocusDirection = FocusDirection.Exit,
 		maxLines: Int = 1,
+		textStyle: TextStyle = TilTheme.text.h4,
 		focusModifier: Modifier = Modifier
-            .fillMaxWidth()
-            .border(2.dp, TilTheme.color.black, shape = RoundedCornerShape(15.dp)),
+			.fillMaxWidth()
+			.border(2.dp, TilTheme.color.black, shape = RoundedCornerShape(15.dp)),
 		unFocusModifier: Modifier = Modifier
-            .fillMaxWidth()
-            .border(2.dp, TilTheme.color.gray3, shape = RoundedCornerShape(15.dp))
+			.fillMaxWidth()
+			.border(2.dp, TilTheme.color.gray3, shape = RoundedCornerShape(15.dp))
 	) {
 		var isFocused by remember { mutableStateOf(false) }
 		val focusManager = LocalFocusManager.current
 		val modifier = if (isFocused) focusModifier else unFocusModifier
 		Box(
 			modifier = Modifier
-                .onFocusChanged { isFocused = it.isFocused }
-                .then(modifier)
+				.onFocusChanged { isFocused = it.isFocused }
+				.then(modifier)
 		) {
 			TextField(
 				value = text.value,
 				onValueChange = { text.value = it },
-				textStyle = TilTheme.text.h4,
+				textStyle = textStyle,
 				label = {
 					if (isFocused || text.value.isNotEmpty()) {
-						Text(text = labelText, color = TilTheme.color.black)
+						Text(
+							text = labelText,
+							color = TilTheme.color.black,
+							style = textStyle.copy(fontSize = (textStyle.fontSize.value - 5).sp)
+						)
 					} else {
-						Text(text = placeHolderText)
+						Text(text = placeHolderText, style = textStyle)
 					}
 				},
-				placeholder = { Text(text = placeHolderText) },
+				placeholder = {
+					Text(text = placeHolderText, style = textStyle)
+				},
 				keyboardOptions = keyboardOptions,
 				keyboardActions = KeyboardActions { focusManager.moveFocus(nextAction) },
 				singleLine = maxLines <= 1,
@@ -139,21 +148,21 @@ object TilComponent {
 	) {
 		Column(
 			modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentSize()
-                .background(TilTheme.color.white)
+				.fillMaxWidth()
+				.wrapContentSize()
+				.background(TilTheme.color.white)
 		) {
 			Row(
 				modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp),
+					.fillMaxWidth()
+					.height(50.dp),
 				verticalAlignment = Alignment.CenterVertically
 			) {
 				Box(
 					modifier = Modifier
-                        .width(50.dp)
-                        .fillMaxHeight()
-                        .clickable { backClick() },
+						.width(50.dp)
+						.fillMaxHeight()
+						.clickable { backClick() },
 					contentAlignment = Alignment.Center
 				) {
 					Image(
@@ -172,9 +181,9 @@ object TilComponent {
 
 			Spacer(
 				Modifier
-                    .fillMaxWidth()
-                    .height(1.dp)
-                    .background(TilTheme.color.gray4)
+					.fillMaxWidth()
+					.height(1.dp)
+					.background(TilTheme.color.gray4)
 			)
 		}
 	}
@@ -222,8 +231,8 @@ object TilComponent {
 		) { paddings ->
 			Column(
 				modifier = modifier
-                    .padding(paddings)
-                    .verticalScroll(verticalScrollState),
+					.padding(paddings)
+					.verticalScroll(verticalScrollState),
 				horizontalAlignment = contentAlignment
 			) { content() }
 		}

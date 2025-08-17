@@ -8,10 +8,10 @@ import com.features.room_observer.models.State
 import com.features.room_observer.repository.GoodsRepository
 import com.features.room_observer.repository.LocalRepository
 import com.hmju.core.rxbus.RxBus
+import com.hmju.core.util.RxUtil
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.Disposable
-import io.reactivex.rxjava3.schedulers.Schedulers
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -46,118 +46,162 @@ class RoomObserverUseCase @Inject constructor(
 	}
 
 	private var backgroundDisposable: Disposable? = null
+	private var currentAccount: AccountBusEvent? = null
 
 	operator fun invoke(
 		params: RoomObserverParams
 	): Flowable<State> {
-		return RxBus.behavior(AccountBusEvent::class.java)
-			.doOnNext { closeBgDisposable() }
-			.flatMap { accountEvent ->
-				if (accountEvent is AccountBusEvent.User) return@flatMap handleLogout()
-				if (accountEvent !is AccountBusEvent.Member) throw IllegalArgumentException("Error")
-				return@flatMap handleAction(accountEvent.id, params)
+		return Flowable.combineLatest(
+			RxBus.behavior(AccountBusEvent::class.java)
+				.doOnNext {
+					currentAccount = it
+					closeBgDisposable()
+				}
+				.distinctUntilChanged(),
+			createStateStream(params)
+		) { accountEvent, internalState ->
+			when (accountEvent) {
+				is AccountBusEvent.User -> {
+					State.LogOut
+				}
+
+				is AccountBusEvent.Member -> {
+					internalState
+				}
 			}
+		}
+
+//		return RxBus.behavior(AccountBusEvent::class.java)
+//			.doOnNext {
+//				currentAccount = it
+//				closeBgDisposable()
+//			}
+//			.filter { isMemberState() }
+//			.cast(AccountBusEvent.Member::class.java)
+//			.flatMap { accountEvent ->
+////				if (accountEvent is AccountBusEvent.User) return@flatMap handleLogout(params)
+////				if (accountEvent !is AccountBusEvent.Member) throw IllegalArgumentException("Error")
+//				return@flatMap handleAction(accountEvent.id, params)
+//			}
 	}
 
 	private fun handleAction(
 		userId: String,
 		params: RoomObserverParams
 	): Flowable<State> {
-		return params.observerAction().flatMap { action ->
-			Timber.d("HandleAction $action")
-			val loadingStream = if (action == ActionIntent.FORCE_REFRESH) {
-				Flowable.just(State.Loading)
-			} else {
-				Flowable.empty<State>()
-			}.cast(State::class.java)
+		return params.observerAction()
+			.doOnNext { closeBgDisposable() }
+			.switchMap { action ->
+				val loadingStream = if (action == ActionIntent.FORCE_REFRESH) {
+					Flowable.just(State.Loading)
+				} else {
+					Flowable.empty<State>()
+				}.cast(State::class.java)
 
-			val workStream = Flowable.mergeDelayError(
-				localTask(userId, action),
-				remoteTask(action)
-			).map { state ->
-				if (state is WorkState.RemoteState) return@map State.Skip
-				if (state is WorkState.Skip) return@map State.Skip
-				if (state !is WorkState.DbObserverState) throw IllegalArgumentException("Error")
-				converterState(params, state)
+				val workStream = Flowable.mergeDelayError(
+					localTask(userId, action),
+					remoteTask(params, action)
+				).map { state ->
+					if (state is WorkState.RemoteState) return@map State.Skip
+					if (state is WorkState.Skip) return@map State.Skip
+					if (state !is WorkState.DbObserverState) throw IllegalArgumentException("Error")
+					converterState(params, state)
+				}
+
+				return@switchMap loadingStream.concatWith(workStream)
 			}
+	}
 
-			return@flatMap loadingStream.concatWith(workStream)
-		}.doOnNext { Timber.d("State:${it}") }
+	private fun createStateStream(params: RoomObserverParams): Flowable<State> {
+		return RxBus.behavior(AccountBusEvent::class.java)
+			.filter { it is AccountBusEvent.Member }
+			.cast(AccountBusEvent.Member::class.java)
+			.distinctUntilChanged()
+			.switchMap { accountEvent ->
+				handleAction(accountEvent.id, params)
+			}
 	}
 
 	private fun converterState(
 		params: RoomObserverParams,
 		state: WorkState.DbObserverState
 	): State {
-		if (state.action == ActionIntent.FORCE_REFRESH) {
-			return State.Skip
-		}
+		Timber.d("converterState Name ${state::class.simpleName} ${state.action} Size:${state.list.size}")
+		if (state.action == ActionIntent.FORCE_REFRESH) return State.Skip
 		if (state.action == ActionIntent.INIT &&
 			state.list.isEmpty()
 		) return State.Loading
 		if (state.list.isEmpty()) return State.Empty
-		if (state.isContentsA) {
+		return if (state.isContentsA) {
 			val takeList = state.list
 				.take(params.getContentsSize(state.action))
-			return State.AContents(
+			State.AContents(
 				list = takeList,
 				hasMore = takeList.size < state.list.size
 			)
 		} else {
-			return State.BContents(
-				list = state.list.take(3)
-			)
+			State.BContents(list = state.list.take(3))
 		}
 	}
 
-	private fun handleLogout(): Flowable<State> {
+	private fun handleLogout(params: RoomObserverParams): Flowable<State> {
+		params.sendAction(ActionIntent.INIT)
 		return Flowable.just(State.LogOut)
 	}
 
 	private fun localTask(userId: String, action: ActionIntent): Flowable<WorkState> {
 		return Flowable.combineLatest(
-			localRepository.findAllUserIdObserver(userId),
-			localRepository.isContentsA().toFlowable()
+			localRepository.findAllUserIdObserver(userId)
+				.filter { isMemberState() }
+				.compose(RxUtil.flowableMergeIo()),
+			localRepository.isContentsARx()
+				.compose(RxUtil.singleMergeIo()).toFlowable()
 		) { list, isContentsA ->
-			return@combineLatest WorkState.DbObserverState(list, isContentsA, action)
-		}
+			WorkState.DbObserverState(list, isContentsA, action)
+		}.cast(WorkState::class.java)
 	}
 
-	private fun remoteTask(action: ActionIntent): Flowable<WorkState> {
-		return if (action == ActionIntent.INIT || action == ActionIntent.FORCE_REFRESH) {
-			Single.zip(
-				fetchGoods(),
-				goodsRepository.fetchMaxCount(),
-				goodsRepository.fetchIsContentsA()
-			) { list, maxCount, isContentsA ->
-				return@zip WorkState.RemoteState(list, maxCount, isContentsA, action)
-			}.doOnSuccess { bgGoodsUpdate(it) }
-				.doOnSuccess { localRepository.saveContentsType(it.isContentsA) }
-				.cast(WorkState::class.java)
-				.toFlowable()
-		} else {
-			Flowable.just(WorkState.Skip)
+	private fun remoteTask(
+		params: RoomObserverParams,
+		action: ActionIntent
+	): Flowable<WorkState> {
+		if (action != ActionIntent.INIT &&
+			action != ActionIntent.FORCE_REFRESH
+		) {
+			return Flowable.just(WorkState.Skip)
 		}
+		return Single.zip(
+			fetchGoods().compose(RxUtil.singleMergeIo()),
+			goodsRepository.fetchMaxCount().compose(RxUtil.singleMergeIo()),
+			goodsRepository.fetchIsContentsA().compose(RxUtil.singleMergeIo())
+		) { list, maxCount, isContentsA ->
+			return@zip WorkState.RemoteState(list, maxCount, isContentsA, action)
+		}.doOnSuccess {
+			bgGoodsUpdate(it)
+			localRepository.saveContentsType(it.isContentsA)
+			// API 콜 완료
+			params.sendAction(ActionIntent.LOADED)
+		}.cast(WorkState::class.java).toFlowable()
 	}
 
 	private fun fetchGoods(): Single<List<Goods>> {
-		return Single.zip(
-			goodsRepository.fetch(1).delay(3000, TimeUnit.MILLISECONDS),
-			goodsRepository.fetch(2)
-		) { goods1, goods2 ->
-			goods1 + goods2
-		}.flatMap { list ->
-			return@flatMap localRepository.replaceAll(list).map { list }
-		}
+		return goodsRepository.fetch(1)
+			.delay(2000, TimeUnit.MILLISECONDS)
+			.flatMap { list ->
+				return@flatMap localRepository.replaceAll(list).map { list }
+			}
 	}
 
 	@Synchronized
 	private fun closeBgDisposable() {
 		if (backgroundDisposable != null) {
-			Timber.d("작업 취소합니다.")
 			backgroundDisposable?.dispose()
 			backgroundDisposable = null
 		}
+	}
+
+	private fun isMemberState(): Boolean {
+		return currentAccount is AccountBusEvent.Member
 	}
 
 	data class BgWorkData(
@@ -169,25 +213,36 @@ class RoomObserverUseCase @Inject constructor(
 		backgroundDisposable = Single.create { emitter ->
 			val list = state.list
 				.filter { Random.nextBoolean() }
+				// .filter { false }
 				.chunked(state.maxCount)
 			emitter.onSuccess(BgWorkData(list))
-		}.flatMapPublisher {
-			Flowable.fromIterable(it.list)
-				.concatMapSingle { chunk ->
-					val apis = chunk.map {
-						goodsRepository.fetchById(it.id).subscribeOn(Schedulers.io())
-					}
+		}
+			.filter { it.list.isNotEmpty() }
+			.flatMapPublisher {
+				Flowable.fromIterable(it.list)
+					.concatMapSingle { chunk ->
+						val apis = chunk.map {
+							goodsRepository.fetchById(it.id).compose(RxUtil.singleMergeIo())
+						}
 
-					if (apis.isEmpty()) {
-						Single.just(emptyList())
-					} else {
-						Single.zip(apis) { results ->
-							results.filterIsInstance<Goods>()
+						if (apis.isEmpty()) {
+							Single.just(emptyList())
+						} else {
+							Single.zip(apis) { results ->
+								results.filterIsInstance<Goods>()
+							}
 						}
 					}
+			}.map { list ->
+				list.map {
+					it.copy(
+						title = it.title.plus("Update"),
+						message = it.message.plus("Update")
+					)
 				}
-		}
-			.map { list -> list.map { it.copy(title = it.title.plus("Update")) } }
-			.flatMap { localRepository.updateAll(it).toFlowable() }.subscribe()
+			}
+			.flatMap { localRepository.updateAll(it).toFlowable() }
+			.compose(RxUtil.flowableMergeIo())
+			.subscribe()
 	}
 }

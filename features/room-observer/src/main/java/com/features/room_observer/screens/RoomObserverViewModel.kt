@@ -9,10 +9,9 @@ import com.features.room_observer.models.State
 import com.features.room_observer.models.UiState
 import com.features.room_observer.usecase.RoomObserverUseCase
 import com.hmju.core.ui.base.BaseViewModel
+import com.hmju.core.util.RxUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.addTo
-import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
 /**
@@ -32,15 +31,28 @@ class RoomObserverViewModel @Inject constructor(
 
 	init {
 		useCase(params)
-			.subscribeOn(Schedulers.io())
-			.observeOn(AndroidSchedulers.mainThread())
 			.filter { it !is State.Skip }
+			.compose(RxUtil.flowableUi())
 			.doOnNext { _state.value = it }
+			.doAfterNext {
+				if (it is State.LogOut) {
+					params.sendAction(ActionIntent.INIT)
+				}
+			}
 			.subscribe()
 			.addTo(compositeDisposable)
+
+//		RxBus.listen(AccountBusEvent.User::class.java)
+//			.compose(RxUtil.flowableUi())
+//			.doOnNext {
+//				params.sendAction(ActionIntent.INIT)
+//				_state.value = State.LogOut
+//			}
+//			.subscribe().addTo(compositeDisposable)
 	}
 
 	fun onAction(action: ActionIntent) {
+		if (action == ActionIntent.LOADED) return
 		params.sendAction(action)
 	}
 }
