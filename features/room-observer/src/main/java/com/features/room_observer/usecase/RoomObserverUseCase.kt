@@ -64,6 +64,7 @@ class RoomObserverUseCase @Inject constructor(
 		params: RoomObserverParams
 	): Flowable<State> {
 		return params.observerAction().flatMap { action ->
+			Timber.d("HandleAction $action")
 			val loadingStream = if (action == ActionIntent.FORCE_REFRESH) {
 				Flowable.just(State.Loading)
 			} else {
@@ -81,18 +82,19 @@ class RoomObserverUseCase @Inject constructor(
 			}
 
 			return@flatMap loadingStream.concatWith(workStream)
-		}
+		}.doOnNext { Timber.d("State:${it}") }
 	}
 
 	private fun converterState(
 		params: RoomObserverParams,
 		state: WorkState.DbObserverState
 	): State {
+		if (state.action == ActionIntent.FORCE_REFRESH) {
+			return State.Skip
+		}
 		if (state.action == ActionIntent.INIT &&
 			state.list.isEmpty()
-		) {
-			return State.Loading
-		}
+		) return State.Loading
 		if (state.list.isEmpty()) return State.Empty
 		if (state.isContentsA) {
 			val takeList = state.list
@@ -140,7 +142,7 @@ class RoomObserverUseCase @Inject constructor(
 
 	private fun fetchGoods(): Single<List<Goods>> {
 		return Single.zip(
-			goodsRepository.fetch(1).delay(3000,TimeUnit.MILLISECONDS),
+			goodsRepository.fetch(1).delay(3000, TimeUnit.MILLISECONDS),
 			goodsRepository.fetch(2)
 		) { goods1, goods2 ->
 			goods1 + goods2

@@ -23,7 +23,9 @@ data class RoomObserverParams(
 		actionBehavior.onNext(action)
 		if (action == ActionIntent.LOAD_MORE) {
 			pageNo++
-		} else if (action == ActionIntent.INIT || action == ActionIntent.FORCE_REFRESH) {
+		} else if (action == ActionIntent.INIT ||
+			action == ActionIntent.FORCE_REFRESH
+		) {
 			pageNo = 1
 		}
 	}

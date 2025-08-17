@@ -13,7 +13,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.schedulers.Schedulers
-import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -36,10 +35,7 @@ class RoomObserverViewModel @Inject constructor(
 			.subscribeOn(Schedulers.io())
 			.observeOn(AndroidSchedulers.mainThread())
 			.filter { it !is State.Skip }
-			.doOnNext {
-				Timber.d("Update State ${it}")
-				_state.value = it
-			}
+			.doOnNext { _state.value = it }
 			.subscribe()
 			.addTo(compositeDisposable)
 	}

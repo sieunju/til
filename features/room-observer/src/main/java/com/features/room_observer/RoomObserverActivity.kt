@@ -25,15 +25,15 @@ internal class RoomObserverActivity : AppCompatActivity() {
 		// 추후 화면에 따라 StatusBar 컨트롤
 		ViewCompat.setOnApplyWindowInsetsListener(window.decorView) { v, insets ->
 			val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-			v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+			v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0)
 			insets
 		}
 		setContent {
 			MaterialTheme {
 				Surface(
 					modifier = Modifier
-                        .fillMaxSize()
-                        .addFocusCleaner(LocalFocusManager.current),
+						.fillMaxSize()
+						.addFocusCleaner(LocalFocusManager.current),
 					color = TilTheme.color.white
 				) {
 					RoomObserverScreen(
