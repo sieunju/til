@@ -16,12 +16,12 @@ data class RoomObserverParams(
 	private val actionBehavior: Subject<ActionIntent> = BehaviorSubject.createDefault(ActionIntent.INIT)
 ) {
 
-	fun observerAction(): Flowable<ActionIntent> {
+	fun action(): Flowable<ActionIntent> {
 		return actionBehavior.toFlowable(BackpressureStrategy.BUFFER)
 	}
 
 	fun sendAction(action: ActionIntent) {
-		Timber.d("SendAction ${action}")
+		// Timber.d("SendAction ${action}")
 		actionBehavior.onNext(action)
 		if (action == ActionIntent.LOAD_MORE) {
 			pageNo++

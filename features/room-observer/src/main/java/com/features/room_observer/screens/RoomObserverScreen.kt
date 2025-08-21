@@ -50,6 +50,7 @@ fun RoomObserverScreen(
 ) {
 	val userId = remember { mutableStateOf("") }
 	val uiState = viewModel.uiState.observeAsState(UiState.Unknown)
+	val isMember = viewModel.isMember.observeAsState(false)
 
 	TilComponent.HeaderAndContentsBox(
 		title = "RoomObserver",
@@ -84,7 +85,7 @@ fun RoomObserverScreen(
 					onClick = {
 						if (userId.value.isEmpty()) return@Button
 						RxBus.publish(AccountBusEvent.Member(userId.value))
-					}, shape = RoundedCornerShape(6.dp)
+					}, shape = RoundedCornerShape(6.dp), enabled = !isMember.value
 				) {
 					Text(
 						text = "로그인",
@@ -101,7 +102,7 @@ fun RoomObserverScreen(
 				item {
 					Button(onClick = {
 						RxBus.publish(AccountBusEvent.User)
-					}) {
+					}, enabled = isMember.value) {
 						Text(
 							text = "로그아웃",
 							style = TilTheme.text.h4,

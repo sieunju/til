@@ -52,73 +52,45 @@ class RoomObserverUseCase @Inject constructor(
 		params: RoomObserverParams
 	): Flowable<State> {
 		return Flowable.combineLatest(
-			RxBus.behavior(AccountBusEvent::class.java)
-				.doOnNext {
-					currentAccount = it
-					closeBgDisposable()
+			accountObserver(),
+			params.action()
+		) { account, action ->
+			Timber.d("Combine ${account}-${action}")
+			if (account is AccountBusEvent.User) {
+				if (action != ActionIntent.INIT) {
+					params.sendAction(ActionIntent.INIT)
 				}
-				.distinctUntilChanged(),
-			createStateStream(params)
-		) { accountEvent, internalState ->
-			when (accountEvent) {
-				is AccountBusEvent.User -> {
-					State.LogOut
-				}
-
-				is AccountBusEvent.Member -> {
-					internalState
-				}
+				return@combineLatest account to action
 			}
+			return@combineLatest account to action
+		}.switchMap { pair ->
+			val account = pair.first
+			val action = pair.second
+			if (account is AccountBusEvent.User) return@switchMap Flowable.just(State.LogOut)
+			if (account !is AccountBusEvent.Member) return@switchMap Flowable.just(State.LogOut)
+			val loadingStream = if (action == ActionIntent.FORCE_REFRESH) {
+				Flowable.just(State.Loading)
+			} else {
+				Flowable.empty<State>()
+			}.cast(State::class.java)
+			val workStream = Flowable.mergeDelayError(
+				localTask(account.id, action),
+				remoteTask(params, action)
+			).map { state ->
+				if (state is WorkState.RemoteState) return@map State.Skip
+				if (state is WorkState.Skip) return@map State.Skip
+				if (state !is WorkState.DbObserverState) throw IllegalArgumentException("Error")
+				converterState(params, state)
+			}
+			return@switchMap loadingStream.concatWith(workStream)
 		}
-
-//		return RxBus.behavior(AccountBusEvent::class.java)
-//			.doOnNext {
-//				currentAccount = it
-//				closeBgDisposable()
-//			}
-//			.filter { isMemberState() }
-//			.cast(AccountBusEvent.Member::class.java)
-//			.flatMap { accountEvent ->
-////				if (accountEvent is AccountBusEvent.User) return@flatMap handleLogout(params)
-////				if (accountEvent !is AccountBusEvent.Member) throw IllegalArgumentException("Error")
-//				return@flatMap handleAction(accountEvent.id, params)
-//			}
 	}
 
-	private fun handleAction(
-		userId: String,
-		params: RoomObserverParams
-	): Flowable<State> {
-		return params.observerAction()
-			.doOnNext { closeBgDisposable() }
-			.switchMap { action ->
-				val loadingStream = if (action == ActionIntent.FORCE_REFRESH) {
-					Flowable.just(State.Loading)
-				} else {
-					Flowable.empty<State>()
-				}.cast(State::class.java)
-
-				val workStream = Flowable.mergeDelayError(
-					localTask(userId, action),
-					remoteTask(params, action)
-				).map { state ->
-					if (state is WorkState.RemoteState) return@map State.Skip
-					if (state is WorkState.Skip) return@map State.Skip
-					if (state !is WorkState.DbObserverState) throw IllegalArgumentException("Error")
-					converterState(params, state)
-				}
-
-				return@switchMap loadingStream.concatWith(workStream)
-			}
-	}
-
-	private fun createStateStream(params: RoomObserverParams): Flowable<State> {
+	private fun accountObserver(): Flowable<AccountBusEvent> {
 		return RxBus.behavior(AccountBusEvent::class.java)
-			.filter { it is AccountBusEvent.Member }
-			.cast(AccountBusEvent.Member::class.java)
-			.distinctUntilChanged()
-			.switchMap { accountEvent ->
-				handleAction(accountEvent.id, params)
+			.doOnNext {
+				currentAccount = it
+				closeBgDisposable()
 			}
 	}
 
@@ -126,7 +98,6 @@ class RoomObserverUseCase @Inject constructor(
 		params: RoomObserverParams,
 		state: WorkState.DbObserverState
 	): State {
-		Timber.d("converterState Name ${state::class.simpleName} ${state.action} Size:${state.list.size}")
 		if (state.action == ActionIntent.FORCE_REFRESH) return State.Skip
 		if (state.action == ActionIntent.INIT &&
 			state.list.isEmpty()
@@ -142,11 +113,6 @@ class RoomObserverUseCase @Inject constructor(
 		} else {
 			State.BContents(list = state.list.take(3))
 		}
-	}
-
-	private fun handleLogout(params: RoomObserverParams): Flowable<State> {
-		params.sendAction(ActionIntent.INIT)
-		return Flowable.just(State.LogOut)
 	}
 
 	private fun localTask(userId: String, action: ActionIntent): Flowable<WorkState> {
