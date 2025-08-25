@@ -17,4 +17,5 @@ dependencies {
     implementation(projects.features.composeUiBridge)
     implementation(projects.features.composePermissionsResultBridge)
     implementation(projects.features.composeNavigationBridge)
+    implementation(projects.features.roomObserverBridge)
 }

@@ -32,6 +32,9 @@ keystore.release.key_password=til1234qwer
   - models.entity
   - models.body
   - models.meta
+- feature module 생성시 네이밍 규칙
+  - "com.features.${name}"
+  - "com.features.${name}-bridge"
 
 ## ✔ 스펙
 - Multi Module

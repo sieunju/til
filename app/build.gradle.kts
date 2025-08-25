@@ -99,6 +99,7 @@ dependencies {
     implementation(projects.features.baseMvvmBottomSheet)
     implementation(projects.features.composePermissionsResult)
     implementation(projects.features.composeNavigation)
+    implementation(projects.features.roomObserver)
 
     implementation(libs.retrofit)
     implementation(libs.okhttp)

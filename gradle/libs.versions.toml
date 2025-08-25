@@ -67,7 +67,7 @@ material = "1.9.0"
 viewpager = "1.0.0"
 cardview = "1.0.0"
 recyclerview = "1.3.2"
-lifecycle = "2.6.2"
+lifecycle = "2.8.7"
 
 ## Compose
 # https://developer.android.com/develop/ui/compose/bom/bom-mapping
@@ -107,6 +107,8 @@ detekt = "1.23.6"
 mockk = "1.13.11"
 timber = "5.0.1"
 httptracking = "1.3.6"
+activityVersion = "1.10.1"
+compose-livedata = "1.5.4"
 
 [libraries]
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
@@ -129,6 +131,7 @@ androidx-lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle
 androidx-lifecycle-livedata = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycle" }
 androidx-lifecycle-runtimeCompose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidxLifecycle" }
 androidx-lifecycle-viewModelCompose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "androidxLifecycle" }
+androidx-lifecycle-rx = { group = "androidx.lifecycle", name = "lifecycle-reactivestreams-ktx", version.ref = "androidxLifecycle" }
 androidx-compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "composeNavigation" }
 androidx-compose-navigation-test = { group = "androidx.navigation", name = "navigation-testing", version.ref = "composeNavigation" }
 androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidxTestRunner" }
@@ -158,6 +161,7 @@ compose-ui-test = { group = "androidx.compose.ui", name = "ui-test-junit4", vers
 compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 compose-ui-testManifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+compose-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "compose-livedata" }
 
 # hilt
 hilt-core = { group = "com.google.dagger", name = "hilt-core", version.ref = "hilt" }
@@ -165,6 +169,12 @@ hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.r
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
 hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hilt-navigation" }
+
+# room
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-rx = { group = "androidx.room", name = "room-rxjava3", version.ref = "room" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 
 # lib
 coroutine = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutine" }
@@ -190,6 +200,7 @@ rx-java = { group = "io.reactivex.rxjava3", name = "rxjava", version.ref = "rx-j
 rx-kotlin = { group = "io.reactivex.rxjava3", name = "rxkotlin", version.ref = "rx-kotlin" }
 rx-android = { group = "io.reactivex.rxjava3", name = "rxandroid", version.ref = "rx-android" }
 kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlin" }
+activity = { group = "androidx.activity", name = "activity", version.ref = "activityVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
