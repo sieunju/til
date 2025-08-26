@@ -4,7 +4,10 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.ime
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
@@ -33,7 +36,8 @@ internal class RoomObserverActivity : AppCompatActivity() {
 				Surface(
 					modifier = Modifier
 						.fillMaxSize()
-						.addFocusCleaner(LocalFocusManager.current),
+						.addFocusCleaner(LocalFocusManager.current)
+						.windowInsetsPadding(WindowInsets.ime),
 					color = TilTheme.color.white
 				) {
 					RoomObserverScreen(
