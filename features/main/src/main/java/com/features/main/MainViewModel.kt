@@ -6,6 +6,7 @@ import com.features.compose_navigation_bridge.ComposeNavigationBridge
 import com.features.compose_ui_bridge.ComposeUiBridge
 import com.features.network_bridge.NetworkBridge
 import com.features.recyclerview_bridge.RecyclerViewBridge
+import com.features.room_observer_bridge.RoomObserverBridge
 import com.hmju.compose_permissions_result_bridge.ComposePermissionsResultBridge
 import com.hmju.core.ui.base.ActivityViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,7 +25,8 @@ class MainViewModel @Inject constructor(
     private val asyncMigrateBridge: AsyncMigrateBridge,
     private val composeUiBridge: ComposeUiBridge,
     private val composePermissionsResultBridge: ComposePermissionsResultBridge,
-    private val composeNavigationBridge: ComposeNavigationBridge
+    private val composeNavigationBridge: ComposeNavigationBridge,
+    private val roomObserverBridge: RoomObserverBridge
 ) : ActivityViewModel() {
 
     fun moveToNetworkPage() {
@@ -57,5 +59,9 @@ class MainViewModel @Inject constructor(
 
     fun moveToComposeNavigationPage() {
         composeNavigationBridge.moveToPage()
+    }
+
+    fun moveToRoomObserverPage(){
+        roomObserverBridge.moveToPage()
     }
 }

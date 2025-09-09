@@ -4,7 +4,7 @@ on: pull_request
 
 jobs:
   checks:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     # android 디렉토리 없앰으로 인한 주석 처리
     # env:
     #   working-directory: ./android
@@ -16,7 +16,6 @@ jobs:
         with:
           java-version: '17'
           distribution: 'adopt'
-          builder-cache: true
 
       - name: Checkout
         uses: actions/checkout@v4

@@ -1,17 +1,25 @@
 rootProject.name = "til"
 
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google()
         mavenCentral()
         gradlePluginPortal()
     }
 }
+@Suppress("UnstableApiUsage")
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven { url = uri("https://jitpack.io") }
+    }
+}
 
-include(
-    ":app",
-    ":core"
-)
+include(":app")
+include(":core")
 include(":rxhandling")
 include(":features:network")
 include(":features:network-bridge")
@@ -52,3 +60,5 @@ include(":features:compose_permissions_result")
 include(":features:compose_permissions_result_bridge")
 include(":features:compose_navigation")
 include(":features:compose_navigation_bridge")
+include(":features:room-observer")
+include(":features:room-observer-bridge")

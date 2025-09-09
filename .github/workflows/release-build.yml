@@ -5,11 +5,12 @@ on:
     branches: [ master ]
 
 jobs:
-  generate_release_note:
-    runs-on: ubuntu-latest
+  deploy_firebase:
+    runs-on: macos-latest
     outputs:
-      msg: ${{ steps.releaseNote.outputs.val }}
-      html: ${{ steps.releaseNote.outputs.html }}
+      appVersion: ${{ steps.versionInfo.outputs.appVersion }}
+      releaseNote: ${{ steps.releaseNote.outputs.val }}
+      releaseNoteHtml: ${{ steps.releaseNote.outputs.html }}
     steps:
       - uses: actions/setup-java@v4
         with:
@@ -30,71 +31,50 @@ jobs:
         id: releaseNote
         run: |
           ./gradlew generateReleaseNote
-          NORMAL=$(sed -n '2,$p' appRelease/release_note.txt | less)
-          NORMAL="${NORMAL//'%'/'%'}"
-          NORMAL="${NORMAL//$'\n'/'\n'}"
-          NORMAL="${NORMAL//$'\r'/'\r'}"
-          HTML=$(sed -n '2,$p' appRelease/release_note.txt | less)
-          HTML="${HTML//$'\n'/'<br>'}"
-          echo "val=${NORMAL}" >> "$GITHUB_OUTPUT"
-          echo "html=${HTML}" >> "$GITHUB_OUTPUT"
-  deploy_firebase:
-    runs-on: ubuntu-latest
-    needs: generate_release_note
-    outputs:
-      versionCode: ${{ steps.versionInfo.outputs.code }}
-      versionName: ${{ steps.versionInfo.outputs.name }}
-    steps:
-      - uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'adopt'
-      - uses: actions/checkout@v4
-
-      - name: SetUp properties
-        run: |
-          echo "keystore.release.file_path=${{ secrets.KEYSTORE_RELEASE_FILE_PATH }}" > local.properties
-          echo "keystore.release.store_password=${{ secrets.KEYSTORE_RELEASE_PW }}" >> local.properties
-          echo "keystore.release.key_alias=${{ secrets.KEYSTORE_RELEASE_ALIAS }}" >> local.properties
-          echo "keystore.release.key_password=${{ secrets.KEYSTORE_RELEASE_KEY_PW }}" >> local.properties
-          echo "base_url=\"${{ secrets.BASE_URL }}\"" >> local.properties
-          echo "auth_type=\"${{ secrets.AUTH_TYPE }}\"" >> local.properties
-
+          RELEASE_BODY=$(sed -n '2,$p' appRelease/release_note.txt | less)
+          RELEASE_BODY="${RELEASE_BODY//'%'/'%'}"
+          RELEASE_BODY="${RELEASE_BODY//$'\n'/'\n'}"
+          RELEASE_BODY="${RELEASE_BODY//$'\r'/'\r'}"
+          echo "val=${RELEASE_BODY}" >> "$GITHUB_OUTPUT"
+          RELEASE_BODY="${RELEASE_BODY//'%'/'%25'}"
+          RELEASE_BODY="${RELEASE_BODY//$'\n'/'%0A'}"
+          RELEASE_BODY="${RELEASE_BODY//$'\r'/'%0D'}"
+          echo "html=${RELEASE_BODY}" >> "$GITHUB_OUTPUT"
       - name: SetUp Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.0'
           bundler-cache: true
 
-      - name: Execute Fastlane
+      - name: Build & Deploy
         uses: maierj/fastlane-action@v3.1.0
         with:
           lane: 'firebaseDeploy'
           options: |
             {
               "build_type": "release",
-              "release_message": "${{ needs.generate_release_note.outputs.msg }}",
+              "release_message": "${{ steps.releaseNote.outputs.html }}",
               "token": "${{ secrets.FIREBASE_TOKEN }}",
               "app_id": "${{ secrets.FIREBASE_RELEASE_APP_ID }}"
             }
       - name: Generate Version
         id: versionInfo
         run: |
-          echo "code=$(./gradlew -q getVersionCode)" >> "$GITHUB_OUTPUT"
-          echo "name=$(./gradlew -q getVersionName)" >> "$GITHUB_OUTPUT"
+          echo "appVersion=$(./gradlew -q getAppVersion)" >> "$GITHUB_OUTPUT"
 
-  gnerate_release:
-    runs-on: ubuntu-latest
-    needs: [deploy_firebase, generate_release_note]
+  generate_release:
+    runs-on: macos-latest
+    needs: deploy_firebase
 
     steps:
 
-      # echo "code=$(grep versionCode buildSrc/src/main/java/Dependencies.kt | awk '{print $5}')" >> "$GITHUB_OUTPUT"
-      # echo "name=$(grep versionName buildSrc/src/main/java/Dependencies.kt | awk '{print $5}')" >> "$GITHUB_OUTPUT"
-      # echo "title=$(sed -n -e '1,1p' appRelease/release_note.txt)" >> "$GITHUB_OUTPUT"
-      # RELEASE_BODY="${RELEASE_BODY//'%'/'%25'}"
-      # RELEASE_BODY="${RELEASE_BODY//$'\r'/'%0D'}"
 
+#          RELEASE_BODY="${RELEASE_BODY//'%'/'%25'}"
+#          RELEASE_BODY="${RELEASE_BODY//$'\n'/'%0A'}"
+#          RELEASE_BODY="${RELEASE_BODY//$'\r'/'%0D'}"
+#      echo "code=$(grep versionCode buildSrc/src/main/java/Dependencies.kt | awk '{print $5}')" >> "$GITHUB_OUTPUT"
+#      echo "name=$(grep versionName buildSrc/src/main/java/Dependencies.kt | awk '{print $5}')" >> "$GITHUB_OUTPUT"
+#      echo "title=$(sed -n -e '1,1p' appRelease/release_note.txt)" >> "$GITHUB_OUTPUT"
       - name: Generate Tag
         id: tag
         run: |
@@ -107,15 +87,14 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag: ${{ steps.tag.outputs.val }}
-          name: ${{ needs.deploy_firebase.outputs.versionName }} (${{ needs.deploy_firebase.outputs.versionCode }})
+          name: ${{ needs.deploy_firebase.outputs.appVersion }}
           body: |
             ## Changes
-            ${{ needs.generate_release_note.outputs.html }}
+            ${{ needs.deploy_firebase.outputs.releaseNoteHtml }}
 
   slack_notify:
     runs-on: ubuntu-latest
-    needs: [deploy_firebase, generate_release_note]
-
+    needs: deploy_firebase
     steps:
       - uses: 8398a7/action-slack@v3
         with:
@@ -133,12 +112,12 @@ jobs:
                 },
                 {
                   title: 'Version',
-                  value: '${{ needs.deploy_firebase.outputs.versionName }} (${{ needs.deploy_firebase.outputs.versionCode }})',
+                  value: '${{ needs.deploy_firebase.outputs.appVersion }}',
                   short: true
                 },
                 {
                   title: 'Message',
-                  value: '${{ needs.generate_release_note.outputs.msg }}',
+                  value: '${{ needs.deploy_firebase.outputs.releaseNote }}',
                   short: false
                 }]
               }]

@@ -1,12 +1,10 @@
 import java.io.FileInputStream
 import java.util.Properties
-
 plugins {
-    id("com.android.library")
-    id("kotlinx-serialization")
-    id("dagger.hilt.android.plugin")
-    id("org.jetbrains.kotlin.android")
-    kotlin("kapt")
+    id("til.library")
+    id("til.compose")
+    id("til.androidx")
+    id("kotlin-kapt") // DataBinding 대응
 }
 
 val properties = Properties().apply {
@@ -18,105 +16,41 @@ android {
     defaultConfig {
         buildConfigField("String", "BASE_URL", properties.getProperty("base_url"))
         buildConfigField("String", "AUTH_TYPE", properties.getProperty("auth_type"))
+        consumerProguardFiles("consumer-rules.pro")
     }
     buildFeatures {
-        compose = true
         buildConfig = true
-    }
-    dataBinding { enable = true }
-    kapt {
-        correctErrorTypes = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = Compose.compile
     }
 }
 
 dependencies {
+    implementation(libs.glide)
+    implementation(libs.glide.compiler)
+    implementation(libs.glide.okhttp3)
+    implementation(libs.glide.annotations)
+    implementation(libs.glide.compose)
+    ksp(libs.glide.compiler)
 
-    /**
-     * Android X
-     */
-    implementation(AndroidX.ktx)
-    implementation(AndroidX.appCompat)
-    implementation(AndroidX.constraintLayout)
-    implementation(AndroidX.recyclerView)
-    implementation(AndroidX.lifecycle)
-    implementation(AndroidX.material)
-    implementation(AndroidX.cardView)
-    implementation(AndroidX.viewModel)
-    implementation(AndroidX.fragment)
+    implementation(libs.retrofit)
+    implementation(libs.okhttp)
+    implementation(libs.retrofit.rxjava)
+    implementation(libs.retrofit.json)
+    implementation(libs.httptracking.interceptor)
+    implementation(libs.okhttp.interceptor)
 
-    /**
-     * Glide
-     */
-    implementation(Glide.base)
-    implementation(Glide.compiler)
-    implementation(Glide.okhttp)
-    implementation(Glide.annotations)
-    implementation(Glide.compose)
-    kapt(Glide.compiler)
+    implementation(libs.rx.java)
+    implementation(libs.rx.kotlin)
+    implementation(libs.rx.android)
+    implementation(libs.kotlin.reflect)
 
-    /**
-     * Kotlinx Serialization
-     */
-    implementation(KotlinX.serialization)
+    implementation(libs.hilt.navigation.compose)
+    implementation(libs.androidx.compose.navigation)
+    implementation(libs.androidx.lifecycle.viewModelCompose)
+    implementation(libs.androidx.lifecycle.runtimeCompose)
 
-    /**
-     * Network
-     */
-    implementation(Retrofit.base)
-    implementation(Retrofit.okhttp)
-    implementation(Retrofit.rxjava)
-    implementation(Retrofit.kotlinx)
-    implementation(HttpTracking.interceptor)
-    implementation(Retrofit.okhttpLogger)
-
-    /**
-     * Rx
-     */
-    implementation(Rx.java)
-    implementation(Rx.kotlin)
-    implementation(Rx.android)
-
-    /**
-     * Coroutines
-     */
-    implementation(Co.core)
-
-    /**
-     * Hilt
-     */
-    implementation(Hilt.android)
-    kapt(Hilt.compiler)
-
-    /**
-     * Timber
-     */
-    implementation(Log.timber)
-
-    /**
-     * Kotlin
-     */
-    implementation(Kotlin.reflect)
-
-    /**
-     * Compose
-     */
-    implementation(platform(Compose.base))
-    implementation(Compose.material)
-    implementation(Compose.preview)
-    implementation(Compose.ui)
-    implementation(Compose.runtime)
-    implementation(Compose.navigation)
-
-    /**
-     * Unit Test
-     */
-    testImplementation(UnitTest.junit)
-    androidTestImplementation(UnitTest.junit)
-    androidTestImplementation(UnitTest.androidJUnit)
-    androidTestImplementation(UnitTest.Espresso.core)
-    androidTestImplementation(platform(Compose.base))
-    debugImplementation(UnitTest.Compose.tooling)
+    implementation(libs.room.runtime)
+    implementation(libs.room.rx)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
+    implementation(libs.kotlinx.datetime)
 }

@@ -3,6 +3,7 @@ package com.features.compose_ui.models
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,7 +15,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -23,7 +24,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
 import com.hmju.core.R
 import com.hmju.core.compose.TilComponent
 import com.hmju.core.compose.TilTheme
@@ -48,30 +48,24 @@ sealed interface MemoUiModel {
 
         @Composable
         override fun GetUi() {
-            ConstraintLayout(
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp)
-                    .padding(10.dp)
+                    .padding(10.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                val (date, iv) = createRefs()
                 Text(
                     text = dateText,
                     style = TilTheme.text.h3,
-                    modifier = Modifier
-                        .wrapContentSize()
-                        .constrainAs(date) {
-                            start.linkTo(parent.start)
-                        }
+                    modifier = Modifier.wrapContentSize()
                 )
+
                 Image(
                     painter = painterResource(id = R.drawable.ic_right),
                     contentDescription = null,
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .constrainAs(iv) {
-                            end.linkTo(parent.end)
-                        }
+                    modifier = Modifier.fillMaxHeight()
                 )
             }
         }
@@ -338,7 +332,7 @@ sealed interface MemoUiModel {
 
         @Composable
         override fun GetUi() {
-            Divider(color = TilTheme.color.gray1, thickness = 1.dp)
+            HorizontalDivider(thickness = 1.dp, color = TilTheme.color.gray1)
         }
     }
 
@@ -349,7 +343,7 @@ sealed interface MemoUiModel {
 
         @Composable
         override fun GetUi() {
-            Divider(color = TilTheme.color.gray1, thickness = 10.dp)
+            HorizontalDivider(thickness = 10.dp, color = TilTheme.color.gray1)
         }
     }
 }

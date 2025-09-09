@@ -4,11 +4,14 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
@@ -47,6 +50,7 @@ abstract class BaseActivity<T : ViewDataBinding, VM : ActivityViewModel>(
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         initBinding()
 
         with(viewModel) {
@@ -55,6 +59,12 @@ abstract class BaseActivity<T : ViewDataBinding, VM : ActivityViewModel>(
             onIntent()
             startActivityPage.observe(this@BaseActivity) { startActivityAndAnimation(it) }
             startFinishEvent.observe(this@BaseActivity) { finish() }
+        }
+        // 추후 화면에 따라 StatusBar 컨트롤
+        ViewCompat.setOnApplyWindowInsetsListener(window.decorView) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
         }
     }
 
