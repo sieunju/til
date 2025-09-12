@@ -51,7 +51,7 @@ jobs:
       - name: SetUp Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.0'
+          ruby-version: '3.3.0'
           bundler-cache: true
 
       - name: Build & Deploy
