@@ -1,0 +1,103 @@
+name: firebase_deploy
+on:
+  workflow_dispatch:
+    inputs:
+      build_type:
+        type: choice
+        required: true
+        description: 'debug or release'
+        default: 'release'
+        options:
+          - 'debug'
+          - 'release'
+      release_note:
+        type: string
+        required: false
+        description: 'Firebase Release Note'
+
+jobs:
+  deploy:
+    runs-on: macos-latest
+    steps:
+      - name: SetUp Environment
+        id: appInfo
+        run: |
+          if [ "${{ inputs.build_type }}" == "release" ]; then
+            echo "firebaseId=${{ secrets.FIREBASE_RELEASE_APP_ID }}" >> "$GITHUB_OUTPUT"
+            echo "icon=${{ ':til_icon:'  }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "firebaseId=${{ secrets.FIREBASE_DEV_APP_ID }}" >> "$GITHUB_OUTPUT"
+            echo "icon=${{ ':til_dev_icon:'  }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: SetUp JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'adopt'
+
+      - name: Git Checkout
+        uses: actions/checkout@v4
+
+      - name: SetUp properties
+        run: |
+          echo "keystore.release.file_path=${{ secrets.KEYSTORE_RELEASE_FILE_PATH }}" > local.properties
+          echo "keystore.release.store_password=${{ secrets.KEYSTORE_RELEASE_PW }}" >> local.properties
+          echo "keystore.release.key_alias=${{ secrets.KEYSTORE_RELEASE_ALIAS }}" >> local.properties
+          echo "keystore.release.key_password=${{ secrets.KEYSTORE_RELEASE_KEY_PW }}" >> local.properties
+          echo "base_url=\"${{ secrets.BASE_URL }}\"" >> local.properties
+          echo "auth_type=\"${{ secrets.AUTH_TYPE }}\"" >> local.properties
+
+      - name: SetUp Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3.0'
+          bundler-cache: true
+
+      - name: Build & Deploy
+        uses: maierj/fastlane-action@v3.1.0
+        with:
+          lane: 'firebaseDeploy'
+          options: |
+            {
+              "build_type": "${{ inputs.build_type }}",
+              "release_message": "${{ inputs.release_note }}",
+              "token": "${{ secrets.FIREBASE_TOKEN }}",
+              "app_id": "${{ steps.appInfo.outputs.firebaseId }}"
+            }
+
+      - name: Get App Version
+        id: versionInfo
+        run: |
+          echo "val=$(./gradlew -q getAppVersion " >> "$GITHUB_OUTPUT"
+
+      - name: action-slack
+        uses: 8398a7/action-slack@v3
+        with:
+          status: custom
+          custom_payload: |
+            {
+              text: '[AOS/${{ steps.appInfo.outputs.icon }} ] 배포 알림',
+              attachments: [{
+                color: '${{ job.status }}' === 'success' ? 'good' : '${{ job.status }}' === 'failure' ? 'danger' : 'warning',
+                fields: [
+                {
+                  title: 'BuildType',
+                  value: '${{ inputs.build_type }}',
+                  short: true
+                },
+                {
+                  title: 'Version',
+                  value: '${{ steps.versionInfo.outputs.val }}',
+                  short: true
+                },
+                {
+                  title: 'Message',
+                  value: '${{ inputs.release_note }}',
+                  short: false
+                }]
+              }]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_AOS_DEPLOY_WEBHOOK_URL }}
+        if: always()

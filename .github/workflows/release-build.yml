@@ -1,0 +1,127 @@
+name: Library Generate Release
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  deploy_firebase:
+    runs-on: macos-latest
+    outputs:
+      appVersion: ${{ steps.versionInfo.outputs.appVersion }}
+      releaseNote: ${{ steps.releaseNote.outputs.val }}
+      releaseNoteHtml: ${{ steps.releaseNote.outputs.html }}
+    steps:
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'adopt'
+      - uses: actions/checkout@v4
+
+      - name: SetUp properties
+        run: |
+          echo "keystore.release.file_path=${{ secrets.KEYSTORE_RELEASE_FILE_PATH }}" > local.properties
+          echo "keystore.release.store_password=${{ secrets.KEYSTORE_RELEASE_PW }}" >> local.properties
+          echo "keystore.release.key_alias=${{ secrets.KEYSTORE_RELEASE_ALIAS }}" >> local.properties
+          echo "keystore.release.key_password=${{ secrets.KEYSTORE_RELEASE_KEY_PW }}" >> local.properties
+          echo "base_url=\"${{ secrets.BASE_URL }}\"" >> local.properties
+          echo "auth_type=\"${{ secrets.AUTH_TYPE }}\"" >> local.properties
+
+      - name: Generate ReleaseNote
+        id: releaseNote
+        run: |
+          ./gradlew generateReleaseNote
+          RELEASE_BODY=$(sed -n '2,$p' appRelease/release_note.txt | less)
+          RELEASE_BODY="${RELEASE_BODY//'%'/'%'}"
+          RELEASE_BODY="${RELEASE_BODY//$'\n'/'\n'}"
+          RELEASE_BODY="${RELEASE_BODY//$'\r'/'\r'}"
+          echo "val=${RELEASE_BODY}" >> "$GITHUB_OUTPUT"
+          RELEASE_BODY="${RELEASE_BODY//'%'/'%25'}"
+          RELEASE_BODY="${RELEASE_BODY//$'\n'/'%0A'}"
+          RELEASE_BODY="${RELEASE_BODY//$'\r'/'%0D'}"
+          echo "html=${RELEASE_BODY}" >> "$GITHUB_OUTPUT"
+      - name: SetUp Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3.0'
+          bundler-cache: true
+
+      - name: Build & Deploy
+        uses: maierj/fastlane-action@v3.1.0
+        with:
+          lane: 'firebaseDeploy'
+          options: |
+            {
+              "build_type": "release",
+              "release_message": "${{ steps.releaseNote.outputs.html }}",
+              "token": "${{ secrets.FIREBASE_TOKEN }}",
+              "app_id": "${{ secrets.FIREBASE_RELEASE_APP_ID }}"
+            }
+      - name: Generate Version
+        id: versionInfo
+        run: |
+          echo "appVersion=$(./gradlew -q getAppVersion)" >> "$GITHUB_OUTPUT"
+
+  generate_release:
+    runs-on: macos-latest
+    needs: deploy_firebase
+
+    steps:
+
+
+#          RELEASE_BODY="${RELEASE_BODY//'%'/'%25'}"
+#          RELEASE_BODY="${RELEASE_BODY//$'\n'/'%0A'}"
+#          RELEASE_BODY="${RELEASE_BODY//$'\r'/'%0D'}"
+#      echo "code=$(grep versionCode buildSrc/src/main/java/Dependencies.kt | awk '{print $5}')" >> "$GITHUB_OUTPUT"
+#      echo "name=$(grep versionName buildSrc/src/main/java/Dependencies.kt | awk '{print $5}')" >> "$GITHUB_OUTPUT"
+#      echo "title=$(sed -n -e '1,1p' appRelease/release_note.txt)" >> "$GITHUB_OUTPUT"
+      - name: Generate Tag
+        id: tag
+        run: |
+          CURRENT_DATE=$(date +"%Y년%m월%d일_%H시%M분")
+          echo "val=$CURRENT_DATE" >> "$GITHUB_OUTPUT"
+
+      - name: Generate Release
+        uses: ncipollo/release-action@v1.14.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag: ${{ steps.tag.outputs.val }}
+          name: ${{ needs.deploy_firebase.outputs.appVersion }}
+          body: |
+            ## Changes
+            ${{ needs.deploy_firebase.outputs.releaseNoteHtml }}
+
+  slack_notify:
+    runs-on: ubuntu-latest
+    needs: deploy_firebase
+    steps:
+      - uses: 8398a7/action-slack@v3
+        with:
+          status: custom
+          custom_payload: |
+            {
+              text: '[AOS/:til_icon:] 릴리즈 알림',
+              attachments: [{
+                color: '${{ job.status }}' === 'success' ? 'good' : '${{ job.status }}' === 'failure' ? 'danger' : 'warning',
+                fields: [
+                {
+                  title: 'BuildType',
+                  value: 'Release',
+                  short: true
+                },
+                {
+                  title: 'Version',
+                  value: '${{ needs.deploy_firebase.outputs.appVersion }}',
+                  short: true
+                },
+                {
+                  title: 'Message',
+                  value: '${{ needs.deploy_firebase.outputs.releaseNote }}',
+                  short: false
+                }]
+              }]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_AOS_DEPLOY_WEBHOOK_URL }}
+        if: always()

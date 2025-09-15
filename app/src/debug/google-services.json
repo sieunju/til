@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "639158460343",
+    "project_id": "dev-ju",
+    "storage_bucket": "dev-ju.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:639158460343:android:3e403b89cbb75cb88b1232",
+        "android_client_info": {
+          "package_name": "com.hmju.deeplink"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuZtLEcI22JBVpxsJxaDYYYwDvEq-jaic"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:639158460343:android:7040ec8a18332e118b1232",
+        "android_client_info": {
+          "package_name": "com.hmju.til"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuZtLEcI22JBVpxsJxaDYYYwDvEq-jaic"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:639158460343:android:70e0b5d60cd8bbc18b1232",
+        "android_client_info": {
+          "package_name": "com.hmju.til.dev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuZtLEcI22JBVpxsJxaDYYYwDvEq-jaic"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

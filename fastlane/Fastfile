@@ -1,0 +1,96 @@
+default_platform(:android)
+
+platform :android do
+    desc "Deploy Firebase App Distribution"
+    lane :firebaseDeploy do |options|
+        build_type = options[:build_type]
+        release_message = (options[:release_message] ? options[:release_message] : "no message")
+        token = options[:token]
+        app_id = options[:app_id]
+
+        # Argument Validation Check
+        if build_type.nil? || app_id.nil? || token.nil?
+            abort("No required values.")
+        end
+
+        # Set VersionCode
+        increment_version(
+            app_id: app_id,
+            token: token
+        )
+
+        # RunGradle
+        run_gradle(
+            build_type: build_type
+        )
+
+        # Deploy Firebase
+        deploy_firebase(
+            app_id: app_id,
+            token: token,
+            release_message: release_message
+        )
+    end
+
+    # Increment Version
+    # @options app_id e.g) Firebase App Id
+    # @options token e.g) Firebase CLI Token
+    lane :increment_version do |options|
+        app_id = options[:app_id]
+        token = options[:token]
+        latest_release = firebase_app_distribution_get_latest_release(
+            app: app_id,
+            firebase_cli_token: token
+        )
+        if latest_release.nil? || latest_release.empty? || latest_release[:buildVersion].nil?
+            version_code = 1
+            puts "No previous release found. Starting with version code: #{version_code}"
+        else
+            version_code = latest_release[:buildVersion].to_i + 1
+            puts "Found previous release. Incrementing to version code: #{version_code}"
+        end
+
+        android_set_version_code(
+            version_code: version_code,
+            gradle_file: "./app/build.gradle.kts"
+        )
+    end # increment_version
+
+    # assembleRelease
+    # @options build_type e.g) Release, Develop
+    lane :run_gradle do |options|
+        build_type = options[:build_type]
+        if build_type == 'release'
+            build_type = 'Release'
+        elsif build_type == 'develop'
+            build_type = 'Debug'
+        else
+            build_type = 'Debug'
+        end
+
+        gradle(
+            task: "assemble",
+            build_type: build_type,
+            print_command: true,
+            print_command_output: true
+        )
+    end # run_gradle
+
+    # Deploy Firebase
+    # @options app_id e.g) Firebase App Id
+    # @options token e.g) Firebase CLI Token
+    # @options release_message e.g) Release Message
+    lane :deploy_firebase do |options|
+        app_id = options[:app_id]
+        token = options[:token]
+        release_message = options[:release_message]
+        firebase_app_distribution(
+            app: app_id,
+            groups: "all",
+            firebase_cli_token: token,
+            release_notes: release_message,
+            android_artifact_type: "APK",
+            debug: true
+        )
+    end # deploy_firebase
+end # platform android
