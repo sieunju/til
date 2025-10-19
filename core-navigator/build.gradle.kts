@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-	namespace = "com.hmju.core"
+	namespace = "com.hmju.core_navigator"
 }
 
 dependencies {

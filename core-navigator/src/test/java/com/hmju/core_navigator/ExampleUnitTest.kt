@@ -1,4 +1,4 @@
-package com.hmju.core
+package com.hmju.core_navigator
 
 import org.junit.Test
 
