@@ -1,0 +1,19 @@
+plugins {
+	id("til.library")
+	id("til.compose")
+	id("til.androidx")
+}
+
+android {
+	namespace = "com.hmju.core"
+}
+
+dependencies {
+
+	implementation(libs.androidx.core.ktx)
+	implementation(libs.androidx.appcompat)
+	implementation(libs.android.material)
+	testImplementation(libs.junit)
+	androidTestImplementation(libs.androidx.junit)
+	androidTestImplementation(libs.androidx.test.espresso.core)
+}

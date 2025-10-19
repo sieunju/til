@@ -79,6 +79,7 @@ android {
 
 dependencies {
     implementation(projects.core)
+    implementation(projects.coreNavigator)
     implementation(projects.legacy)
     implementation(projects.features.main)
     implementation(projects.features.network)
