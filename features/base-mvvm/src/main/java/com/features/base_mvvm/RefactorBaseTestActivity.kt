@@ -25,32 +25,32 @@ import javax.inject.Inject
  */
 @AndroidEntryPoint
 class RefactorBaseTestActivity : BaseActivity<ARefactorBaseTestBinding, RefactorBaseTestViewModel>(
-    R.layout.a_refactor_base_test
+	R.layout.a_refactor_base_test
 ) {
 
-    override val viewModel: RefactorBaseTestViewModel by initViewModel()
-    override val bindingVariable: Int = BR.vm
+	override val viewModel: RefactorBaseTestViewModel by initViewModel()
+	override val bindingVariable: Int = BR.vm
 
-    @Inject
-    lateinit var bottomSheetBridge: BaseMvvmBottomSheetBridge
+	@Inject
+	lateinit var bottomSheetBridge: BaseMvvmBottomSheetBridge
 
-    companion object {
-        val flow: Flow<Int> = flow {
-            for (i in 0..100) {
-                emit(i)
-                delay(200)
-                if (i == 20) {
-                    error("Errorrororororo")
-                }
-            }
-        }
-    }
+	companion object {
+		val flow: Flow<Int> = flow {
+			for (i in 0..100) {
+				emit(i)
+				delay(200)
+				if (i == 20) {
+					error("Errorrororororo")
+				}
+			}
+		}
+	}
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        // 백그라운드에서 계속해서 진행 그러다 맨 마지막 값 가져옴
-        // 1,2,3 ...11,12,13...
+	@OptIn(ExperimentalCoroutinesApi::class)
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
+		// 백그라운드에서 계속해서 진행 그러다 맨 마지막 값 가져옴
+		// 1,2,3 ...11,12,13...
 //        lifecycleScope.launch {
 //            repeatOnLifecycle(Lifecycle.State.RESUMED) {
 //                viewModel.testStateFlow.collectLatest {
@@ -58,31 +58,31 @@ class RefactorBaseTestActivity : BaseActivity<ARefactorBaseTestBinding, Refactor
 //                }
 //            }
 //        }
-        // 백그라운드로 나가면 코루틴 취소, 돌아오면 다시 시작
-        // 1,2,3 ... 4,5,6
+		// 백그라운드로 나가면 코루틴 취소, 돌아오면 다시 시작
+		// 1,2,3 ... 4,5,6
 //        lifecycleScope.launchWhenResumed {
 //            viewModel.testStateFlow.collectLatest { Timber.d("LaunchWhenResume $it") }
 //        }
 
-        // 백그라운드에서 계속해서 진행 다시 시작
+		// 백그라운드에서 계속해서 진행 다시 시작
 //        lifecycleScope.launch {
 //            repeatOnLifecycle(Lifecycle.State.RESUMED) {
 //                flow.collectLatest { Timber.d("RepeatOnLifecycle $it") }
 //            }
 //        }
 
-        // lifecycleScope.launchWhenResumed { flow.collectLatest { Timber.d("LaunchWhenResume $it") } }
+		// lifecycleScope.launchWhenResumed { flow.collectLatest { Timber.d("LaunchWhenResume $it") } }
 
-        flow.catch { Timber.d("ERROR $it") }
-            .flatMapConcat { flowOf(it) }
-            .onEach { Timber.d("JJJ $it") }
-            .launchIn(lifecycleScope)
+		flow.catch { Timber.d("ERROR $it") }
+			.flatMapConcat { flowOf(it) }
+			.onEach { Timber.d("JJJ $it") }
+			.launchIn(lifecycleScope)
 
-        binding.tvBottomSheet.setOnClickListener {
-            bottomSheetBridge.showBottomSheet(supportFragmentManager)
-        }
-        binding.tvShareBottomSheet.setOnClickListener {
-            bottomSheetBridge.showShareBottomSheet(supportFragmentManager)
-        }
-    }
+		binding.tvBottomSheet.setOnClickListener {
+			bottomSheetBridge.showBottomSheet(supportFragmentManager)
+		}
+		binding.tvShareBottomSheet.setOnClickListener {
+			bottomSheetBridge.showShareBottomSheet(supportFragmentManager)
+		}
+	}
 }
