@@ -5,7 +5,8 @@ package com.hmju.core_navigator
  *
  * Created by juhongmin on 2025. 10. 19.
  */
-sealed interface Router {
-    fun matches(path: String): Boolean
-    fun execute(path: String, params: Map<String, String>): RouterResult
+abstract class Router {
+    abstract fun route(): Route
+    abstract fun matches(path: String): Boolean
+    abstract fun execute(path: String, params: Map<String, String>): RouterResult
 }

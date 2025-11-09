@@ -1,5 +1,6 @@
 package com.features.main
 
+import android.net.Uri
 import com.features.async_migrate_bridge.AsyncMigrateBridge
 import com.features.base_mvvm_bridge.BaseMvvmBridge
 import com.features.compose_navigation_bridge.ComposeNavigationBridge
@@ -9,7 +10,10 @@ import com.features.recyclerview_bridge.RecyclerViewBridge
 import com.features.room_observer_bridge.RoomObserverBridge
 import com.hmju.compose_permissions_result_bridge.ComposePermissionsResultBridge
 import com.hmju.core.ui.base.ActivityViewModel
+import com.hmju.core.ui.base.IntentKey
+import com.hmju.core_navigator.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -26,7 +30,8 @@ class MainViewModel @Inject constructor(
     private val composeUiBridge: ComposeUiBridge,
     private val composePermissionsResultBridge: ComposePermissionsResultBridge,
     private val composeNavigationBridge: ComposeNavigationBridge,
-    private val roomObserverBridge: RoomObserverBridge
+    private val roomObserverBridge: RoomObserverBridge,
+    private val navigator: Navigator
 ) : ActivityViewModel() {
 
     fun moveToNetworkPage() {
@@ -63,5 +68,14 @@ class MainViewModel @Inject constructor(
 
     fun moveToRoomObserverPage(){
         roomObserverBridge.moveToPage()
+    }
+
+    override fun onIntent() {
+        super.onIntent()
+        val deeplink = savedStateHandle.get<Uri>(IntentKey.DEEPLINK_URI)
+        Timber.d("onNewIntent ${deeplink}")
+        if (deeplink != null) {
+            navigator.navigate(deeplink)
+        }
     }
 }

@@ -5,6 +5,7 @@ import androidx.annotation.MainThread
 import com.hmju.core_navigator.Navigator
 import com.hmju.core_navigator.Router
 import com.hmju.core_navigator.RouterResult
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -13,15 +14,15 @@ import javax.inject.Inject
  * Created by juhongmin on 2025. 11. 2.
  */
 internal class NavigatorImpl @Inject constructor(
-    private val processors: Map<String, @JvmSuppressWildcards Router>
+    private val processors: Set<@JvmSuppressWildcards Router>
 ) : Navigator {
 
     @MainThread
     override fun navigate(uri: Uri): RouterResult {
 	val path = uri.path ?: return RouterResult.Fail("Path is Null")
-	processors.forEach { entry ->
-	    val router = entry.value
+	processors.forEach { router ->
 	    try {
+		Timber.d("Router $router")
 		if (router.matches(path)) {
 		    return router.execute(path, uri.toQueryMap())
 		}
