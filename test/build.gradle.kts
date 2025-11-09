@@ -56,6 +56,8 @@ dependencies {
     androidTestImplementation(projects.features.composePermissionsResultBridge)
     androidTestImplementation(projects.features.composeNavigation)
     androidTestImplementation(projects.features.composeNavigationBridge)
+    androidTestImplementation(projects.features.roomObserver)
+    androidTestImplementation(projects.features.roomObserverBridge)
 
     androidTestImplementation(libs.androidx.lifecycle.runtime)
     androidTestImplementation(libs.androidx.lifecycle.viewmodel)

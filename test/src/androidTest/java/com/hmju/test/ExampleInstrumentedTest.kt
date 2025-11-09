@@ -1,5 +1,6 @@
 package com.hmju.test
 
+import android.net.Uri
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 
@@ -20,5 +21,16 @@ class ExampleInstrumentedTest {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         assertEquals("com.hmju.test.test", appContext.packageName)
+    }
+
+    @Test
+    fun uriGenerate(){
+        val uri = Uri.Builder()
+            .scheme("https")
+            .authority("til")
+            .path("main")
+            .appendQueryParameter("testKey","value")
+            .build()
+        println(uri)
     }
 }
