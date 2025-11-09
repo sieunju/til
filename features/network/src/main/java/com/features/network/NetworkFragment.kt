@@ -15,7 +15,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class NetworkFragment : BaseFragment<FNetworkBinding, FragmentViewModel>(R.layout.f_network) {
+class NetworkFragment : BaseFragment<FNetworkBinding, FragmentViewModel>(
+    R.layout.f_network
+) {
     override val viewModel: FragmentViewModel by initViewModel()
     override val bindingVariable: Int = BR.vm
 

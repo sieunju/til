@@ -1,4 +1,4 @@
-package com.features.main
+package com.features.network
 
 import android.content.Context
 import android.content.Intent
@@ -10,6 +10,7 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -17,22 +18,22 @@ import javax.inject.Inject
  *
  * Created by juhongmin on 2025. 11. 9.
  */
-internal class MainRouter @Inject constructor() : Router() {
+internal class NetworkRouter @Inject constructor() : Router() {
 
     @Module
     @InstallIn(SingletonComponent::class)
     internal interface BindingModule {
 	@Binds
 	@IntoSet
-	fun bind(impl: MainRouter): Router
+	fun bind(impl: NetworkRouter): Router
     }
 
     override fun route(): Route {
-	return Route.MAIN
+	return Route.NETWORK
     }
 
     override fun matches(path: String): Boolean {
-	return path == route().path
+	return path.startsWith(route().path)
     }
 
     override fun execute(
@@ -40,10 +41,12 @@ internal class MainRouter @Inject constructor() : Router() {
 	path: String,
 	params: Map<String, String>
     ): RouterResult {
-	val intent = Intent(context, MainActivity::class.java)
-	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-	intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-	context.startService(intent)
+	val nextPage = path.removePrefix(route().path)
+	Timber.d("NextPage $nextPage")
+	Intent(context, NetworkActivity::class.java).apply {
+	    putExtra("destination", nextPage)
+	    context.startActivity(this)
+	}
 	return RouterResult.Success()
     }
 }

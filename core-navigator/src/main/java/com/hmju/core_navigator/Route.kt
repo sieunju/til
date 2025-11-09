@@ -11,12 +11,18 @@ import android.net.Uri
 enum class Route(
     val path: String
 ) {
-    MAIN("main");
+    MAIN("/main"),
+    NETWORK("/network");
+
+    fun getUri(): Uri {
+	return getUri { }
+    }
 
     fun getUri(params: Uri.Builder.() -> Unit): Uri {
 	val builder = Uri.Builder()
-	builder.scheme("https")
-	builder.authority("til")
+	    .scheme("https")
+	    .authority("til")
+	    .path(path)
 	params(builder)
 	return builder.build()
     }

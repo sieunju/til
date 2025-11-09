@@ -1,5 +1,6 @@
 package com.hmju.core.ui.base
 
+import android.net.Uri
 import android.os.Bundle
 import android.os.Looper
 import android.os.Parcelable
@@ -7,6 +8,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import com.bumptech.glide.RequestManager
+import com.hmju.core.ui.livedata.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import timber.log.Timber
 import java.io.Serializable
@@ -28,7 +30,8 @@ open class ActivityViewModel @Inject constructor() : BaseViewModel() {
     val startActivityPage: LiveData<ActivityResult> get() = _startActivityPage
     private val _startFinishEvent: MutableLiveData<Unit> by lazy { MutableLiveData() }
     val startFinishEvent: LiveData<Unit> get() = _startFinishEvent
-
+    private val _routeEvent: SingleLiveEvent<Uri> by lazy { SingleLiveEvent() }
+    val routeEvent: LiveData<Uri> get() = _routeEvent
 
     private var _requestManager: RequestManager? = null
     val requestManager: RequestManager get() = _requestManager!!
@@ -41,23 +44,23 @@ open class ActivityViewModel @Inject constructor() : BaseViewModel() {
     open fun onIntent() {}
 
     fun getBundleData(): Bundle {
-        val bundle = Bundle()
-        savedStateHandle.keys().forEach { key ->
-            when (val value = savedStateHandle.get<Any>(key)) {
-                is String -> bundle.putString(key, value)
-                is Int -> bundle.putInt(key, value)
-                is Long -> bundle.putLong(key, value)
-                is Double -> bundle.putDouble(key, value)
-                is Boolean -> bundle.putBoolean(key, value)
-                is Float -> bundle.putFloat(key, value)
-                is Array<*>,
-                is Parcelable,
-                is Serializable -> {
-                    putBundle(key, value, bundle)
-                }
-            }
-        }
-        return bundle
+	val bundle = Bundle()
+	savedStateHandle.keys().forEach { key ->
+	    when (val value = savedStateHandle.get<Any>(key)) {
+		is String -> bundle.putString(key, value)
+		is Int -> bundle.putInt(key, value)
+		is Long -> bundle.putLong(key, value)
+		is Double -> bundle.putDouble(key, value)
+		is Boolean -> bundle.putBoolean(key, value)
+		is Float -> bundle.putFloat(key, value)
+		is Array<*>,
+		is Parcelable,
+		is Serializable -> {
+		    putBundle(key, value, bundle)
+		}
+	    }
+	}
+	return bundle
     }
 
     /**
@@ -67,15 +70,15 @@ open class ActivityViewModel @Inject constructor() : BaseViewModel() {
      * @param bundle 저장할 Bundle 데이터
      */
     private inline fun <reified T> putBundle(key: String, value: T, bundle: Bundle) {
-        try {
-            when (value) {
-                is Array<*> -> bundle.putStringArray(key, savedStateHandle.get<Array<String>>(key))
-                is Parcelable -> bundle.putParcelable(key, savedStateHandle.get(key))
-                is Serializable -> bundle.putSerializable(key, savedStateHandle.get(key))
-            }
-        } catch (ex: Exception) {
-            Timber.e("ERROR $ex")
-        }
+	try {
+	    when (value) {
+		is Array<*> -> bundle.putStringArray(key, savedStateHandle.get<Array<String>>(key))
+		is Parcelable -> bundle.putParcelable(key, savedStateHandle.get(key))
+		is Serializable -> bundle.putSerializable(key, savedStateHandle.get(key))
+	    }
+	} catch (ex: Exception) {
+	    Timber.e("ERROR $ex")
+	}
     }
 
 
@@ -90,7 +93,7 @@ open class ActivityViewModel @Inject constructor() : BaseViewModel() {
      * Activity Result 관련 Data Set
      */
     fun setResultSaveData(key: String, value: Any) {
-        savedStateHandle[key] = value
+	savedStateHandle[key] = value
     }
 
     /**
@@ -98,7 +101,7 @@ open class ActivityViewModel @Inject constructor() : BaseViewModel() {
      * @return NonNull
      */
     protected inline fun <reified T> getIntentData(key: String, default: T): T {
-        return savedStateHandle.get<T>(key) ?: default
+	return savedStateHandle.get<T>(key) ?: default
     }
 
     /**
@@ -106,7 +109,7 @@ open class ActivityViewModel @Inject constructor() : BaseViewModel() {
      * @return Nullable
      */
     protected inline fun <reified T> getIntentData(key: String): T? {
-        return savedStateHandle.get<T>(key)
+	return savedStateHandle.get<T>(key)
     }
 
     /**
@@ -116,16 +119,16 @@ open class ActivityViewModel @Inject constructor() : BaseViewModel() {
      *
      */
     protected fun ActivityResult.Builder.movePage() {
-        val page = this.build()
-        try {
-            if (Looper.myLooper() == Looper.getMainLooper()) {
-                _startActivityPage.value = page
-            } else {
-                _startActivityPage.postValue(page)
-            }
-        } catch (ex: Exception) {
-            _startActivityPage.postValue(page)
-        }
+	val page = this.build()
+	try {
+	    if (Looper.myLooper() == Looper.getMainLooper()) {
+		_startActivityPage.value = page
+	    } else {
+		_startActivityPage.postValue(page)
+	    }
+	} catch (ex: Exception) {
+	    _startActivityPage.postValue(page)
+	}
     }
 
     /**
@@ -133,21 +136,21 @@ open class ActivityViewModel @Inject constructor() : BaseViewModel() {
      * @return true 사용가능한 상태, false 사용 불가능한 상태
      */
     fun checkBundleEnable(): Boolean {
-        return this::savedStateHandle.isInitialized
+	return this::savedStateHandle.isInitialized
     }
 
     /**
      * Glide RequestManager 초기화
      */
     fun initRequestManager(requestManager: RequestManager) {
-        _requestManager = requestManager
+	_requestManager = requestManager
     }
 
     /**
      * onDestroyView 상태일때 RequestManager 메모리 해제 하는 함수
      */
     fun clearRequestManager() {
-        _requestManager = null
+	_requestManager = null
     }
 
     /**
@@ -155,10 +158,19 @@ open class ActivityViewModel @Inject constructor() : BaseViewModel() {
      * 공통 처리함수
      */
     fun onPageFinish() {
-        if (Looper.myLooper() == Looper.getMainLooper()) {
-            _startFinishEvent.value = Unit
-        } else {
-            _startFinishEvent.postValue(Unit)
-        }
+	if (Looper.myLooper() == Looper.getMainLooper()) {
+	    _startFinishEvent.value = Unit
+	} else {
+	    _startFinishEvent.postValue(Unit)
+	}
+    }
+
+    fun sendNavigate(uri: Uri?) {
+	if (uri == null) return
+	if (Looper.myLooper() == Looper.getMainLooper()) {
+	    _routeEvent.value = uri
+	} else {
+	    _routeEvent.postValue(uri)
+	}
     }
 }

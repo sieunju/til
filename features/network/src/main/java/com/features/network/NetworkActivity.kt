@@ -9,29 +9,30 @@ import com.hmju.core.ui.base.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class NetworkActivity :
-    BaseActivity<ActivityNetworkBinding, ActivityViewModel>(R.layout.activity_network) {
+class NetworkActivity : BaseActivity<ActivityNetworkBinding, ActivityViewModel>(
+    R.layout.activity_network
+) {
 
     override val viewModel: ActivityViewModel by initViewModel()
     override val bindingVariable: Int = BR.vm
 
     private val onBackPressCallback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
-        override fun handleOnBackPressed() {
-            if (supportFragmentManager.backStackEntryCount > 1) {
-                supportFragmentManager.popBackStack()
-            } else {
-                finish()
-            }
-        }
+	override fun handleOnBackPressed() {
+	    if (supportFragmentManager.backStackEntryCount > 1) {
+		supportFragmentManager.popBackStack()
+	    } else {
+		finish()
+	    }
+	}
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+	super.onCreate(savedInstanceState)
 
-        supportFragmentManager.commit {
-            replace(R.id.fragment, NetworkFragment())
-            addToBackStack(null)
-        }
-        onBackPressedDispatcher.addCallback(this, onBackPressCallback)
+	supportFragmentManager.commit {
+	    replace(R.id.fragment, NetworkFragment())
+	    addToBackStack(null)
+	}
+	onBackPressedDispatcher.addCallback(this, onBackPressCallback)
     }
 }

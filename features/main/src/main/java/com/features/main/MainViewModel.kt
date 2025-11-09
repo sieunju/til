@@ -11,9 +11,8 @@ import com.features.room_observer_bridge.RoomObserverBridge
 import com.hmju.compose_permissions_result_bridge.ComposePermissionsResultBridge
 import com.hmju.core.ui.base.ActivityViewModel
 import com.hmju.core.ui.base.IntentKey
-import com.hmju.core_navigator.Navigator
+import com.hmju.core_navigator.Route
 import dagger.hilt.android.lifecycle.HiltViewModel
-import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -30,52 +29,50 @@ class MainViewModel @Inject constructor(
     private val composeUiBridge: ComposeUiBridge,
     private val composePermissionsResultBridge: ComposePermissionsResultBridge,
     private val composeNavigationBridge: ComposeNavigationBridge,
-    private val roomObserverBridge: RoomObserverBridge,
-    private val navigator: Navigator
+    private val roomObserverBridge: RoomObserverBridge
 ) : ActivityViewModel() {
 
     fun moveToNetworkPage() {
-        networkBridge.moveToPage()
+	sendNavigate(Route.NETWORK.getUri {
+	    appendQueryParameter("targetPage", "root")
+	})
     }
 
     fun moveToRecyclerViewPage() {
-        recyclerViewBridge.moveToPage()
+	recyclerViewBridge.moveToPage()
     }
 
     fun moveToMvvmLifecyclePage() {
-        mvvmRequirements.moveToPage()
+	mvvmRequirements.moveToPage()
     }
 
     fun moveToAsyncMigratePage() {
-        asyncMigrateBridge.moveToPage()
+	asyncMigrateBridge.moveToPage()
     }
 
     fun moveToComposeUiPage() {
-        composeUiBridge.moveToPage()
+	composeUiBridge.moveToPage()
     }
 
     fun moveToMemoComposePage() {
-        composeUiBridge.moveToMemoPage()
+	composeUiBridge.moveToMemoPage()
     }
 
     fun moveToPermissionsResultPage() {
-        composePermissionsResultBridge.moveToPage()
+	composePermissionsResultBridge.moveToPage()
     }
 
     fun moveToComposeNavigationPage() {
-        composeNavigationBridge.moveToPage()
+	composeNavigationBridge.moveToPage()
     }
 
-    fun moveToRoomObserverPage(){
-        roomObserverBridge.moveToPage()
+    fun moveToRoomObserverPage() {
+	roomObserverBridge.moveToPage()
     }
 
     override fun onIntent() {
-        super.onIntent()
-        val deeplink = savedStateHandle.get<Uri>(IntentKey.DEEPLINK_URI)
-        Timber.d("onNewIntent ${deeplink}")
-        if (deeplink != null) {
-            navigator.navigate(deeplink)
-        }
+	super.onIntent()
+	val deeplink = savedStateHandle.get<Uri>(IntentKey.DEEPLINK_URI)
+	sendNavigate(deeplink)
     }
 }

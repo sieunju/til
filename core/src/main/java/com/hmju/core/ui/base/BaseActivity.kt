@@ -19,6 +19,9 @@ import androidx.lifecycle.ViewModelLazy
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.bumptech.glide.Glide
+import com.hmju.core_navigator.Navigator
+import com.hmju.core_navigator.NavigatorEntryPoint
+import dagger.hilt.EntryPoints
 
 /**
  * Description : MVVM BaseActivity
@@ -47,6 +50,13 @@ abstract class BaseActivity<T : ViewDataBinding, VM : ActivityViewModel>(
 	viewModel.onActivityResult(reqCode, result.resultCode, result.data?.extras ?: Bundle())
     }
 
+    //    @Inject
+//    lateinit var navigator: Navigator
+    private val navigatorEntryPoint: NavigatorEntryPoint by lazy {
+	EntryPoints.get(this, NavigatorEntryPoint::class.java)
+    }
+    private val navigator: Navigator by lazy { navigatorEntryPoint.navigator() }
+
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
 	super.onCreate(savedInstanceState)
@@ -59,6 +69,7 @@ abstract class BaseActivity<T : ViewDataBinding, VM : ActivityViewModel>(
 	    handleIntent(intent)
 	    startActivityPage.observe(this@BaseActivity) { startActivityAndAnimation(it) }
 	    startFinishEvent.observe(this@BaseActivity) { finish() }
+	    routeEvent.observe(this@BaseActivity) { navigator.navigate(this@BaseActivity, it) }
 	}
 	// 추후 화면에 따라 StatusBar 컨트롤
 	ViewCompat.setOnApplyWindowInsetsListener(window.decorView) { v, insets ->

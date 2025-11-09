@@ -49,7 +49,7 @@ class SchemeActivity : AppCompatActivity() {
 		startActivity(this)
 	    }
 	} else {
-	    navigator.navigate(uri)
+	    navigator.navigate(this, uri)
 	}
     }
 }
