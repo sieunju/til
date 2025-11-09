@@ -10,6 +10,7 @@ android {
 
 dependencies {
     implementation(projects.core)
+    implementation(projects.coreNavigator)
     implementation(projects.features.recyclerviewBridge)
     implementation(projects.features.networkBridge)
     implementation(projects.features.baseMvvmBridge)

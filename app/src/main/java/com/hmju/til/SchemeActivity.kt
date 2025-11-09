@@ -1,7 +1,9 @@
 package com.hmju.til
 
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
@@ -27,13 +29,19 @@ class SchemeActivity : AppCompatActivity() {
 	onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
 	    override fun handleOnBackPressed() {
 		finish()
-		overridePendingTransition(0, 0)
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+		    overrideActivityTransition(Activity.OVERRIDE_TRANSITION_OPEN, 0, 0)
+		} else {
+		    @Suppress("DEPRECATION")
+		    overridePendingTransition(0, 0)
+		}
 	    }
 	})
 	finish()
     }
 
     private fun handleDeeplink(uri: Uri) {
+	// 앱을 새로 실행해야함
 	if (isTaskRoot) {
 	    Intent(this, MainActivity::class.java).apply {
 		flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
