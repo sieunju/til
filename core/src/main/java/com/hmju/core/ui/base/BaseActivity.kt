@@ -50,10 +50,8 @@ abstract class BaseActivity<T : ViewDataBinding, VM : ActivityViewModel>(
 	viewModel.onActivityResult(reqCode, result.resultCode, result.data?.extras ?: Bundle())
     }
 
-    //    @Inject
-//    lateinit var navigator: Navigator
     private val navigatorEntryPoint: NavigatorEntryPoint by lazy {
-	EntryPoints.get(this, NavigatorEntryPoint::class.java)
+	EntryPoints.get(applicationContext, NavigatorEntryPoint::class.java)
     }
     private val navigator: Navigator by lazy { navigatorEntryPoint.navigator() }
 
