@@ -1,12 +1,18 @@
 package com.hmju.core_navigator
 
-/**
- * Description :
- *
- * Created by juhongmin on 2025. 10. 19.
- */
-sealed interface Route {
-	abstract val path: String
+import android.net.Uri
 
-	fun matches(path: String): Boolean
+/**
+ * Description : 각 모듈별 Route Path 정의
+ * 기본 scehem
+ * Created by juhongmin on 2025. 11. 9.
+ */
+enum class Route (
+    val path: String
+) {
+    MAIN("main");
+
+    fun getUri() : Uri{
+
+    }
 }

@@ -12,6 +12,29 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
-        tools:ignore="DataExtractionRules" />
+        tools:ignore="DataExtractionRules">
+
+        <activity
+            android:name=".SchemeActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden">
+
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="https" />
+                <!-- 실제로 https://til 어쩌고 안에 assetlink.json 있어야 할것 -->
+                <data
+                    android:host="til"
+                    tools:ignore="AppLinkUrlError" />
+            </intent-filter>
+
+        </activity>
+
+    </application>
 
 </manifest>
