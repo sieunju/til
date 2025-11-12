@@ -10,6 +10,7 @@ android {
 
 dependencies {
     implementation(projects.core)
+    implementation(projects.coreNavigator)
     implementation(projects.features.rvRefactorDiffUtilBridge)
 
     implementation(libs.retrofit)

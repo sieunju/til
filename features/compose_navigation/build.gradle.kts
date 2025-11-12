@@ -7,6 +7,8 @@ android {
 }
 
 dependencies {
+    implementation(projects.core)
+    implementation(projects.coreNavigator)
     implementation(projects.features.composeNavigationBridge)
 
     implementation(libs.androidx.appcompat)
