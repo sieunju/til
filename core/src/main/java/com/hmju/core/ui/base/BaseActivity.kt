@@ -57,8 +57,8 @@ abstract class BaseActivity<T : ViewDataBinding, VM : ActivityViewModel>(
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
-	super.onCreate(savedInstanceState)
 	enableEdgeToEdge()
+	super.onCreate(savedInstanceState)
 	initBinding()
 
 	with(viewModel) {
