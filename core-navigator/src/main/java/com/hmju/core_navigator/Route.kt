@@ -12,7 +12,8 @@ enum class Route(
     val path: String
 ) {
     MAIN("/main"),
-    NETWORK("/network");
+    NETWORK("/network"),
+    ASYNC_MIGRATE("/async/migrate");
 
     fun getUri(): Uri {
 	return getUri { }
