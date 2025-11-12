@@ -11,12 +11,4 @@ android {
 dependencies {
     implementation(projects.core)
     implementation(projects.coreNavigator)
-    implementation(projects.features.recyclerviewBridge)
-    implementation(projects.features.networkBridge)
-    implementation(projects.features.baseMvvmBridge)
-    implementation(projects.features.asyncMigrateBridge)
-    implementation(projects.features.composeUiBridge)
-    implementation(projects.features.composePermissionsResultBridge)
-    implementation(projects.features.composeNavigationBridge)
-    implementation(projects.features.roomObserverBridge)
 }

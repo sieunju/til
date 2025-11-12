@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import com.bumptech.glide.RequestManager
 import com.hmju.core.ui.livedata.SingleLiveEvent
+import com.hmju.core_navigator.Route
 import dagger.hilt.android.lifecycle.HiltViewModel
 import timber.log.Timber
 import java.io.Serializable
@@ -162,6 +163,14 @@ open class ActivityViewModel @Inject constructor() : BaseViewModel() {
 	    _startFinishEvent.value = Unit
 	} else {
 	    _startFinishEvent.postValue(Unit)
+	}
+    }
+
+    fun sendNavigate(route: Route) {
+	if (Looper.myLooper() == Looper.getMainLooper()) {
+	    _routeEvent.value = route.getUri()
+	} else {
+	    _routeEvent.postValue(route.getUri())
 	}
     }
 

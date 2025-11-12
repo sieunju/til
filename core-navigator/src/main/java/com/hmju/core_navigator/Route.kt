@@ -13,7 +13,14 @@ enum class Route(
 ) {
     MAIN("/main"),
     NETWORK("/network"),
-    ASYNC_MIGRATE("/async/migrate");
+    ASYNC_MIGRATE("/async/migrate"),
+    BASE_MVVM("/base/mvvm"),
+    BASE_MVVM_LIFECYCLE("/base/mvvm/lifecycle"),
+    COMPOSE_NAVIGATION("/compose/navigation"),
+    COMPOSE_PERMISSIONS_RESULT("/compose/permissions/result"),
+    COMPOSE_UI("/compose/ui"),
+    RECYCLERVIEW("/recyclerview"),
+    ROOM_OBSERVER("/room/observer");
 
     fun getUri(): Uri {
 	return getUri { }
