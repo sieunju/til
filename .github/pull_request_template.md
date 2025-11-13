@@ -1,35 +1,51 @@
-## 변경사항 요약
-<!-- 무엇을 변경했는지 간단히 설명 -->
+## Summary (요약)
+<!-- 이 PR이 무엇을 하는지 한 줄로 요약 -->
 
-## 변경 이유
-<!-- 왜 이 변경이 필요한지 -->
+## Background (배경)
+<!-- 왜 이 작업이 필요했는지, 어떤 문제를 해결하는지 -->
 
-## 변경 타입
-- [ ] 🐛 버그 수정
-- [ ] ✨ 새로운 기능
-- [ ] 🎨 UI/UX 개선
-- [ ] ♻️ 리팩토링
-- [ ] 📝 문서 수정
-- [ ] 🧪 테스트 추가/수정
-- [ ] ⚡ 성능 개선
-- [ ] 🔧 빌드/설정 변경
+### Problem
+<!-- 해결하려는 문제 -->
 
-## 테스트 환경
-- **테스트 기기**: Pixel 6 / Galaxy S23 / 에뮬레이터
-- **Android 버전**: 14 (API 34)
-- **빌드 타입**: Debug / Release
+### Solution
+<!-- 어떤 방식으로 해결했는지 -->
 
-## 테스트 시나리오
-<!-- 어떻게 테스트했는지 -->
-- [ ] 정상 동작 확인
-- [ ] UI 테스트 통과
-- [ ] 유닛 테스트 통과 (`./gradlew test`)
+## Planning (계획)
+### Implementation Details
+<!-- 구현 세부사항 -->
+- 
 
-## 스크린샷/영상
-<!-- UI 변경이 있는 경우 필수 -->
+### Technical Decisions
+<!-- 주요 기술적 결정사항 -->
+- 
+
+### Test Plan
+- **Test Device**: 
+- **Android Version**: 
+- **Build Variant**: 
+- **Test Scenarios**:
+  - [ ] 정상 시나리오
+  - [ ] 엣지 케이스
+  - [ ] UI/UX 확인
+
+## Changelog (변경사항)
+### Added (추가)
+- 
+
+### Changed (변경)
+- 
+
+### Fixed (수정)
+- 
+
+### Removed (제거)
+- 
+
+## Screenshots
+<!-- UI 변경이 있는 경우 -->
 | Before | After |
 |--------|-------|
-| 이미지 | 이미지 |
+|        |       |
 
-## 관련 이슈
-Closes #이슈번호
+## Related Issues
+Closes #
