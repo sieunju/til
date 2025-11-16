@@ -8,4 +8,5 @@ package com.hmju.core_navigator
 object RouteParamsKey {
     const val TYPE = "type"
     const val TARGET = "target"
+    const val LAYOUT_ID = "layout_id"
 }

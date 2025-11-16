@@ -23,7 +23,9 @@ internal class NavigatorImpl @Inject constructor(
 	    try {
 		if (router.matches(path)) {
 		    Timber.d("Router $router Path:${path}")
-		    return router.execute(context, path, uri.toQueryMap())
+		    val result =  router.execute(context, path, uri.toQueryMap())
+		    Timber.d("Router Result ${result}")
+		    return result
 		}
 	    } catch (ex: Exception) {
 		Timber.d("ERROR $ex")

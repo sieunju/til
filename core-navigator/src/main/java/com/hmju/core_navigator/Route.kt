@@ -21,7 +21,8 @@ enum class Route(
     COMPOSE_UI("/compose/ui"),
     RECYCLERVIEW("/recyclerview"),
     ROOM_OBSERVER("/room/observer"),
-    BASE_MVVM_BOTTOM_SHEET("/base/mvvm/bottom_sheet");
+    BASE_MVVM_BOTTOM_SHEET("/base/mvvm/bottom_sheet"),
+    NETWORK_ERROR_HANDLING("/network/error_handling");
 
     fun getUri(): Uri {
 	return getUri { }
