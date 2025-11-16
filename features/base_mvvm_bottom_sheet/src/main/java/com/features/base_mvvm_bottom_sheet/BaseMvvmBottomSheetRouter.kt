@@ -1,7 +1,9 @@
-package com.features.compose_ui
+package com.features.base_mvvm_bottom_sheet
 
 import android.content.Context
-import android.content.Intent
+import androidx.fragment.app.FragmentActivity
+import com.features.base_mvvm_bottom_sheet.ui.RefactorBottomSheetDialog
+import com.features.base_mvvm_bottom_sheet.ui.RefactorSharedBottomSheetDialog
 import com.hmju.core_navigator.Route
 import com.hmju.core_navigator.RouteParamsKey
 import com.hmju.core_navigator.Router
@@ -16,20 +18,19 @@ import javax.inject.Inject
 /**
  * Description :
  *
- * Created by juhongmin on 2025. 11. 12.
+ * Created by juhongmin on 2025. 11. 16.
  */
-internal class ComposeUiRouter @Inject constructor() : Router() {
-
+internal class BaseMvvmBottomSheetRouter @Inject constructor() : Router() {
     @Module
     @InstallIn(SingletonComponent::class)
     internal interface BindingModule {
 	@Binds
 	@IntoSet
-	fun bind(impl: ComposeUiRouter): Router
+	fun bind(impl: BaseMvvmBottomSheetRouter): Router
     }
 
     override fun route(): Route {
-	return Route.COMPOSE_UI
+	return Route.BASE_MVVM_BOTTOM_SHEET
     }
 
     override fun matches(path: String): Boolean {
@@ -41,17 +42,15 @@ internal class ComposeUiRouter @Inject constructor() : Router() {
 	path: String,
 	params: Map<String, String>
     ): RouterResult {
-	// QueryParameter의 type에 따라 다른 Activity 시작
-	val targetActivity = if (params[RouteParamsKey.TYPE] == "memo") {
-	    MemoComposeUiActivity::class.java
+	if (context !is FragmentActivity) return RouterResult.Fail("Context not FragmentActivity")
+	val fm = context.supportFragmentManager
+	if (params[RouteParamsKey.TARGET] == "share") {
+	    RefactorBottomSheetDialog()
+		.simpleShow(fm, "RefactorBottomSheetDialog")
 	} else {
-	    ComposeUiActivity::class.java
-	}
-
-	Intent(context, targetActivity).apply {
-	    context.startActivity(this)
+	    RefactorSharedBottomSheetDialog()
+		.simpleShow(fm, "RefactorSharedBottomSheetDialog")
 	}
 	return RouterResult.Success()
     }
 }
-

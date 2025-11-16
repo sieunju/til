@@ -28,43 +28,43 @@ internal class RefactorBottomSheetDialog :
     override val bindingVariable = BR.vm
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        viewModel = initViewModel()
-        super.onCreate(savedInstanceState)
-        setStyle(DialogFragment.STYLE_NORMAL, com.hmju.core.R.style.BottomSheetDialog)
+	viewModel = initViewModel()
+	super.onCreate(savedInstanceState)
+	setStyle(DialogFragment.STYLE_NORMAL, com.hmju.core.R.style.BottomSheetDialog)
     }
 
     override fun onShow(dialogInterface: DialogInterface) {
-        super.onShow(dialogInterface)
-        val behavior = setFullHeightBottomSheet(dialogInterface)
-        behavior?.state = BottomSheetBehavior.STATE_EXPANDED
-        behavior?.skipCollapsed = false
-        behavior?.isDraggable = true
+	super.onShow(dialogInterface)
+	val behavior = setFullHeightBottomSheet(dialogInterface)
+	behavior?.state = BottomSheetBehavior.STATE_EXPANDED
+	behavior?.skipCollapsed = false
+	behavior?.isDraggable = true
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        with(binding) {
-            vp.isSaveEnabled = false
-            val adapter = PagerAdapter(this@RefactorBottomSheetDialog)
-            vp.adapter = adapter
-        }
+	super.onViewCreated(view, savedInstanceState)
+	with(binding) {
+	    vp.isSaveEnabled = false
+	    val adapter = PagerAdapter(this@RefactorBottomSheetDialog)
+	    vp.adapter = adapter
+	}
 
-        with(viewModel) {
-            startDismiss.observe(viewLifecycleOwner) {
-                dismiss()
-            }
-        }
+	with(viewModel) {
+	    startDismiss.observe(viewLifecycleOwner) {
+		dismiss()
+	    }
+	}
     }
 
 
     class PagerAdapter(fm: Fragment) : FragmentStateAdapter(fm) {
-        override fun getItemCount() = 2
+	override fun getItemCount() = 2
 
-        override fun createFragment(pos: Int): Fragment {
-            return when (pos) {
-                0 -> ChildBottomSheetBlueFragment.newInstance()
-                else -> ChildBottomSheetRedFragment.newInstance()
-            }
-        }
+	override fun createFragment(pos: Int): Fragment {
+	    return when (pos) {
+		0 -> ChildBottomSheetBlueFragment.newInstance()
+		else -> ChildBottomSheetRedFragment.newInstance()
+	    }
+	}
     }
 }

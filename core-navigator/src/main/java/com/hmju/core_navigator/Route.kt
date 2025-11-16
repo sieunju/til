@@ -20,7 +20,8 @@ enum class Route(
     COMPOSE_PERMISSIONS_RESULT("/compose/permissions/result"),
     COMPOSE_UI("/compose/ui"),
     RECYCLERVIEW("/recyclerview"),
-    ROOM_OBSERVER("/room/observer");
+    ROOM_OBSERVER("/room/observer"),
+    BASE_MVVM_BOTTOM_SHEET("/base/mvvm/bottom_sheet");
 
     fun getUri(): Uri {
 	return getUri { }

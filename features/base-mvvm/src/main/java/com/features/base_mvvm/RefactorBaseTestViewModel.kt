@@ -6,6 +6,8 @@ import com.features.base_mvvm_lifecycle_bridge.BaseMvvmLifecycleBridge
 import com.features.base_mvvm_lifecycle_bridge.SerializableEntity
 import com.hmju.core.ui.base.ActivityViewModel
 import com.hmju.core.ui.base.IntentKey
+import com.hmju.core_navigator.Route
+import com.hmju.core_navigator.RouteParamsKey
 import dagger.hilt.android.lifecycle.HiltViewModel
 import timber.log.Timber
 import javax.inject.Inject
@@ -26,20 +28,30 @@ class RefactorBaseTestViewModel @Inject constructor(
     val contents: LiveData<String> get() = _contents
 
     override fun onIntent() {
-        super.onIntent()
-        Timber.d("[s] onCreate Intent Data ===============================================")
-        savedStateHandle.keys().forEach {
-            Timber.d("Key $it Value ${savedStateHandle.get<Any>(it)}")
-        }
-        Timber.d("[s] onCreate Intent Data ===============================================")
+	super.onIntent()
+	Timber.d("[s] onCreate Intent Data ===============================================")
+	savedStateHandle.keys().forEach {
+	    Timber.d("Key $it Value ${savedStateHandle.get<Any>(it)}")
+	}
+	Timber.d("[s] onCreate Intent Data ===============================================")
     }
 
     override fun onDirectCreate() {
-        super.onDirectCreate()
-        _title.value = savedStateHandle.get<String>(IntentKey.TOKEN) ?: run { "Data 가 없습니다.." }
+	super.onDirectCreate()
+	_title.value = savedStateHandle.get<String>(IntentKey.TOKEN) ?: run { "Data 가 없습니다.." }
     }
 
     fun moveToMVVMLifecycleFeature() {
-        mvvmLifecycleBridge.moveToPage(SerializableEntity("testTitle", System.currentTimeMillis()))
+	mvvmLifecycleBridge.moveToPage(SerializableEntity("testTitle", System.currentTimeMillis()))
+    }
+
+    fun moveToBottomSheet() {
+	sendNavigate(Route.BASE_MVVM_BOTTOM_SHEET)
+    }
+
+    fun moveToShareBottomSheet() {
+	sendNavigate(Route.BASE_MVVM_BOTTOM_SHEET.getUri {
+	    appendQueryParameter(RouteParamsKey.TARGET, "share")
+	})
     }
 }
