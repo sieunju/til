@@ -72,3 +72,5 @@ appRelease/release_note.txt
 
 # GitHub App credentials
 gha-creds-*.json
+
+.kotlin/
