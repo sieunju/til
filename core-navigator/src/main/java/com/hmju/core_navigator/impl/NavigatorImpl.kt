@@ -22,16 +22,14 @@ internal class NavigatorImpl @Inject constructor(
 	processors.forEach { router ->
 	    try {
 		if (router.matches(path)) {
-		    Timber.d("Router $router Path:${path}")
-		    val result =  router.execute(context, path, uri.toQueryMap())
-		    Timber.d("Router Result ${result}")
-		    return result
+		    val result = router.execute(context, path, uri.toQueryMap())
+		    if (result is RouterResult.Success) return result
+		    Timber.d("Router Fail Result $result")
 		}
 	    } catch (ex: Exception) {
 		Timber.d("ERROR $ex")
 		return RouterResult.Fail(ex.message ?: "Error!")
 	    }
-
 	}
 	return RouterResult.Fail("Undefined path.")
     }

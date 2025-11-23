@@ -1,7 +1,9 @@
 package com.hmju.test.ui.network
 
 import androidx.test.core.app.launchActivity
-import com.features.network_jsend_format_bridge.NetworkJSendFormatBridge
+import com.hmju.core_navigator.Navigator
+import com.hmju.core_navigator.Route
+import com.hmju.core_navigator.RouteParamsKey
 import com.hmju.test.R
 import com.hmju.test.TestFragmentActivity
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -22,20 +24,22 @@ class NetworkJSendFormatUiTest {
     var hiltRule = HiltAndroidRule(this)
 
     @Inject
-    lateinit var bridge: NetworkJSendFormatBridge
+    lateinit var navigator: Navigator
 
     @Before
     fun init() {
-        hiltRule.inject()
+	hiltRule.inject()
     }
 
     @Test
-    fun JSEND_포멧_UI_테스트(){
-        launchActivity<TestFragmentActivity>().apply {
-            onActivity { act->
-                bridge.moveToPage(R.id.container,act.supportFragmentManager)
-            }
-        }
-        Thread.sleep(10_000)
+    fun JSEND_포멧_UI_테스트() {
+	launchActivity<TestFragmentActivity>().apply {
+	    onActivity { act ->
+		navigator.navigate(act, Route.NETWORK_JSEND_FORMAT.getUri {
+		    appendQueryParameter(RouteParamsKey.LAYOUT_ID, R.id.container.toString())
+		})
+	    }
+	}
+	Thread.sleep(10_000)
     }
 }

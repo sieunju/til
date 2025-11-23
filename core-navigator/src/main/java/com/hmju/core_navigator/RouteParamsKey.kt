@@ -9,4 +9,6 @@ object RouteParamsKey {
     const val TYPE = "type"
     const val TARGET = "target"
     const val LAYOUT_ID = "layout_id"
+    const val PATH = "path"
+    const val IS_INTERNAL = "is_internal"
 }

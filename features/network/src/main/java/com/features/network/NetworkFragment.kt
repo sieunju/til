@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.LinearLayoutCompat
 import com.features.network.databinding.FNetworkBinding
-import com.features.network_expired_token_bridge.NetworkExpiredTokenBridge
 import com.features.network_jsend_format_bridge.NetworkJSendFormatBridge
 import com.features.network_v2_bridge.NetworkV2Bridge
 import com.google.android.material.button.MaterialButton
@@ -25,12 +24,6 @@ class NetworkFragment : BaseFragment<FNetworkBinding, FragmentViewModel>(
     @Inject
     lateinit var v2Bridge: NetworkV2Bridge
 
-    @Inject
-    lateinit var jsendFormatBridge: NetworkJSendFormatBridge
-
-    @Inject
-    lateinit var expiredTokenBridge: NetworkExpiredTokenBridge
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 	super.onViewCreated(view, savedInstanceState)
 	initButton()
@@ -39,14 +32,21 @@ class NetworkFragment : BaseFragment<FNetworkBinding, FragmentViewModel>(
     private fun initButton() {
 	binding.llButtons.runCatching {
 	    addButton("토큰 만료시 재인증하는 방법") {
-		expiredTokenBridge.moveToPage(R.id.fragment, parentFragmentManager)
+		viewModel.sendNavigate(Route.NETWORK_EXPIRED_TOKEN.getUri {
+		    appendQueryParameter(RouteParamsKey.LAYOUT_ID, R.id.fragment.toString())
+		    appendQueryParameter(RouteParamsKey.IS_INTERNAL, true.toString())
+		})
 	    }
 	    addButton("JSON jsend 규칙으로 데이터 모델 구성해보기") {
-		jsendFormatBridge.moveToPage(R.id.fragment, parentFragmentManager)
+		viewModel.sendNavigate(Route.NETWORK_JSEND_FORMAT.getUri {
+		    appendQueryParameter(RouteParamsKey.LAYOUT_ID, R.id.fragment.toString())
+		    appendQueryParameter(RouteParamsKey.IS_INTERNAL, true.toString())
+		})
 	    }
 	    addButton("네트워크 에러 헨들링 처리해보기") {
 		viewModel.sendNavigate(Route.NETWORK_ERROR_HANDLING.getUri {
 		    appendQueryParameter(RouteParamsKey.LAYOUT_ID, R.id.fragment.toString())
+		    appendQueryParameter(RouteParamsKey.IS_INTERNAL, true.toString())
 		})
 	    }
 	    addButton("네트워크 V2 리펙토링") {

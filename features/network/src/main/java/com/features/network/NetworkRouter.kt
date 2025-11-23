@@ -3,6 +3,7 @@ package com.features.network
 import android.content.Context
 import android.content.Intent
 import com.hmju.core_navigator.Route
+import com.hmju.core_navigator.RouteParamsKey
 import com.hmju.core_navigator.Router
 import com.hmju.core_navigator.RouterResult
 import dagger.Binds
@@ -32,19 +33,17 @@ internal class NetworkRouter @Inject constructor() : Router() {
 	return Route.NETWORK
     }
 
-    override fun matches(path: String): Boolean {
-	return path.startsWith(route().path)
-    }
-
     override fun execute(
 	context: Context,
 	path: String,
 	params: Map<String, String>
     ): RouterResult {
-	val nextPage = path.removePrefix(route().path)
-	Timber.d("NextPage $nextPage")
 	Intent(context, NetworkActivity::class.java).apply {
-	    putExtra("destination", nextPage)
+	    putExtra(RouteParamsKey.PATH, path)
+	    putExtra(
+		RouteParamsKey.IS_INTERNAL,
+		params[RouteParamsKey.IS_INTERNAL]
+	    )
 	    context.startActivity(this)
 	}
 	return RouterResult.Success()

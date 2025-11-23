@@ -18,6 +18,7 @@ android {
 
 dependencies {
     androidTestImplementation(projects.core)
+    androidTestImplementation(projects.coreNavigator)
     androidTestImplementation(projects.legacy)
     androidTestImplementation(projects.features.baseMvvm)
     // androidTestImplementation(projects.features.baseMvvmBridge)
@@ -39,7 +40,7 @@ dependencies {
     androidTestImplementation(projects.features.networkJsendFormat)
     androidTestImplementation(projects.features.networkJsendFormatBridge)
     androidTestImplementation(projects.features.networkExpiredToken)
-    androidTestImplementation(projects.features.networkExpiredTokenBridge)
+    // androidTestImplementation(projects.features.networkExpiredTokenBridge)
     androidTestImplementation(projects.features.rvSimpleLike)
     androidTestImplementation(projects.features.rvSimpleLikeBridge)
     androidTestImplementation(projects.features.rvDiffUtilPerformance)

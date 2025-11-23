@@ -13,7 +13,9 @@ import dagger.hilt.android.internal.managers.ViewComponentManager
  */
 abstract class Router {
     abstract fun route(): Route
-    abstract fun matches(path: String): Boolean
+    open fun matches(path: String): Boolean {
+	return path.startsWith(route().path)
+    }
 
     // // android.util.AndroidRuntimeException: Calling startActivity() from outside of an
     // Activity context requires the FLAG_ACTIVITY_NEW_TASK flag. Is this really what you want?
@@ -52,5 +54,18 @@ abstract class Router {
 	    }
 	}
 	return null
+    }
+
+    protected fun getFragmentLayoutId(
+	context: Context,
+	params: Map<String, String>
+    ) : Int? {
+	val layoutId = params[RouteParamsKey.LAYOUT_ID]?.toIntOrNull()
+	    ?: return null
+	return if (isValidIdRes(context,layoutId)) {
+	    layoutId
+	} else {
+	    null
+	}
     }
 }

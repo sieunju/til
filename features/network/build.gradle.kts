@@ -15,5 +15,5 @@ dependencies {
     implementation(projects.features.networkV2Bridge)
     // implementation(projects.features.networkErrorHandlingBridge)
     implementation(projects.features.networkJsendFormatBridge)
-    implementation(projects.features.networkExpiredTokenBridge)
+    // implementation(projects.features.networkExpiredTokenBridge)
 }

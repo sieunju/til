@@ -11,6 +11,6 @@ android {
 dependencies {
     implementation(projects.core)
     implementation(projects.coreNavigator)
-    implementation(projects.features.networkExpiredTokenBridge)
+    // implementation(projects.features.networkExpiredTokenBridge)
     implementation(libs.retrofit)
 }

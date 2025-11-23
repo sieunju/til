@@ -1,8 +1,6 @@
 package com.features.network_expired_token.di
 
 import com.features.network_expired_token.ApiService
-import com.features.network_expired_token.impl.NetworkExpiredTokenBridgeImpl
-import com.features.network_expired_token_bridge.NetworkExpiredTokenBridge
 import com.hmju.core.network.NetworkProvider
 import dagger.Module
 import dagger.Provides
@@ -21,14 +19,8 @@ internal object FeatureModule {
     @Singleton
     @Provides
     fun provideApiService(
-        provider: NetworkProvider
+	provider: NetworkProvider
     ): ApiService {
-        return provider.createApiService(ApiService::class.java)
-    }
-
-    @Singleton
-    @Provides
-    fun provideBridge(): NetworkExpiredTokenBridge {
-        return NetworkExpiredTokenBridgeImpl()
+	return provider.createApiService(ApiService::class.java)
     }
 }
