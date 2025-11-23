@@ -11,9 +11,9 @@ android {
 dependencies {
     implementation(projects.core)
     implementation(projects.coreNavigator)
-    implementation(projects.features.networkBridge)
+    // implementation(projects.features.networkBridge)
     implementation(projects.features.networkV2Bridge)
-    implementation(projects.features.networkErrorHandlingBridge)
+    // implementation(projects.features.networkErrorHandlingBridge)
     implementation(projects.features.networkJsendFormatBridge)
     implementation(projects.features.networkExpiredTokenBridge)
 }

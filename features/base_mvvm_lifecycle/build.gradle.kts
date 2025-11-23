@@ -11,7 +11,7 @@ android {
 dependencies {
     implementation(projects.core)
     implementation(projects.coreNavigator)
-    implementation(projects.features.baseMvvmLifecycleBridge)
+    // implementation(projects.features.baseMvvmLifecycleBridge)
 
     implementation(libs.retrofit)
 }

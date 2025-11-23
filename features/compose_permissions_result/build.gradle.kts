@@ -9,6 +9,6 @@ android {
 dependencies {
     implementation(projects.core)
     implementation(projects.coreNavigator)
-    implementation(projects.features.composePermissionsResultBridge)
+    // implementation(projects.features.composePermissionsResultBridge)
     implementation(libs.androidx.appcompat)
 }
