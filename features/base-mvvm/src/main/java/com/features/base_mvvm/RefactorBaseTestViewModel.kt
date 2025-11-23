@@ -2,8 +2,6 @@ package com.features.base_mvvm
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.features.base_mvvm_lifecycle_bridge.BaseMvvmLifecycleBridge
-import com.features.base_mvvm_lifecycle_bridge.SerializableEntity
 import com.hmju.core.ui.base.ActivityViewModel
 import com.hmju.core.ui.base.IntentKey
 import com.hmju.core_navigator.Route
@@ -19,7 +17,6 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class RefactorBaseTestViewModel @Inject constructor(
-    private val mvvmLifecycleBridge: BaseMvvmLifecycleBridge
 ) : ActivityViewModel() {
 
     private val _title: MutableLiveData<String> by lazy { MutableLiveData() }
@@ -42,7 +39,10 @@ class RefactorBaseTestViewModel @Inject constructor(
     }
 
     fun moveToMVVMLifecycleFeature() {
-	mvvmLifecycleBridge.moveToPage(SerializableEntity("testTitle", System.currentTimeMillis()))
+	sendNavigate(Route.BASE_MVVM_LIFECYCLE.getUri {
+	    appendQueryParameter("title", "testTitle")
+	    appendQueryParameter("uid", System.currentTimeMillis().toString())
+	})
     }
 
     fun moveToBottomSheet() {

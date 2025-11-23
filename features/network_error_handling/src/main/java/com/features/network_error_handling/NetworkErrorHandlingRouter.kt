@@ -44,8 +44,7 @@ internal class NetworkErrorHandlingRouter @Inject constructor() : Router() {
     ): RouterResult {
 	val activity = getFragmentActivity(context)
 	    ?: return RouterResult.Fail("Context not FragmentActivity")
-	Timber.d("Context? $activity")
-	val layoutId = params.get(RouteParamsKey.LAYOUT_ID)
+	val layoutId = params[RouteParamsKey.LAYOUT_ID]
 	    ?.toIntOrNull()
 	    ?.takeIf { isValidIdRes(context, it) }
 	    ?: return RouterResult.Fail("Invalidate LayoutId ")

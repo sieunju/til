@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.LinearLayoutCompat
 import com.features.network.databinding.FNetworkBinding
-import com.features.network_error_handling_bridge.NetworkErrorHandlingBridge
 import com.features.network_expired_token_bridge.NetworkExpiredTokenBridge
 import com.features.network_jsend_format_bridge.NetworkJSendFormatBridge
 import com.features.network_v2_bridge.NetworkV2Bridge
@@ -25,9 +24,6 @@ class NetworkFragment : BaseFragment<FNetworkBinding, FragmentViewModel>(
 
     @Inject
     lateinit var v2Bridge: NetworkV2Bridge
-
-    @Inject
-    lateinit var errorHandlingBridge: NetworkErrorHandlingBridge
 
     @Inject
     lateinit var jsendFormatBridge: NetworkJSendFormatBridge
