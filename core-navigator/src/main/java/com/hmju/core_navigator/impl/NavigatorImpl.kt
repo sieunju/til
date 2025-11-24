@@ -21,13 +21,14 @@ internal class NavigatorImpl @Inject constructor(
 	val path = uri.path ?: return RouterResult.Fail("Path is Null")
 	processors.forEach { router ->
 	    try {
+		Timber.d("Navigation $uri")
 		if (router.matches(path)) {
 		    val result = router.execute(context, path, uri.toQueryMap())
 		    if (result is RouterResult.Success) return result
 		    Timber.d("Router Fail Result $result")
 		}
 	    } catch (ex: Exception) {
-		Timber.d("ERROR $ex")
+		Timber.e("Error $ex")
 		return RouterResult.Fail(ex.message ?: "Error!")
 	    }
 	}

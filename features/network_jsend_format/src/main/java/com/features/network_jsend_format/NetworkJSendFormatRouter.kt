@@ -53,7 +53,7 @@ internal class NetworkJSendFormatRouter @Inject constructor() : Router() {
 	val fm = activity.supportFragmentManager
 	fm.commit {
 	    replace(layoutId, JsonJsendFragment())
-	    addToBackStack(null)
+	    addToBackStack("JsonJsendFragment")
 	}
 	return RouterResult.Success()
     }

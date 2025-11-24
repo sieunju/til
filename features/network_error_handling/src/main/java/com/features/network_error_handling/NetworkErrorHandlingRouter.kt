@@ -41,7 +41,7 @@ internal class NetworkErrorHandlingRouter @Inject constructor() : Router() {
 	val layoutId = getFragmentLayoutId(
 	    context,
 	    params
-	) ?: return RouterResult.Fail("Invalidate LayoutId ")
+	) ?: return RouterResult.Fail("Invalidate LayoutId")
 	val fm = activity.supportFragmentManager
 	fm.commit {
 	    replace(layoutId, ErrorHandlingFragment())

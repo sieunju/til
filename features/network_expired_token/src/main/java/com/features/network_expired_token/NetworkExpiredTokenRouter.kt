@@ -49,7 +49,7 @@ internal class NetworkExpiredTokenRouter @Inject constructor() : Router() {
 	val fm = activity.supportFragmentManager
 	fm.commit {
 	    replace(layoutId, RefreshTokenFragment())
-	    addToBackStack(null)
+	    addToBackStack("RefreshTokenFragment")
 	}
 	return RouterResult.Success()
     }

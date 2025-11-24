@@ -210,8 +210,8 @@ abstract class BaseActivity<T : ViewDataBinding, VM : ActivityViewModel>(
     }
 
     private fun handleIntent(newIntent: Intent?) {
+	if (newIntent == null) return
 	viewModel.runCatching {
-	    if (newIntent == null) return
 	    val data = newIntent.extras
 	    if (data != null) {
 		data.keySet()?.forEach { key ->
