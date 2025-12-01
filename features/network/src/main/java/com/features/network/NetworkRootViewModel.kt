@@ -4,10 +4,10 @@ import androidx.lifecycle.viewModelScope
 import com.hmju.core.ui.base.ActivityViewModel
 import com.hmju.core_navigator.Route
 import com.hmju.core_navigator.RouteParamsKey
+import com.hmju.core_navigator.addQuery
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -23,28 +23,27 @@ class NetworkRootViewModel @Inject constructor() : ActivityViewModel() {
 	val targetPath = getBundleData().getString(RouteParamsKey.PATH)
 	if (targetPath.isNullOrEmpty()) return
 	val route = Route.from(targetPath)
-	Timber.d("Route $route")
 	viewModelScope.launch {
 	    delay(500)
 	    when (route) {
 		Route.NETWORK_ERROR_HANDLING -> {
 		    sendNavigate(route.getUri {
-			appendQueryParameter(RouteParamsKey.LAYOUT_ID, R.id.fragment.toString())
-			appendQueryParameter(RouteParamsKey.IS_INTERNAL, true.toString())
+			addQuery(RouteParamsKey.LAYOUT_ID, R.id.fragment)
+			addQuery(RouteParamsKey.IS_INTERNAL, true)
 		    })
 		}
 
 		Route.NETWORK_EXPIRED_TOKEN -> {
 		    sendNavigate(route.getUri {
-			appendQueryParameter(RouteParamsKey.LAYOUT_ID, R.id.fragment.toString())
-			appendQueryParameter(RouteParamsKey.IS_INTERNAL, true.toString())
+			addQuery(RouteParamsKey.LAYOUT_ID, R.id.fragment)
+			addQuery(RouteParamsKey.IS_INTERNAL, true)
 		    })
 		}
 
 		Route.NETWORK_JSEND_FORMAT -> {
 		    sendNavigate(route.getUri {
-			appendQueryParameter(RouteParamsKey.LAYOUT_ID, R.id.fragment.toString())
-			appendQueryParameter(RouteParamsKey.IS_INTERNAL, true.toString())
+			addQuery(RouteParamsKey.LAYOUT_ID, R.id.fragment)
+			addQuery(RouteParamsKey.IS_INTERNAL, true)
 		    })
 		}
 

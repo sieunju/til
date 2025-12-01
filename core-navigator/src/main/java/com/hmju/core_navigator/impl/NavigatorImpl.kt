@@ -19,9 +19,9 @@ internal class NavigatorImpl @Inject constructor(
 
     override fun navigate(context: Context, uri: Uri): RouterResult {
 	val path = uri.path ?: return RouterResult.Fail("Path is Null")
+	Timber.d("Navigation $uri")
 	processors.forEach { router ->
 	    try {
-		Timber.d("Navigation $uri")
 		if (router.matches(path)) {
 		    val result = router.execute(context, path, uri.toQueryMap())
 		    if (result is RouterResult.Success) return result
@@ -39,9 +39,7 @@ internal class NavigatorImpl @Inject constructor(
 	return try {
 	    queryParameterNames
 		.filterNot { it.isNullOrBlank() }
-		.associateWith { key ->
-		    getQueryParameter(key).orEmpty()
-		}
+		.associateWith { key -> getQueryParameter(key).orEmpty() }
 	} catch (e: Exception) {
 	    emptyMap()
 	}

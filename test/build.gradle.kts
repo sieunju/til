@@ -38,7 +38,7 @@ dependencies {
     androidTestImplementation(projects.features.networkErrorHandling)
     // androidTestImplementation(projects.features.networkErrorHandlingBridge)
     androidTestImplementation(projects.features.networkJsendFormat)
-    androidTestImplementation(projects.features.networkJsendFormatBridge)
+    // androidTestImplementation(projects.features.networkJsendFormatBridge)
     androidTestImplementation(projects.features.networkExpiredToken)
     // androidTestImplementation(projects.features.networkExpiredTokenBridge)
     androidTestImplementation(projects.features.rvSimpleLike)

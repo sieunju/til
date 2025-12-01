@@ -1,8 +1,6 @@
 package com.features.network_jsend_format.di
 
 import com.features.network_jsend_format.ApiService
-import com.features.network_jsend_format.impl.NetworkJSendFormatBridgeImpl
-import com.features.network_jsend_format_bridge.NetworkJSendFormatBridge
 import com.hmju.core.network.NetworkProvider
 import dagger.Module
 import dagger.Provides
@@ -24,11 +22,5 @@ internal object FeatureModule {
         provider: NetworkProvider
     ): ApiService {
         return provider.createApiService(ApiService::class.java)
-    }
-
-    @Singleton
-    @Provides
-    fun provideBridge(): NetworkJSendFormatBridge {
-        return NetworkJSendFormatBridgeImpl()
     }
 }
