@@ -30,7 +30,7 @@ dependencies {
     androidTestImplementation(projects.features.asyncMigrate)
     // androidTestImplementation(projects.features.asyncMigrateBridge)
     androidTestImplementation(projects.features.networkV2)
-    androidTestImplementation(projects.features.networkV2Bridge)
+    // androidTestImplementation(projects.features.networkV2Bridge)
     androidTestImplementation(projects.features.composeUi)
     // androidTestImplementation(projects.features.composeUiBridge)
     androidTestImplementation(projects.features.rvCustomPaging)

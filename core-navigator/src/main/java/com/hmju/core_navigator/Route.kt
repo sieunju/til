@@ -24,7 +24,8 @@ enum class Route(
     BASE_MVVM_BOTTOM_SHEET("/base/mvvm/bottom_sheet"),
     NETWORK_ERROR_HANDLING("/network/error_handling"),
     NETWORK_EXPIRED_TOKEN("/network/expired_token"),
-    NETWORK_JSEND_FORMAT("/network/jsend_format");
+    NETWORK_JSEND_FORMAT("/network/jsend_format"),
+    NETWORK_REFACTOR_V2("/network/refactor/v2");
 
     fun getUri(): Uri {
 	return getUri { }

@@ -11,8 +11,6 @@ android {
 dependencies {
     implementation(projects.core)
     implementation(projects.coreNavigator)
-    implementation(projects.features.networkV2Bridge)
-
     implementation(libs.rx.kotlin)
     implementation(libs.rx.android)
     implementation(libs.retrofit)

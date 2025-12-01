@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.LinearLayoutCompat
 import com.features.network.databinding.FNetworkBinding
-import com.features.network_v2_bridge.NetworkV2Bridge
 import com.google.android.material.button.MaterialButton
 import com.hmju.core.ui.base.BaseFragment
 import com.hmju.core.ui.base.FragmentViewModel
@@ -12,7 +11,6 @@ import com.hmju.core_navigator.Route
 import com.hmju.core_navigator.RouteParamsKey
 import com.hmju.core_navigator.addQuery
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class NetworkFragment : BaseFragment<FNetworkBinding, FragmentViewModel>(
@@ -20,9 +18,6 @@ class NetworkFragment : BaseFragment<FNetworkBinding, FragmentViewModel>(
 ) {
     override val viewModel: FragmentViewModel by initViewModel()
     override val bindingVariable: Int = BR.vm
-
-    @Inject
-    lateinit var v2Bridge: NetworkV2Bridge
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 	super.onViewCreated(view, savedInstanceState)
@@ -50,7 +45,10 @@ class NetworkFragment : BaseFragment<FNetworkBinding, FragmentViewModel>(
 		})
 	    }
 	    addButton("네트워크 V2 리펙토링") {
-		v2Bridge.moveToPage(R.id.fragment, parentFragmentManager)
+		viewModel.sendNavigate(Route.NETWORK_REFACTOR_V2.getUri {
+		    addQuery(RouteParamsKey.LAYOUT_ID, R.id.fragment)
+		    addQuery(RouteParamsKey.IS_INTERNAL, true)
+		})
 	    }
 	}
     }

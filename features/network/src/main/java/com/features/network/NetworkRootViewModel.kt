@@ -47,6 +47,13 @@ class NetworkRootViewModel @Inject constructor() : ActivityViewModel() {
 		    })
 		}
 
+		Route.NETWORK_REFACTOR_V2 -> {
+		    sendNavigate(route.getUri {
+			addQuery(RouteParamsKey.LAYOUT_ID, R.id.fragment)
+			addQuery(RouteParamsKey.IS_INTERNAL, true)
+		    })
+		}
+
 		else -> Unit
 	    }
 	}
