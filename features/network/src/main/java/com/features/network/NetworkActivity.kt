@@ -31,7 +31,6 @@ class NetworkActivity : BaseActivity<ActivityNetworkBinding, NetworkRootViewMode
 	super.onCreate(savedInstanceState)
 	supportFragmentManager.commitNow {
 	    replace(R.id.fragment, NetworkFragment())
-	    // addToBackStack("root")
 	}
 	onBackPressedDispatcher.addCallback(this, onBackPressCallback)
     }

@@ -9,13 +9,21 @@ import android.net.Uri
  */
 
 inline fun <reified T : Any> Uri.Builder.addQuery(key: String, value: T) {
-    if (value is String) {
-	appendQueryParameter(key, value)
-    } else if (value is Number) {
-	appendQueryParameter(key, value.toString())
-    } else if (value is Boolean) {
-	appendQueryParameter(key, value.toString())
-    } else {
-	appendQueryParameter(key, value.toString())
+    when (value) {
+	is String -> {
+	    appendQueryParameter(key, value)
+	}
+
+	is Number -> {
+	    appendQueryParameter(key, value.toString())
+	}
+
+	is Boolean -> {
+	    appendQueryParameter(key, value.toString())
+	}
+
+	else -> {
+	    appendQueryParameter(key, value.toString())
+	}
     }
 }

@@ -1,4 +1,4 @@
-package com.features.network
+package com.features.recyclerview
 
 import androidx.lifecycle.viewModelScope
 import com.hmju.core.ui.base.ActivityViewModel
@@ -11,12 +11,12 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
- * Description : Network 공부한 내용의 Activity Root ViewModel
+ * Description : RecyclerView 공부한 내용의 Activity Root ViewModel
  *
- * Created by juhongmin on 2025. 11. 24.
+ * Created by juhongmin on 2025. 12. 2.
  */
 @HiltViewModel
-class NetworkRootViewModel @Inject constructor() : ActivityViewModel() {
+class RecyclerViewRootViewModel @Inject constructor() : ActivityViewModel() {
 
     override fun onIntent() {
 	super.onIntent()
@@ -26,28 +26,14 @@ class NetworkRootViewModel @Inject constructor() : ActivityViewModel() {
 	viewModelScope.launch {
 	    delay(200)
 	    when (route) {
-		Route.NETWORK_ERROR_HANDLING -> {
+		Route.RECYCLERVIEW_PAGING -> {
 		    sendNavigate(route.getUri {
 			addQuery(RouteParamsKey.LAYOUT_ID, R.id.fragment)
 			addQuery(RouteParamsKey.IS_INTERNAL, true)
 		    })
 		}
 
-		Route.NETWORK_EXPIRED_TOKEN -> {
-		    sendNavigate(route.getUri {
-			addQuery(RouteParamsKey.LAYOUT_ID, R.id.fragment)
-			addQuery(RouteParamsKey.IS_INTERNAL, true)
-		    })
-		}
-
-		Route.NETWORK_JSEND_FORMAT -> {
-		    sendNavigate(route.getUri {
-			addQuery(RouteParamsKey.LAYOUT_ID, R.id.fragment)
-			addQuery(RouteParamsKey.IS_INTERNAL, true)
-		    })
-		}
-
-		Route.NETWORK_REFACTOR_V2 -> {
+		Route.RECYCLERVIEW_SIMPLE_LIKE -> {
 		    sendNavigate(route.getUri {
 			addQuery(RouteParamsKey.LAYOUT_ID, R.id.fragment)
 			addQuery(RouteParamsKey.IS_INTERNAL, true)

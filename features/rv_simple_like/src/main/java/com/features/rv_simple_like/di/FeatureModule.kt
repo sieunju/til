@@ -1,8 +1,6 @@
 package com.features.rv_simple_like.di
 
 import com.features.rv_simple_like.ApiService
-import com.features.rv_simple_like.impl.RvSimpleLikeBridgeImpl
-import com.features.rv_simple_like_bridge.RvSimpleLikeBridge
 import com.hmju.core.network.NetworkProvider
 import dagger.Module
 import dagger.Provides
@@ -20,13 +18,8 @@ internal object FeatureModule {
 
     @Provides
     fun provideApiService(
-        provider: NetworkProvider
+	provider: NetworkProvider
     ): ApiService {
-        return provider.createApiService(ApiService::class.java)
-    }
-
-    @Provides
-    fun provideBridge(): RvSimpleLikeBridge {
-        return RvSimpleLikeBridgeImpl()
+	return provider.createApiService(ApiService::class.java)
     }
 }

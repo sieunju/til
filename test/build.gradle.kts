@@ -42,7 +42,7 @@ dependencies {
     androidTestImplementation(projects.features.networkExpiredToken)
     // androidTestImplementation(projects.features.networkExpiredTokenBridge)
     androidTestImplementation(projects.features.rvSimpleLike)
-    androidTestImplementation(projects.features.rvSimpleLikeBridge)
+    // androidTestImplementation(projects.features.rvSimpleLikeBridge)
     androidTestImplementation(projects.features.rvDiffUtilPerformance)
     androidTestImplementation(projects.features.rvDiffUtilPerformanceBridge)
     androidTestImplementation(projects.features.rvRefactorDiffUtil)

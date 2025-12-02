@@ -12,21 +12,22 @@ enum class Route(
     val path: String
 ) {
     MAIN("/main"),
-    NETWORK("/network"),
     ASYNC_MIGRATE("/async/migrate"),
     BASE_MVVM("/base/mvvm"),
     BASE_MVVM_LIFECYCLE("/base/mvvm/lifecycle"),
     COMPOSE_NAVIGATION("/compose/navigation"),
     COMPOSE_PERMISSIONS_RESULT("/compose/permissions/result"),
     COMPOSE_UI("/compose/ui"),
-    RECYCLERVIEW("/recyclerview"),
     ROOM_OBSERVER("/room/observer"),
+    NETWORK("/network"),
     BASE_MVVM_BOTTOM_SHEET("/base/mvvm/bottom_sheet"),
     NETWORK_ERROR_HANDLING("/network/error_handling"),
     NETWORK_EXPIRED_TOKEN("/network/expired_token"),
     NETWORK_JSEND_FORMAT("/network/jsend_format"),
     NETWORK_REFACTOR_V2("/network/refactor/v2"),
-    RECYCLERVIEW_PAGING("/recyclerview/paging");
+    RECYCLERVIEW("/rv"),
+    RECYCLERVIEW_PAGING("/rv/paging"),
+    RECYCLERVIEW_SIMPLE_LIKE("/rv/simple/like");
 
     fun getUri(): Uri {
 	return getUri { }

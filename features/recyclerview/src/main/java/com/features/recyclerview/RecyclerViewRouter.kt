@@ -3,6 +3,7 @@ package com.features.recyclerview
 import android.content.Context
 import android.content.Intent
 import com.hmju.core_navigator.Route
+import com.hmju.core_navigator.RouteParamsKey
 import com.hmju.core_navigator.Router
 import com.hmju.core_navigator.RouterResult
 import dagger.Binds
@@ -41,6 +42,11 @@ internal class RecyclerViewRouter @Inject constructor() : Router() {
 	params: Map<String, String>
     ): RouterResult {
 	Intent(context, RecyclerViewActivity::class.java).apply {
+	    putExtra(RouteParamsKey.PATH, path)
+	    putExtra(
+		RouteParamsKey.IS_INTERNAL,
+		params[RouteParamsKey.IS_INTERNAL]
+	    )
 	    context.startActivity(this)
 	}
 	return RouterResult.Success()
