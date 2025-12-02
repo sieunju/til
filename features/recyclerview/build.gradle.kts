@@ -13,7 +13,7 @@ dependencies {
     implementation(projects.coreNavigator)
     implementation(projects.legacy)
     // implementation(projects.features.recyclerviewBridge)
-    implementation(projects.features.rvCustomPagingBridge)
+    // implementation(projects.features.rvCustomPagingBridge)
     implementation(projects.features.rvSimpleLikeBridge)
     implementation(projects.features.rvDiffUtilPerformanceBridge)
     implementation(projects.features.rvRefactorDiffUtilBridge)

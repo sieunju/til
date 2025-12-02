@@ -24,7 +24,7 @@ class NetworkRootViewModel @Inject constructor() : ActivityViewModel() {
 	if (targetPath.isNullOrEmpty()) return
 	val route = Route.from(targetPath)
 	viewModelScope.launch {
-	    delay(500)
+	    delay(200)
 	    when (route) {
 		Route.NETWORK_ERROR_HANDLING -> {
 		    sendNavigate(route.getUri {

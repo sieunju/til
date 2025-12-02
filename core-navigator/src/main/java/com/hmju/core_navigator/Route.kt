@@ -25,7 +25,8 @@ enum class Route(
     NETWORK_ERROR_HANDLING("/network/error_handling"),
     NETWORK_EXPIRED_TOKEN("/network/expired_token"),
     NETWORK_JSEND_FORMAT("/network/jsend_format"),
-    NETWORK_REFACTOR_V2("/network/refactor/v2");
+    NETWORK_REFACTOR_V2("/network/refactor/v2"),
+    RECYCLERVIEW_PAGING("/recyclerview/paging");
 
     fun getUri(): Uri {
 	return getUri { }

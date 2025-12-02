@@ -34,7 +34,7 @@ dependencies {
     androidTestImplementation(projects.features.composeUi)
     // androidTestImplementation(projects.features.composeUiBridge)
     androidTestImplementation(projects.features.rvCustomPaging)
-    androidTestImplementation(projects.features.rvCustomPagingBridge)
+    // androidTestImplementation(projects.features.rvCustomPagingBridge)
     androidTestImplementation(projects.features.networkErrorHandling)
     // androidTestImplementation(projects.features.networkErrorHandlingBridge)
     androidTestImplementation(projects.features.networkJsendFormat)
