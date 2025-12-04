@@ -27,7 +27,8 @@ enum class Route(
     NETWORK_REFACTOR_V2("/network/refactor/v2"),
     RECYCLERVIEW("/rv"),
     RECYCLERVIEW_PAGING("/rv/paging"),
-    RECYCLERVIEW_SIMPLE_LIKE("/rv/simple/like");
+    RECYCLERVIEW_SIMPLE_LIKE("/rv/simple/like"),
+    RECYCLERVIEW_DIFF_UTIL_PERFORMANCE("/rv/diff/performance");
 
     fun getUri(): Uri {
 	return getUri { }

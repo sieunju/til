@@ -44,7 +44,7 @@ dependencies {
     androidTestImplementation(projects.features.rvSimpleLike)
     // androidTestImplementation(projects.features.rvSimpleLikeBridge)
     androidTestImplementation(projects.features.rvDiffUtilPerformance)
-    androidTestImplementation(projects.features.rvDiffUtilPerformanceBridge)
+    // androidTestImplementation(projects.features.rvDiffUtilPerformanceBridge)
     androidTestImplementation(projects.features.rvRefactorDiffUtil)
     androidTestImplementation(projects.features.rvRefactorDiffUtilBridge)
     androidTestImplementation(projects.features.rvDiffUtil2)
