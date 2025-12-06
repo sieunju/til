@@ -5,7 +5,6 @@ import android.view.View
 import androidx.appcompat.widget.LinearLayoutCompat
 import com.features.recyclerview.databinding.FRecyclerviewBinding
 import com.features.rv_diff_util_2_bridge.RvDiffUtil2Bridge
-import com.features.rv_diff_util_performance_bridge.RvDiffUtilPerformanceBridge
 import com.features.rv_refactor_diff_util_bridge.RvRefactorDiffUtilBridge
 import com.google.android.material.button.MaterialButton
 import com.hmju.core.ui.base.BaseFragment
@@ -23,9 +22,6 @@ class RecyclerViewFragment : BaseFragment<FRecyclerviewBinding, FragmentViewMode
 
     override val viewModel: FragmentViewModel by initViewModel()
     override val bindingVariable: Int = BR.vm
-
-    @Inject
-    lateinit var diffUtilPerformanceBridge: RvDiffUtilPerformanceBridge
 
     @Inject
     lateinit var rvRefactorDiffUtilBridge: RvRefactorDiffUtilBridge
@@ -53,7 +49,10 @@ class RecyclerViewFragment : BaseFragment<FRecyclerviewBinding, FragmentViewMode
 		})
 	    }
 	    addButton("DiffUtil 퍼포먼스 테스트") {
-		diffUtilPerformanceBridge.moveToPage(R.id.fragment, parentFragmentManager)
+		viewModel.sendNavigate(Route.RECYCLERVIEW_DIFF_UTIL_PERFORMANCE.getUri {
+		    addQuery(RouteParamsKey.LAYOUT_ID, R.id.fragment)
+		    addQuery(RouteParamsKey.IS_INTERNAL, true)
+		})
 	    }
 	    addButton("유지보수하기 쉽게 DiffUtil 사용해보기") {
 		rvRefactorDiffUtilBridge.moveToPage(R.id.fragment, parentFragmentManager)
