@@ -58,7 +58,7 @@ android {
         release {
             isShrinkResources = true
             isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             manifestPlaceholders["appName"] = "til"
             manifestPlaceholders["appIcon"] = "@mipmap/ic_launcher"
             signingConfig = signingConfigs["release"]
@@ -79,6 +79,7 @@ android {
 
 dependencies {
     implementation(projects.core)
+    implementation(projects.coreNavigator)
     implementation(projects.legacy)
     implementation(projects.features.main)
     implementation(projects.features.network)

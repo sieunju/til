@@ -10,6 +10,6 @@ android {
 
 dependencies {
     implementation(projects.core)
-    implementation(projects.features.networkJsendFormatBridge)
+    implementation(projects.coreNavigator)
     implementation(libs.retrofit)
 }

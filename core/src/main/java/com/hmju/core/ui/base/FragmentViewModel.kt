@@ -1,5 +1,6 @@
 package com.hmju.core.ui.base
 
+import android.net.Uri
 import android.os.Bundle
 import android.os.Looper
 import androidx.annotation.CallSuper
@@ -7,6 +8,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import com.bumptech.glide.RequestManager
+import com.hmju.core.ui.livedata.SingleLiveEvent
+import com.hmju.core_navigator.Route
 import dagger.hilt.android.lifecycle.HiltViewModel
 import timber.log.Timber
 import javax.inject.Inject
@@ -31,6 +34,8 @@ open class FragmentViewModel @Inject constructor() : BaseViewModel() {
     // onCreateView -> onDestroyView
     private var _requestManager: RequestManager? = null
     val requestManager: RequestManager get() = _requestManager!!
+    private val _routeEvent: SingleLiveEvent<Uri> by lazy { SingleLiveEvent() }
+    val routeEvent: LiveData<Uri> get() = _routeEvent
 
     /**
      * Fragment onHiddenChanged (hidden == false)
@@ -109,6 +114,23 @@ open class FragmentViewModel @Inject constructor() : BaseViewModel() {
             _startFinishEvent.value = Unit
         } else {
             _startFinishEvent.postValue(Unit)
+        }
+    }
+
+    fun sendNavigate(route: Route) {
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            _routeEvent.value = route.getUri()
+        } else {
+            _routeEvent.postValue(route.getUri())
+        }
+    }
+
+    fun sendNavigate(uri: Uri?) {
+        if (uri == null) return
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            _routeEvent.value = uri
+        } else {
+            _routeEvent.postValue(uri)
         }
     }
 }

@@ -10,7 +10,7 @@ android {
 
 dependencies {
     implementation(projects.core)
-    implementation(projects.features.rvDiffUtil2Bridge)
+    implementation(projects.coreNavigator)
 
     implementation(libs.retrofit)
     implementation(libs.glide)

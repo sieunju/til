@@ -1,8 +1,6 @@
 package com.features.rv_custom_paging.di
 
 import com.features.rv_custom_paging.ApiService
-import com.features.rv_custom_paging.impl.RecyclerViewCustomPagingBridgeImpl
-import com.features.rv_custom_paging_bridge.RecyclerViewCustomPagingBridge
 import com.hmju.core.network.NetworkProvider
 import dagger.Module
 import dagger.Provides
@@ -21,15 +19,9 @@ internal object FeatureModule {
 
     @Singleton
     @Provides
-    fun provideBridge(): RecyclerViewCustomPagingBridge {
-        return RecyclerViewCustomPagingBridgeImpl()
-    }
-
-    @Singleton
-    @Provides
     fun provideApiService(
-        provider: NetworkProvider
+	provider: NetworkProvider
     ): ApiService {
-        return provider.createApiService(ApiService::class.java)
+	return provider.createApiService(ApiService::class.java)
     }
 }

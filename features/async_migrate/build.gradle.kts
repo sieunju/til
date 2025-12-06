@@ -10,7 +10,7 @@ android {
 
 dependencies {
     implementation(projects.core)
-    implementation(projects.features.asyncMigrateBridge)
+    implementation(projects.coreNavigator)
     implementation(projects.legacy)
 
     implementation(libs.rx.java)

@@ -1,0 +1,91 @@
+digraph RouterNavigation {
+    graph [label="Core Navigation Architecture Router Pattern Migration UI Graph\n(Made by Cursor)", labelloc=t, fontsize=24, ranksep=1.0, nodesep=0.8];
+    node [style=filled, fontsize=11];
+    rankdir=TB;
+
+    subgraph cluster_before {
+        label="Before: Bridge Pattern";
+        style=filled;
+        fillcolor="#ffe8e8";
+        fontsize=18;
+        fontname="Arial Bold";
+        
+        FeatureA1 [label="Feature A\n(RecyclerView)", fillcolor="#baffc9", shape=box];
+        BridgeA1 [label="Bridge Module\n(RecyclerViewBridge)\n\n불필요한 모듈 생성", fillcolor="#ffcccc", shape=box];
+        FeatureB1 [label="Feature B\n(RvCustomPaging)", fillcolor="#baffc9", shape=box];
+        
+        FeatureA1 -> BridgeA1 [label="의존성 추가\nimplementation", style=dashed, color=red, fontcolor=red, fontsize=10];
+        BridgeA1 -> FeatureB1 [label="moveToPage()\nFragmentManager", color=red, fontcolor=red, fontsize=10];
+        
+        Problem1 [label="❌ Feature마다 Bridge 모듈 생성\n❌ 모듈 간 의존성 복잡화\n❌ A→B 이동 시 B Bridge 의존 필요", fillcolor="#ffcccc", shape=note, fontsize=9];
+    }
+    
+    subgraph cluster_after {
+        label="After: Router Pattern";
+        style=filled;
+        fillcolor="#e8f8e8";
+        fontsize=18;
+        fontname="Arial Bold";
+        
+        // 앱 내부 네비게이션
+        FeatureA2 [label="Feature A\n(RecyclerView)", fillcolor="#baffc9", shape=box];
+        InternalNav [label="앱 내부 네비게이션\nsendNavigate()\nRoute.getUri()", fillcolor="#baffc9", shape=box, style="rounded"];
+        
+        // Deeplink 경로
+        SchemeActivity2 [label="SchemeActivity\n(외부 Deeplink)", fillcolor="#ffd4a3", shape=box];
+        MainActivity2 [label="MainActivity\nhandleIntent()", fillcolor="#ffd4a3", shape=box];
+        ViewModelNav [label="MainViewModel\nonIntent()", fillcolor="#baffc9", shape=box];
+        
+        // Navigator (중앙화)
+        Navigator [label="Navigator\n(core-navigator)\nURI 기반 중앙화된 네비게이션\n앱 내부 + Deeplink 통합", fillcolor="#04bf2c", shape=box, style="filled,rounded"];
+        
+        RouterB2 [label="RvCustomPagingRouter\n@IntoSet 등록", fillcolor="#d4e8f0", shape=box];
+        RouterC2 [label="NetworkRouter\n@IntoSet 등록", fillcolor="#d4e8f0", shape=box];
+        RouterD2 [label="...Router", fillcolor="#d4e8f0", shape=box];
+        
+        FeatureB2 [label="Feature B\n(RvCustomPaging)", fillcolor="#baffc9", shape=box];
+        FeatureC2 [label="Feature C\n(Network)", fillcolor="#baffc9", shape=box];
+        
+        // 앱 내부 네비게이션 경로
+        FeatureA2 -> InternalNav [label="Route.getUri()", color=blue, fontcolor=blue, fontsize=9];
+        InternalNav -> Navigator [label="navigate()", color=blue, style=bold, fontcolor=blue, fontsize=9];
+        
+        // Deeplink 경로
+        SchemeActivity2 -> MainActivity2 [label="URI", color=purple, fontcolor=purple, fontsize=9];
+        MainActivity2 -> ViewModelNav [label="DEEPLINK_URI", color=purple, fontcolor=purple, fontsize=9];
+        ViewModelNav -> Navigator [label="sendNavigate()", color=purple, fontcolor=purple, fontsize=9];
+        
+        // Navigator에서 Router로
+        Navigator -> RouterB2 [label="matches()", color=blue, fontsize=9];
+        Navigator -> RouterC2 [label="matches()", color=blue, fontsize=9];
+        Navigator -> RouterD2 [label="...", color=blue, style=dashed, fontsize=9];
+        
+        RouterB2 -> FeatureB2 [label="execute()", color=blue, fontsize=9];
+        RouterC2 -> FeatureC2 [label="execute()", color=blue, fontsize=9];
+        
+        Benefit1 [label="✅ Bridge 모듈 제거\n✅ 모듈 간 의존성 제거\n✅ 어디서든 화면 이동 가능\n✅ 앱 내부 + Deeplink 통합\n✅ Activity NewTask 이슈 해결", fillcolor="#baffc9", shape=note, fontsize=9];
+        
+        // 같은 레벨에 배치
+        { rank=same; InternalNav; ViewModelNav }
+    }
+    
+    subgraph cluster_core {
+        label="Core Navigator Module";
+        style=filled;
+        fillcolor="#e8f4f8";
+        fontsize=16;
+        fontname="Arial Bold";
+        
+        RouteEnum [label="Route Enum\n경로 정의\n(/rv/paging, /network, ...)", fillcolor="#d4e8f0", shape=box];
+        RouterBase [label="Router (Abstract)\nroute(), matches(), execute()", fillcolor="#d4e8f0", shape=box];
+        NavigatorImpl [label="NavigatorImpl\nnavigate(context, uri)\nSet<Router> @Inject", fillcolor="#04bf2c", shape=box];
+        RouteParamsKey [label="RouteParamsKey\nLAYOUT_ID, IS_INTERNAL", fillcolor="#d4e8f0", shape=box];
+        
+        RouteEnum -> RouterBase [label="사용", style=dashed];
+        RouterBase -> RouterB2 [label="상속", style=dashed];
+        RouterBase -> RouterC2 [label="상속", style=dashed];
+        NavigatorImpl -> RouterB2 [label="@IntoSet\nDagger Multibinding", style=dashed];
+        NavigatorImpl -> RouterC2 [label="@IntoSet\nDagger Multibinding", style=dashed];
+        RouteParamsKey -> RouterBase [label="사용", style=dashed];
+    }
+}

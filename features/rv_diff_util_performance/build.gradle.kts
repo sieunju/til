@@ -10,8 +10,8 @@ android {
 
 dependencies {
     implementation(projects.core)
+    implementation(projects.coreNavigator)
     implementation(projects.legacy)
-    implementation(projects.features.rvDiffUtilPerformanceBridge)
 
     implementation(libs.rx.java)
     implementation(libs.rx.android)

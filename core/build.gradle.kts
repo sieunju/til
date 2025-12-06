@@ -1,5 +1,6 @@
 import java.io.FileInputStream
 import java.util.Properties
+
 plugins {
     id("til.library")
     id("til.compose")
@@ -14,16 +15,17 @@ val properties = Properties().apply {
 android {
     namespace = "com.hmju.core"
     defaultConfig {
-        buildConfigField("String", "BASE_URL", properties.getProperty("base_url"))
-        buildConfigField("String", "AUTH_TYPE", properties.getProperty("auth_type"))
-        consumerProguardFiles("consumer-rules.pro")
+	buildConfigField("String", "BASE_URL", properties.getProperty("base_url"))
+	buildConfigField("String", "AUTH_TYPE", properties.getProperty("auth_type"))
+	consumerProguardFiles("consumer-rules.pro")
     }
     buildFeatures {
-        buildConfig = true
+	buildConfig = true
     }
 }
 
 dependencies {
+    implementation(projects.coreNavigator)
     implementation(libs.glide)
     implementation(libs.glide.compiler)
     implementation(libs.glide.okhttp3)

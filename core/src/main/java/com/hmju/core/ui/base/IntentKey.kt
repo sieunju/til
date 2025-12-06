@@ -9,4 +9,5 @@ object IntentKey {
     const val TOKEN = "token"
     const val NOW_TIME = "now_time"
     const val TEST_LONG_ARR = "test_long_list"
+    const val DEEPLINK_URI = "deeplink_uri"
 }

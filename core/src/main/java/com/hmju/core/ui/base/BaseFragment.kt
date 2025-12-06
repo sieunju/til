@@ -1,6 +1,7 @@
 package com.hmju.core.ui.base
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -18,6 +19,8 @@ import androidx.fragment.app.createViewModelLazy
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.hmju.core_navigator.NavigatorEntryPoint
+import dagger.hilt.EntryPoints
 
 /**
  * Description : MVVM BaseFragment
@@ -32,99 +35,113 @@ abstract class BaseFragment<T : ViewDataBinding, VM : FragmentViewModel>(
     abstract val bindingVariable: Int // ViewModel Binding Variable
     private var _binding: T? = null
     val binding: T get() = _binding!!
-
+    private var navigatorEntryPoint: NavigatorEntryPoint? = null
     private var isInit = false
 
     private val fragmentResult = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
+	ActivityResultContracts.StartActivityForResult()
     ) { result ->
-        val reqCode = result.data?.extras?.getInt(BaseActivity.REQ_CODE) ?: -1
-        viewModel.onFragmentResult(reqCode, result.resultCode, result.data?.extras ?: Bundle())
+	val reqCode = result.data?.extras?.getInt(BaseActivity.REQ_CODE) ?: -1
+	viewModel.onFragmentResult(reqCode, result.resultCode, result.data?.extras ?: Bundle())
+    }
+
+    override fun onAttach(context: Context) {
+	super.onAttach(context)
+	navigatorEntryPoint =
+	    EntryPoints.get(context.applicationContext, NavigatorEntryPoint::class.java)
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+	inflater: LayoutInflater,
+	container: ViewGroup?,
+	savedInstanceState: Bundle?
     ): View? {
-        return initBinding(inflater, container)
+	return initBinding(inflater, container)
     }
 
     /**
      * initBinding
      */
     private fun initBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?
+	inflater: LayoutInflater,
+	container: ViewGroup?
     ): View {
-        return DataBindingUtil.inflate<T>(inflater, layoutId, container, false).run {
-            _binding = this
-            lifecycleOwner = viewLifecycleOwner
-            setVariable(bindingVariable, viewModel)
-            viewModel.initRequestManager(Glide.with(this@BaseFragment))
-            this.root
-        }
+	return DataBindingUtil.inflate<T>(inflater, layoutId, container, false).run {
+	    _binding = this
+	    lifecycleOwner = viewLifecycleOwner
+	    setVariable(bindingVariable, viewModel)
+	    viewModel.initRequestManager(Glide.with(this@BaseFragment))
+	    this.root
+	}
     }
 
     @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+	super.onViewCreated(view, savedInstanceState)
 
-        with(viewModel) {
-            setLifecycle(Lifecycle.Event.ON_CREATE)
-            onDirectViewCreated()
-            startActivityPage.observe(viewLifecycleOwner) { startActivityAndAnimation(it) }
-            startFinishEvent.observe(viewLifecycleOwner) { requireActivity().finish() }
-        }
+	with(viewModel) {
+	    setLifecycle(Lifecycle.Event.ON_CREATE)
+	    onDirectViewCreated()
+	    startActivityPage.observe(viewLifecycleOwner) { startActivityAndAnimation(it) }
+	    startFinishEvent.observe(viewLifecycleOwner) { requireActivity().finish() }
+	    routeEvent.observe(viewLifecycleOwner) {
+		navigatorEntryPoint?.navigator()?.navigate(view.context, it)
+	    }
+	}
     }
 
     @CallSuper
     override fun onResume() {
-        super.onResume()
-        with(viewModel) {
-            setLifecycle(Lifecycle.Event.ON_RESUME)
-            onDirectCreatedToResumed()
-            if (isInit) {
-                onDirectResumed()
-            }
-            isInit = true
-        }
+	super.onResume()
+	with(viewModel) {
+	    setLifecycle(Lifecycle.Event.ON_RESUME)
+	    onDirectCreatedToResumed()
+	    if (isInit) {
+		onDirectResumed()
+	    }
+	    isInit = true
+	}
     }
 
     @CallSuper
     override fun onStop() {
-        super.onStop()
-        with(viewModel) {
-            setLifecycle(Lifecycle.Event.ON_STOP)
-            onDirectStop()
-        }
+	super.onStop()
+	with(viewModel) {
+	    setLifecycle(Lifecycle.Event.ON_STOP)
+	    onDirectStop()
+	}
     }
 
     @CallSuper
     override fun onDestroyView() {
-        super.onDestroyView()
-        isInit = false
-        with(viewModel) {
-            setLifecycle(Lifecycle.Event.ON_DESTROY)
-            clearDisposable()
-            clearRequestManager()
-        }
-        _binding = null
+	super.onDestroyView()
+	isInit = false
+	with(viewModel) {
+	    setLifecycle(Lifecycle.Event.ON_DESTROY)
+	    clearDisposable()
+	    clearRequestManager()
+	}
+	_binding = null
     }
 
     @CallSuper
     override fun onHiddenChanged(hidden: Boolean) {
-        super.onHiddenChanged(hidden)
-        if (!hidden) {
-            viewModel.onDirectShown()
-        }
+	super.onHiddenChanged(hidden)
+	if (!hidden) {
+	    viewModel.onDirectShown()
+	}
+    }
+
+    override fun onDetach() {
+	super.onDetach()
+	navigatorEntryPoint = null
     }
 
     /**
      * 기본 viewModels 와 같은 로직의 함수
      */
     protected inline fun <reified VM : FragmentViewModel> initViewModel(): Lazy<VM> {
-        return createViewModelLazy(VM::class, { viewModelStore })
+	return createViewModelLazy(VM::class, { viewModelStore })
     }
 
     /**
@@ -132,10 +149,10 @@ abstract class BaseFragment<T : ViewDataBinding, VM : FragmentViewModel>(
      * Lazy 로 선언한하고 직접적으로 가져올때 사용하는 함수
      */
     protected inline fun <reified VM : BaseViewModel> parentViewModel(parentFragment: Fragment): VM {
-        return ViewModelProvider(
-            parentFragment.viewModelStore,
-            parentFragment.defaultViewModelProviderFactory
-        )[VM::class.java]
+	return ViewModelProvider(
+	    parentFragment.viewModelStore,
+	    parentFragment.defaultViewModelProviderFactory
+	)[VM::class.java]
     }
 
 //    /**
@@ -164,47 +181,47 @@ abstract class BaseFragment<T : ViewDataBinding, VM : FragmentViewModel>(
      * ActivityResult to Intent 변환 처리함수
      */
     private fun getActivityResultIntent(page: ActivityResult): Intent {
-        return Intent(requireContext(), page.targetActivity.java).apply {
-            if (page.flags != -1) {
-                flags = page.flags
-            }
-            page.data.putInt(BaseActivity.REQ_CODE, page.requestCode)
-            putExtras(page.data)
-        }
+	return Intent(requireContext(), page.targetActivity.java).apply {
+	    if (page.flags != -1) {
+		flags = page.flags
+	    }
+	    page.data.putInt(BaseActivity.REQ_CODE, page.requestCode)
+	    putExtras(page.data)
+	}
     }
 
     /**
      * Start Activity And Animation
      */
     private fun startActivityAndAnimation(
-        result: ActivityResult
+	result: ActivityResult
     ) {
-        val intent = getActivityResultIntent(result)
-        if (result.requestCode != -1) {
-            val options = if (result.isValidateAni()) {
-                ActivityOptionsCompat.makeCustomAnimation(
-                    requireContext(),
-                    result.enterAni,
-                    result.exitAni
-                )
-            } else {
-                null
-            }
-            fragmentResult.launch(intent, options)
-        } else {
-            startActivity(intent)
-            if (result.isValidateAni()) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-                    activity?.overrideActivityTransition(
-                        Activity.OVERRIDE_TRANSITION_OPEN,
-                        result.enterAni,
-                        result.exitAni
-                    )
-                } else {
-                    @Suppress("DEPRECATION")
-                    activity?.overridePendingTransition(result.enterAni, result.exitAni)
-                }
-            }
-        }
+	val intent = getActivityResultIntent(result)
+	if (result.requestCode != -1) {
+	    val options = if (result.isValidateAni()) {
+		ActivityOptionsCompat.makeCustomAnimation(
+		    requireContext(),
+		    result.enterAni,
+		    result.exitAni
+		)
+	    } else {
+		null
+	    }
+	    fragmentResult.launch(intent, options)
+	} else {
+	    startActivity(intent)
+	    if (result.isValidateAni()) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+		    activity?.overrideActivityTransition(
+			Activity.OVERRIDE_TRANSITION_OPEN,
+			result.enterAni,
+			result.exitAni
+		    )
+		} else {
+		    @Suppress("DEPRECATION")
+		    activity?.overridePendingTransition(result.enterAni, result.exitAni)
+		}
+	    }
+	}
     }
 }

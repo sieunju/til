@@ -10,7 +10,7 @@ android {
 
 dependencies {
     implementation(projects.core)
-    implementation(projects.features.rvCustomPagingBridge)
+    implementation(projects.coreNavigator)
 
     implementation(libs.retrofit)
     implementation(libs.glide)

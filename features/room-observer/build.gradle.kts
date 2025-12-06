@@ -9,7 +9,8 @@ android {
 }
 
 dependencies {
-    implementation(projects.features.roomObserverBridge)
+    implementation(projects.core)
+    implementation(projects.coreNavigator)
 
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.lifecycle.livedata)

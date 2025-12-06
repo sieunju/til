@@ -1,8 +1,6 @@
 package com.features.network_error_handling.di
 
 import com.features.network_error_handling.ApiService
-import com.features.network_error_handling.impl.NetworkErrorHandlingBridgeImpl
-import com.features.network_error_handling_bridge.NetworkErrorHandlingBridge
 import com.hmju.core.network.NetworkProvider
 import dagger.Module
 import dagger.Provides
@@ -25,11 +23,5 @@ internal object FeatureModule {
         provider: NetworkProvider
     ): ApiService {
         return provider.createApiService(ApiService::class.java)
-    }
-
-    @Singleton
-    @Provides
-    fun provideBridge(): NetworkErrorHandlingBridge {
-        return NetworkErrorHandlingBridgeImpl()
     }
 }

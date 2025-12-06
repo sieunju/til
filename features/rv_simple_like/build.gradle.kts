@@ -10,7 +10,7 @@ android {
 
 dependencies {
     implementation(projects.core)
-    implementation(projects.features.rvSimpleLikeBridge)
+    implementation(projects.coreNavigator)
 
     implementation(libs.rx.java)
     implementation(libs.rx.android)

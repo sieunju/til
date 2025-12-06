@@ -7,6 +7,7 @@ android {
 }
 
 dependencies {
-    implementation(projects.features.composePermissionsResultBridge)
+    implementation(projects.core)
+    implementation(projects.coreNavigator)
     implementation(libs.androidx.appcompat)
 }

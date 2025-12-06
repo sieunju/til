@@ -9,7 +9,8 @@ android {
 }
 
 dependencies {
-    implementation(projects.features.composeUiBridge)
+    implementation(projects.core)
+    implementation(projects.coreNavigator)
 
     implementation(libs.retrofit)
 }
