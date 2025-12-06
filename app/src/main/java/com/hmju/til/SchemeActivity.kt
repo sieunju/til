@@ -23,17 +23,8 @@ class SchemeActivity : AppCompatActivity() {
 
     @Inject
     lateinit var navigator: Navigator
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-	super.onCreate(savedInstanceState)
 	intent?.data?.let { handleDeeplink(it) }
-	onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-	    override fun handleOnBackPressed() {
-		finish()
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-		    overrideActivityTransition(Activity.OVERRIDE_TRANSITION_OPEN, 0, 0)
-		} else {
-		    @Suppress("DEPRECATION")
+	finish()
 		    overridePendingTransition(0, 0)
 		}
 	    }
