@@ -1,6 +1,8 @@
 package com.features.rv_refactor_diff_util.di
 
 import com.features.rv_refactor_diff_util.ApiService
+import com.features.rv_refactor_diff_util.impl.RvRefactorDiffUtilBridgeImpl
+import com.features.rv_refactor_diff_util_bridge.RvRefactorDiffUtilBridge
 import com.hmju.core.network.NetworkProvider
 import dagger.Module
 import dagger.Provides
@@ -21,5 +23,10 @@ internal object FeatureModule {
         provider: NetworkProvider
     ): ApiService {
         return provider.createApiService(ApiService::class.java)
+    }
+
+    @Provides
+    fun provideBridge(): RvRefactorDiffUtilBridge {
+        return RvRefactorDiffUtilBridgeImpl()
     }
 }

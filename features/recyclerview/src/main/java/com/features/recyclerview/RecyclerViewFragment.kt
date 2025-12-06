@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.LinearLayoutCompat
 import com.features.recyclerview.databinding.FRecyclerviewBinding
+import com.features.rv_diff_util_2_bridge.RvDiffUtil2Bridge
+import com.features.rv_refactor_diff_util_bridge.RvRefactorDiffUtilBridge
 import com.google.android.material.button.MaterialButton
 import com.hmju.core.ui.base.BaseFragment
 import com.hmju.core.ui.base.FragmentViewModel
@@ -11,6 +13,7 @@ import com.hmju.core_navigator.Route
 import com.hmju.core_navigator.RouteParamsKey
 import com.hmju.core_navigator.addQuery
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class RecyclerViewFragment : BaseFragment<FRecyclerviewBinding, FragmentViewModel>(
@@ -19,6 +22,12 @@ class RecyclerViewFragment : BaseFragment<FRecyclerviewBinding, FragmentViewMode
 
     override val viewModel: FragmentViewModel by initViewModel()
     override val bindingVariable: Int = BR.vm
+
+    @Inject
+    lateinit var rvRefactorDiffUtilBridge: RvRefactorDiffUtilBridge
+
+    @Inject
+    lateinit var rvDiffUtil2Bridge: RvDiffUtil2Bridge
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 	super.onViewCreated(view, savedInstanceState)
@@ -46,16 +55,10 @@ class RecyclerViewFragment : BaseFragment<FRecyclerviewBinding, FragmentViewMode
 		})
 	    }
 	    addButton("유지보수하기 쉽게 DiffUtil 사용해보기") {
-		viewModel.sendNavigate(Route.RECYCLERVIEW_REFACTOR_DIFF_UTIL.getUri {
-		    addQuery(RouteParamsKey.LAYOUT_ID, R.id.fragment)
-		    addQuery(RouteParamsKey.IS_INTERNAL, true)
-		})
+		rvRefactorDiffUtilBridge.moveToPage(R.id.fragment, parentFragmentManager)
 	    }
 	    addButton("DiffUtil 고질적인 문제 처리해보기 v1") {
-		viewModel.sendNavigate(Route.RECYCLERVIEW_DIFF_UTIL_2.getUri {
-		    addQuery(RouteParamsKey.LAYOUT_ID, R.id.fragment)
-		    addQuery(RouteParamsKey.IS_INTERNAL, true)
-		})
+		rvDiffUtil2Bridge.moveToPage(R.id.fragment, parentFragmentManager)
 	    }
 	}
     }
