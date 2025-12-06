@@ -47,6 +47,20 @@ class RecyclerViewRootViewModel @Inject constructor() : ActivityViewModel() {
 		    })
 		}
 
+		Route.RECYCLERVIEW_REFACTOR_DIFF_UTIL -> {
+		    sendNavigate(route.getUri {
+			addQuery(RouteParamsKey.LAYOUT_ID, R.id.fragment)
+			addQuery(RouteParamsKey.IS_INTERNAL, true)
+		    })
+		}
+
+		Route.RECYCLERVIEW_DIFF_UTIL_2 -> {
+		    sendNavigate(route.getUri {
+			addQuery(RouteParamsKey.LAYOUT_ID, R.id.fragment)
+			addQuery(RouteParamsKey.IS_INTERNAL, true)
+		    })
+		}
+
 		else -> Unit
 	    }
 	}
