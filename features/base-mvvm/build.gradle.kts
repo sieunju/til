@@ -11,9 +11,6 @@ android {
 dependencies {
     implementation(projects.core)
     implementation(projects.coreNavigator)
-    // implementation(projects.features.baseMvvmBridge)
-    // implementation(projects.features.baseMvvmLifecycleBridge)
-    // implementation(projects.features.baseMvvmBottomSheetBridge)
 
     implementation(libs.rx.java)
     implementation(libs.rx.kotlin)

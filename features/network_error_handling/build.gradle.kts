@@ -11,7 +11,6 @@ android {
 dependencies {
     implementation(projects.core)
     implementation(projects.coreNavigator)
-    // implementation(projects.features.networkErrorHandlingBridge)
 
     implementation(libs.retrofit)
 }
