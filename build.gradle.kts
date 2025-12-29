@@ -40,20 +40,29 @@ tasks.register("generateReleaseNote") {
 
 // ./gradlew getAppVersion -PtargetModule=app
 tasks.register("getAppVersion") {
+    val targetService = project.properties["targetModule"] as? String ?: "app"
+    val moduleMap = mapOf(
+        "app" to "app"
+    )
+    val targetModule = moduleMap[targetService]
+        ?: throw IllegalArgumentException("Invalid service name: $targetService")
+    val targetProject = project(":$targetModule")
+    
+    // Ensure the target project is evaluated before accessing Android extension
+    dependsOn(targetProject.tasks.named("preBuild"))
+    
     doLast {
-        val targetService = project.properties["targetModule"] as? String ?: "app"
-        val moduleMap = mapOf(
-            "app" to "app"
-        )
-        val targetModule = moduleMap[targetService]
-            ?: throw IllegalArgumentException("Invalid service name: $targetService")
-        val targetProject = project(":$targetModule")
         val android = targetProject.extensions.getByName(
             "android"
         ) as com.android.build.gradle.BaseExtension
         val versionName = android.defaultConfig.versionName
         val versionCode = android.defaultConfig.versionCode
-        println("$versionName (${versionCode})")
+        
+        if (versionName == null || versionCode == null) {
+            throw IllegalStateException("Version information is not available for project :$targetModule. Make sure the project is evaluated and Android extension is configured.")
+        }
+        
+        println("$versionName ($versionCode)")
     }
 }
 
