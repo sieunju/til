@@ -2,6 +2,8 @@ import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import java.io.BufferedReader
+import java.io.InputStreamReader
 
 plugins {
     alias(libs.plugins.android.application) apply false
@@ -67,12 +69,24 @@ tasks.register("getAppVersion") {
 }
 
 fun getCommand(command: String): String {
-    val os = ByteArrayOutputStream()
-    exec {
-        commandLine = command.split(" ")
-        standardOutput = os
+    val process = ProcessBuilder("sh", "-c", command)
+        .directory(rootProject.rootDir)
+        .redirectErrorStream(true)
+        .start()
+    
+    val output = StringBuilder()
+    BufferedReader(InputStreamReader(process.inputStream)).use { reader ->
+        reader.forEachLine { line ->
+            output.appendLine(line)
+        }
     }
-    return String(os.toByteArray())
+    
+    val exitCode = process.waitFor()
+    if (exitCode != 0) {
+        throw RuntimeException("Command '$command' failed with exit code $exitCode")
+    }
+    
+    return output.toString().trim()
 }
 
 /**
