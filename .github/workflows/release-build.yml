@@ -93,7 +93,7 @@ jobs:
             ${{ needs.deploy_firebase.outputs.releaseNoteHtml }}
 
   slack_notify:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     needs: deploy_firebase
     steps:
       - uses: 8398a7/action-slack@v3

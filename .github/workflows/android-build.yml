@@ -3,11 +3,16 @@ name: Android Build
 on:
   push:
     branches: [develop, master]
+  workflow_dispatch:  # 수동 실행을 위한 트리거
   # pull_request:
   # branches: [ develop ]
 
 jobs:
+  get_version:
+    uses: ./.github/workflows/android-version-info.yml
+
   apk:
+    needs: get_version
     runs-on: macos-latest
     # android 디렉토리 없앰으로 인한 주석 처리
     # env:
@@ -28,22 +33,20 @@ jobs:
       # - name: SetUp Android SDK
       #  uses: android-actions/setup-android@v2
 
-      # build.gradle.kts의 getAppVersion 태스크를 사용하여 버전 정보 가져오기
-      - name: Get App Version
-        id: version
-        uses: ./.github/actions/get-version
-
-      - name: Print version
-        run: echo "Version ${{steps.version.outputs.version_code}}_${{steps.version.outputs.version_name}}"
-
       # Android Build Debug: assembleDebug Release: assembleRelease
       - name: Android Build
         run: ./gradlew clean assembleDebug
         # working-directory: ${{ env.working-directory }}
 
-      # Debg Upload Apk
+      - name: Print Version Info
+        run: |
+          echo "Version Name: ${{ needs.get_version.outputs.version_name }}"
+          echo "Version Code: ${{ needs.get_version.outputs.version_code }}"
+          echo "Full Version: ${{ needs.get_version.outputs.version_name }} (${{ needs.get_version.outputs.version_code }})"
+
+      # Debug Upload Apk
       - name: Debug Apk
         uses: actions/upload-artifact@v2
         with:
           name: Generate Debug Apk
-          path: app/build/outputs/apk/debug/til_${{steps.version.outputs.version_code}}_${{steps.version.outputs.version_name}}-debug.apk
+          path: app/build/outputs/apk/debug/til_${{needs.get_version.outputs.version_code}}_${{needs.get_version.outputs.version_name}}-debug.apk
