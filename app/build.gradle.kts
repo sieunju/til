@@ -16,6 +16,23 @@ val properties = Properties().apply {
     load(FileInputStream(File(rootProject.rootDir, "local.properties")))
 }
 
+/**
+ * 버전명을 버전 코드로 변환
+ * 형식: Major.Minor.Patch (예: 1.1.10)
+ * 변환: Major * 1000000 + Minor * 1000 + Patch (예: 1.1.10 -> 1001010)
+ */
+fun String.toVersionCode(): Int {
+    val parts = this.split(".")
+    require(parts.size == 3) { "Version name must be in format Major.Minor.Patch (e.g., 1.1.10)" }
+    val major = parts[0].toInt()
+    val minor = parts[1].toInt()
+    val patch = parts[2].toInt()
+    require(major in 0 until 1000) { "Major version must be between 0 and 999" }
+    require(minor in 0 until 1000) { "Minor version must be between 0 and 999" }
+    require(patch in 0 until 1000) { "Patch version must be between 0 and 999" }
+    return major * 1000000 + minor * 1000 + patch
+}
+
 android {
     namespace = "com.hmju.til"
     compileSdk = 35
@@ -23,9 +40,9 @@ android {
         minSdk = 28
         targetSdk = 35
         applicationId = "com.hmju.til"
-        versionCode = 1
+        versionCode = libs.versions.appVersion.get().toVersionCode()
         versionName = libs.versions.appVersion.get()
-        setProperty("archivesBaseName", "til_${versionCode}_${versionName}")
+        setProperty("archivesBaseName", "til_${versionName}_${versionCode}")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
