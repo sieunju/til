@@ -35,37 +35,6 @@ jobs:
           echo "base_url=\"${{ secrets.BASE_URL }}\"" >> local.properties
           echo "auth_type=\"${{ secrets.AUTH_TYPE }}\"" >> local.properties
 
-      - name: Debug Keystore Path
-        run: |
-          echo "=== Keystore Debug Info ==="
-          echo "GitHub Secret KEYSTORE_RELEASE_FILE_PATH: '${{ secrets.KEYSTORE_RELEASE_FILE_PATH }}'"
-          echo ""
-          echo "=== Local Properties Content ==="
-          cat local.properties | grep keystore || echo "No keystore entries found"
-          echo ""
-          echo "=== Keystore File Check ==="
-          KEYSTORE_PATH=$(grep "keystore.release.file_path" local.properties | cut -d'=' -f2 || echo "")
-          echo "Keystore path from local.properties: '$KEYSTORE_PATH'"
-          if [ -z "$KEYSTORE_PATH" ]; then
-            echo "⚠️  WARNING: Keystore path is empty!"
-          else
-            echo "Checking if keystore file exists..."
-            if [ -f "$KEYSTORE_PATH" ]; then
-              echo "✅ Keystore file exists at: $KEYSTORE_PATH"
-            else
-              echo "❌ Keystore file NOT found at: $KEYSTORE_PATH"
-              echo "Checking default location: keystore/til.jks"
-              if [ -f "keystore/til.jks" ]; then
-                echo "✅ Found keystore at default location: keystore/til.jks"
-              else
-                echo "❌ Keystore not found at default location either"
-              fi
-            fi
-          fi
-          echo ""
-          echo "=== Current Directory Structure ==="
-          ls -la keystore/ 2>/dev/null || echo "keystore directory not found"
-
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
