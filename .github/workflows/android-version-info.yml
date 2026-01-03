@@ -42,14 +42,7 @@ jobs:
           echo "BASE_URL: $([ -z '${{ secrets.BASE_URL }}' ] && echo 'empty' || echo 'set')"
           echo "AUTH_TYPE: $([ -z '${{ secrets.AUTH_TYPE }}' ] && echo 'empty' || echo 'set')"
           echo ""
-          echo "=== Creating local.properties ==="
-          # Android SDK 경로 설정 (ANDROID_HOME 또는 ANDROID_SDK_ROOT 사용)
-          SDK_DIR="${ANDROID_HOME:-$ANDROID_SDK_ROOT}"
-          if [ -z "$SDK_DIR" ]; then
-            echo "⚠️  WARNING: ANDROID_HOME and ANDROID_SDK_ROOT are not set"
-            SDK_DIR=""
-          fi
-          echo "sdk.dir=$SDK_DIR" > local.properties
+          echo "Test ${{ secrets.KEYSTORE_RELEASE_FILE_PATH }} "
           echo "keystore.release.file_path=${{ secrets.KEYSTORE_RELEASE_FILE_PATH }}" >> local.properties
           echo "keystore.release.store_password=${{ secrets.KEYSTORE_RELEASE_PW }}" >> local.properties
           echo "keystore.release.key_alias=${{ secrets.KEYSTORE_RELEASE_ALIAS }}" >> local.properties
