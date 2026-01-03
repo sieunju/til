@@ -2,7 +2,7 @@ name: Android Build
 
 on:
   push:
-    branches: [ master]
+    branches: [ master ]
   workflow_dispatch:  # 수동 실행을 위한 트리거
   # pull_request:
   # branches: [ develop ]
@@ -13,7 +13,7 @@ jobs:
     secrets: inherit
 
   apk:
-    # needs: get_version
+    needs: get_version
     runs-on: macos-latest
     steps:
       # Check Current Branches
