@@ -28,14 +28,7 @@ jobs:
 
       - name: SetUp properties
         run: |
-          # Keystore 경로 설정 (Secret이 비어있으면 기본값 사용)
-          KEYSTORE_PATH="${{ secrets.KEYSTORE_RELEASE_FILE_PATH }}"
-          if [ -z "$KEYSTORE_PATH" ]; then
-            KEYSTORE_PATH="keystore/til.jks"
-            echo "⚠️  KEYSTORE_RELEASE_FILE_PATH secret is empty, using default: $KEYSTORE_PATH"
-          fi
-          
-          echo "keystore.release.file_path=KEYSTORE_RELEASE_FILE_PATH" > local.properties
+          echo "keystore.release.file_path=${{ secrets.KEYSTORE_RELEASE_FILE_PATH }}" > local.properties
           echo "keystore.release.store_password=${{ secrets.KEYSTORE_RELEASE_PW }}" >> local.properties
           echo "keystore.release.key_alias=${{ secrets.KEYSTORE_RELEASE_ALIAS }}" >> local.properties
           echo "keystore.release.key_password=${{ secrets.KEYSTORE_RELEASE_KEY_PW }}" >> local.properties
@@ -72,9 +65,6 @@ jobs:
           echo ""
           echo "=== Current Directory Structure ==="
           ls -la keystore/ 2>/dev/null || echo "keystore directory not found"
-
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
 
       - name: Get Version from Gradle
         id: get_version

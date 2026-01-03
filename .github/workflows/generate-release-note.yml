@@ -2,7 +2,7 @@ name: Generate Release Note
 
 on:
   push:
-    branches: [ develop, master ]
+    branches: [master ]
   # pull_request:
     # branches: [ develop ]
 
