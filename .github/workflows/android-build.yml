@@ -67,7 +67,7 @@ jobs:
 
       # Debug Upload Apk
       - name: Debug Apk
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: Generate Debug Apk
           path: app/build/outputs/apk/debug/til_${{needs.get_version.outputs.version_code}}_${{needs.get_version.outputs.version_name}}-debug.apk
