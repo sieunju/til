@@ -42,31 +42,6 @@ jobs:
           echo "BASE_URL: $([ -z '${{ secrets.BASE_URL }}' ] && echo 'empty' || echo 'set')"
           echo "AUTH_TYPE: $([ -z '${{ secrets.AUTH_TYPE }}' ] && echo 'empty' || echo 'set')"
           echo ""
-          echo "Test ${{ secrets.KEYSTORE_RELEASE_FILE_PATH }} "
-          echo "Test ${{ vars.TEST_TOKEN }} "
-          echo "1111 ${{ secrets.TESTTT }}"
-          echo "keystore.release.file_path=${{ secrets.KEYSTORE_RELEASE_FILE_PATH }}" >> local.properties
-          echo "keystore.release.store_password=${{ secrets.KEYSTORE_RELEASE_PW }}" >> local.properties
-          echo "keystore.release.key_alias=${{ secrets.KEYSTORE_RELEASE_ALIAS }}" >> local.properties
-          echo "keystore.release.key_password=${{ secrets.KEYSTORE_RELEASE_KEY_PW }}" >> local.properties
-          echo "base_url=\"${{ secrets.BASE_URL }}\"" >> local.properties
-          echo "auth_type=\"${{ secrets.AUTH_TYPE }}\"" >> local.properties
-
-      - name: Print Local Properties
-        run: |
-          echo "=== Local Properties Content ==="
-          if [ -f local.properties ]; then
-            echo "sdk.dir=$(grep '^sdk.dir=' local.properties | cut -d'=' -f2 || echo 'not set')"
-            echo "keystore.release.file_path=$(grep '^keystore.release.file_path=' local.properties | cut -d'=' -f2 || echo 'not set')"
-            echo "keystore.release.key_alias=$(grep '^keystore.release.key_alias=' local.properties | cut -d'=' -f2 || echo 'not set')"
-            echo "base_url=$(grep '^base_url=' local.properties | cut -d'=' -f2 || echo 'not set')"
-            echo "auth_type=$(grep '^auth_type=' local.properties | cut -d'=' -f2 || echo 'not set')"
-            echo ""
-            echo "=== Full local.properties file ==="
-            cat local.properties
-          else
-            echo "❌ local.properties file not found!"
-          fi
 
       - name: Get Version from Gradle
         id: get_version
