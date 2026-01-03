@@ -4,10 +4,10 @@ on:
   workflow_call:
     outputs:
       version_name:
-        description: 'The version name of the app'
+        description: "The version name of the app"
         value: ${{ jobs.get_version.outputs.version_name }}
       version_code:
-        description: 'The version code of the app'
+        description: "The version code of the app"
         value: ${{ jobs.get_version.outputs.version_code }}
 
 jobs:
@@ -28,6 +28,7 @@ jobs:
 
       - name: SetUp properties
         run: |
+          echo "sdk.dir=$ANDROID_HOME" > local.properties
           echo "keystore.release.file_path=${{ secrets.KEYSTORE_RELEASE_FILE_PATH }}" > local.properties
           echo "keystore.release.store_password=${{ secrets.KEYSTORE_RELEASE_PW }}" >> local.properties
           echo "keystore.release.key_alias=${{ secrets.KEYSTORE_RELEASE_ALIAS }}" >> local.properties
@@ -74,4 +75,3 @@ jobs:
           VERSION_CODE=$(echo "$VERSION_OUTPUT" | sed 's/.*(\([0-9]*\)).*/\1/')
           echo "name=$VERSION_NAME" >> $GITHUB_OUTPUT
           echo "code=$VERSION_CODE" >> $GITHUB_OUTPUT
-
