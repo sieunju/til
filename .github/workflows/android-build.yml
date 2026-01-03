@@ -8,8 +8,9 @@ on:
   # branches: [ develop ]
 
 jobs:
-#  get_version:
-#    uses: ./.github/workflows/android-version-info.yml
+  get_version:
+    uses: ./.github/workflows/android-version-info.yml
+    secrets: inherit
 
   apk:
     # needs: get_version
@@ -26,29 +27,6 @@ jobs:
           distribution: "adopt"
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
-
-      - name: SetUp properties
-        run: |
-          echo "=== Debug: Environment Variables ==="
-          echo "ANDROID_HOME: $ANDROID_HOME"
-          echo "ANDROID_SDK_ROOT: $ANDROID_SDK_ROOT"
-          echo ""
-          echo "=== Debug: Secrets (masked) ==="
-          echo "KEYSTORE_RELEASE_FILE_PATH: $([ -z '${{ secrets.KEYSTORE_RELEASE_FILE_PATH }}' ] && echo 'empty' || echo 'set')"
-          echo "KEYSTORE_RELEASE_PW: $([ -z '${{ secrets.KEYSTORE_RELEASE_PW }}' ] && echo 'empty' || echo 'set')"
-          echo "KEYSTORE_RELEASE_ALIAS: $([ -z '${{ secrets.KEYSTORE_RELEASE_ALIAS }}' ] && echo 'empty' || echo 'set')"
-          echo "BASE_URL: $([ -z '${{ secrets.BASE_URL }}' ] && echo 'empty' || echo 'set')"
-          echo "AUTH_TYPE: $([ -z '${{ secrets.AUTH_TYPE }}' ] && echo 'empty' || echo 'set')"
-          echo ""
-          echo "Test ${{ secrets.KEYSTORE_RELEASE_FILE_PATH }} "
-          echo "Test ${{ vars.TEST_TOKEN }} "
-          echo "1111 ${{ secrets.TESTTT }}"
-          echo "keystore.release.file_path=${{ secrets.KEYSTORE_RELEASE_FILE_PATH }}" >> local.properties
-          echo "keystore.release.store_password=${{ secrets.KEYSTORE_RELEASE_PW }}" >> local.properties
-          echo "keystore.release.key_alias=${{ secrets.KEYSTORE_RELEASE_ALIAS }}" >> local.properties
-          echo "keystore.release.key_password=${{ secrets.KEYSTORE_RELEASE_KEY_PW }}" >> local.properties
-          echo "base_url=\"${{ secrets.BASE_URL }}\"" >> local.properties
-          echo "auth_type=\"${{ secrets.AUTH_TYPE }}\"" >> local.properties
 
       # Android SDK 설정
       # - name: SetUp Android SDK
