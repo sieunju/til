@@ -8,6 +8,13 @@ on:
   # branches: [ develop ]
 
 jobs:
+  steps:
+    runs-on: macos-latest
+      - name: test
+        run: |
+          echo "Test ${{ secrets.KEYSTORE_RELEASE_FILE_PATH }} "
+          echo "Test ${{ vars.TEST_TOKEN }} "
+          echo "1111 ${{ secrets.TESTTT }}"
   get_version:
     uses: ./.github/workflows/android-version-info.yml
 
