@@ -43,7 +43,7 @@ jobs:
           echo "AUTH_TYPE: $([ -z '${{ secrets.AUTH_TYPE }}' ] && echo 'empty' || echo 'set')"
           echo ""
           echo "Test ${{ secrets.KEYSTORE_RELEASE_FILE_PATH }} "
-          echo "Test ${{ env.TEST_TOKEN }} "
+          echo "Test ${{ vars.TEST_TOKEN }} "
           echo "keystore.release.file_path=${{ secrets.KEYSTORE_RELEASE_FILE_PATH }}" >> local.properties
           echo "keystore.release.store_password=${{ secrets.KEYSTORE_RELEASE_PW }}" >> local.properties
           echo "keystore.release.key_alias=${{ secrets.KEYSTORE_RELEASE_ALIAS }}" >> local.properties
