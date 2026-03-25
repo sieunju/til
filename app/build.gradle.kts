@@ -35,10 +35,10 @@ fun String.toVersionCode(): Int {
 
 android {
     namespace = "com.hmju.til"
-    compileSdk = 35
+    compileSdk = 36
     defaultConfig {
         minSdk = 28
-        targetSdk = 35
+        targetSdk = 36
         applicationId = "com.hmju.til"
         versionCode = libs.versions.appVersion.get().toVersionCode()
         versionName = libs.versions.appVersion.get()
