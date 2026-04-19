@@ -13,14 +13,14 @@ import retrofit2.http.Query
  * Created by juhongmin on 2025. 8. 15.
  */
 interface ApiService {
-	@GET("/api/v1/til/goods")
-	fun fetchGoods(
-		@Query("pageNo") pageNo: Int,
-		@Query("pageSize") pageSize: Int = 30
-	): Single<JSendList<GoodsDTO>>
+    @GET("/api/v1/til/goods")
+    fun fetchGoods(
+	@Query("pageNo") pageNo: Int,
+	@Query("pageSize") pageSize: Int = 30
+    ): Single<JSendList<GoodsDTO>>
 
-	@GET("/api/v1/til/goods/{id}")
-	fun fetchById(
-		@Path("id") id: Long
-	): Single<GoodsDTO>
+    @GET("/api/v1/til/goods/{id}")
+    fun fetchById(
+	@Path("id") id: Long
+    ): Single<GoodsDTO>
 }
