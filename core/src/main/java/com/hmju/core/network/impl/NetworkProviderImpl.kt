@@ -3,7 +3,6 @@ package com.hmju.core.network.impl
 import com.hmju.core.BuildConfig
 import com.hmju.core.network.NetworkProvider
 import com.hmju.core.network.adapter.CoroutineErrorHandlingCallAdapter
-import com.hmju.core.network.adapter.JSendFlatConverterFactory
 import com.hmju.core.network.adapter.RxErrorHandlingCallAdapter
 import com.hmju.core.network.qualifiers.ApiHttpClient
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -31,7 +30,6 @@ internal class NetworkProviderImpl @Inject constructor(
             .client(httpClient)
             .addCallAdapterFactory(RxErrorHandlingCallAdapter.create())
             .addCallAdapterFactory(CoroutineErrorHandlingCallAdapter.create())
-            .addConverterFactory(JSendFlatConverterFactory(json))
             .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
             .build()
     }
