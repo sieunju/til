@@ -1,8 +1,7 @@
 package com.features.network_expired_token.usecase
 
 import com.features.network_expired_token.ApiService
-import com.hmju.core.models.base.JSendObjWithMeta
-import com.hmju.core.models.base.MetaEntity
+import com.features.network_expired_token.models.entity.JSendTestEntity
 import com.hmju.core.models.base.getOrDefault
 import javax.inject.Inject
 
@@ -14,8 +13,8 @@ import javax.inject.Inject
 class GetJSendWithMetaUseCase @Inject constructor(
     private val apiService: ApiService
 ) {
-    suspend operator fun invoke(): JSendObjWithMeta<String, MetaEntity> {
+    suspend operator fun invoke(): JSendTestEntity {
         return apiService.fetchJSendWithMeta()
-            .getOrDefault(JSendObjWithMeta())
+            .getOrDefault(JSendTestEntity())
     }
 }

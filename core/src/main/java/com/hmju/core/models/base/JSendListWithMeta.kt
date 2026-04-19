@@ -8,11 +8,9 @@ import kotlinx.serialization.Serializable
  * {
  *  "status" : true or false,
  *  "message" : String (에러인경우 사용자에게 표시하는 에러 메시지),
- *  "data" : {
- *      "payload" : [],
- *      "meta" : {
- *          "pageSize" : Integer
- *      }
+ *  "list" : [],
+ *  "meta" : {
+ *      "pageSize" : Integer
  *  }
  * }
  *
@@ -20,21 +18,10 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class JSendListWithMeta<T : Any, M : MetaEntity>(
-    @SerialName("data")
-    private val depthData: Payload<T, M>? = null
+    @SerialName("list")
+    val list: List<T> = listOf(),
+    @SerialName("meta")
+    val meta: M? = null
 ) : BaseJSend() {
-    @Serializable
-    data class Payload<T : Any, M : MetaEntity>(
-        @SerialName("payload")
-        val list: List<T> = listOf(),
-        @SerialName("meta")
-        val meta: M? = null
-    )
-
-    override val isValid: Boolean get() = depthData != null
-
-    val list: List<T>
-        get() = depthData?.list ?: listOf()
-    val meta: M?
-        get() = depthData?.meta
+    override val isValid: Boolean get() = isSuccess
 }

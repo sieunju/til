@@ -71,7 +71,6 @@ internal class NetworkV2FragmentViewModel @Inject constructor(
             val ranInt = Random.nextInt(10)
             if (ranInt < 3) {
                 works.add(apiService.fetchError404Rx()
-                    .map { it.obj }
                     .onErrorReturn { JSendEntity() }
                 )
             } else if (ranInt < 6) {

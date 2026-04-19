@@ -43,7 +43,7 @@ internal class GoodsRepositoryImpl @Inject constructor(
 			getMember(),
 			apis.fetchById(id).delay(500, TimeUnit.MILLISECONDS)
 		) { member, res ->
-			return@zip Goods(member.id, res.obj)
+			return@zip Goods(member.id, res)
 		}
 	}
 

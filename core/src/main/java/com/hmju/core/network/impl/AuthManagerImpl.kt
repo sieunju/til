@@ -8,9 +8,7 @@ import com.hmju.core.pref.PreferenceManager
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonObject
-import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.put
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -69,13 +67,7 @@ internal class AuthManagerImpl @Inject constructor(
             .post(reqBody.toString().toRequestBody())
             .build()
         val res = client.newCall(req).execute()
-
-        val resBody = jsonFormat.decodeFromString<JsonObject>(res.body?.string()!!)
-        val contents = resBody["data"]
-            ?.jsonObject
-            ?.get("payload")
-            ?.jsonObject!!.toString()
-        return jsonFormat.decodeFromString<AuthTokenEntity>(contents)
+        return jsonFormat.decodeFromString<AuthTokenEntity>(res.body?.string()!!)
     }
 
     override fun isRefreshToken(): Boolean {
@@ -95,11 +87,6 @@ internal class AuthManagerImpl @Inject constructor(
             .build()
 
         val res = client.newCall(req).execute()
-        val resBody = jsonFormat.decodeFromString<JsonObject>(res.body?.string()!!)
-        val contents = resBody["data"]
-            ?.jsonObject
-            ?.get("payload")
-            ?.jsonObject!!.toString()
-        return jsonFormat.decodeFromString<AuthTokenEntity>(contents)
+        return jsonFormat.decodeFromString<AuthTokenEntity>(res.body?.string()!!)
     }
 }

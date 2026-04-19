@@ -19,7 +19,7 @@ data class Goods(
 		userId = userId,
 		id = dto.id,
 		title = dto.title,
-		message = dto.message,
+		message = dto.description,
 		imagePath = dto.imagePath
 	)
 

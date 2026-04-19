@@ -2,7 +2,7 @@ package com.features.network_jsend_format.usecase
 
 import com.features.network_jsend_format.ApiService
 import com.features.network_jsend_format.models.entity.JSendTestEntity
-import com.hmju.core.models.base.getOrNull
+import com.hmju.core.models.base.getOrDefault
 import javax.inject.Inject
 
 /**
@@ -14,7 +14,6 @@ class GetJSendUseCase @Inject constructor(
     private val apiService: ApiService
 ) {
     suspend operator fun invoke(): JSendTestEntity {
-        val res = apiService.fetchJSend().getOrNull() ?: return JSendTestEntity("isNull")
-        return res.obj
+        return apiService.fetchJSend().getOrDefault(JSendTestEntity())
     }
 }

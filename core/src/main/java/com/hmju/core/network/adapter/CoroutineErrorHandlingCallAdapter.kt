@@ -2,10 +2,6 @@ package com.hmju.core.network.adapter
 
 import com.hmju.core.models.base.ApiResponse
 import com.hmju.core.models.base.BaseJSend
-import com.hmju.core.models.base.JSendList
-import com.hmju.core.models.base.JSendListWithMeta
-import com.hmju.core.models.base.JSendObj
-import com.hmju.core.models.base.JSendObjWithMeta
 import com.hmju.core.models.error.JSendException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -72,13 +68,6 @@ class CoroutineErrorHandlingCallAdapter(
     ) : CallAdapter<R, Any> {
         // CallAdapter<Request,Response>
 
-        /**
-         * @see JSendObj
-         * @see JSendObjWithMeta
-         * @see JSendList
-         * @see JSendListWithMeta
-         * 이외는 isValid 체크 X
-         */
         override fun responseType(): Type {
             return responseType
         }

@@ -2,7 +2,6 @@ package com.features.room_observer.repository
 
 import com.features.room_observer.models.GoodsDTO
 import com.hmju.core.models.base.JSendList
-import com.hmju.core.models.base.JSendObj
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -23,5 +22,5 @@ interface ApiService {
 	@GET("/api/v1/til/goods/{id}")
 	fun fetchById(
 		@Path("id") id: Long
-	): Single<JSendObj<GoodsDTO>>
+	): Single<GoodsDTO>
 }
