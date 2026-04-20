@@ -8,6 +8,6 @@ import kotlinx.serialization.Serializable
  * Created by juhongmin on 3/2/24
  */
 @Serializable
-data class LikeEntity(
+data class LikeDTO(
     val id: Int
 )

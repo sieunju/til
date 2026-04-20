@@ -1,7 +1,7 @@
 package com.features.async_migrate.usecase
 
 import com.features.async_migrate.ApiService
-import com.features.async_migrate.models.ui.GoodsModel
+import com.features.async_migrate.models.ui.Goods
 import com.hmju.core.models.base.JSendListWithMeta
 import com.hmju.core.models.base.getOrDefault
 import com.hmju.core.models.error.JSendException
@@ -19,7 +19,7 @@ import javax.inject.Inject
 class GetGoodsUseCaseCo @Inject constructor(
     private val apiService: ApiService
 ) {
-    suspend operator fun invoke(params: PagingQueryParams): List<GoodsModel> {
+    suspend operator fun invoke(params: PagingQueryParams): List<Goods> {
         return coroutineScope {
             val work1 = async { apiService.fetchCoGoods(params.getQueryMap()) }
             val work2 = try {
@@ -30,9 +30,9 @@ class GetGoodsUseCaseCo @Inject constructor(
             }
 
             val res1 = work1.await()
-            val list = mutableListOf<GoodsModel>()
-            list.addAll(res1.getOrDefault(JSendListWithMeta()).list.map { GoodsModel(it) })
-            list.addAll(work2.list.map { GoodsModel(it) })
+            val list = mutableListOf<Goods>()
+            list.addAll(res1.getOrDefault(JSendListWithMeta()).list.map { Goods(it) })
+            list.addAll(work2.list.map { Goods(it) })
             list
         }
     }

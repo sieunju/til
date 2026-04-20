@@ -1,8 +1,8 @@
 package com.features.async_migrate.usecase
 
 import com.features.async_migrate.ApiService
-import com.features.async_migrate.models.entity.GoodsEntity
-import com.features.async_migrate.models.meta.CustomMetaEntity
+import com.features.async_migrate.models.entity.GoodsDTO
+import com.features.async_migrate.models.meta.CustomMetaDTO
 import com.hmju.core.models.base.JSendListWithMeta
 import com.hmju.core.models.params.PagingQueryParams
 import io.reactivex.rxjava3.core.Single
@@ -18,7 +18,7 @@ class GetGoodsUseCaseRx @Inject constructor(
 ) {
     operator fun invoke(
         params: PagingQueryParams
-    ): Single<JSendListWithMeta<GoodsEntity, CustomMetaEntity>> {
+    ): Single<JSendListWithMeta<GoodsDTO, CustomMetaDTO>> {
         return apiService.fetchGoods(params.getQueryMap())
     }
 }

@@ -1,7 +1,7 @@
 package com.features.network_jsend_format.usecase
 
 import com.features.network_jsend_format.ApiService
-import com.features.network_jsend_format.models.entity.JSendTestEntity
+import com.features.network_jsend_format.models.entity.JSendTestDTO
 import com.hmju.core.models.base.getOrDefault
 import javax.inject.Inject
 
@@ -13,8 +13,8 @@ import javax.inject.Inject
 class GetJSendWithMetaUseCase @Inject constructor(
     private val apiService: ApiService
 ) {
-    suspend operator fun invoke(): JSendTestEntity {
+    suspend operator fun invoke(): JSendTestDTO {
         return apiService.fetchJSendWithMeta()
-            .getOrDefault(JSendTestEntity())
+            .getOrDefault(JSendTestDTO())
     }
 }

@@ -5,7 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class JSendEntity(
+data class JSendDTO(
     @SerialName("id")
     val id: String = ""
 ) : BaseJSend()

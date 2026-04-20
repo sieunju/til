@@ -9,7 +9,7 @@ import kotlinx.serialization.Serializable
  * Created by juhongmin on 1/20/24
  */
 @Serializable
-data class FileEntity(
+data class FileDTO(
     val id: Int = 0,
     @SerialName("original_name")
     val originalName: String = "",

@@ -1,10 +1,15 @@
-package com.features.base_mvvm_bottom_sheet.models.entity
+package com.features.rv_custom_paging.models.entity
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/**
+ * Description : Goods DTO
+ *
+ * Created by juhongmin on 2/15/24
+ */
 @Serializable
-data class GoodsEntity(
+data class GoodsDTO(
     val id: Long = 0,
     val title: String = "",
     val message: String = "",

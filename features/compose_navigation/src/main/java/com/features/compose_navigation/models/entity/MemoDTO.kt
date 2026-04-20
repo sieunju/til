@@ -12,7 +12,7 @@ import java.util.Locale
  * Created by juhongmin on 5/6/24
  */
 @Serializable
-data class MemoEntity(
+data class MemoDTO(
     val id: Int = 0,
     val userId: String = "",
     val tag: Int = 0,

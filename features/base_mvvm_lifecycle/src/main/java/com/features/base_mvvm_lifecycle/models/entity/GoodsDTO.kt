@@ -1,15 +1,10 @@
-package com.features.rv_refactor_diff_util.models.entity
+package com.features.base_mvvm_lifecycle.models.entity
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-/**
- * Description :
- *
- * Created by juhongmin on 3/8/24
- */
 @Serializable
-data class GoodsEntity(
+data class GoodsDTO(
     val id: Long = 0,
     val title: String = "",
     val message: String = "",

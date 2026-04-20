@@ -1,7 +1,7 @@
 package com.features.rv_refactor_diff_util.usecase
 
 import com.features.rv_refactor_diff_util.ApiService
-import com.features.rv_refactor_diff_util.models.ui.GoodsModel
+import com.features.rv_refactor_diff_util.models.ui.Goods
 import com.hmju.core.models.base.getOrNull
 import com.hmju.core.models.params.PagingQueryParams
 import kotlinx.coroutines.delay
@@ -19,11 +19,11 @@ class GetGoodsUseCase @Inject constructor(
     suspend operator fun invoke(
         params: PagingQueryParams,
         delay: Long
-    ): List<GoodsModel> {
+    ): List<Goods> {
         val res = apiService.fetchGoods(
             params.getQueryMap()
         ).getOrNull()
         delay(delay)
-        return res?.list?.map { GoodsModel(it) } ?: listOf()
+        return res?.list?.map { Goods(it) } ?: listOf()
     }
 }

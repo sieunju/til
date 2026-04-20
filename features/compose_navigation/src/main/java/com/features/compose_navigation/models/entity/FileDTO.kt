@@ -1,10 +1,15 @@
-package com.features.rv_custom_paging.models.entity
+package com.features.compose_navigation.models.entity
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/**
+ * Description : FileDTO
+ *
+ * Created by juhongmin on 5/6/24
+ */
 @Serializable
-data class FileEntity(
+data class FileDTO(
     val id: Int = 0,
     @SerialName("original_name")
     val originalName: String = "",

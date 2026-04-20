@@ -1,9 +1,9 @@
-package com.features.network_error_handling.models.entity
+package com.features.network_expired_token.models.entity
 
 import com.hmju.core.models.base.BaseJSend
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class JSendTestEntity(
+data class JSendTestDTO(
     val id: String = ""
 ) : BaseJSend()

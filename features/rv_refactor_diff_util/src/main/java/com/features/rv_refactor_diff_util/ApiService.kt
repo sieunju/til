@@ -1,7 +1,7 @@
 package com.features.rv_refactor_diff_util
 
-import com.features.rv_refactor_diff_util.models.entity.GoodsEntity
-import com.features.rv_refactor_diff_util.models.meta.CustomMetaEntity
+import com.features.rv_refactor_diff_util.models.entity.GoodsDTO
+import com.features.rv_refactor_diff_util.models.meta.CustomMetaDTO
 import com.hmju.core.models.base.ApiResponse
 import com.hmju.core.models.base.JSendList
 import com.hmju.core.models.base.JSendListWithMeta
@@ -21,5 +21,5 @@ interface ApiService {
     @GET("/api/v1/til/goods")
     suspend fun fetchGoods(
         @QueryMap(encoded = true) params: Map<String, String>
-    ): ApiResponse<JSendListWithMeta<GoodsEntity, CustomMetaEntity>>
+    ): ApiResponse<JSendListWithMeta<GoodsDTO, CustomMetaDTO>>
 }

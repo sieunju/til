@@ -1,9 +1,9 @@
 package com.features.network_v2
 
-import com.features.network_v2.models.entity.GoodsEntity
-import com.features.network_v2.models.entity.JSendEntity
-import com.features.network_v2.models.entity.JwtTokenTestEntity
-import com.features.network_v2.models.meta.CustomMetaEntity
+import com.features.network_v2.models.entity.GoodsDTO
+import com.features.network_v2.models.entity.JSendDTO
+import com.features.network_v2.models.entity.JwtTokenTestDTO
+import com.features.network_v2.models.meta.CustomMetaDTO
 import com.hmju.core.models.base.ApiResponse
 import com.hmju.core.models.base.JSendListWithMeta
 import io.reactivex.rxjava3.core.Single
@@ -20,18 +20,18 @@ import retrofit2.http.QueryMap
 internal interface ApiService {
 
     @GET("/api/v1/til/error/404")
-    suspend fun fetchError404(): ApiResponse<JSendEntity>
+    suspend fun fetchError404(): ApiResponse<JSendDTO>
 
     @GET("/api/v1/til/jsend")
-    fun fetchJSendRx(): Single<JSendEntity>
+    fun fetchJSendRx(): Single<JSendDTO>
 
     @GET("/api/v1/til/goods")
     fun fetchGoodsRx(
         @QueryMap(encoded = true) params: Map<String, String>,
-    ): Single<JSendListWithMeta<GoodsEntity, CustomMetaEntity>>
+    ): Single<JSendListWithMeta<GoodsDTO, CustomMetaDTO>>
 
     @GET("/api/v1/til/error/404")
-    fun fetchError404Rx(): Single<JSendEntity>
+    fun fetchError404Rx(): Single<JSendDTO>
 
     @GET("/api/v1/memo/aos")
     fun fetchAndroid(): Single<ResponseBody>
@@ -39,31 +39,31 @@ internal interface ApiService {
     @GET("/api/v1/til/auth/jwt/test/{delay}")
     fun fetchJwtTest(
         @Path("delay") delay: Int = 0
-    ): Single<JwtTokenTestEntity>
+    ): Single<JwtTokenTestDTO>
 
     @GET("/api/v1/til/auth/jwt/test1/{delay}")
     fun fetchJwtTest1(
         @Path("delay") delay: Int = 0
-    ): Single<JwtTokenTestEntity>
+    ): Single<JwtTokenTestDTO>
 
     @GET("/api/v1/til/auth/jwt/test2/{delay}")
     fun fetchJwtTest2(
         @Path("delay") delay: Int = 0
-    ): Single<JwtTokenTestEntity>
+    ): Single<JwtTokenTestDTO>
 
     @GET("/api/v1/til/auth/jwt/test/{delay}")
     suspend fun fetchJwtTestCo(
         @Path("delay") delay: Int = 0
-    ): ApiResponse<JwtTokenTestEntity>
+    ): ApiResponse<JwtTokenTestDTO>
 
     @GET("/api/v1/til/auth/jwt/test1/{delay}")
     suspend fun fetchJwtTest1Co(
         @Path("delay") delay: Int = 0
-    ): ApiResponse<JwtTokenTestEntity>
+    ): ApiResponse<JwtTokenTestDTO>
 
     @GET("/api/v1/til/auth/jwt/test2/{delay}")
     suspend fun fetchJwtTest2Co(
         @Path("delay") delay: Int = 0
-    ): ApiResponse<JwtTokenTestEntity>
+    ): ApiResponse<JwtTokenTestDTO>
 
 }

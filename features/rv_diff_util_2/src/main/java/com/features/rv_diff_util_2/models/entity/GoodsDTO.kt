@@ -9,7 +9,7 @@ import kotlinx.serialization.Serializable
  * Created by juhongmin on 3/10/24
  */
 @Serializable
-data class GoodsEntity(
+data class GoodsDTO(
     val id: Long = 0,
     val title: String = "",
     val message: String = "",

@@ -5,7 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class JwtTokenTestEntity(
+data class JwtTokenTestDTO(
     @SerialName("token")
     val token: String = ""
 ) : BaseJSend()
