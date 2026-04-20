@@ -11,7 +11,7 @@ data class GoodsTwoModel(
     val message: String,
     val imagePath: String
 ) {
-    constructor(model: GoodsModel) : this(
+    constructor(model: Goods) : this(
         id = model.id,
         title = model.title,
         message = model.message,

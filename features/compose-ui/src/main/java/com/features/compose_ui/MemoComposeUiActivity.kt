@@ -27,7 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
-import com.features.compose_ui.models.MemoModel
+import com.features.compose_ui.models.Memo
 import com.features.compose_ui.models.MemoUiModel
 import com.features.compose_ui.usecase.GetMemoListUseCase
 import com.hmju.core.compose.TilTheme
@@ -133,7 +133,7 @@ class MemoComposeUiActivity : AppCompatActivity() {
         }
     }
 
-    private fun getUiModels(list: List<MemoModel>): List<MemoUiModel> {
+    private fun getUiModels(list: List<Memo>): List<MemoUiModel> {
         val uiList = mutableListOf<MemoUiModel>()
         list.forEach { model ->
             uiList.add(MemoUiModel.Date(model))
@@ -149,7 +149,7 @@ class MemoComposeUiActivity : AppCompatActivity() {
     @Preview(showBackground = true, backgroundColor = 0xFFFFFF)
     @Composable
     private fun PreviewExample() {
-        val model = MemoModel(
+        val model = Memo(
             id = 0,
             tag = 3,
             title = "Example Title",

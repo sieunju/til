@@ -1,7 +1,7 @@
 package com.features.compose_ui.models
 
-import com.features.compose_ui.models.entity.FileEntity
-import com.features.compose_ui.models.entity.MemoEntity
+import com.features.compose_ui.models.entity.FileDTO
+import com.features.compose_ui.models.entity.MemoDTO
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -11,7 +11,7 @@ import java.util.Locale
  * 2024-01-20T11:06:21.740Z
  * Created by juhongmin on 1/20/24
  */
-data class MemoModel(
+data class Memo(
     val id: Int,
     val tag: Int,
     val title: String,
@@ -24,8 +24,8 @@ data class MemoModel(
     private val df = SimpleDateFormat("yy.MM.dd", Locale.KOREA)
 
     constructor(
-        memo: MemoEntity,
-        file: FileEntity?
+        memo: MemoDTO,
+        file: FileDTO?
     ) : this(
         id = memo.id,
         tag = memo.tag,
