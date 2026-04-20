@@ -1,7 +1,7 @@
 package com.hmju.test.auth
 
 import android.util.Base64
-import com.hmju.core.models.auth.AuthTokenEntity
+import com.hmju.core.models.auth.AuthTokenDTO
 import com.hmju.core.network.NetworkConfig
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -63,7 +63,7 @@ class JwtAuthTest {
     }
 
     @OptIn(ExperimentalSerializationApi::class)
-    private fun reqCreateToken(): AuthTokenEntity {
+    private fun reqCreateToken(): AuthTokenDTO {
         val reqBody = buildJsonObject {
             put("email", "test@gmail.com")
             put("expired_minute", 5)
@@ -94,13 +94,13 @@ class JwtAuthTest {
             ?.jsonObject
             ?.get("payload")
             ?.jsonObject!!.toString()
-        return jsonFormat.decodeFromString<AuthTokenEntity>(contents)
+        return jsonFormat.decodeFromString<AuthTokenDTO>(contents)
     }
 
     @OptIn(ExperimentalSerializationApi::class)
     private fun reqRefreshToken(
         refreshToken: String
-    ): AuthTokenEntity {
+    ): AuthTokenDTO {
         val req = Request.Builder()
             .header("Authorization", "Bearer $refreshToken")
             .header("accept", "application/json")
@@ -127,7 +127,7 @@ class JwtAuthTest {
             ?.jsonObject
             ?.get("payload")
             ?.jsonObject!!.toString()
-        return jsonFormat.decodeFromString<AuthTokenEntity>(contents)
+        return jsonFormat.decodeFromString<AuthTokenDTO>(contents)
     }
 
     @OptIn(ExperimentalSerializationApi::class)

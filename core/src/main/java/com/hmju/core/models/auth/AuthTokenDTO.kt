@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 import java.util.Date
 
 @Serializable
-data class AuthTokenEntity(
+data class AuthTokenDTO(
     @SerialName("access_token")
     val token: String = "",
     @SerialName("access_expired_at")

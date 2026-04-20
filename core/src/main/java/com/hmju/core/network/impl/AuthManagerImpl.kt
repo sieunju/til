@@ -1,7 +1,7 @@
 package com.hmju.core.network.impl
 
 import com.hmju.core.BuildConfig
-import com.hmju.core.models.auth.AuthTokenEntity
+import com.hmju.core.models.auth.AuthTokenDTO
 import com.hmju.core.network.AuthManager
 import com.hmju.core.network.NetworkConfig.Header
 import com.hmju.core.pref.PreferenceManager
@@ -54,7 +54,7 @@ internal class AuthManagerImpl @Inject constructor(
 
     @OptIn(ExperimentalSerializationApi::class)
     @Throws(IOException::class)
-    override fun createToken(): AuthTokenEntity {
+    override fun createToken(): AuthTokenDTO {
         val reqBody = buildJsonObject {
             put("email", "til_android@email.com")
             put("expired_minute", 5)
@@ -67,7 +67,7 @@ internal class AuthManagerImpl @Inject constructor(
             .post(reqBody.toString().toRequestBody())
             .build()
         val res = client.newCall(req).execute()
-        return jsonFormat.decodeFromString<AuthTokenEntity>(res.body?.string()!!)
+        return jsonFormat.decodeFromString<AuthTokenDTO>(res.body?.string()!!)
     }
 
     override fun isRefreshToken(): Boolean {
@@ -76,7 +76,7 @@ internal class AuthManagerImpl @Inject constructor(
 
 
     @OptIn(ExperimentalSerializationApi::class)
-    override fun refreshToken(): AuthTokenEntity {
+    override fun refreshToken(): AuthTokenDTO {
         val refreshToken = prefManager.getString(PreferenceManager.KEY_REFRESH_TOKEN)
         val req = Request.Builder()
             .url(BuildConfig.BASE_URL.plus("/api/v1/auth/refresh"))
@@ -87,6 +87,6 @@ internal class AuthManagerImpl @Inject constructor(
             .build()
 
         val res = client.newCall(req).execute()
-        return jsonFormat.decodeFromString<AuthTokenEntity>(res.body?.string()!!)
+        return jsonFormat.decodeFromString<AuthTokenDTO>(res.body?.string()!!)
     }
 }

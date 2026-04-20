@@ -17,7 +17,7 @@ import kotlinx.serialization.Serializable
  * Created by juhongmin on 2022/05/15
  */
 @Serializable
-data class JSendListWithMeta<T : Any, M : MetaEntity>(
+data class JSendListWithMeta<T : Any, M : MetaDTO>(
     @SerialName("list")
     val list: List<T> = listOf(),
     @SerialName("meta")
