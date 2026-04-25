@@ -9,5 +9,5 @@ import android.net.Uri
  * Created by juhongmin on 2025. 11. 2.
  */
 interface Navigator {
-    fun navigate(context: Context, uri: Uri): RouterResult
+    fun navigate(context: Context, uri: Uri)
 }

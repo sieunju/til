@@ -36,7 +36,7 @@ internal class NetworkJSendFormatRouter @Inject constructor() : Router() {
 	return route().path == path
     }
 
-    override fun execute(
+    override suspend fun execute(
 	context: Context,
 	path: String,
 	params: Map<String, String>

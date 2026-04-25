@@ -20,7 +20,7 @@ abstract class Router {
     // // android.util.AndroidRuntimeException: Calling startActivity() from outside of an
     // Activity context requires the FLAG_ACTIVITY_NEW_TASK flag. Is this really what you want?
     // Activity Context 매개변수로 추가
-    abstract fun execute(context: Context, path: String, params: Map<String, String>): RouterResult
+    abstract suspend fun execute(context: Context, path: String, params: Map<String, String>): RouterResult
     private fun isValidIdRes(context: Context, id: Int): Boolean {
 	return try {
 	    context.resources.getResourceName(id)

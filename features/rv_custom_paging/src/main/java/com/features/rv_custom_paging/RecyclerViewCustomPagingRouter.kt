@@ -33,7 +33,7 @@ internal class RecyclerViewCustomPagingRouter @Inject constructor() : Router() {
 	return Route.RECYCLERVIEW_PAGING
     }
 
-    override fun execute(
+    override suspend fun execute(
 	context: Context,
 	path: String,
 	params: Map<String, String>
