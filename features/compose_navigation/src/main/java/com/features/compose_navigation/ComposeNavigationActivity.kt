@@ -52,7 +52,7 @@ internal class ComposeNavigationActivity : AppCompatActivity() {
     @Composable
     private fun InitNavigation(
         navController: NavHostController = rememberNavController()
-    ) {/
+    ) {
         NavHost(navController, Screens.SIGNUP.destination) {
             Screens.SIGNUP.getNavGraph(this) {
                 SignUpScreen(navController)
