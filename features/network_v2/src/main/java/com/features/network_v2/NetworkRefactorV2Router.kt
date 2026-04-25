@@ -32,7 +32,7 @@ internal class NetworkRefactorV2Router @Inject constructor() : Router() {
 	return Route.NETWORK_REFACTOR_V2
     }
 
-    override suspend fun execute(
+    override fun execute(
 	context: Context,
 	path: String,
 	params: Map<String, String>

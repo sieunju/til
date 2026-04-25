@@ -33,7 +33,7 @@ internal class RecyclerViewRefactorDiffUtilRouter @Inject constructor() : Router
         return Route.RECYCLERVIEW_REFACTOR_DIFF_UTIL
     }
 
-    override suspend fun execute(
+    override fun execute(
         context: Context,
         path: String,
         params: Map<String, String>

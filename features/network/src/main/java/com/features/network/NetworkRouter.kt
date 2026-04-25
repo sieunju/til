@@ -33,7 +33,7 @@ internal class NetworkRouter @Inject constructor() : Router() {
 	return Route.NETWORK
     }
 
-    override suspend fun execute(
+    override fun execute(
 	context: Context,
 	path: String,
 	params: Map<String, String>

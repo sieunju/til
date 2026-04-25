@@ -32,7 +32,7 @@ internal class RecyclerViewDiffPerformanceRouter @Inject constructor() : Router(
 	return Route.RECYCLERVIEW_DIFF_UTIL_PERFORMANCE
     }
 
-    override suspend fun execute(
+    override fun execute(
 	context: Context,
 	path: String,
 	params: Map<String, String>

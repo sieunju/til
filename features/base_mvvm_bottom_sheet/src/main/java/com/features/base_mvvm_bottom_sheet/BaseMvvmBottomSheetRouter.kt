@@ -37,7 +37,7 @@ internal class BaseMvvmBottomSheetRouter @Inject constructor() : Router() {
 	return path.startsWith(route().path)
     }
 
-    override suspend fun execute(
+    override fun execute(
 	context: Context,
 	path: String,
 	params: Map<String, String>

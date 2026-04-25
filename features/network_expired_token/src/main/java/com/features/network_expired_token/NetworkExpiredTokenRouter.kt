@@ -32,7 +32,7 @@ internal class NetworkExpiredTokenRouter @Inject constructor() : Router() {
 	return Route.NETWORK_EXPIRED_TOKEN
     }
 
-    override suspend fun execute(
+    override fun execute(
 	context: Context,
 	path: String,
 	params: Map<String, String>

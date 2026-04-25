@@ -32,7 +32,7 @@ internal class RecyclerSimpleLikeRouter @Inject constructor() : Router() {
 	return Route.RECYCLERVIEW_SIMPLE_LIKE
     }
 
-    override suspend fun execute(
+    override fun execute(
 	context: Context,
 	path: String,
 	params: Map<String, String>

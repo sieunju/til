@@ -31,7 +31,7 @@ internal class NetworkErrorHandlingRouter @Inject constructor() : Router() {
 	return Route.NETWORK_ERROR_HANDLING
     }
 
-    override suspend fun execute(
+    override fun execute(
 	context: Context,
 	path: String,
 	params: Map<String, String>
