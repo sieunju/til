@@ -1,7 +1,7 @@
 package com.hmju.core.network.interceptor
 
 import com.hmju.core.login_manager.LoginManager
-import com.hmju.core.models.auth.AuthTokenEntity
+import com.hmju.core.models.auth.AuthTokenDTO
 import com.hmju.core.network.AuthManager
 import com.hmju.core.network.NetworkConfig
 import io.reactivex.rxjava3.core.Flowable
@@ -61,7 +61,7 @@ internal class TokenAuthenticator(
     /**
      * 토큰 갱신 API 실패시 재시도 하는 함수
      */
-    private fun reqRetryRefreshToken(): Single<AuthTokenEntity> {
+    private fun reqRetryRefreshToken(): Single<AuthTokenDTO> {
         return Single.create { emitter ->
             try {
                 val res = authManager.refreshToken()

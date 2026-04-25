@@ -1,16 +1,14 @@
 package com.hmju.core.network.impl
 
 import com.hmju.core.BuildConfig
-import com.hmju.core.models.auth.AuthTokenEntity
+import com.hmju.core.models.auth.AuthTokenDTO
 import com.hmju.core.network.AuthManager
 import com.hmju.core.network.NetworkConfig.Header
 import com.hmju.core.pref.PreferenceManager
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonObject
-import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.put
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -56,7 +54,7 @@ internal class AuthManagerImpl @Inject constructor(
 
     @OptIn(ExperimentalSerializationApi::class)
     @Throws(IOException::class)
-    override fun createToken(): AuthTokenEntity {
+    override fun createToken(): AuthTokenDTO {
         val reqBody = buildJsonObject {
             put("email", "til_android@email.com")
             put("expired_minute", 5)
@@ -69,13 +67,7 @@ internal class AuthManagerImpl @Inject constructor(
             .post(reqBody.toString().toRequestBody())
             .build()
         val res = client.newCall(req).execute()
-
-        val resBody = jsonFormat.decodeFromString<JsonObject>(res.body?.string()!!)
-        val contents = resBody["data"]
-            ?.jsonObject
-            ?.get("payload")
-            ?.jsonObject!!.toString()
-        return jsonFormat.decodeFromString<AuthTokenEntity>(contents)
+        return jsonFormat.decodeFromString<AuthTokenDTO>(res.body?.string()!!)
     }
 
     override fun isRefreshToken(): Boolean {
@@ -84,7 +76,7 @@ internal class AuthManagerImpl @Inject constructor(
 
 
     @OptIn(ExperimentalSerializationApi::class)
-    override fun refreshToken(): AuthTokenEntity {
+    override fun refreshToken(): AuthTokenDTO {
         val refreshToken = prefManager.getString(PreferenceManager.KEY_REFRESH_TOKEN)
         val req = Request.Builder()
             .url(BuildConfig.BASE_URL.plus("/api/v1/auth/refresh"))
@@ -95,11 +87,6 @@ internal class AuthManagerImpl @Inject constructor(
             .build()
 
         val res = client.newCall(req).execute()
-        val resBody = jsonFormat.decodeFromString<JsonObject>(res.body?.string()!!)
-        val contents = resBody["data"]
-            ?.jsonObject
-            ?.get("payload")
-            ?.jsonObject!!.toString()
-        return jsonFormat.decodeFromString<AuthTokenEntity>(contents)
+        return jsonFormat.decodeFromString<AuthTokenDTO>(res.body?.string()!!)
     }
 }

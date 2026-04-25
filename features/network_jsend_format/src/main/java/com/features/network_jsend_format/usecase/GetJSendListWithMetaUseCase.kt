@@ -2,7 +2,7 @@ package com.features.network_jsend_format.usecase
 
 import com.features.network_jsend_format.ApiService
 import com.hmju.core.models.base.JSendListWithMeta
-import com.hmju.core.models.base.MetaEntity
+import com.hmju.core.models.base.MetaDTO
 import com.hmju.core.models.base.getOrDefault
 import javax.inject.Inject
 
@@ -14,7 +14,7 @@ import javax.inject.Inject
 class GetJSendListWithMetaUseCase @Inject constructor(
     private val apiService: ApiService
 ) {
-    suspend operator fun invoke(): JSendListWithMeta<String, MetaEntity> {
+    suspend operator fun invoke(): JSendListWithMeta<String, MetaDTO> {
         return apiService.fetchJSendListWithMeta().getOrDefault(JSendListWithMeta())
     }
 }

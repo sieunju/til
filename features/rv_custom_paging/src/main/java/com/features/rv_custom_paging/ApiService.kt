@@ -1,9 +1,9 @@
 package com.features.rv_custom_paging
 
-import com.features.rv_custom_paging.models.entity.GoodsEntity
+import com.features.rv_custom_paging.models.entity.GoodsDTO
 import com.hmju.core.models.base.ApiResponse
 import com.hmju.core.models.base.JSendListWithMeta
-import com.hmju.core.models.base.MetaEntity
+import com.hmju.core.models.base.MetaDTO
 import retrofit2.http.GET
 import retrofit2.http.QueryMap
 
@@ -16,5 +16,5 @@ interface ApiService {
     @GET("/api/v1/til/goods")
     suspend fun fetchGoods(
         @QueryMap(encoded = true) params: Map<String, String>
-    ): ApiResponse<JSendListWithMeta<GoodsEntity, MetaEntity>>
+    ): ApiResponse<JSendListWithMeta<GoodsDTO, MetaDTO>>
 }

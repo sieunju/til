@@ -17,8 +17,8 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.features.compose_navigation.models.entity.FileEntity
-import com.features.compose_navigation.models.entity.MemoEntity
+import com.features.compose_navigation.models.entity.FileDTO
+import com.features.compose_navigation.models.entity.MemoDTO
 import com.hmju.core.compose.BaseListClickEvent
 import com.hmju.core.compose.BaseUiModel
 import com.hmju.core.compose.TilComponent
@@ -39,8 +39,8 @@ sealed interface MemoUiModel : BaseUiModel {
     ) : MemoUiModel {
 
         constructor(
-            memoEntity: MemoEntity,
-            fileEntity: FileEntity?
+            memoEntity: MemoDTO,
+            fileEntity: FileDTO?
         ) : this(
             id = memoEntity.id,
             title = memoEntity.title,

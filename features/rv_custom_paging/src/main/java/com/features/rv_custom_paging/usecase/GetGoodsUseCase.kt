@@ -1,7 +1,7 @@
 package com.features.rv_custom_paging.usecase
 
 import com.features.rv_custom_paging.ApiService
-import com.features.rv_custom_paging.models.ui.GoodsModel
+import com.features.rv_custom_paging.models.ui.Goods
 import com.hmju.core.models.base.getOrNull
 import com.hmju.core.models.params.PagingQueryParams
 import javax.inject.Inject
@@ -16,8 +16,8 @@ class GetGoodsUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(
         params: PagingQueryParams
-    ): List<GoodsModel> {
+    ): List<Goods> {
         val res = apiService.fetchGoods(params.getQueryMap()).getOrNull()
-        return res?.list?.map { GoodsModel(it) } ?: listOf()
+        return res?.list?.map { Goods(it) } ?: listOf()
     }
 }

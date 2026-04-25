@@ -2,7 +2,7 @@ package com.features.rv_refactor_diff_util.ui
 
 import androidx.lifecycle.viewModelScope
 import com.features.rv_refactor_diff_util.ApiService
-import com.features.rv_refactor_diff_util.models.ui.GoodsModel
+import com.features.rv_refactor_diff_util.models.ui.Goods
 import com.features.rv_refactor_diff_util.models.ui.GoodsOneModel
 import com.features.rv_refactor_diff_util.models.ui.GoodsTwoModel
 import com.features.rv_refactor_diff_util.usecase.GetGoodsUseCase
@@ -125,7 +125,7 @@ class RefactorDiffUtilViewModel @Inject constructor(
         }
     }
 
-    private fun List<GoodsModel>.toUiModel(): List<Any> {
+    private fun List<Goods>.toUiModel(): List<Any> {
         val list = mutableListOf<Any>()
         this.forEach {
             if (Random.nextBoolean()) {

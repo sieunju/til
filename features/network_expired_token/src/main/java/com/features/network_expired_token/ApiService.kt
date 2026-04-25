@@ -1,12 +1,10 @@
 package com.features.network_expired_token
 
-import com.features.network_expired_token.models.entity.JSendTestEntity
+import com.features.network_expired_token.models.entity.JSendTestDTO
 import com.hmju.core.models.base.ApiResponse
 import com.hmju.core.models.base.JSendList
 import com.hmju.core.models.base.JSendListWithMeta
-import com.hmju.core.models.base.JSendObj
-import com.hmju.core.models.base.JSendObjWithMeta
-import com.hmju.core.models.base.MetaEntity
+import com.hmju.core.models.base.MetaDTO
 import retrofit2.http.GET
 
 /**
@@ -16,13 +14,13 @@ import retrofit2.http.GET
  */
 interface ApiService {
     @GET("/api/v1/til/jsend/meta")
-    suspend fun fetchJSendWithMeta(): ApiResponse<JSendObjWithMeta<String, MetaEntity>>
+    suspend fun fetchJSendWithMeta(): ApiResponse<JSendTestDTO>
 
     @GET("/api/v1/til/jsend")
-    suspend fun fetchJSend(): ApiResponse<JSendObj<JSendTestEntity>>
+    suspend fun fetchJSend(): ApiResponse<JSendTestDTO>
 
     @GET("/api/v1/til/jsend/list/meta")
-    suspend fun fetchJSendListWithMeta(): ApiResponse<JSendListWithMeta<String, MetaEntity>>
+    suspend fun fetchJSendListWithMeta(): ApiResponse<JSendListWithMeta<String, MetaDTO>>
 
     @GET("/api/v1/til/jsend/list")
     suspend fun fetchJSendList(): ApiResponse<JSendList<String>>

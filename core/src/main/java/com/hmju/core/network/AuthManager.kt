@@ -1,6 +1,6 @@
 package com.hmju.core.network
 
-import com.hmju.core.models.auth.AuthTokenEntity
+import com.hmju.core.models.auth.AuthTokenDTO
 
 /**
  * Description : Token 갱신 및 발급 관련 매니저 클래스
@@ -12,7 +12,7 @@ internal interface AuthManager {
     /**
      * 토큰 발급 처리하는 함수
      */
-    fun createToken(): AuthTokenEntity
+    fun createToken(): AuthTokenDTO
 
     /**
      * Refresh Token 이 저장되어 있는지 확인 하는 함수
@@ -23,5 +23,5 @@ internal interface AuthManager {
     /**
      * 토큰 재발급 처리하는 함수
      */
-    fun refreshToken(): AuthTokenEntity
+    fun refreshToken(): AuthTokenDTO
 }

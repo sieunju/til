@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.features.network_v2.models.body.ErrorBody
-import com.features.network_v2.models.entity.JSendEntity
+import com.features.network_v2.models.entity.JSendDTO
 import com.hmju.core.models.base.onError
 import com.hmju.core.models.base.onSuccess
 import com.hmju.core.models.params.PagingQueryParams
@@ -71,8 +71,7 @@ internal class NetworkV2FragmentViewModel @Inject constructor(
             val ranInt = Random.nextInt(10)
             if (ranInt < 3) {
                 works.add(apiService.fetchError404Rx()
-                    .map { it.obj }
-                    .onErrorReturn { JSendEntity() }
+                    .onErrorReturn { JSendDTO() }
                 )
             } else if (ranInt < 6) {
                 works.add(apiService.fetchJSendRx())

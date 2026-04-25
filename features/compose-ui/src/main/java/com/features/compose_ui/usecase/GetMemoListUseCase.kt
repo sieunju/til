@@ -1,9 +1,9 @@
 package com.features.compose_ui.usecase
 
 import com.features.compose_ui.ApiService
-import com.features.compose_ui.models.entity.FileEntity
-import com.features.compose_ui.models.entity.MemoEntity
-import com.features.compose_ui.models.MemoModel
+import com.features.compose_ui.models.entity.FileDTO
+import com.features.compose_ui.models.entity.MemoDTO
+import com.features.compose_ui.models.Memo
 import com.hmju.core.models.base.JSendList
 import com.hmju.core.models.base.getOrDefault
 import com.hmju.core.models.params.PagingQueryParams
@@ -22,32 +22,32 @@ class GetMemoListUseCase @Inject constructor(
     suspend operator fun invoke(
         query: PagingQueryParams,
         scope: CoroutineScope
-    ): List<MemoModel> {
+    ): List<Memo> {
         val memoWork = scope.async { reqMemoList(query) }
         val imageWork = scope.async { reqImageList(query) }
-        return getMemoModel(memoWork.await(), imageWork.await())
+        return getMemo(memoWork.await(), imageWork.await())
     }
 
-    private suspend fun reqMemoList(query: PagingQueryParams): List<MemoEntity> {
+    private suspend fun reqMemoList(query: PagingQueryParams): List<MemoDTO> {
         return apiService.fetchMemo(query.getQueryMap())
             .getOrDefault(JSendList())
             .list
     }
 
-    private suspend fun reqImageList(query: PagingQueryParams): List<FileEntity> {
+    private suspend fun reqImageList(query: PagingQueryParams): List<FileDTO> {
         return apiService.fetchUpload(query.getQueryMap())
             .getOrDefault(JSendList())
             .list
             .filter { it.mimeType.startsWith("image") }
     }
 
-    private fun getMemoModel(
-        memoList: List<MemoEntity>,
-        uploadList: List<FileEntity>
-    ): List<MemoModel> {
+    private fun getMemo(
+        memoList: List<MemoDTO>,
+        uploadList: List<FileDTO>
+    ): List<Memo> {
         return memoList
             .mapIndexed { idx, entity ->
-                MemoModel(entity, uploadList.getOrNull(idx))
+                Memo(entity, uploadList.getOrNull(idx))
             }
     }
 }

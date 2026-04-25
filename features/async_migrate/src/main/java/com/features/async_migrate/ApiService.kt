@@ -1,7 +1,7 @@
 package com.features.async_migrate
 
-import com.features.async_migrate.models.entity.GoodsEntity
-import com.features.async_migrate.models.meta.CustomMetaEntity
+import com.features.async_migrate.models.entity.GoodsDTO
+import com.features.async_migrate.models.meta.CustomMetaDTO
 import com.hmju.core.models.base.ApiResponse
 import com.hmju.core.models.base.JSendListWithMeta
 import io.reactivex.rxjava3.core.Single
@@ -18,10 +18,10 @@ interface ApiService {
     @GET("/api/v1/til/goods")
     fun fetchGoods(
         @QueryMap(encoded = true) params: Map<String, String>
-    ): Single<JSendListWithMeta<GoodsEntity, CustomMetaEntity>>
+    ): Single<JSendListWithMeta<GoodsDTO, CustomMetaDTO>>
 
     @GET("/api/v1/til/goods")
     suspend fun fetchCoGoods(
         @QueryMap(encoded = true) params: Map<String, String>
-    ): ApiResponse<JSendListWithMeta<GoodsEntity, CustomMetaEntity>>
+    ): ApiResponse<JSendListWithMeta<GoodsDTO, CustomMetaDTO>>
 }

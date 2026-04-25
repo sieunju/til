@@ -12,7 +12,7 @@ import kotlin.reflect.KClass
  * Created by juhongmin on 3/2/24
  */
 data class Simple2UiModel(
-    val model: GoodsModel
+    val model: Goods
 ) : BaseUiModel(R.layout.vh_simple_like_2) {
     override fun getClassName(): String {
         return "Simple2UiModel"

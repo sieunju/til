@@ -70,7 +70,7 @@ sealed interface MemoUiModel {
             }
         }
 
-        constructor(model: MemoModel) : this(
+        constructor(model: Memo) : this(
             dateText = model.getDateText()
         )
     }
@@ -83,7 +83,7 @@ sealed interface MemoUiModel {
         }
 
         constructor(
-            entity: MemoModel
+            entity: Memo
         ) : this(
             title = entity.title
         )
@@ -108,7 +108,7 @@ sealed interface MemoUiModel {
     }
 
     data class TagGrayColor(
-        val model: MemoModel
+        val model: Memo
     ) : MemoUiModel {
         override fun getType(): String {
             return "TagGrayColor"
@@ -136,7 +136,7 @@ sealed interface MemoUiModel {
     }
 
     data class TagBlueColor(
-        val model: MemoModel
+        val model: Memo
     ) : MemoUiModel {
         override fun getType(): String {
             return "TagGrayColor"
@@ -185,7 +185,7 @@ sealed interface MemoUiModel {
         }
 
         constructor(
-            entity: MemoModel
+            entity: Memo
         ) : this(
             contents = entity.contents
         )
@@ -242,7 +242,7 @@ sealed interface MemoUiModel {
             }
         }
 
-        constructor(model: MemoModel) : this(
+        constructor(model: Memo) : this(
             imageUrl = model.imageUrl ?: "",
             title = model.title,
             contents = model.contents
@@ -269,7 +269,7 @@ sealed interface MemoUiModel {
     }
 
     data class Buttons(
-        val model: MemoModel
+        val model: Memo
     ) : MemoUiModel {
         override fun getType(): String {
             return "Buttons"
