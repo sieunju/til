@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Web Bridge Demo</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, sans-serif;
+            background: #f5f5f5;
+            padding: 24px 16px;
+        }
+        h2 { font-size: 20px; color: #1a1a1a; margin-bottom: 6px; }
+        .subtitle { font-size: 13px; color: #888; margin-bottom: 28px; }
+        .section-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #6200EE;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+        }
+        .card p { font-size: 13px; color: #555; margin-bottom: 12px; line-height: 1.5; }
+        button {
+            width: 100%;
+            padding: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            color: #fff;
+            background: #6200EE;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        button:active { background: #4a00b4; }
+        .payload {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 8px;
+            font-size: 11px;
+            color: #444;
+            font-family: monospace;
+            word-break: break-all;
+        }
+        .result-box {
+            background: #fff;
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+        }
+        .result-label { font-size: 12px; color: #888; margin-bottom: 6px; }
+        #result { font-size: 15px; color: #1a1a1a; min-height: 24px; }
+    </style>
+</head>
+<body>
+    <h2>Web → App Bridge</h2>
+    <p class="subtitle">JavascriptInterface 예제</p>
+
+    <p class="section-title">Actions</p>
+
+    <div class="card">
+        <p>앱에 <b>Alert</b> 액션을 요청합니다.<br>앱 처리 후 콜백 스크립트를 실행합니다.</p>
+        <button onclick="callAlert()">Alert 호출</button>
+        <div class="payload" id="alert-payload">-</div>
+    </div>
+
+    <div class="card">
+        <p>앱에 <b>EditText</b> 액션을 요청합니다.<br>앱 처리 후 콜백 스크립트를 실행합니다.</p>
+        <button onclick="callEditText()">텍스트 입력</button>
+        <div class="payload" id="camera-payload">-</div>
+    </div>
+
+    <p class="section-title">Result</p>
+    <div class="result-box">
+        <div class="result-label">앱 응답</div>
+        <div id="result">-</div>
+    </div>
+
+    <script>
+        function callAlert() {
+            var payload = {
+                action: "alert",
+                params: {
+                    title: "웹 브릿지 Alert",
+                    script: "onResult('alert', '앱 Alert 응답 성공!')"
+                }
+            };
+            var json = JSON.stringify(payload);
+            document.getElementById('alert-payload').innerText = json;
+            Android.execute(json);
+        }
+
+        function callEditText() {
+            var payload = {
+                action: "edit_text",
+                params: { script: "onResult" }
+            };
+            var json = JSON.stringify(payload);
+            document.getElementById('camera-payload').innerText = json;
+            Android.execute(json);
+        }
+
+        // 앱이 evaluateJavascript 로 호출하는 공통 콜백
+        function onResult(action, message) {
+            document.getElementById('result').innerText = '[' + action + '] ' + message;
+        }
+    </script>
+</body>
+</html>

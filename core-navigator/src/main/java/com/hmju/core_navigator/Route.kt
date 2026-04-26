@@ -32,7 +32,8 @@ enum class Route(
     RECYCLERVIEW_REFACTOR_DIFF_UTIL("/rv/diff/refactor"),
     RECYCLERVIEW_DIFF_UTIL_2("/rv/diff/util2"),
     ACTIVITY_RESULT("/activity/result"),
-    ACTIVITY_RESULT_CALLBACK("/activity/result/callback");
+    ACTIVITY_RESULT_CALLBACK("/activity/result/callback"),
+    WEB_BRIDGE_RESULT("/web/bridge");
 
     fun getUri(): Uri {
 	return getUri { }
