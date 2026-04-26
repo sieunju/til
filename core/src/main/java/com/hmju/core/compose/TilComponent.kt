@@ -66,7 +66,6 @@ import com.bumptech.glide.integration.compose.GlideImage
 import com.bumptech.glide.integration.compose.placeholder
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.hmju.core.R
-import kotlin.math.tan
 
 /**
  * Description : Compose TIL Component
@@ -75,222 +74,222 @@ import kotlin.math.tan
  */
 object TilComponent {
 
-	@SuppressLint("ModifierParameter")
-	@OptIn(ExperimentalComposeUiApi::class)
-	@Composable
-	fun EditText(
-		text: MutableState<String>,
-		labelText: String,
-		placeHolderText: String,
-		keyboardOptions: KeyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-		nextAction: FocusDirection = FocusDirection.Exit,
-		maxLines: Int = 1,
-		textStyle: TextStyle = TilTheme.text.h4,
-		focusModifier: Modifier = Modifier
-			.fillMaxWidth()
-			.border(2.dp, TilTheme.color.black, shape = RoundedCornerShape(15.dp)),
-		unFocusModifier: Modifier = Modifier
-			.fillMaxWidth()
-			.border(2.dp, TilTheme.color.gray3, shape = RoundedCornerShape(15.dp))
+    @SuppressLint("ModifierParameter")
+    @OptIn(ExperimentalComposeUiApi::class)
+    @Composable
+    fun EditText(
+	text: MutableState<String>,
+	labelText: String,
+	placeHolderText: String,
+	keyboardOptions: KeyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+	nextAction: FocusDirection = FocusDirection.Exit,
+	maxLines: Int = 1,
+	textStyle: TextStyle = TilTheme.text.h4,
+	focusModifier: Modifier = Modifier
+	    .fillMaxWidth()
+	    .border(2.dp, TilTheme.color.black, shape = RoundedCornerShape(15.dp)),
+	unFocusModifier: Modifier = Modifier
+	    .fillMaxWidth()
+	    .border(2.dp, TilTheme.color.gray3, shape = RoundedCornerShape(15.dp))
+    ) {
+	var isFocused by remember { mutableStateOf(false) }
+	val focusManager = LocalFocusManager.current
+	val modifier = if (isFocused) focusModifier else unFocusModifier
+	Box(
+	    modifier = Modifier
+		.onFocusChanged { isFocused = it.isFocused }
+		.then(modifier)
 	) {
-		var isFocused by remember { mutableStateOf(false) }
-		val focusManager = LocalFocusManager.current
-		val modifier = if (isFocused) focusModifier else unFocusModifier
-		Box(
-			modifier = Modifier
-				.onFocusChanged { isFocused = it.isFocused }
-				.then(modifier)
-		) {
-			TextField(
-				value = text.value,
-				onValueChange = { text.value = it },
-				textStyle = textStyle,
-				label = {
-					if (isFocused || text.value.isNotEmpty()) {
-						Text(
-							text = labelText,
-							color = TilTheme.color.black,
-							style = textStyle.copy(fontSize = (textStyle.fontSize.value - 5).sp)
-						)
-					} else {
-						Text(text = placeHolderText, style = textStyle)
-					}
-				},
-				placeholder = {
-					Text(text = placeHolderText, style = textStyle)
-				},
-				keyboardOptions = keyboardOptions,
-				keyboardActions = KeyboardActions { focusManager.moveFocus(nextAction) },
-				singleLine = maxLines <= 1,
-				maxLines = maxLines,
-				colors = TextFieldDefaults.colors(
-					focusedContainerColor = Color.Transparent,
-					disabledContainerColor = Color.Transparent,
-					unfocusedContainerColor = Color.Transparent,
-					errorContainerColor = Color.Transparent,
-					focusedIndicatorColor = Color.Transparent,
-					unfocusedIndicatorColor = Color.Transparent
-				)
+	    TextField(
+		value = text.value,
+		onValueChange = { text.value = it },
+		textStyle = textStyle,
+		label = {
+		    if (isFocused || text.value.isNotEmpty()) {
+			Text(
+			    text = labelText,
+			    color = TilTheme.color.black,
+			    style = textStyle.copy(fontSize = (textStyle.fontSize.value - 5).sp)
 			)
+		    } else {
+			Text(text = placeHolderText, style = textStyle)
+		    }
+		},
+		placeholder = {
+		    Text(text = placeHolderText, style = textStyle)
+		},
+		keyboardOptions = keyboardOptions,
+		keyboardActions = KeyboardActions { focusManager.moveFocus(nextAction) },
+		singleLine = maxLines <= 1,
+		maxLines = maxLines,
+		colors = TextFieldDefaults.colors(
+		    focusedContainerColor = Color.Transparent,
+		    disabledContainerColor = Color.Transparent,
+		    unfocusedContainerColor = Color.Transparent,
+		    errorContainerColor = Color.Transparent,
+		    focusedIndicatorColor = Color.Transparent,
+		    unfocusedIndicatorColor = Color.Transparent
+		)
+	    )
 
 //            if (isFocused) {
 //                Box(modifier = focusBg)
 //            } else {
 //                Box(modifier = unFocusBg)
 //            }
-		}
 	}
+    }
 
-	@Composable
-	fun HeaderBackButton(
-		title: String,
-		backClick: () -> Unit,
+    @Composable
+    fun HeaderBackButton(
+	title: String,
+	backClick: () -> Unit,
+    ) {
+	Column(
+	    modifier = Modifier
+		.fillMaxWidth()
+		.wrapContentSize()
+		.background(TilTheme.color.white)
 	) {
-		Column(
-			modifier = Modifier
-				.fillMaxWidth()
-				.wrapContentSize()
-				.background(TilTheme.color.white)
+	    Row(
+		modifier = Modifier
+		    .fillMaxWidth()
+		    .height(50.dp),
+		verticalAlignment = Alignment.CenterVertically
+	    ) {
+		Box(
+		    modifier = Modifier
+			.width(50.dp)
+			.fillMaxHeight()
+			.clickable { backClick() },
+		    contentAlignment = Alignment.Center
 		) {
-			Row(
-				modifier = Modifier
-					.fillMaxWidth()
-					.height(50.dp),
-				verticalAlignment = Alignment.CenterVertically
-			) {
-				Box(
-					modifier = Modifier
-						.width(50.dp)
-						.fillMaxHeight()
-						.clickable { backClick() },
-					contentAlignment = Alignment.Center
-				) {
-					Image(
-						painter = painterResource(R.drawable.ic_arrow_left),
-						contentDescription = null
-					)
-				}
-				Text(
-					text = title,
-					style = TilTheme.text.h4_B,
-					modifier = Modifier.weight(1F),
-					textAlign = TextAlign.Center
-				)
-				Spacer(Modifier.width(50.dp))
-			}
-
-			Spacer(
-				Modifier
-					.fillMaxWidth()
-					.height(1.dp)
-					.background(TilTheme.color.gray4)
-			)
+		    Image(
+			painter = painterResource(R.drawable.ic_arrow_left),
+			contentDescription = null
+		    )
 		}
-	}
-
-	@SuppressLint("ModifierParameter")
-	@Composable
-	fun HeaderAndContentsBox(
-		title: String,
-		backClick: () -> Unit,
-		modifier: Modifier = Modifier
-			.fillMaxSize(),
-		content: @Composable BoxScope.() -> Unit
-	) {
-		Scaffold(
-			modifier = Modifier
-				.fillMaxSize(),
-			topBar = { HeaderBackButton(title, backClick) }
-		) { paddings ->
-			Box(
-				modifier = modifier
-					.padding(paddings)
-			) { content() }
-		}
-	}
-
-	@SuppressLint("ModifierParameter")
-	@OptIn(ExperimentalMaterial3Api::class)
-	@Composable
-	fun HeaderAndContentsColumn(
-		title: String,
-		backClick: () -> Unit,
-		modifier: Modifier = Modifier
-			.fillMaxSize(),
-		contentAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
-		scrollState: ScrollState? = null,
-		content: @Composable ColumnScope.() -> Unit
-	) {
-
-		val verticalScrollState = scrollState ?: rememberScrollState()
-
-		Scaffold(
-			modifier = Modifier
-				.fillMaxSize(),
-			topBar = { HeaderBackButton(title, backClick) }
-		) { paddings ->
-			Column(
-				modifier = modifier
-					.padding(paddings)
-					.verticalScroll(verticalScrollState),
-				horizontalAlignment = contentAlignment
-			) { content() }
-		}
-	}
-
-	@OptIn(ExperimentalGlideComposeApi::class)
-	@SuppressLint("ModifierParameter")
-	@Composable
-	fun ImageLoader(
-		imageUrl: String,
-		contentScale: ContentScale = ContentScale.Crop,
-		modifier: Modifier = Modifier,
-	) {
-		GlideImage(
-			model = imageUrl,
-			contentDescription = null,
-			modifier = modifier,
-			loading = placeholder(ColorPainter(TilTheme.color.gray3Light)),
-			failure = placeholder(R.drawable.ic_error),
-			contentScale = contentScale
-		) { requestBuilder ->
-			requestBuilder.diskCacheStrategy(DiskCacheStrategy.NONE)
-		}
-	}
-
-	@Composable
-	fun Modifier.shimmerLoading(
-		durationMillis: Int = 1500,
-	): Modifier = composed {
-		var size by remember { mutableStateOf(IntSize.Zero) }
-		val transition = rememberInfiniteTransition(label = "shimmer")
-
-		val startOffsetX by transition.animateFloat(
-			initialValue = -2 * size.width.toFloat(),
-			targetValue = 2 * size.width.toFloat(),
-			animationSpec = infiniteRepeatable(
-				animation = tween(
-					durationMillis = durationMillis,
-					easing = LinearEasing,
-				),
-				repeatMode = RepeatMode.Restart,
-			),
-			label = "shimmer",
+		Text(
+		    text = title,
+		    style = TilTheme.text.h4_B,
+		    modifier = Modifier.weight(1F),
+		    textAlign = TextAlign.Center
 		)
+		Spacer(Modifier.width(50.dp))
+	    }
 
-		background(
-			brush = Brush.linearGradient(
-				colors = listOf(
-					Color.LightGray.copy(alpha = 0.2f),
-					Color.LightGray.copy(alpha = 1.0f),
-					Color.LightGray.copy(alpha = 0.2f),
-				),
-				start = Offset(startOffsetX, 0f),
-				end = Offset(startOffsetX + size.width.toFloat(), size.height.toFloat()),
-			)
-		).onGloballyPositioned {
-			size = it.size
-		}
+	    Spacer(
+		Modifier
+		    .fillMaxWidth()
+		    .height(1.dp)
+		    .background(TilTheme.color.gray4)
+	    )
 	}
+    }
+
+    @SuppressLint("ModifierParameter")
+    @Composable
+    fun HeaderAndContentsBox(
+	title: String,
+	backClick: () -> Unit,
+	modifier: Modifier = Modifier
+	    .fillMaxSize(),
+	content: @Composable BoxScope.() -> Unit
+    ) {
+	Scaffold(
+	    modifier = Modifier
+		.fillMaxSize(),
+	    topBar = { HeaderBackButton(title, backClick) }
+	) { paddings ->
+	    Box(
+		modifier = modifier
+		    .padding(paddings)
+	    ) { content() }
+	}
+    }
+
+    @SuppressLint("ModifierParameter")
+    @OptIn(ExperimentalMaterial3Api::class)
+    @Composable
+    fun HeaderAndContentsColumn(
+	title: String,
+	backClick: () -> Unit,
+	modifier: Modifier = Modifier
+	    .fillMaxSize(),
+	contentAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
+	scrollState: ScrollState? = null,
+	content: @Composable ColumnScope.() -> Unit
+    ) {
+
+	val verticalScrollState = scrollState ?: rememberScrollState()
+
+	Scaffold(
+	    modifier = Modifier
+		.fillMaxSize(),
+	    topBar = { HeaderBackButton(title, backClick) }
+	) { paddings ->
+	    Column(
+		modifier = modifier
+		    .padding(paddings)
+		    .verticalScroll(verticalScrollState),
+		horizontalAlignment = contentAlignment
+	    ) { content() }
+	}
+    }
+
+    @OptIn(ExperimentalGlideComposeApi::class)
+    @SuppressLint("ModifierParameter")
+    @Composable
+    fun ImageLoader(
+	imageUrl: String,
+	contentScale: ContentScale = ContentScale.Crop,
+	modifier: Modifier = Modifier,
+    ) {
+	GlideImage(
+	    model = imageUrl,
+	    contentDescription = null,
+	    modifier = modifier,
+	    loading = placeholder(ColorPainter(TilTheme.color.gray3Light)),
+	    failure = placeholder(R.drawable.ic_error),
+	    contentScale = contentScale
+	) { requestBuilder ->
+	    requestBuilder.diskCacheStrategy(DiskCacheStrategy.NONE)
+	}
+    }
+
+    @Composable
+    fun Modifier.shimmerLoading(
+	durationMillis: Int = 1500,
+    ): Modifier = composed {
+	var size by remember { mutableStateOf(IntSize.Zero) }
+	val transition = rememberInfiniteTransition(label = "shimmer")
+
+	val startOffsetX by transition.animateFloat(
+	    initialValue = -2 * size.width.toFloat(),
+	    targetValue = 2 * size.width.toFloat(),
+	    animationSpec = infiniteRepeatable(
+		animation = tween(
+		    durationMillis = durationMillis,
+		    easing = LinearEasing,
+		),
+		repeatMode = RepeatMode.Restart,
+	    ),
+	    label = "shimmer",
+	)
+
+	background(
+	    brush = Brush.linearGradient(
+		colors = listOf(
+		    Color.LightGray.copy(alpha = 0.2f),
+		    Color.LightGray.copy(alpha = 1.0f),
+		    Color.LightGray.copy(alpha = 0.2f),
+		),
+		start = Offset(startOffsetX, 0f),
+		end = Offset(startOffsetX + size.width.toFloat(), size.height.toFloat()),
+	    )
+	).onGloballyPositioned {
+	    size = it.size
+	}
+    }
 
 }

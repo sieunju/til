@@ -91,6 +91,14 @@
                 android:onClick="@{()->vm.moveToRoomObserverPage()}"
                 android:text="RoomObserver" />
 
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:onClick="@{()->vm.moveToActivityResultPage()}"
+                android:text="ActivityResult" />
+
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.core.widget.NestedScrollView>
 
