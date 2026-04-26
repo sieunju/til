@@ -1,7 +1,8 @@
-package com.features.activity_result
+package com.features.activity_result.result_callback
 
 import android.content.Context
 import android.content.Intent
+import com.features.activity_result.RootActivity
 import com.hmju.core_navigator.Route
 import com.hmju.core_navigator.Router
 import com.hmju.core_navigator.RouterResult

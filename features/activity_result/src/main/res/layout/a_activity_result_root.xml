@@ -6,7 +6,7 @@
 
         <variable
             name="vm"
-            type="com.features.activity_result.ActivityResultRootViewModel" />
+            type="com.features.activity_result.result_callback.ActivityResultRootViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,7 +36,7 @@
             app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
         <Button
-            android:id="@+id/btn_start"
+            android:id="@+id/btnActivityResult"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -44,6 +44,16 @@
             android:text="Start Activity Result"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_result" />
+
+        <Button
+            android:id="@+id/btnWebBridge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="WebBridge"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnActivityResult" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

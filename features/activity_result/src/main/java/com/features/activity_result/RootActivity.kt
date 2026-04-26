@@ -3,6 +3,7 @@ package com.features.activity_result
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import com.features.activity_result.databinding.AActivityResultRootBinding
+import com.features.activity_result.result_callback.ActivityResultRootViewModel
 import com.hmju.core.ui.base.BaseActivity
 import com.hmju.core_navigator.Navigator
 import com.hmju.core_navigator.Route
@@ -36,12 +37,15 @@ internal class RootActivity : BaseActivity<AActivityResultRootBinding, ActivityR
     override fun onCreate(savedInstanceState: Bundle?) {
 	super.onCreate(savedInstanceState)
 	binding.toolbar.setNavigationOnClickListener { finish() }
-	binding.btnStart.setOnClickListener {
+	binding.btnActivityResult.setOnClickListener {
 	    navigator.navigateForResult(
 		this,
 		Route.ACTIVITY_RESULT_CALLBACK.getUri(),
 		activityResultCallback
 	    )
+	}
+	binding.btnWebBridge.setOnClickListener {
+	    navigator.navigate(this, Route.WEB_BRIDGE_RESULT.getUri())
 	}
     }
 }

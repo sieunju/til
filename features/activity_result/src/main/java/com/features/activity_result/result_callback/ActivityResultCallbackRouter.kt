@@ -1,8 +1,9 @@
-package com.features.activity_result
+package com.features.activity_result.result_callback
 
 import android.content.Context
 import android.content.Intent
 import androidx.activity.result.ActivityResultLauncher
+import com.features.activity_result.result_callback.EditTextActivity
 import com.hmju.core_navigator.Route
 import com.hmju.core_navigator.Router
 import com.hmju.core_navigator.RouterResult

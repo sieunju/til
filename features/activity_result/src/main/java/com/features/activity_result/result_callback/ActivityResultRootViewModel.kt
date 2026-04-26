@@ -1,4 +1,4 @@
-package com.features.activity_result
+package com.features.activity_result.result_callback
 
 import androidx.lifecycle.MutableLiveData
 import com.hmju.core.ui.base.ActivityViewModel
