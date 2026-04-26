@@ -2,7 +2,9 @@ package com.hmju.core_navigator
 
 import android.content.Context
 import android.content.ContextWrapper
+import android.content.Intent
 import android.content.res.Resources
+import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.FragmentActivity
 import dagger.hilt.android.internal.managers.ViewComponentManager
 
@@ -13,6 +15,11 @@ import dagger.hilt.android.internal.managers.ViewComponentManager
  */
 abstract class Router {
     abstract fun route(): Route
+
+    open fun isActivityResult(): Boolean {
+	return false
+    }
+
     open fun matches(path: String): Boolean {
 	return path.startsWith(route().path)
     }
@@ -21,6 +28,15 @@ abstract class Router {
     // Activity context requires the FLAG_ACTIVITY_NEW_TASK flag. Is this really what you want?
     // Activity Context 매개변수로 추가
     abstract fun execute(context: Context, path: String, params: Map<String, String>): RouterResult
+
+    open fun executeForResult(
+	context: Context,
+	path: String,
+	params: Map<String, String>,
+	launcher: ActivityResultLauncher<Intent>
+    ): RouterResult {
+	return RouterResult.Fail("Not supported ActivityResult")
+    }
     private fun isValidIdRes(context: Context, id: Int): Boolean {
 	return try {
 	    context.resources.getResourceName(id)
@@ -59,10 +75,10 @@ abstract class Router {
     protected fun getFragmentLayoutId(
 	context: Context,
 	params: Map<String, String>
-    ) : Int? {
+    ): Int? {
 	val layoutId = params[RouteParamsKey.LAYOUT_ID]?.toIntOrNull()
 	    ?: return null
-	return if (isValidIdRes(context,layoutId)) {
+	return if (isValidIdRes(context, layoutId)) {
 	    layoutId
 	} else {
 	    null

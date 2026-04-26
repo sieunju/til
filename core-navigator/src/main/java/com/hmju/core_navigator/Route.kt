@@ -30,7 +30,9 @@ enum class Route(
     RECYCLERVIEW_SIMPLE_LIKE("/rv/simple/like"),
     RECYCLERVIEW_DIFF_UTIL_PERFORMANCE("/rv/diff/performance"),
     RECYCLERVIEW_REFACTOR_DIFF_UTIL("/rv/diff/refactor"),
-    RECYCLERVIEW_DIFF_UTIL_2("/rv/diff/util2");
+    RECYCLERVIEW_DIFF_UTIL_2("/rv/diff/util2"),
+    ACTIVITY_RESULT("/activity/result"),
+    ACTIVITY_RESULT_CALLBACK("/activity/result/callback");
 
     fun getUri(): Uri {
 	return getUri { }
