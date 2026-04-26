@@ -12,6 +12,8 @@ dependencies {
     implementation(projects.core)
     implementation(projects.coreNavigator)
 
+    implementation(libs.coroutine)
+    implementation(libs.coroutine.android)
     implementation(libs.flexbox)
     implementation(libs.rx.java)
     implementation(libs.rx.kotlin)

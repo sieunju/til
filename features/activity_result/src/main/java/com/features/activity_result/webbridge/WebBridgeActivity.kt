@@ -46,84 +46,89 @@ class WebBridgeActivity : AppCompatActivity() {
     private var bridgeCommand: WebBridgeActionCommand? = null
 
     private val activityResultCallback = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
+	ActivityResultContracts.StartActivityForResult()
     ) { result ->
-        bridgeCommand?.postActivityResult(result)
+	bridgeCommand?.postActivityResult(result)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            MaterialTheme {
-                Surface(
-                    modifier = Modifier
+	super.onCreate(savedInstanceState)
+	setContent {
+	    MaterialTheme {
+		Surface(
+		    modifier = Modifier
                         .fillMaxSize()
                         .windowInsetsPadding(WindowInsets.statusBars),
-                    color = TilTheme.color.white
-                ) { InitContents() }
-            }
-        }
+		    color = TilTheme.color.white
+		) { InitContents() }
+	    }
+	}
     }
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     private fun InitContents() {
-        var command by remember { mutableStateOf<WebBridgeActionCommand?>(null) }
-        var webView by remember { mutableStateOf<WebView?>(null) }
+	var command by remember { mutableStateOf<WebBridgeActionCommand?>(null) }
+	var webView by remember { mutableStateOf<WebView?>(null) }
 
-        LaunchedEffect(command) {
-            command?.consumeAsFlow()?.collect { (router, result) ->
-                webView?.let { router.completeCallback(it, result) }
-            }
-        }
+	LaunchedEffect(command) {
+	    command?.consumeAsFlow()?.collect { (router, result) ->
+		webView?.let { router.completeCallback(it, result) }
+	    }
+	}
 
-        DisposableEffect(Unit) {
-            onDispose { command?.close() }
-        }
+	DisposableEffect(Unit) {
+	    onDispose { command?.close() }
+	}
 
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = { Text("WebBridge") },
-                    navigationIcon = {
-                        IconButton(onClick = { finish() }) {
-                            Icon(
-                                painter = painterResource(R.drawable.ic_arrow_left),
-                                contentDescription = "back"
-                            )
-                        }
-                    }
-                )
-            }
-        ) { innerPadding ->
-            AndroidView(
-                factory = { ctx ->
-                    buildWebView(ctx) { wv, cmd ->
-                        webView = wv
-                        command = cmd
-                        bridgeCommand = cmd
-                    }
-                },
-                modifier = Modifier
+	Scaffold(
+	    topBar = {
+		TopAppBar(
+		    title = { Text("WebBridge") },
+		    navigationIcon = {
+			IconButton(onClick = { finish() }) {
+			    Icon(
+				painter = painterResource(R.drawable.ic_arrow_left),
+				contentDescription = "back"
+			    )
+			}
+		    }
+		)
+	    }
+	) { innerPadding ->
+	    AndroidView(
+		factory = { ctx ->
+		    buildWebView(ctx) { wv, cmd ->
+			webView = wv
+			command = cmd
+			bridgeCommand = cmd
+		    }
+		},
+		modifier = Modifier
                     .fillMaxSize()
                     .padding(innerPadding)
-            )
-        }
+	    )
+	}
     }
 
     @SuppressLint("SetJavaScriptEnabled")
     private fun buildWebView(
-        ctx: android.content.Context,
-        onReady: (WebView, WebBridgeActionCommand) -> Unit
+	ctx: android.content.Context,
+	onReady: (WebView, WebBridgeActionCommand) -> Unit
     ): WebView {
-        return WebView(ctx).apply {
-            settings.javaScriptEnabled = true
-            val cmd = WebBridgeActionCommand(this).also {
-                it.register(AlertWebActionRouter())
-                it.register(EditTextWebActionRouter(activityResultCallback, it.activityResultObservable))
-            }
-            onReady(this, cmd)
-            loadUrl("file:///android_asset/web_bridge_demo.html")
-        }
+	return WebView(ctx).apply {
+	    settings.javaScriptEnabled = true
+	    val cmd = WebBridgeActionCommand(this).also {
+		it.register(AlertWebActionRouter())
+		it.register(
+		    EditTextWebActionRouter(
+			activityResultCallback,
+			it.activityResultEventBus
+		    )
+		)
+	    }
+	    onReady(this, cmd)
+	    loadUrl("file:///android_asset/web_bridge_demo.html")
+	}
     }
 }

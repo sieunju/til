@@ -5,6 +5,8 @@ import android.webkit.WebView
 import androidx.activity.result.ActivityResult
 import com.hmju.core_navigator.WebActionResult
 import com.hmju.core_navigator.WebActionRouter
+import io.reactivex.rxjava3.core.BackpressureStrategy
+import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.rxjava3.subjects.PublishSubject
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -23,60 +25,64 @@ internal class WebBridgeActionCommand(
     private val processor: MutableSet<WebActionRouter> by lazy { mutableSetOf() }
 
     // WorkerThread → MainThread: completeCallback 전달용 Channel
-    private val channel = Channel<Pair<WebActionRouter, WebActionResult.Callback>>(Channel.UNLIMITED)
+    private val channel =
+	Channel<Pair<WebActionRouter, WebActionResult.Callback>>(Channel.UNLIMITED)
 
     // ActivityResult EventBus (RxJava PublishSubject)
     // execute() 블로킹 해제 용도 — 외부에서 postActivityResult()로만 접근
     private val activityResultSubject = PublishSubject.create<ActivityResult>()
-    val activityResultObservable = activityResultSubject.hide()
+    val activityResultEventBus = activityResultSubject
+	.toFlowable(BackpressureStrategy.LATEST)
+	.observeOn(Schedulers.io())
+	.hide()
 
     private val executor = Executors.newCachedThreadPool()
 
     private val jsonFormat = Json {
-        isLenient = true
-        ignoreUnknownKeys = true
-        coerceInputValues = true
+	isLenient = true
+	ignoreUnknownKeys = true
+	coerceInputValues = true
     }
 
     @Serializable
     data class WebActionBridge(
-        val action: String = "",
-        val params: Map<String, String> = mapOf()
+	val action: String = "",
+	val params: Map<String, String> = mapOf()
     )
 
     init {
-        webView.addJavascriptInterface(this, "Android")
+	webView.addJavascriptInterface(this, "Android")
     }
 
     @JavascriptInterface
     fun execute(script: String?) {
-        if (script.isNullOrEmpty()) return
-        runCatching {
-            val data: WebActionBridge = jsonFormat.decodeFromString(script)
-            for (router in processor) {
-                if (router.action.key != data.action) continue
-                executor.submit {
-                    val result = router.execute(webView, data.params)
-                    if (result is WebActionResult.Callback) {
-                        channel.trySend(router to result)
-                    }
-                }
-            }
-        }
+	if (script.isNullOrEmpty()) return
+	runCatching {
+	    val data: WebActionBridge = jsonFormat.decodeFromString(script)
+	    for (router in processor) {
+		if (router.action.key != data.action) continue
+		executor.submit {
+		    val result = router.execute(webView, data.params)
+		    if (result is WebActionResult.Callback) {
+			channel.trySend(router to result)
+		    }
+		}
+	    }
+	}
     }
 
     fun postActivityResult(result: ActivityResult) {
-        activityResultSubject.onNext(result)
+	activityResultSubject.onNext(result)
     }
 
     fun consumeAsFlow() = channel.receiveAsFlow()
 
     fun register(webActionRouter: WebActionRouter) {
-        processor.add(webActionRouter)
+	processor.add(webActionRouter)
     }
 
     fun close() {
-        channel.close()
-        executor.shutdown()
+	channel.close()
+	executor.shutdown()
     }
 }

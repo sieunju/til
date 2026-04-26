@@ -7,7 +7,11 @@
             android:name=".RootActivity"
             android:exported="false" />
         <activity
-            android:name=".EditTextActivity"
+            android:name=".result_callback.EditTextActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".webbridge.WebBridgeActivity"
             android:exported="false" />
     </application>
 </manifest>
