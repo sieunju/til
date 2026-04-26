@@ -1,9 +1,18 @@
 package com.features.activity_result
 
+import androidx.lifecycle.MutableLiveData
+import com.hmju.core.ui.base.ActivityViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+
 /**
  * Description : 
  *
  * Created by juhongmin on 2026. 4. 26.
  */
- class ActivityResultRootViewModel {
+@HiltViewModel
+internal class ActivityResultRootViewModel @Inject constructor(
+
+) : ActivityViewModel() {
+    val resultText = MutableLiveData("Result: -")
 }
