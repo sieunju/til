@@ -19,55 +19,34 @@ internal class NavigatorImpl @Inject constructor(
     private val processors: Set<@JvmSuppressWildcards Router>
 ) : Navigator {
 
-    override fun navigate(context: Context, uri: Uri) {
-        val path = uri.path ?: return
-        Timber.d("Navigation $uri")
-        for (router in processors) {
-            Timber.d("Router ${router.isActivityResult()} ${router}")
-            if (router.isActivityResult()) continue
-            try {
-                if (router.matches(path)) {
-                    val result = router.execute(context, path, uri.toQueryMap())
-                    Timber.d("Result!!!! ${result}")
-                    if (result is RouterResult.Success) return
-                    Timber.d("Router Fail Result $result")
-                }
-            } catch (ex: Exception) {
-                Timber.e("Error $ex")
-                return
-            }
-        }
-    }
-
-    override fun navigateForResult(
-        context: Context,
-        uri: Uri,
-        launcher: ActivityResultLauncher<Intent>
-    ) {
-        val path = uri.path ?: return
-        Timber.d("NavigationForResult $uri")
-        for (router in processors) {
-            if (!router.isActivityResult()) continue
-            try {
-                if (router.matches(path)) {
-                    val result = router.executeForResult(context, path, uri.toQueryMap(), launcher)
-                    if (result is RouterResult.Success) return
-                    Timber.d("Router Fail Result $result")
-                }
-            } catch (ex: Exception) {
-                Timber.e("Error $ex")
-                return
-            }
-        }
+    override fun navigate(context: Context, uri: Uri, launcher: ActivityResultLauncher<Intent>?) {
+	val path = uri.path ?: return
+	Timber.d("Navigation $uri")
+	for (router in processors) {
+	    try {
+		if (router.matches(path)) {
+		    val result = if (launcher != null) {
+			router.executeForResult(context, path, uri.toQueryMap(), launcher)
+		    } else {
+			router.execute(context, path, uri.toQueryMap())
+		    }
+		    if (result is RouterResult.Success) return
+		    Timber.d("Router Fail Result $result")
+		}
+	    } catch (ex: Exception) {
+		Timber.e("Error $ex")
+		return
+	    }
+	}
     }
 
     private fun Uri.toQueryMap(): Map<String, String> {
-        return try {
-            queryParameterNames
-                .filterNot { it.isNullOrBlank() }
-                .associateWith { key -> getQueryParameter(key).orEmpty() }
-        } catch (_: Exception) {
-            emptyMap()
-        }
+	return try {
+	    queryParameterNames
+		.filterNot { it.isNullOrBlank() }
+		.associateWith { key -> getQueryParameter(key).orEmpty() }
+	} catch (_: Exception) {
+	    emptyMap()
+	}
     }
 }

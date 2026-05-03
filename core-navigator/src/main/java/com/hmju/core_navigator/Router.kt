@@ -16,10 +16,6 @@ import dagger.hilt.android.internal.managers.ViewComponentManager
 abstract class Router {
     abstract fun route(): Route
 
-    open fun isActivityResult(): Boolean {
-	return false
-    }
-
     open fun matches(path: String): Boolean {
 	return path.startsWith(route().path)
     }

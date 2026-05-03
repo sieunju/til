@@ -29,10 +29,6 @@ internal class ActivityResultCallbackRouter @Inject constructor() : Router() {
 	fun bind(impl: ActivityResultCallbackRouter): Router
     }
 
-    override fun isActivityResult(): Boolean {
-	return true
-    }
-
     override fun route(): Route {
 	return Route.ACTIVITY_RESULT_CALLBACK
     }
