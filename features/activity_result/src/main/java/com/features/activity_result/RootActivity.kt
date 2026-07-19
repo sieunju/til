@@ -38,7 +38,7 @@ internal class RootActivity : BaseActivity<AActivityResultRootBinding, ActivityR
 	super.onCreate(savedInstanceState)
 	binding.toolbar.setNavigationOnClickListener { finish() }
 	binding.btnActivityResult.setOnClickListener {
-	    navigator.navigateForResult(
+	    navigator.navigate(
 		this,
 		Route.ACTIVITY_RESULT_CALLBACK.getUri(),
 		activityResultCallback

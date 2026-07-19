@@ -6,7 +6,8 @@
       "Bash(find *)",
       "Bash(xargs sed *)",
       "Bash(./gradlew assembleDebug)",
-      "Bash(git commit -m ' *)"
+      "Bash(git commit -m ' *)",
+      "Bash(./gradlew :core-navigator:compileDebugKotlin :features:activity_result:compileDebugKotlin)"
     ]
   }
 }

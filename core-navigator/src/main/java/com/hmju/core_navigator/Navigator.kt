@@ -11,6 +11,5 @@ import androidx.activity.result.ActivityResultLauncher
  * Created by juhongmin on 2025. 11. 2.
  */
 interface Navigator {
-    fun navigate(context: Context, uri: Uri)
-    fun navigateForResult(context: Context, uri: Uri, launcher: ActivityResultLauncher<Intent>)
+    fun navigate(context: Context, uri: Uri, launcher: ActivityResultLauncher<Intent>? = null)
 }
