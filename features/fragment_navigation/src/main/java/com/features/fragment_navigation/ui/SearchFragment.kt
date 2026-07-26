@@ -5,11 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.features.fragment_navigation.RootActivity
 import com.features.fragment_navigation.databinding.FragmentSearchBinding
 import com.features.fragment_navigation.navigation.FragmentBackPressHandler
 import com.features.fragment_navigation.navigation.FragmentDestination
-import com.features.fragment_navigation.navigation.FragmentNavigatorHost
+import com.features.fragment_navigation.navigation.FragmentNavigationViewModel
 import com.features.fragment_navigation.navigation.LaunchMode
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -27,6 +28,7 @@ internal class SearchFragment : Fragment(), FragmentBackPressHandler {
 
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
+    private val navigationViewModel: FragmentNavigationViewModel by activityViewModels()
 
     override fun onCreateView(
 	inflater: LayoutInflater,
@@ -41,15 +43,14 @@ internal class SearchFragment : Fragment(), FragmentBackPressHandler {
 	super.onViewCreated(view, savedInstanceState)
 	binding.tvCreated.text = "created at ${now()}"
 
-	val host = requireActivity() as FragmentNavigatorHost
 	binding.btnDetail.setOnClickListener {
-	    host.navigate(
+	    navigationViewModel.navigate(
 		FragmentDestination(RootActivity.TAG_DETAIL) { DetailFragment() },
 		LaunchMode.STANDARD
 	    )
 	}
 	binding.btnCheckout.setOnClickListener {
-	    host.navigate(
+	    navigationViewModel.navigate(
 		FragmentDestination(RootActivity.TAG_RESULT) { ResultFragment() },
 		LaunchMode.CLEAR_TOP
 	    )

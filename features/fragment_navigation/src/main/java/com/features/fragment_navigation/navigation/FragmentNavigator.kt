@@ -33,17 +33,3 @@ interface FragmentNavigator {
 fun interface FragmentBackPressHandler {
     fun onBackPressed(): Boolean
 }
-
-/**
- * RootActivity 가 구현해서 하위 Fragment 들에게 [FragmentNavigator] 를 노출하기 위한 인터페이스
- */
-interface FragmentNavigatorHost {
-    val fragmentNavigator: FragmentNavigator
-
-    fun navigate(destination: FragmentDestination, launchMode: LaunchMode = LaunchMode.STANDARD) {
-	fragmentNavigator.navigate(destination, launchMode)
-	onStackChanged()
-    }
-
-    fun onStackChanged() {}
-}

@@ -5,10 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.features.fragment_navigation.RootActivity
 import com.features.fragment_navigation.databinding.FragmentResultBinding
 import com.features.fragment_navigation.navigation.FragmentDestination
-import com.features.fragment_navigation.navigation.FragmentNavigatorHost
+import com.features.fragment_navigation.navigation.FragmentNavigationViewModel
 import com.features.fragment_navigation.navigation.LaunchMode
 
 /**
@@ -21,6 +22,7 @@ internal class ResultFragment : Fragment() {
 
     private var _binding: FragmentResultBinding? = null
     private val binding get() = _binding!!
+    private val navigationViewModel: FragmentNavigationViewModel by activityViewModels()
 
     override fun onCreateView(
 	inflater: LayoutInflater,
@@ -34,9 +36,8 @@ internal class ResultFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 	super.onViewCreated(view, savedInstanceState)
 
-	val host = requireActivity() as FragmentNavigatorHost
 	binding.btnRestart.setOnClickListener {
-	    host.navigate(
+	    navigationViewModel.navigate(
 		FragmentDestination(RootActivity.TAG_HOME) { HomeFragment() },
 		LaunchMode.CLEAR_TOP
 	    )
