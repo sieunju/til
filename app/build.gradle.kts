@@ -119,6 +119,7 @@ dependencies {
     implementation(projects.features.composeNavigation)
     implementation(projects.features.roomObserver)
     implementation(projects.features.activityResult)
+    implementation(projects.features.fragmentNavigation)
 
     implementation(libs.retrofit)
     implementation(libs.okhttp)
